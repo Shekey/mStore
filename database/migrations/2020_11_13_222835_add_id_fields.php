@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddPhoneNumber extends Migration
+class AddIdFields extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,9 @@ class AddPhoneNumber extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('phone',15)->unique();
+            $table->string('idFront',80);
+            $table->string('idBack',80);
+            $table->string('address',100);
         });
     }
 
@@ -26,7 +28,10 @@ class AddPhoneNumber extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('phone');
+            $table->dropColumn('idFront');
+            $table->dropColumn('idBack');
+            $table->dropColumn('address');
+
         });
     }
 }
