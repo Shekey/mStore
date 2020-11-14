@@ -18,18 +18,17 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
 
 Route::get('/test', 'ArticlesController@handle');
 
-Route::get('/forgot-password', function () {
-    return view('auth.forgot-password');
-})->middleware(['guest'])->name('password.request');
-
-Route::post('/forgot-password', 'ResetPasswordController@resetPw')->middleware(['guest'])->name('password.email');
-
-Route::get('stripe', [StripePaymentController::class, 'index']);
-Route::post('payment-process', [StripePaymentController::class, 'process']);
+Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
+    Route::get('stripe', [StripePaymentController::class, 'index']);
+    Route::post('payment-process', [StripePaymentController::class, 'process']);
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+    Route::get('/categories', function () {
+        return view('admin.categories.index');
+    })->name('categories');
+});
 
