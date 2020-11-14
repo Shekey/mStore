@@ -4,6 +4,7 @@ namespace App\Actions\Fortify;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Intervention\Image\Facades\Image;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
@@ -30,16 +31,24 @@ class CreateNewUser implements CreatesNewUsers
             'password' => $this->passwordRules(),
         ])->validate();
 
-        Image::make($input['front_ID'])->resize(800, 600)->save('users/cards/front_ID.jpg');
-        Image::make($input['back_ID'])->resize(800, 600)->save('users/cards/back_ID.jpg');
+        $mime= $input['front_ID']->getClientOriginalExtension();
+        $imageName = time().".".$mime;
+        $image = Image::make($input['front_ID'])->fit(800);
+        Storage::disk('public')->put("images/".$imageName, (string) $image->encode());
+
+        $mime= $input['back_ID']->getClientOriginalExtension();
+        $imageNameBack = time().".".$mime;
+        $imageBack = Image::make($input['back_ID'])->fit(800);
+        Storage::disk('public')->put("images/".$imageNameBack, (string) $imageBack->encode());
+
 
         return User::create([
             'name' => $input['name'],
             'email' => $input['email'],
             'phone' => $input['phone'],
             'address' => $input['address'],
-            'idFront' => '/users/cards/front_ID.jpg',
-            'idBack' => '/users/cards/back_ID.jpg',
+            'idFront' => '/images/'.$imageName,
+            'idBack' => '/images/'. $imageNameBack,
             'password' => Hash::make($input['password']),
         ]);
     }
