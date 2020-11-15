@@ -2,24 +2,24 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Ads;
 use App\Models\Category;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Validation\Rule;
 use Intervention\Image\Facades\Image;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
 
-class Categories extends Component
+class AdsLiveWire extends Component
 {
     use WithFileUploads;
     use WithPagination;
-    public $name, $image, $modelId, $displayingToken = false, $modalConfirmDeleteVisible = false;
+    public $desc, $url, $points,  $image, $modelId, $displayingToken = false, $modalConfirmDeleteVisible = false;
 
 
     public function create() {
         $this->validate();
-        Category::create($this->createData());
+        Ads::create($this->createData());
         $this->displayingToken = false;
         $this->resetFields();
     }
@@ -30,23 +30,25 @@ class Categories extends Component
 
     public function update() {
         $this->validate();
-        Category::find($this->modelId)->update($this->createData());
+        Ads::find($this->modelId)->update($this->createData());
         $this->displayingToken = false;
         $this->resetFields();
     }
 
     public function deleteCategory() {
-        $cat = Category::find($this->modelId);
-        unlink('/storage/' . $cat->image);
-        Category::destroy($this->modelId);
+        $ads = Ads::find($this->modelId);
+        Storage::delete($ads->image);
+        Ads::destroy($this->modelId);
         $this->modalConfirmDeleteVisible = false;
         $this->resetPage();
     }
 
     public function rules() {
         return [
-            'name' => ['required', Rule::unique('categories', 'name')->ignore($this->modelId)],
-            'image' => ['nullable','image', 'max:1048']
+            'image' => ['required','image', 'max:1048'],
+            'points' => ['required','numeric', ],
+            'desc' => 'nullable',
+            'url' => 'nullable',
         ];
     }
 
@@ -63,12 +65,14 @@ class Categories extends Component
             $mime= $this->image->getClientOriginalExtension();
             $imageName = time().".".$mime;
             $image = Image::make($this->image)->fit(800);
-            Storage::disk('public')->put("images/categories/".$imageName, (string) $image->encode());
-            $imageName = 'images/categories/' . $imageName;
+            Storage::disk('public')->put("images/rek/".$imageName, (string) $image->encode());
+            $imageName = 'images/rek/' . $imageName;
         }
 
         return [
-            'name' => $this->name,
+            'desc' => $this->desc,
+            'url' => $this->url,
+            'points' => $this->points,
             'image' => $imageName
         ];
     }
@@ -91,17 +95,19 @@ class Categories extends Component
     }
 
     public function loadModel() {
-        $cat = Category::find($this->modelId);
-        $this->name = $cat->name;
+        $cat = Ads::find($this->modelId);
+        $this->desc = $cat->desc;
+        $this->points = $cat->points;
+        $this->url = $cat->url;
         $this->image = $cat->image;
     }
 
     public function read() {
-        return Category::paginate(5);
+        return Ads::paginate(5);
     }
 
     public function render()
     {
-        return view('livewire.categories', ['data' => $this->read()]);
+        return view('livewire.reklame-live-wire',['data' => $this->read()]);
     }
 }

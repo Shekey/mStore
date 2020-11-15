@@ -30,5 +30,9 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::get('/categories', function () {
         return view('admin.categories.index');
     })->name('categories');
+
+    Route::get('/reklame', function () {
+        return view('admin.reklame.index');
+    })->name('reklame');
 });
 
