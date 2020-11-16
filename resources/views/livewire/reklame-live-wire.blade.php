@@ -17,6 +17,11 @@
 
             <th
                 class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                Bodovi
+            </th>
+
+            <th
+                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                 Link
             </th>
 
@@ -47,11 +52,15 @@
                     </td>
 
                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <p class="text-gray-900 whitespace-no-wrap">{{ $i->points }}</p>
+                    </td>
+
+                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                         <p class="text-gray-900 whitespace-no-wrap">{{ $i->url }}</p>
                     </td>
 
                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <p class="text-gray-900 whitespace-no-wrap">{{ $i->created_at }}</p>
+                        <p class="text-gray-900 whitespace-no-wrap">{{ $i->created_at->diffForHumans() }}</p>
                     </td>
 
                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
@@ -79,31 +88,54 @@
 
     <x-jet-dialog-modal wire:model="displayingToken">
         <x-slot name="title">
-            {{ __('Save new reklame') }}
+            @if($modelId)
+                {{ __('Uredi reklamu') }}
+            @else
+                {{ __('Snimi reklame') }}
+            @endif
         </x-slot>
 
         <x-slot name="content">
             <div class="flex flex-wrap -mx-2 justify-center">
-                @if ($image && strpos($image, 'Temp'))
-                    Pregled slike:
-                    <img src="{{ $image->temporaryUrl() }}" width="100" height="100">
+                @if ($image && strpos($image, 'Temp') && $uploadedNewImage)
+                    <p style="flex-basis: 100%; text-align: center;">Pregled slike</p>
+                <div style="flex-basis: 100%; text-align: center">
+                    <img src="{{ $image->temporaryUrl() }}" width="200" height="200" style="display: inline-block; margin-top: 20px;">
+                </div>
                 @endif
 
                 @if($modelId != null && !strpos($image, 'Temp'))
-                        <img src="/storage/{{ $image }}" width="100" height="100">
+                        <img src="/storage/{{ $image }}" width="200" height="200">
                 @endif
             </div>
 
             <form wire:submit.prevent="submit" enctype="multipart/form-data">
 
+                <div
+                    x-data="{ isUploading: false, progress: 0 }"
+                    x-on:livewire-upload-start="isUploading = true"
+                    x-on:livewire-upload-finish="isUploading = false"
+                    x-on:livewire-upload-error="isUploading = false"
+                    x-on:livewire-upload-progress="progress = $event.detail.progress"
+                >
+
                 <div class="mt-4">
                     <x-jet-label for="image" value="{{ __('Slika') }}"/>
-                    <input type="file" wire:model="image" class=""/>
+                    <input type="file" wire:change="$emit('uploadedNew')" accept="image/x-png,image/gif,image/jpeg" wire:model="image" class=""/>
                     <div>
                         @error('image') <span class="text-sm text-red-500 italic">{{ $message }}</span>@enderror
                     </div>
-                    <div wire:loading wire:target="image" class="text-sm text-gray-500 italic">Uploading...</div>
+                    <div x-show="isUploading" style="width: 100%">
+                        <progress max="100" x-bind:value="progress"></progress>
+                    </div>
                 </div>
+
+{{--                <div class="mt-4 mb-4">--}}
+{{--                    <label class="inline-flex items-center">--}}
+{{--                        <input type="checkbox" {{ $image === null ? 'disabled': '' }} value="{{ $deleteImage }}" wire:change="$emit('deleteImageEvent')" wire.model="deleteImage"  class="form-checkbox h-6 w-6 text-green-500">--}}
+{{--                        <span class="ml-3 text-sm">Da li zelite izbrisati staru sliku?</span>--}}
+{{--                    </label>--}}
+{{--                </div>--}}
 
                 <div class="mt-4">
                     <x-jet-label for="name" value="{{ __('Bodovi') }}"/>

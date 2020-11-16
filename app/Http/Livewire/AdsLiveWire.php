@@ -14,8 +14,19 @@ class AdsLiveWire extends Component
 {
     use WithFileUploads;
     use WithPagination;
-    public $desc, $url, $points,  $image, $modelId, $displayingToken = false, $modalConfirmDeleteVisible = false;
+    protected $listeners = ['uploadedNew'];
 
+    public $desc, $url, $points,  $image, $modelId, $displayingToken = false, $modalConfirmDeleteVisible = false, $uploadedNewImage = false;
+
+
+    public function uploadedNew()
+    {
+        $this->uploadedNewImage = true;
+    }
+
+    public function updatedDisplayingToken() {
+        $this->resetFields();
+    }
 
     public function create() {
         $this->validate();
@@ -29,7 +40,18 @@ class AdsLiveWire extends Component
     }
 
     public function update() {
-        $this->validate();
+
+        if ($this->uploadedNewImage && $this->modelId !== null) {
+            $this->validate();
+        } else {
+            $this->validate([
+                'image' => 'required',
+                'points' => ['required','numeric'],
+                'desc' => 'nullable',
+                'url' => 'nullable',
+            ]);
+        }
+
         Ads::find($this->modelId)->update($this->createData());
         $this->displayingToken = false;
         $this->resetFields();
@@ -37,7 +59,10 @@ class AdsLiveWire extends Component
 
     public function deleteCategory() {
         $ads = Ads::find($this->modelId);
-        Storage::delete($ads->image);
+        if(Storage::disk('public')->exists($ads->image)) {
+            Storage::disk('public')->delete($ads->image);
+        }
+
         Ads::destroy($this->modelId);
         $this->modalConfirmDeleteVisible = false;
         $this->resetPage();
@@ -54,19 +79,31 @@ class AdsLiveWire extends Component
 
     public function resetFields() {
         $this->image = null;
-        $this->name = null;
         $this->modelId = null;
+        $this->points = null;
+        $this->desc = null;
+        $this->url = null;
+        $this->uploadedNewImage = false;
     }
 
     public function createData() {
 
         $imageName = null;
-        if($this->image) {
+        if($this->image && $this->uploadedNewImage) {
             $mime= $this->image->getClientOriginalExtension();
             $imageName = time().".".$mime;
-            $image = Image::make($this->image)->fit(800);
+            $image = Image::make($this->image)->fit(1000);
             Storage::disk('public')->put("images/rek/".$imageName, (string) $image->encode());
             $imageName = 'images/rek/' . $imageName;
+            if($this->modelId) {
+                $ads = Ads::find($this->modelId);
+                if(Storage::disk('public')->exists($ads->image)) {
+                    Storage::disk('public')->delete($ads->image);
+                }
+            }
+        } else {
+            $ads = Ads::find($this->modelId);
+            $imageName = $ads->image;
         }
 
         return [
@@ -95,11 +132,12 @@ class AdsLiveWire extends Component
     }
 
     public function loadModel() {
-        $cat = Ads::find($this->modelId);
-        $this->desc = $cat->desc;
-        $this->points = $cat->points;
-        $this->url = $cat->url;
-        $this->image = $cat->image;
+        $ads = Ads::find($this->modelId);
+        $this->desc = $ads->desc;
+        $this->points = $ads->points;
+        $this->url = $ads->url;
+        $this->image = $ads->image;
+        $this->deleteImage = false;
     }
 
     public function read() {
