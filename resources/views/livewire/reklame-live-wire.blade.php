@@ -1,6 +1,6 @@
 <div class="p-6 min-w-full leading-normal">
     <x-jet-button wire:click="createShowModal">
-        {{ __('Create reklame') }}
+        {{ __('Kreiraj reklamu') }}
     </x-jet-button>
 
     <table class="min-w-full leading-normal">
@@ -66,11 +66,11 @@
                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                     <span class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
                         <x-jet-button wire:click="updateShowModal({{ $i->id }})">
-                            {{ __('Edit') }}
+                            {{ __('Uredi') }}
                         </x-jet-button>
 
                         <x-jet-danger-button wire:click="deleteShowModal({{ $i->id }})">
-                            {{ __('Delete') }}
+                            {{ __('Izbriši') }}
                         </x-jet-danger-button>
                     </span>
                     </td>
@@ -99,43 +99,43 @@
             <div class="flex flex-wrap -mx-2 justify-center">
                 @if ($image && strpos($image, 'Temp') && $uploadedNewImage)
                     <p style="flex-basis: 100%; text-align: center;">Pregled slike</p>
-                <div style="flex-basis: 100%; text-align: center">
-                    <img src="{{ $image->temporaryUrl() }}" width="200" height="200" style="display: inline-block; margin-top: 20px;">
-                </div>
+                    <div style="flex-basis: 100%; text-align: center">
+                        <img src="{{ $image->temporaryUrl() }}" width="200" height="200"
+                             style="display: inline-block; margin-top: 20px;">
+                    </div>
                 @endif
 
                 @if($modelId != null && !strpos($image, 'Temp'))
-                        <img src="/storage/{{ $image }}" width="200" height="200">
+                    <img src="/storage/{{ $image }}" width="200" height="200">
                 @endif
             </div>
 
             <form wire:submit.prevent="submit" enctype="multipart/form-data">
-
-                <div
-                    x-data="{ isUploading: false, progress: 0 }"
-                    x-on:livewire-upload-start="isUploading = true"
-                    x-on:livewire-upload-finish="isUploading = false"
-                    x-on:livewire-upload-error="isUploading = false"
-                    x-on:livewire-upload-progress="progress = $event.detail.progress"
-                >
-
                 <div class="mt-4">
-                    <x-jet-label for="image" value="{{ __('Slika') }}"/>
-                    <input type="file" wire:change="$emit('uploadedNew')" accept="image/x-png,image/gif,image/jpeg" wire:model="image" class=""/>
-                    <div>
-                        @error('image') <span class="text-sm text-red-500 italic">{{ $message }}</span>@enderror
-                    </div>
-                    <div x-show="isUploading" style="width: 100%">
-                        <progress max="100" x-bind:value="progress"></progress>
+                    <div
+                        x-data="{ isUploading: false, progress: 0 }"
+                        x-on:livewire-upload-start="isUploading = true"
+                        x-on:livewire-upload-finish="isUploading = false"
+                        x-on:livewire-upload-error="isUploading = false"
+                        x-on:livewire-upload-progress="progress = $event.detail.progress">
+                        <x-jet-label for="image" value="{{ __('Slika') }}"/>
+                        <input type="file" wire:change="$emit('uploadedNew')" accept="image/x-png,image/gif,image/jpeg"
+                               wire:model="image" class=""/>
+                        <div>
+                            @error('image') <span class="text-sm text-red-500 italic">{{ $message }}</span>@enderror
+                        </div>
+                        <div x-show="isUploading" style="width: 100%">
+                            <progress max="100" x-bind:value="progress"></progress>
+                        </div>
                     </div>
                 </div>
 
-{{--                <div class="mt-4 mb-4">--}}
-{{--                    <label class="inline-flex items-center">--}}
-{{--                        <input type="checkbox" {{ $image === null ? 'disabled': '' }} value="{{ $deleteImage }}" wire:change="$emit('deleteImageEvent')" wire.model="deleteImage"  class="form-checkbox h-6 w-6 text-green-500">--}}
-{{--                        <span class="ml-3 text-sm">Da li zelite izbrisati staru sliku?</span>--}}
-{{--                    </label>--}}
-{{--                </div>--}}
+                {{--                <div class="mt-4 mb-4">--}}
+                {{--                    <label class="inline-flex items-center">--}}
+                {{--                        <input type="checkbox" {{ $image === null ? 'disabled': '' }} value="{{ $deleteImage }}" wire:change="$emit('deleteImageEvent')" wire.model="deleteImage"  class="form-checkbox h-6 w-6 text-green-500">--}}
+                {{--                        <span class="ml-3 text-sm">Da li zelite izbrisati staru sliku?</span>--}}
+                {{--                    </label>--}}
+                {{--                </div>--}}
 
                 <div class="mt-4">
                     <x-jet-label for="name" value="{{ __('Bodovi') }}"/>
@@ -166,11 +166,11 @@
 
             @if($modelId)
                 <x-jet-danger-button wire:click="update" wire:loading.attr="disabled">
-                    {{ __('Update reklame') }}
+                    {{ __('Uredi reklamu') }}
                 </x-jet-danger-button>
             @else
                 <x-jet-danger-button wire:click="create" wire:loading.attr="disabled">
-                    {{ __('Add new reklame') }}
+                    {{ __('Dodaj novu reklamu') }}
                 </x-jet-danger-button>
             @endif
         </x-slot>
@@ -179,21 +179,21 @@
     <!-- Delete User Confirmation Modal -->
     <x-jet-dialog-modal wire:model="modalConfirmDeleteVisible">
         <x-slot name="title">
-            {{ __('Delete Ads') }}
+            {{ __('Izbriši rekalmu') }}
         </x-slot>
 
         <x-slot name="content">
-            {{ __('Are you sure you want to delete your reklame? Once your reklame is deleted, all of its resources and data will be permanently deleted.') }}
+            {{ __('Jeste li sigurni da želite izbrisati svoju reklamu? Nakon što izbrišete svoju reklamu, svi njezini resursi i podaci trajno će se izbrisati.') }}
 
         </x-slot>
 
         <x-slot name="footer">
             <x-jet-secondary-button wire:click="$toggle('modalConfirmDeleteVisible')" wire:loading.attr="disabled">
-                {{ __('Nevermind') }}
+                {{ __('Zatvori') }}
             </x-jet-secondary-button>
 
             <x-jet-danger-button class="ml-2" wire:click="deleteCategory" wire:loading.attr="disabled">
-                {{ __('Delete Ads') }}
+                {{ __('Izbriši reklamu') }}
             </x-jet-danger-button>
         </x-slot>
     </x-jet-dialog-modal>
