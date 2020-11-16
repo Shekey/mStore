@@ -62,11 +62,10 @@
     <x-jet-dialog-modal wire:model="displayingToken">
         <x-slot name="title">
             @if($modelId)
-                {{ __('Uredi kategoriji') }}
+                {{ __('Uredi kategoriju') }}
             @else
-                {{ __('Snimi kategoriji') }}
+                {{ __('Dodaj kategoriju') }}
             @endif
-
         </x-slot>
 
         <x-slot name="content">
@@ -86,7 +85,7 @@
 
             <form wire:submit.prevent="submit" enctype="multipart/form-data">
                 <div class="mt-4">
-                    <x-jet-label for="name" value="{{ __('Name') }}"/>
+                    <x-jet-label for="name" value="{{ __('Naziv kategorije') }}"/>
                     <x-jet-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')"
                                  wire:model.debounce.800ms="name"/>
                     @error('name') <span class="error">{{ $message }}</span> @enderror
@@ -115,16 +114,16 @@
 
         <x-slot name="footer">
             <x-jet-secondary-button wire:click="$set('displayingToken', false)" wire:loading.attr="disabled">
-                {{ __('Close') }}
+                {{ __('Zatvori') }}
             </x-jet-secondary-button>
 
             @if($modelId)
                 <x-jet-danger-button wire:click="update" wire:loading.attr="disabled">
-                    {{ __('Update category') }}
+                    {{ __('Uredi kategoriju') }}
                 </x-jet-danger-button>
             @else
                 <x-jet-danger-button wire:click="create" wire:loading.attr="disabled">
-                    {{ __('Add new category') }}
+                    {{ __('Snimi kategoriju') }}
                 </x-jet-danger-button>
             @endif
         </x-slot>
@@ -133,21 +132,20 @@
     <!-- Delete User Confirmation Modal -->
     <x-jet-dialog-modal wire:model="modalConfirmDeleteVisible">
         <x-slot name="title">
-            {{ __('Delete Category') }}
+            {{ __('Izbriši kategoriju') }}
         </x-slot>
 
         <x-slot name="content">
-            {{ __('Are you sure you want to delete your category? Once your category is deleted, all of its resources and data will be permanently deleted.') }}
-
+            {{ __('Jeste li sigurni da želite izbrisati svoju kategoriju? Nakon što se kategorija izbriše, svi njezini resursi i podaci trajno će se izbrisati.') }}
         </x-slot>
 
         <x-slot name="footer">
             <x-jet-secondary-button wire:click="$toggle('modalConfirmDeleteVisible')" wire:loading.attr="disabled">
-                {{ __('Nevermind') }}
+                {{ __('Zatvori') }}
             </x-jet-secondary-button>
 
             <x-jet-danger-button class="ml-2" wire:click="deleteCategory" wire:loading.attr="disabled">
-                {{ __('Delete Account') }}
+                {{ __('Izbriši kategoriju') }}
             </x-jet-danger-button>
         </x-slot>
     </x-jet-dialog-modal>

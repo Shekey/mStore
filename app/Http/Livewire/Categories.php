@@ -15,8 +15,9 @@ class Categories extends Component
 {
     use WithFileUploads;
     use WithPagination;
-    public $name, $image, $modelId, $displayingToken = false, $modalConfirmDeleteVisible = false,  $uploadedNewImage = false;
 
+    protected $listeners = ['uploadedNew'];
+    public $name, $image, $modelId, $displayingToken = false, $modalConfirmDeleteVisible = false,  $uploadedNewImage = false;
 
     public function uploadedNew()
     {
