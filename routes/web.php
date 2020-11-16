@@ -34,5 +34,9 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::get('/reklame', function () {
         return view('admin.reklame.index');
     })->name('reklame');
+
+        Route::get('/prodavnice', function () {
+            return view('admin.prodavnice.index');
+        })->name('prodavnice');
 });
 

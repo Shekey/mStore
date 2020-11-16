@@ -1,6 +1,6 @@
 <div class="p-6 min-w-full leading-normal">
     <x-jet-button wire:click="createShowModal">
-        {{ __('Kreiraj reklamu') }}
+        {{ __('Kreiraj prodavnicu') }}
     </x-jet-button>
 
     <table class="min-w-full leading-normal">
@@ -12,7 +12,7 @@
             </th>
             <th
                 class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                Opis
+                Naziv prodavnice
             </th>
 
             <th
@@ -22,7 +22,7 @@
 
             <th
                 class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                Link
+                Besplatna dostava
             </th>
 
             <th
@@ -43,20 +43,20 @@
                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                         <div class="flex items-center text-center">
                             <div class="flex-shrink-0 w-20 h-20">
-                                {!! $i->image !== null ? "<img class='w-full h-full rounded-full' src='/storage/$i->image' />" : '<p class="text-gray-900 whitespace-no-wrap">Nema slike</p>'  !!}
+                                <img class='w-full h-full rounded-full' src='/storage/{{ $i->image }}' />
                             </div>
                         </div>
                     </td>
                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <p class="text-gray-900 whitespace-no-wrap">{{ $i->desc }}</p>
+                        <p class="text-gray-900 whitespace-no-wrap">{{ $i->name }}</p>
                     </td>
 
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-lg">
                         <p class="text-gray-900 whitespace-no-wrap">{{ $i->points }}</p>
                     </td>
 
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <p class="text-gray-900 whitespace-no-wrap">{{ $i->url }}</p>
+                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
+                        <p class="text-gray-900 whitespace-no-wrap">{!! $i->freeDelivery == 0 ? '<span class="inline-block bg-red-200 text-teal-800 px-2 rounded-full uppercase font-semibold text-xl tracking-wide">Ne</span>' : '<span class="inline-block bg-green-200 text-teal-800 text-xl px-2 rounded-full uppercase font-semibold tracking-wide">Da</span>'  !!}</p>
                     </td>
 
                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
@@ -89,9 +89,9 @@
     <x-jet-dialog-modal wire:model="displayingToken">
         <x-slot name="title">
             @if($modelId)
-                {{ __('Uredi reklamu') }}
+                {{ __('Uredi prodavnicu') }}
             @else
-                {{ __('Snimi reklame') }}
+                {{ __('Snimi prodavnicu') }}
             @endif
         </x-slot>
 
@@ -106,7 +106,7 @@
                 @endif
 
                 @if($modelId != null && !strpos($image, 'Temp'))
-                    <img src="/storage/{{ $image }}" width="200" height="200">
+                    <img src="/storage/{{ $image }}" width="300" height="300">
                 @endif
             </div>
 
@@ -130,31 +130,26 @@
                     </div>
                 </div>
 
-                {{--                <div class="mt-4 mb-4">--}}
-                {{--                    <label class="inline-flex items-center">--}}
-                {{--                        <input type="checkbox" {{ $image === null ? 'disabled': '' }} value="{{ $deleteImage }}" wire:change="$emit('deleteImageEvent')" wire.model="deleteImage"  class="form-checkbox h-6 w-6 text-green-500">--}}
-                {{--                        <span class="ml-3 text-sm">Da li zelite izbrisati staru sliku?</span>--}}
-                {{--                    </label>--}}
-                {{--                </div>--}}
+                <div class="mt-4">
+                    <x-jet-label for="name" value="{{ __('Naziv prodavnice') }}"/>
+                    <x-jet-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')"
+                                 wire:model.debounce.800ms="name"/>
+                    @error('name') <span class="error">{{ $message }}</span> @enderror
+                </div>
+
 
                 <div class="mt-4">
-                    <x-jet-label for="name" value="{{ __('Bodovi') }}"/>
+                    <x-jet-label for="points" value="{{ __('Bodovi') }}"/>
                     <x-jet-input id="points" class="block mt-1 w-full" type="text" name="points" :value="old('points')"
                                  wire:model.debounce.800ms="points"/>
                     @error('points') <span class="error">{{ $message }}</span> @enderror
                 </div>
 
-                <div class="mt-4">
-                    <x-jet-label for="desc" value="{{ __('Opis') }}"/>
-                    <x-jet-input id="desc" class="block mt-1 w-full" type="text" name="desc" :value="old('desc')"
-                                 wire:model.debounce.800ms="desc"/>
-                    @error('desc') <span class="error">{{ $message }}</span> @enderror
-                </div>
-
-                <div class="mt-4">
-                    <x-jet-label for="url" value="{{ __('URL') }}"/>
-                    <x-jet-input id="url" class="block mt-1 w-full" type="text" name="url" :value="old('url')"/>
-                    @error('url') <span class="error">{{ $message }}</span> @enderror
+                <div class="mt-4 mb-4">
+                    <label class="inline-flex items-center">
+                        <input type="checkbox" {{ $freeDelivery == 0 ? '': 'checked' }} wire:click="$toggle('freeDelivery')"  wire.model="freeDelivery"  class="form-checkbox h-6 w-6 text-green-500">
+                        <span class="ml-3 text-sm">Besplatna dostava?</span>
+                    </label>
                 </div>
             </form>
         </x-slot>
@@ -166,11 +161,11 @@
 
             @if($modelId)
                 <x-jet-danger-button wire:click="update" wire:loading.attr="disabled">
-                    {{ __('Uredi reklamu') }}
+                    {{ __('Uredi prodavnicu') }}
                 </x-jet-danger-button>
             @else
                 <x-jet-danger-button wire:click="create" wire:loading.attr="disabled">
-                    {{ __('Dodaj novu reklamu') }}
+                    {{ __('Dodaj novu prodavnicu') }}
                 </x-jet-danger-button>
             @endif
         </x-slot>
@@ -183,7 +178,7 @@
         </x-slot>
 
         <x-slot name="content">
-            {{ __('Jeste li sigurni da želite izbrisati svoju reklamu? Nakon što izbrišete svoju reklamu, svi njezini resursi i podaci trajno će se izbrisati.') }}
+            {{ __('Jeste li sigurni da želite izbrisati svoju prodavnicu? Nakon što izbrišete svoju prodavnicu, svi njezini resursi i podaci trajno će se izbrisati.') }}
 
         </x-slot>
 
@@ -193,7 +188,7 @@
             </x-jet-secondary-button>
 
             <x-jet-danger-button class="ml-2" wire:click="deleteCategory" wire:loading.attr="disabled">
-                {{ __('Izbriši reklamu') }}
+                {{ __('Izbriši prodavnicu') }}
             </x-jet-danger-button>
         </x-slot>
     </x-jet-dialog-modal>

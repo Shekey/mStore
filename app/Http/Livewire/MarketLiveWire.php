@@ -2,21 +2,21 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\Ads;
-use App\Models\Category;
+use App\Models\Market;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 use Intervention\Image\Facades\Image;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
 
-class AdsLiveWire extends Component
+class MarketLiveWire extends Component
 {
     use WithFileUploads;
     use WithPagination;
     protected $listeners = ['uploadedNew'];
 
-    public $desc, $url, $points,  $image, $modelId, $displayingToken = false, $modalConfirmDeleteVisible = false, $uploadedNewImage = false;
+    public $name, $points,  $image, $freeDelivery = 0, $modelId, $displayingToken = false, $modalConfirmDeleteVisible = false, $uploadedNewImage = false;
 
 
     public function uploadedNew()
@@ -30,7 +30,7 @@ class AdsLiveWire extends Component
 
     public function create() {
         $this->validate();
-        Ads::create($this->createData());
+        Market::create($this->createData());
         $this->displayingToken = false;
         $this->resetFields();
     }
@@ -47,33 +47,32 @@ class AdsLiveWire extends Component
             $this->validate([
                 'image' => 'required',
                 'points' => ['required','numeric'],
-                'desc' => 'nullable',
-                'url' => 'nullable',
+                'name' => ['required', Rule::unique('markets', 'name')->ignore($this->modelId)],
             ]);
         }
 
-        Ads::find($this->modelId)->update($this->createData());
+        Market::find($this->modelId)->update($this->createData());
         $this->displayingToken = false;
         $this->resetFields();
     }
 
     public function deleteCategory() {
-        $ads = Ads::find($this->modelId);
-        if(Storage::disk('public')->exists($ads->image)) {
-            Storage::disk('public')->delete($ads->image);
+        $market = Market::find($this->modelId);
+        if(Storage::disk('public')->exists($market->image)) {
+            Storage::disk('public')->delete($market->image);
         }
 
-        Ads::destroy($this->modelId);
+        Market::destroy($this->modelId);
         $this->modalConfirmDeleteVisible = false;
         $this->resetPage();
     }
 
     public function rules() {
         return [
-            'image' => ['required','image', 'max:1048'],
+            'image' => ['required','image', 'max:1548'],
             'points' => ['required','numeric', ],
-            'desc' => 'nullable',
-            'url' => 'nullable',
+            'name' => ['required', Rule::unique('markets', 'name')->ignore($this->modelId)],
+            'freeDelivery' => 'required',
         ];
     }
 
@@ -93,22 +92,22 @@ class AdsLiveWire extends Component
             $mime= $this->image->getClientOriginalExtension();
             $imageName = time().".".$mime;
             $image = Image::make($this->image)->fit(1000);
-            Storage::disk('public')->put("images/rek/".$imageName, (string) $image->encode());
-            $imageName = 'images/rek/' . $imageName;
+            Storage::disk('public')->put("images/market/".$imageName, (string) $image->encode());
+            $imageName = 'images/market/' . $imageName;
             if($this->modelId) {
-                $ads = Ads::find($this->modelId);
-                if(Storage::disk('public')->exists($ads->image)) {
-                    Storage::disk('public')->delete($ads->image);
+                $market = Market::find($this->modelId);
+                if(Storage::disk('public')->exists($market->image)) {
+                    Storage::disk('public')->delete($market->image);
                 }
             }
         } else {
-            $ads = Ads::find($this->modelId);
-            $imageName = $ads->image;
+            $market = Market::find($this->modelId);
+            $imageName = $market->image;
         }
 
         return [
-            'desc' => $this->desc,
-            'url' => $this->url,
+            'name' => $this->name,
+            'freeDelivery' => $this->freeDelivery,
             'points' => $this->points,
             'image' => $imageName
         ];
@@ -132,19 +131,18 @@ class AdsLiveWire extends Component
     }
 
     public function loadModel() {
-        $ads = Ads::find($this->modelId);
-        $this->desc = $ads->desc;
-        $this->points = $ads->points;
-        $this->url = $ads->url;
-        $this->image = $ads->image;
+        $market = Market::find($this->modelId);
+        $this->name = $market->name;
+        $this->points = $market->points;
+        $this->image = $market->image;
+        $this->freeDelivery = $market->freeDelivery;
     }
 
     public function read() {
-        return Ads::paginate(5);
+        return Market::paginate(5);
     }
-
     public function render()
     {
-        return view('livewire.reklame-live-wire',['data' => $this->read()]);
+        return view('livewire.market-live-wire',['data' => $this->read()]);
     }
 }
