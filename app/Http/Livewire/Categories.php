@@ -24,6 +24,14 @@ class Categories extends Component
         $this->uploadedNewImage = true;
     }
 
+    public function updatedDisplayingToken() {
+        if(!$this->displayingToken) {
+            $this->image = null;
+            $this->name = null;
+            $this->uploadedNewImage = false;
+        }
+    }
+
     public function create() {
         $this->validate();
         Category::create($this->createData());

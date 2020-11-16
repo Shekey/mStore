@@ -25,7 +25,13 @@ class MarketLiveWire extends Component
     }
 
     public function updatedDisplayingToken() {
-        $this->resetFields();
+        if(!$this->displayingToken) {
+            $this->image = null;
+            $this->points = null;
+            $this->name = null;
+            $this->freeDelivery = false;
+            $this->uploadedNewImage = false;
+        }
     }
 
     public function create() {
@@ -80,8 +86,8 @@ class MarketLiveWire extends Component
         $this->image = null;
         $this->modelId = null;
         $this->points = null;
-        $this->desc = null;
-        $this->url = null;
+        $this->name = null;
+        $this->freeDelivery = false;
         $this->uploadedNewImage = false;
     }
 

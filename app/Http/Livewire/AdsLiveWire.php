@@ -25,7 +25,13 @@ class AdsLiveWire extends Component
     }
 
     public function updatedDisplayingToken() {
-        $this->resetFields();
+        if(!$this->displayingToken) {
+            $this->image = null;
+            $this->points = null;
+            $this->desc = null;
+            $this->url = null;
+            $this->uploadedNewImage = false;
+        }
     }
 
     public function create() {

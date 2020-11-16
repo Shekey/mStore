@@ -47,12 +47,12 @@
                             </div>
                         </div>
                     </td>
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <p class="text-gray-900 whitespace-no-wrap">{{ $i->name }}</p>
+                    <td class="px-5 py-5 border-b border-blue-200 bg-white text-sm">
+                        <p class="whitespace-no-wrap uppercase">{{ $i->name }}</p>
                     </td>
 
                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-lg">
-                        <p class="text-gray-900 whitespace-no-wrap">{{ $i->points }}</p>
+                        <p class="text-gray-900 whitespace-no-wrap"><span class="inline-block bg-blue-700 text-white px-2 rounded-full uppercase font-semibold text-xl tracking-wide">{{ $i->points }}</span></p>
                     </td>
 
                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
