@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Ads;
 use App\Models\Category;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
@@ -14,8 +15,13 @@ class Categories extends Component
 {
     use WithFileUploads;
     use WithPagination;
-    public $name, $image, $modelId, $displayingToken = false, $modalConfirmDeleteVisible = false;
+    public $name, $image, $modelId, $displayingToken = false, $modalConfirmDeleteVisible = false,  $uploadedNewImage = false;
 
+
+    public function uploadedNew()
+    {
+        $this->uploadedNewImage = true;
+    }
 
     public function create() {
         $this->validate();
@@ -29,7 +35,15 @@ class Categories extends Component
     }
 
     public function update() {
-        $this->validate();
+        if ($this->uploadedNewImage && $this->modelId !== null) {
+            $this->validate();
+        } else {
+            $this->validate([
+                'name' => ['required', Rule::unique('categories', 'name')->ignore($this->modelId)],
+                'image' => 'required',
+            ]);
+        }
+
         Category::find($this->modelId)->update($this->createData());
         $this->displayingToken = false;
         $this->resetFields();
@@ -37,7 +51,10 @@ class Categories extends Component
 
     public function deleteCategory() {
         $cat = Category::find($this->modelId);
-        unlink('/storage/' . $cat->image);
+        if(Storage::disk('public')->exists($cat->image)) {
+            Storage::disk('public')->delete($cat->image);
+        }
+
         Category::destroy($this->modelId);
         $this->modalConfirmDeleteVisible = false;
         $this->resetPage();
@@ -54,17 +71,27 @@ class Categories extends Component
         $this->image = null;
         $this->name = null;
         $this->modelId = null;
+        $this->uploadedNewImage = false;
     }
 
     public function createData() {
 
         $imageName = null;
-        if($this->image) {
+        if($this->image && $this->uploadedNewImage) {
             $mime= $this->image->getClientOriginalExtension();
             $imageName = time().".".$mime;
-            $image = Image::make($this->image)->fit(800);
+            $image = Image::make($this->image)->fit(1000);
             Storage::disk('public')->put("images/categories/".$imageName, (string) $image->encode());
             $imageName = 'images/categories/' . $imageName;
+            if($this->modelId) {
+                $cat = Category::find($this->modelId);
+                if(Storage::disk('public')->exists($cat->image)) {
+                    Storage::disk('public')->delete($cat->image);
+                }
+            }
+        } else {
+            $cat = Category::find($this->modelId);
+            $imageName = $cat->image;
         }
 
         return [

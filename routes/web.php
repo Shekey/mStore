@@ -27,9 +27,9 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
-    Route::get('/categories', function () {
+    Route::get('/kategorije', function () {
         return view('admin.categories.index');
-    })->name('categories');
+    })->name('kategorije');
 
     Route::get('/reklame', function () {
         return view('admin.reklame.index');

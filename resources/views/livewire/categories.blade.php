@@ -1,6 +1,6 @@
 <div class="p-6 min-w-full leading-normal">
     <x-jet-button wire:click="createShowModal">
-        {{ __('Create Category') }}
+        {{ __('Kreiraj kategoriju') }}
     </x-jet-button>
 
     <table class="min-w-full leading-normal">
@@ -38,11 +38,11 @@
                 <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                     <span class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
                         <x-jet-button wire:click="updateShowModal({{ $i->id }})">
-                            {{ __('Edit') }}
+                            {{ __('Uredi') }}
                         </x-jet-button>
 
                         <x-jet-danger-button wire:click="deleteShowModal({{ $i->id }})">
-                            {{ __('Delete') }}
+                            {{ __('Izbriši') }}
                         </x-jet-danger-button>
                     </span>
                 </td>
@@ -61,10 +61,29 @@
 
     <x-jet-dialog-modal wire:model="displayingToken">
         <x-slot name="title">
-            {{ __('Save new category') }}
+            @if($modelId)
+                {{ __('Uredi kategoriji') }}
+            @else
+                {{ __('Snimi kategoriji') }}
+            @endif
+
         </x-slot>
 
         <x-slot name="content">
+            <div class="flex flex-wrap -mx-2 justify-center">
+                @if ($image && strpos($image, 'Temp') && $uploadedNewImage)
+                    <p style="flex-basis: 100%; text-align: center;">Pregled slike</p>
+                    <div style="flex-basis: 100%; text-align: center">
+                        <img src="{{ $image->temporaryUrl() }}" width="200" height="200"
+                             style="display: inline-block; margin-top: 20px;">
+                    </div>
+                @endif
+
+                @if($modelId != null && !strpos($image, 'Temp'))
+                    <img src="/storage/{{ $image }}" width="200" height="200">
+                @endif
+            </div>
+
             <form wire:submit.prevent="submit" enctype="multipart/form-data">
                 <div class="mt-4">
                     <x-jet-label for="name" value="{{ __('Name') }}"/>
@@ -73,27 +92,25 @@
                     @error('name') <span class="error">{{ $message }}</span> @enderror
                 </div>
 
-
                 <div class="mt-4">
-                    <x-jet-label for="image" value="{{ __('Image (optional)') }}"/>
-                    <input type="file" wire:model="image" class=""/>
-                    <div>
-                        @error('image') <span class="text-sm text-red-500 italic">{{ $message }}</span>@enderror
+                    <div
+                        x-data="{ isUploading: false, progress: 0 }"
+                        x-on:livewire-upload-start="isUploading = true"
+                        x-on:livewire-upload-finish="isUploading = false"
+                        x-on:livewire-upload-error="isUploading = false"
+                        x-on:livewire-upload-progress="progress = $event.detail.progress">
+                        <x-jet-label for="image" value="{{ __('Slika (opcionalno)') }}"/>
+                        <input type="file" wire:change="$emit('uploadedNew')" accept="image/x-png,image/gif,image/jpeg"
+                               wire:model="image" class=""/>
+                        <div>
+                            @error('image') <span class="text-sm text-red-500 italic">{{ $message }}</span>@enderror
+                        </div>
+                        <div x-show="isUploading" style="width: 100%">
+                            <progress max="100" x-bind:value="progress"></progress>
+                        </div>
                     </div>
-                    <div wire:loading wire:target="image" class="text-sm text-gray-500 italic">Uploading...</div>
                 </div>
             </form>
-
-            <div class="flex flex-wrap -mx-2">
-                @if ($image && strpos($image, 'Temp'))
-                    Pregled slike:
-                    <img src="{{ $image->temporaryUrl() }}" width="100" height="100">
-                @endif
-
-                @if($modelId != null && !strpos($image, 'Temp'))
-                    <img src="/storage/{{ $image }}" width="100" height="100">
-                @endif
-            </div>
         </x-slot>
 
         <x-slot name="footer">
