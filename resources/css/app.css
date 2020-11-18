@@ -123,3 +123,34 @@ nav .active {
     height: 100%;
     border: 0;
 }
+
+.modal-full {
+    width: calc(90vw - 30px);
+    max-width: calc(90vw - 30px);
+    margin: 0 auto;
+    max-height: calc(90vh);
+    overflow-y: scroll;
+}
+.sm-w-full {
+    overflow-y: scroll;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #555;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #6875f5;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #6844f2;
+}

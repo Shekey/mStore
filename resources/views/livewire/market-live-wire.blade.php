@@ -1,88 +1,35 @@
 <div class="p-6 min-w-full leading-normal">
-    <x-jet-button wire:click="createShowModal">
-        {{ __('Kreiraj prodavnicu') }}
-    </x-jet-button>
+    <div class="px-5">
+        <x-jet-button wire:click="createShowModal">
+            {{ __('Kreiraj prodavnicu') }}
+        </x-jet-button>
+    </div>
 
-    <table class="min-w-full leading-normal">
-        <thead>
-        <tr>
-            <th
-                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                Slika
-            </th>
-            <th
-                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                Naziv prodavnice
-            </th>
-
-            <th
-                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                Bodovi
-            </th>
-
-            <th
-                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                Besplatna dostava
-            </th>
-
-            <th
-                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                Datum Kreiranja
-            </th>
-
-            <th
-                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                Akcije
-            </th>
-        </tr>
-        </thead>
-        <tbody>
         @if ($data->count())
             @foreach($data as $i)
-                <tr>
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <div class="flex items-center text-center">
-                            <div class="flex-shrink-0 w-20 h-20">
-                                <img class='w-full h-full rounded-full' src='/storage/{{ $i->image }}' />
+                <section class="text-gray-700 body-font">
+                    <div class="container mx-auto flex flex-wrap px-5 py-24 md:flex-row flex-col items-center">
+                        <div class="lg:flex-grow md:w-1/2 sm:pl-0 md:pl-0 flex flex-col md:items-start md:text-left items-center text-center">
+                            <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900"><a href="#">{{ $i->name }}</a></h1>
+                            <p class="mb-8 leading-relaxed"><b>Gratis poeni: </b>{{ $i->points }}
+                                <br>
+                                <b>Besplatna dostava: </b>{!! $i->freeDelivery == 0 ? '<span class="inline-block bg-red-200 text-teal-800 px-2 rounded-full uppercase font-semibold text-xl tracking-wide">Ne</span>' : '<span class="inline-block bg-green-200 text-teal-800 text-xl px-2 rounded-full uppercase font-semibold tracking-wide">Da</span>'  !!}
+                            </p>
+                            <div class="flex justify-center mb-5">
+                                <button class="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg" wire:click="updateShowModal({{ $i->id }})">{{ __('Uredi') }}</button>
+                                <button class="ml-4 inline-flex text-gray-700 bg-gray-200 border-0 py-2 px-6 focus:outline-none hover:bg-gray-300 rounded text-lg" wire:click="deleteShowModal({{ $i->id }})">{{ __('Izbriši') }}</button>
+                                <button class="ml-4 inline-flex text-gray-700 bg-gray-200 border-0 py-2 px-6 focus:outline-none hover:bg-gray-300 rounded text-lg" wire:click="deleteShowModal({{ $i->id }})">{{ __('Artikli') }}</button>
                             </div>
                         </div>
-                    </td>
-                    <td class="px-5 py-5 border-b border-blue-200 bg-white text-sm">
-                        <p class="whitespace-no-wrap uppercase">{{ $i->name }}</p>
-                    </td>
-
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-lg">
-                        <p class="text-gray-900 whitespace-no-wrap"><span class="inline-block bg-blue-700 text-white px-2 rounded-full uppercase font-semibold text-xl tracking-wide">{{ $i->points }}</span></p>
-                    </td>
-
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
-                        <p class="text-gray-900 whitespace-no-wrap">{!! $i->freeDelivery == 0 ? '<span class="inline-block bg-red-200 text-teal-800 px-2 rounded-full uppercase font-semibold text-xl tracking-wide">Ne</span>' : '<span class="inline-block bg-green-200 text-teal-800 text-xl px-2 rounded-full uppercase font-semibold tracking-wide">Da</span>'  !!}</p>
-                    </td>
-
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <p class="text-gray-900 whitespace-no-wrap">{{ $i->created_at->diffForHumans() }}</p>
-                    </td>
-
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                    <span class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
-                        <x-jet-button wire:click="updateShowModal({{ $i->id }})">
-                            {{ __('Uredi') }}
-                        </x-jet-button>
-
-                        <x-jet-danger-button wire:click="deleteShowModal({{ $i->id }})">
-                            {{ __('Izbriši') }}
-                        </x-jet-danger-button>
-                    </span>
-                    </td>
-                </tr>
+                        <a href="#" class="lg:max-w-sm lg:w-full md:w-1/2 w-5/6 mb-10 md:mb-0 order-first md:order-last">
+                            <img class="object-cover object-center rounded" alt="hero" src="/storage/{{ $i->image }}">
+                        </a>
+                    </div>
+                </section>
             @endforeach
         @else
-            <tr>
-                <td class="" colspan="3">Nema rezultata</td>
-            </tr>
+            <p class="mb-8 leading-relaxed">Nema rezultata</p>
         @endif
-        </tbody>
-    </table>
 
     {{ $data->links() }}
 

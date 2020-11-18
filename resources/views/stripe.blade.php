@@ -3,85 +3,36 @@
 <head>
     <title>Buy cool new product</title>
     <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: #242d60;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
-            'Helvetica Neue', 'Ubuntu', sans-serif;
-            height: 100vh;
-            margin: 0;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-        section {
-            background: #ffffff;
-            display: flex;
-            flex-direction: column;
-            width: 400px;
-            height: 112px;
-            border-radius: 6px;
-            justify-content: space-between;
-        }
-        .product {
-            display: flex;
-        }
-        .description {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-        p {
-            font-style: normal;
-            font-weight: 500;
-            font-size: 14px;
-            line-height: 20px;
-            letter-spacing: -0.154px;
-            color: #242d60;
-            height: 100%;
-            width: 100%;
-            padding: 0 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        /**
+ * The CSS shown here will not be introduced in the Quickstart guide, but shows
+ * how you can use CSS to style your Element's container.
+ */
+        .StripeElement {
             box-sizing: border-box;
+
+            height: 40px;
+
+            padding: 10px 12px;
+
+            border: 1px solid transparent;
+            border-radius: 4px;
+            background-color: white;
+
+            box-shadow: 0 1px 3px 0 #e6ebf1;
+            -webkit-transition: box-shadow 150ms ease;
+            transition: box-shadow 150ms ease;
         }
-        img {
-            border-radius: 6px;
-            margin: 10px;
-            width: 54px;
-            height: 57px;
+
+        .StripeElement--focus {
+            box-shadow: 0 1px 3px 0 #cfd7df;
         }
-        h3,
-        h5 {
-            font-style: normal;
-            font-weight: 500;
-            font-size: 14px;
-            line-height: 20px;
-            letter-spacing: -0.154px;
-            color: #242d60;
-            margin: 0;
+
+        .StripeElement--invalid {
+            border-color: #fa755a;
         }
-        h5 {
-            opacity: 0.5;
-        }
-        #checkout-button {
-            height: 36px;
-            background: #556cd6;
-            color: white;
-            width: 100%;
-            font-size: 14px;
-            border: 0;
-            font-weight: 500;
-            cursor: pointer;
-            letter-spacing: 0.6;
-            border-radius: 0 0 6px 6px;
-            transition: all 0.2s ease;
-            box-shadow: 0px 4px 5.5px 0px rgba(0, 0, 0, 0.07);
-        }
-        #checkout-button:hover {
-            opacity: 0.8;
+
+        .StripeElement--webkit-autofill {
+            background-color: #fefde5 !important;
         }
 
     </style>
@@ -90,44 +41,93 @@
 </head>
 <body>
 <section>
-    <div class="product">
-        <img
-            src="https://i.imgur.com/EHyR2nP.png"
-            alt="The cover of Stubborn Attachments"
-        />
-        <div class="description">
-            <h3>Stubborn Attachments</h3>
-            <h5>$20.00</h5>
+    <form action="/charge" method="post" id="payment-form">
+        <div class="form-row">
+            <label for="card-element">
+                Credit or debit card
+            </label>
+            <div id="card-element">
+                <!-- A Stripe Element will be inserted here. -->
+            </div>
+
+            <!-- Used to display form errors. -->
+            <div id="card-errors" role="alert"></div>
         </div>
-    </div>
-    <button id="checkout-button">Checkout</button>
+
+        <button>Submit Payment</button>
+    </form>
 </section>
 </body>
 <script type="text/javascript">
     // Create an instance of the Stripe object with your publishable API key
     var stripe = Stripe("pk_test_51HmngDArYeoxvDnhN46V4VVoBZBh6gJ8hX0AfHvSCEsDBtlDak4XI6sCI4ulH1qnv46dqvQ7a2tsWpO4kiEoISHn00wZUX3DWa");
-    var checkoutButton = document.getElementById("checkout-button");
-    checkoutButton.addEventListener("click", function () {
-        fetch("/create-session.php", {
-            method: "POST",
-        })
-            .then(function (response) {
-                return response.json();
-            })
-            .then(function (session) {
-                return stripe.redirectToCheckout({ sessionId: session.id });
-            })
-            .then(function (result) {
-                // If redirectToCheckout fails due to a browser or network
-                // error, you should display the localized error message to your
-                // customer using error.message.
-                if (result.error) {
-                    alert(result.error.message);
-                }
-            })
-            .catch(function (error) {
-                console.error("Error:", error);
-            });
+
+    // Create an instance of Elements.
+    var elements = stripe.elements();
+
+    // Custom styling can be passed to options when creating an Element.
+    // (Note that this demo uses a wider set of styles than the guide below.)
+    var style = {
+        base: {
+            color: '#32325d',
+            fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+            fontSmoothing: 'antialiased',
+            fontSize: '16px',
+            '::placeholder': {
+                color: '#aab7c4'
+            }
+        },
+        invalid: {
+            color: '#fa755a',
+            iconColor: '#fa755a'
+        }
+    };
+
+    // Create an instance of the card Element.
+    var card = elements.create('card', {style: style});
+
+    // Add an instance of the card Element into the `card-element` <div>.
+    card.mount('#card-element');
+
+    // Handle real-time validation errors from the card Element.
+    card.on('change', function(event) {
+        var displayError = document.getElementById('card-errors');
+        if (event.error) {
+            displayError.textContent = event.error.message;
+        } else {
+            displayError.textContent = '';
+        }
     });
+
+    // Handle form submission.
+    var form = document.getElementById('payment-form');
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        stripe.createToken(card).then(function(result) {
+            if (result.error) {
+                // Inform the user if there was an error.
+                var errorElement = document.getElementById('card-errors');
+                errorElement.textContent = result.error.message;
+            } else {
+                // Send the token to your server.
+                stripeTokenHandler(result.token);
+            }
+        });
+    });
+
+    // Submit the form with the token ID.
+    function stripeTokenHandler(token) {
+        // Insert the token ID into the form so it gets submitted to the server
+        var form = document.getElementById('payment-form');
+        var hiddenInput = document.createElement('input');
+        hiddenInput.setAttribute('type', 'hidden');
+        hiddenInput.setAttribute('name', 'stripeToken');
+        hiddenInput.setAttribute('value', token.id);
+        form.appendChild(hiddenInput);
+
+        // Submit the form
+        form.submit();
+    }
 </script>
 </html>
