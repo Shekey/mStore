@@ -10,4 +10,9 @@ class Market extends Model
     use HasFactory;
     protected $guarded = [];
 
+    public function articles()
+    {
+        return $this->hasMany('App\Models\Articles');
+    }
+
 }

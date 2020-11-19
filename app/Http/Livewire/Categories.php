@@ -89,7 +89,7 @@ class Categories extends Component
         if($this->image && $this->uploadedNewImage) {
             $mime= $this->image->getClientOriginalExtension();
             $imageName = time().".".$mime;
-            $image = Image::make($this->image)->fit(1000);
+            $image = Image::make($this->image)->fit(1500);
             Storage::disk('public')->put("images/categories/".$imageName, (string) $image->encode());
             $imageName = 'images/categories/' . $imageName;
             if($this->modelId) {
