@@ -17,6 +17,7 @@ class CreateArticlesTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('desc')->nullable();
+            $table->string('brand')->nullable();
             $table->string('size')->nullable();
             $table->string('color')->nullable();
             $table->decimal('price');
@@ -31,6 +32,7 @@ class CreateArticlesTable extends Migration
         Schema::create('images', function (Blueprint $table) {
             $table->id();
             $table->string('url');
+            $table->string('desc')->nullable();
             $table->integer('articleId');
             $table->timestamps();
         });

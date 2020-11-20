@@ -98,7 +98,7 @@ class Categories extends Component
                     Storage::disk('public')->delete($cat->image);
                 }
             }
-        } else {
+        } else if ($this->uploadedNewImage) {
             $cat = Category::find($this->modelId);
             $imageName = $cat->image;
         }

@@ -1,70 +1,60 @@
 <div class="p-6 min-w-full leading-normal">
+    <style>
+        html,
+        body {
+            height: 100%;
+        }
+
+        @media (min-width: 640px) {
+            table {
+                display: inline-table !important;
+            }
+
+            thead tr:not(:first-child) {
+                display: none;
+            }
+        }
+
+        td:not(:last-child) {
+            border-bottom: 0;
+        }
+
+        th:not(:last-child) {
+            border-bottom: 2px solid rgba(0, 0, 0, .1);
+        }
+    </style>
+
     <x-jet-button wire:click="createShowModal">
         {{ __('Kreiraj reklamu') }}
     </x-jet-button>
 
-    <table class="min-w-full leading-normal">
-        <thead>
-        <tr>
-            <th
-                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                Slika
-            </th>
-            <th
-                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                Opis
-            </th>
-
-            <th
-                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                Bodovi
-            </th>
-
-            <th
-                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                Link
-            </th>
-
-            <th
-                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                Datum Kreiranja
-            </th>
-
-            <th
-                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                Akcije
-            </th>
-        </tr>
+    <table class="w-full flex flex-row flex-no-wrap sm:bg-white rounded-lg overflow-hidden sm:shadow-lg my-5">
+        <thead class="text-white">
+        @if ($data->count())
+            @foreach($data as $i)
+                <tr class="bg-gray-800 flex flex-col flex-no wrap sm:table-row rounded-l-lg sm:rounded-none mb-2 sm:mb-0">
+                    <th class="p-3 text-left" width="200px">Slika</th>
+                    <th class="p-3 text-left">Opis</th>
+                    <th class="p-3 text-left">Bodovi</th>
+                    <th class="p-3 text-left">Link</th>
+                    <th class="p-3 text-left">Datum kreiranja</th>
+                    <th class="p-3 text-left" width="220px">Akcije</th>
+                </tr>
+            @endforeach
+        @endif
         </thead>
         <tbody>
         @if ($data->count())
             @foreach($data as $i)
-                <tr>
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <div class="flex items-center text-center">
-                            <div class="flex-shrink-0 w-20 h-20">
-                                {!! $i->image !== null ? "<img class='w-full h-full rounded-full' src='/storage/$i->image' />" : '<p class="text-gray-900 whitespace-no-wrap">Nema slike</p>'  !!}
-                            </div>
-                        </div>
+                <tr class="flex flex-col flex-no wrap sm:table-row mb-2 sm:mb-0">
+                    <td class="border-grey-light border hover:bg-gray-100 p-3">
+                        {!! $i->image !== null ? "<img class='w-50 h-50 rounded-full' width='130' height='130' src='/storage/$i->image' />" : '<p class="text-gray-900 whitespace-no-wrap">Nema slike</p>'  !!}
                     </td>
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <p class="text-gray-900 whitespace-no-wrap">{{ $i->desc }}</p>
-                    </td>
-
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <p class="text-gray-900 whitespace-no-wrap">{{ $i->points }}</p>
-                    </td>
-
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <p class="text-gray-900 whitespace-no-wrap">{{ $i->url }}</p>
-                    </td>
-
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <p class="text-gray-900 whitespace-no-wrap">{{ $i->created_at->diffForHumans() }}</p>
-                    </td>
-
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                    <span class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
+                    <td class="border-grey-light border hover:bg-gray-100 p-3 truncate">{{ $i->desc }}</td>
+                    <td class="border-grey-light border hover:bg-gray-100 p-3 truncate">{{ $i->points }}</td>
+                    <td class="border-grey-light border hover:bg-gray-100 p-3 truncate">{{ $i->url }}</td>
+                    <td class="border-grey-light border hover:bg-gray-100 p-3 truncate">{{ $i->created_at->diffForHumans() }}</td>
+                    <td class="border-grey-light border hover:bg-gray-100 p-3 text-red-400 hover:text-red-600 hover:font-medium cursor-pointer">
                         <x-jet-button wire:click="updateShowModal({{ $i->id }})">
                             {{ __('Uredi') }}
                         </x-jet-button>
@@ -72,7 +62,7 @@
                         <x-jet-danger-button wire:click="deleteShowModal({{ $i->id }})">
                             {{ __('Izbriši') }}
                         </x-jet-danger-button>
-                    </span>
+
                     </td>
                 </tr>
             @endforeach
