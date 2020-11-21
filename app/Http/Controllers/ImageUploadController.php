@@ -22,10 +22,16 @@ class ImageUploadController extends Controller
     public function fileDestroy(Request $request)
     {
         $filename =  $request->get('filename');
-        $path=public_path().'/articles/images/'.$filename;
+        $filenameWithoutExten = substr_replace($filename ,"",-3);
+        $path=public_path().'/storage/images/articles/'.$filename;
+        $pathWebp=public_path().'/storage/images/articles/'.$filenameWithoutExten .'webp';
         if (file_exists($path)) {
             unlink($path);
+
+            if (file_exists($pathWebp)) {
+                unlink($pathWebp);
+            }
         }
-        return $filename;
+        return $path;
     }
 }

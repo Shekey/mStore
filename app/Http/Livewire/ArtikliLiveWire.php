@@ -17,12 +17,20 @@ class ArtikliLiveWire extends Component
 
     protected $listeners = ['uploadedNew'];
     public $messageText = "Uspješno ste dodali novi artikal.";
-    public $market, $images = [], $dropzone = [], $artikalId, $isOpen = true,  $showArtikal = false, $maxWidth = "w-screen" ,$displayingToken = false, $modalConfirmDeleteVisible = false,  $uploadedNewImage = false;
+    public $market, $images = ["1605990937348best.png","1605990937350black.png"], $dropzone = [], $artikalId, $isOpen = true,  $showArtikal = false, $maxWidth = "w-screen" ,$displayingToken = false, $modalConfirmDeleteVisible = false,  $uploadedNewImage = false;
 
     public function uploadedNew()
     {
         $this->uploadedNewImage = true;
-        dd($messageText);
+    }
+
+    public function addImages($image) {
+        array_push( $this->images, $image);
+    }
+
+    public function removeImage($image) {
+        $pos = array_search($image, $this->images);
+        unset($this->images[$pos]);
     }
 
     public function updatedDropzone() {
@@ -39,6 +47,7 @@ class ArtikliLiveWire extends Component
     }
 
     public function create() {
+        dd($this->images);
         $this->validate();
         Market::create($this->createData());
         $this->displayingToken = false;

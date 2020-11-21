@@ -1,12 +1,12 @@
 <div class="w-full">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/min/dropzone.min.css">
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.0/dropzone.js"></script>
 
     <div class="relative">
         <div wire:model="isOpen" wire:loading.attr="disabled"
-             class="bg-indigo-600 w-full fixed left-0 w-full @if ($isOpen) visible @else invisible @endif"
-             style="top: 125px;">
+             class="bg-indigo-600 w-full absolute left-0 w-full @if ($isOpen) visible @else invisible @endif"
+             style="top: -64px;">
             <div class="container mx-auto py-3 px-3 sm:px-6 lg:px-8">
                 <div class="flex items-center justify-between flex-wrap">
                     <div class="w-0 flex-1 flex items-center">
@@ -373,6 +373,7 @@
 
     <script type="text/javascript">
         let counter = 0;
+
         function createHidden(value) {
             var input = document.createElement("input");
 
@@ -382,21 +383,43 @@
             input.classList.add('image-hidden');
             document.getElementById("addArticle").appendChild(input);
         }
-        Dropzone.options.dropzone =
+
+        Dropzone.autoDiscover = false;
+        new Dropzone("#dropzone",
             {
                 maxFiles: 20,
                 maxFilesize: 1000, // MB
-                renameFile: function(file) {
+                renameFile: function (file) {
                     var dt = new Date();
                     var time = dt.getTime();
-                    return time+file.name;
+                    return time + file.name;
                 },
                 acceptedFiles: ".jpeg,.jpg,.png,.gif",
                 addRemoveLinks: true,
                 timeout: 50000,
-                removedfile: function(file)
-                {
-                    var name = file.upload.filename;
+                init: function() {
+                    let myDropzone = this;
+
+                    @if (count($images))
+                    let mockFile = null;
+                    let callback = null; // Optional callback when it's done
+                    let crossOrigin = null; // Added to the `img` tag for crossOrigin handling
+                    let resizeThumbnail = false; // Tells Dropzone whether it should resize the image first
+                    @foreach($images as $image)
+                        mockFile = {name: "{{ $image }}", size: 1234};
+                        myDropzone.displayExistingFile(mockFile, "/storage/images/articles/{{ $image }}", callback, crossOrigin, resizeThumbnail);
+                    @endforeach
+
+
+                        // If you use the maxFiles option, make sure you adjust it to the
+                        // correct amount:
+                        let fileCountOnServer = {{ count($images) }}; // The number of files already uploaded
+                        myDropzone.options.maxFiles = myDropzone.options.maxFiles - fileCountOnServer;
+                    @endif
+                },
+
+                removedfile: function (file) {
+                    var name = file.upload === undefined ? file.name : file.upload.filename;
                     $.ajax({
                         headers: {
                             'X-CSRF-TOKEN': $('input[name="_token"]').val(),
@@ -404,27 +427,28 @@
                         type: 'POST',
                         url: '{{ url("image/delete") }}',
                         data: {filename: name},
-                        success: function (data){
+                        success: function (data) {
                             console.log("File has been successfully removed!!");
+                            console.log(data);
                         },
-                        error: function(e) {
+                        error: function (e) {
                             console.log(e);
-                        }});
+                        }
+                    });
                     var fileRef;
                     return (fileRef = file.previewElement) != null ?
                         fileRef.parentNode.removeChild(file.previewElement) : void 0;
                 },
 
-                success: function(file, response)
-                {
+                success: function (file, response) {
                     console.log(response);
-                    createHidden(response.success);
                 },
-                error: function(file, response)
-                {
+                error: function (file, response) {
                     return false;
                 }
-            };
+            }
+        );
+
     </script>
 
 </div>
