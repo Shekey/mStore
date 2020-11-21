@@ -18,7 +18,7 @@
                             <div class="flex justify-center mb-5">
                                 <button class="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg" wire:click="updateShowModal({{ $i->id }})">{{ __('Uredi') }}</button>
                                 <button class="ml-4 inline-flex text-gray-700 bg-gray-200 border-0 py-2 px-6 focus:outline-none hover:bg-gray-300 rounded text-lg" wire:click="deleteShowModal({{ $i->id }})">{{ __('Izbriši') }}</button>
-                                <button class="ml-4 inline-flex text-gray-700 bg-gray-200 border-0 py-2 px-6 focus:outline-none hover:bg-gray-300 rounded text-lg" wire:click="deleteShowModal({{ $i->id }})">{{ __('Artikli') }}</button>
+                                <a href="/prodavnice/{{ $i->id }}/artikli" class="ml-4 inline-flex text-gray-700 bg-gray-200 border-0 py-2 px-6 focus:outline-none hover:bg-gray-300 rounded text-lg">{{ __('Artikli') }}</a>
                             </div>
                         </div>
                         <a href="#" class="lg:max-w-sm lg:w-full md:w-1/2 w-5/6 mb-10 md:mb-0 order-first md:order-last">

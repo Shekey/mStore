@@ -129,10 +129,13 @@ nav .active {
     max-width: calc(90vw - 30px);
     margin: 0 auto;
     max-height: calc(90vh);
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 .sm-w-full {
-    overflow-y: scroll;
+    overflow-y: auto;
+}
+.sm\:max-w-2xl {
+    overflow-y: auto !important;
 }
 
 /* width */

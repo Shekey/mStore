@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\StripePaymentController;
+use App\Http\Livewire\ArtikliLiveWire;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,6 +22,9 @@ Route::get('/', function () {
 
 Route::get('/test', 'ArticlesController@handle');
 
+Route::post('image/upload/store','ImageUploadController@fileStore');
+Route::post('image/delete','ImageUploadController@fileDestroy');
+
 Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::get('stripe', [StripePaymentController::class, 'index']);
     Route::post('payment-process', [StripePaymentController::class, 'process']);
@@ -35,8 +39,14 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
         return view('admin.reklame.index');
     })->name('reklame');
 
-        Route::get('/prodavnice', function () {
-            return view('admin.prodavnice.index');
-        })->name('prodavnice');
+    Route::get('/prodavnice', function () {
+        return view('admin.prodavnice.index');
+    })->name('prodavnice');
+
+    Route::get('/prodavnice/{prodavnicaId}/artikli', function () {
+        return view('admin.prodavnice.artikli');
+    })->name('prodavnice-artikli');
+
+
 });
 

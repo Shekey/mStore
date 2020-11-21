@@ -1,449 +1,430 @@
-<div>
-    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
-    <style>
-        input[type="number"]::-webkit-inner-spin-button,
-        input[type="number"]::-webkit-outer-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
+<div class="w-full">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/min/dropzone.min.css">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.js"></script>
 
-        .custom-number-input input:focus {
-            outline: none !important;
-        }
+    <div class="relative">
+        <div wire:model="isOpen" wire:loading.attr="disabled"
+             class="bg-indigo-600 w-full fixed left-0 w-full @if ($isOpen) visible @else invisible @endif"
+             style="top: 125px;">
+            <div class="container mx-auto py-3 px-3 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between flex-wrap">
+                    <div class="w-0 flex-1 flex items-center">
+        <span class="flex p-2 rounded-lg bg-indigo-800">
+          <!-- Heroicon name: speakerphone -->
+          <svg class="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+               stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/>
+          </svg>
+        </span>
+                        <p class="ml-3 font-medium text-white truncate">
 
-        .custom-number-input button:focus {
-            outline: none !important;
-        }
-
-        button span {
-            line-height: 35px;
-        }
-
-        .vertical-center {
-            margin: 0;
-            position: absolute;
-            top: 50%;
-            -ms-transform: translateY(calc(50% - 60px));
-            transform: translateY(calc(50% - 60px));
-        }
-    </style>
-
-    <div x-data="{ cartOpen: false , isOpen: false }" class="bg-white">
-        <header>
-            <div class="container mx-auto px-6 py-3">
-                <div class="flex items-center justify-between">
-                    <div class="hidden w-full text-gray-600 md:flex md:items-center">
-                        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd" clip-rule="evenodd" d="M16.2721 10.2721C16.2721 12.4813 14.4813 14.2721 12.2721 14.2721C10.063 14.2721 8.27214 12.4813 8.27214 10.2721C8.27214 8.06298 10.063 6.27212 12.2721 6.27212C14.4813 6.27212 16.2721 8.06298 16.2721 10.2721ZM14.2721 10.2721C14.2721 11.3767 13.3767 12.2721 12.2721 12.2721C11.1676 12.2721 10.2721 11.3767 10.2721 10.2721C10.2721 9.16755 11.1676 8.27212 12.2721 8.27212C13.3767 8.27212 14.2721 9.16755 14.2721 10.2721Z" fill="currentColor" /><path fill-rule="evenodd" clip-rule="evenodd" d="M5.79417 16.5183C2.19424 13.0909 2.05438 7.39409 5.48178 3.79417C8.90918 0.194243 14.6059 0.054383 18.2059 3.48178C21.8058 6.90918 21.9457 12.6059 18.5183 16.2059L12.3124 22.7241L5.79417 16.5183ZM17.0698 14.8268L12.243 19.8965L7.17324 15.0698C4.3733 12.404 4.26452 7.97318 6.93028 5.17324C9.59603 2.3733 14.0268 2.26452 16.8268 4.93028C19.6267 7.59603 19.7355 12.0268 17.0698 14.8268Z" fill="currentColor" />
-                        </svg>
-                        <span class="mx-1 text-sm">Bugojno</span>
+                            <span class="hidden md:inline">
+           {{ $messageText }}
+          </span>
+                        </p>
                     </div>
-                    <div class="w-full text-gray-700 md:text-center text-2xl font-semibold">
-                        Brand
-                    </div>
-                    <div class="flex items-center justify-end w-full">
-                        <button @click="cartOpen = !cartOpen" class="text-gray-600 focus:outline-none mx-4 sm:mx-0">
-                            <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
-                                <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                    <div class="order-2 flex-shrink-0 sm:order-3 sm:ml-3">
+                        <button type="button" wire:click="$set('isOpen', false)"
+                                class="-mr-1 flex p-2 rounded-md hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-white sm:-mr-2">
+                            <span class="sr-only">Dismiss</span>
+                            <!-- Heroicon name: x -->
+                            <svg class="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                 viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M6 18L18 6M6 6l12 12"/>
                             </svg>
                         </button>
+                    </div>
+                </div>
+            </div>
+        </div wire:model="isOpen" wire:loading.attr="disabled">
+    </div>
+    <div class="container my-12 mx-auto">
+        <div class="flex flex-wrap py-3 px-3 sm:px-6 lg:px-8">
+            <x-jet-button wire:click="createShowModal">
+                {{ __('Kreiraj artikal') }}
+            </x-jet-button>
+            <div class="flex flex-col w-full mt-5">
+                <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                    <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                        <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead>
+                                <tr>
+                                    <th scope="col"
+                                        class="px-6 py-3 bg-gray-800 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                        Name
+                                    </th>
+                                    <th scope="col"
+                                        class="px-6 py-3 bg-gray-800 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                        Title
+                                    </th>
+                                    <th scope="col"
+                                        class="px-6 py-3 bg-gray-800 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                        Status
+                                    </th>
+                                    <th scope="col"
+                                        class="px-6 py-3 bg-gray-800 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                        Role
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 bg-gray-800">
+                                        <span class="sr-only">Edit</span>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="flex-shrink-0 h-10 w-10">
+                                                <img class="h-10 w-10 rounded-full"
+                                                     src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=4&amp;w=256&amp;h=256&amp;q=60"
+                                                     alt="">
+                                            </div>
+                                            <div class="ml-4">
+                                                <div class="text-sm font-medium text-gray-900">
+                                                    Jane Cooper
+                                                </div>
+                                                <div class="text-sm text-gray-500">
+                                                    jane.cooper@example.com
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">Regional Paradigm Technician</div>
+                                        <div class="text-sm text-gray-500">Optimization</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                    <span
+                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                      Active
+                    </span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        Admin
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                        <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="flex-shrink-0 h-10 w-10">
+                                                <img class="h-10 w-10 rounded-full"
+                                                     src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=4&amp;w=256&amp;h=256&amp;q=60"
+                                                     alt="">
+                                            </div>
+                                            <div class="ml-4">
+                                                <div class="text-sm font-medium text-gray-900">
+                                                    Jane Cooper
+                                                </div>
+                                                <div class="text-sm text-gray-500">
+                                                    jane.cooper@example.com
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">Regional Paradigm Technician</div>
+                                        <div class="text-sm text-gray-500">Optimization</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                    <span
+                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                      Active
+                    </span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        Admin
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                        <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="flex-shrink-0 h-10 w-10">
+                                                <img class="h-10 w-10 rounded-full"
+                                                     src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=4&amp;w=256&amp;h=256&amp;q=60"
+                                                     alt="">
+                                            </div>
+                                            <div class="ml-4">
+                                                <div class="text-sm font-medium text-gray-900">
+                                                    Jane Cooper
+                                                </div>
+                                                <div class="text-sm text-gray-500">
+                                                    jane.cooper@example.com
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">Regional Paradigm Technician</div>
+                                        <div class="text-sm text-gray-500">Optimization</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                    <span
+                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                      Active
+                    </span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        Admin
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                        <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="flex-shrink-0 h-10 w-10">
+                                                <img class="h-10 w-10 rounded-full"
+                                                     src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=4&amp;w=256&amp;h=256&amp;q=60"
+                                                     alt="">
+                                            </div>
+                                            <div class="ml-4">
+                                                <div class="text-sm font-medium text-gray-900">
+                                                    Jane Cooper
+                                                </div>
+                                                <div class="text-sm text-gray-500">
+                                                    jane.cooper@example.com
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">Regional Paradigm Technician</div>
+                                        <div class="text-sm text-gray-500">Optimization</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                    <span
+                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                      Active
+                    </span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        Admin
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                        <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                                    </td>
+                                </tr>
 
-                        <div class="flex sm:hidden">
-                            <button @click="isOpen = !isOpen" type="button" class="text-gray-600 hover:text-gray-500 focus:outline-none focus:text-gray-500" aria-label="toggle menu">
-                                <svg viewBox="0 0 24 24" class="h-6 w-6 fill-current">
-                                    <path fill-rule="evenodd" d="M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2z"></path>
-                                </svg>
-                            </button>
+                                <!-- More rows... -->
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
-                <nav :class="isOpen ? '' : 'hidden'" class="sm:flex sm:justify-center sm:items-center mt-4">
-                    <div class="flex flex-col sm:flex-row">
-                        <a class="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0" href="#">Home</a>
-                        <a class="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0" href="#">Shop</a>
-                        <a class="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0" href="#">Categories</a>
-                        <a class="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0" href="#">Contact</a>
-                        <a class="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0" href="#">About</a>
-                    </div>
-                </nav>
-                <div class="relative mt-6 max-w-lg mx-auto">
-            <span class="absolute inset-y-0 left-0 pl-3 flex items-center">
-                <svg class="h-5 w-5 text-gray-500" viewBox="0 0 24 24" fill="none">
-                    <path d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            </span>
+            </div>
 
-                    <input class="w-full border rounded-md pl-10 pr-4 py-2 focus:border-blue-500 focus:outline-none focus:shadow-outline" type="text" placeholder="Search">
-                </div>
-            </div>
-        </header>
-        <div :class="cartOpen ? 'translate-x-0 ease-out w-full h-full px-6 py-4' : 'translate-x-full ease-in'" class="fixed right-0 top-0 max-w-xs w-0 transition duration-300 transform overflow-y-auto bg-white border-l-2 border-gray-300">
-            <div class="flex items-center justify-between">
-                <h3 class="text-2xl font-medium text-gray-700">Your cart</h3>
-                <button @click="cartOpen = !cartOpen" class="text-gray-600 focus:outline-none">
-                    <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M6 18L18 6M6 6l12 12"></path></svg>
-                </button>
-            </div>
-            <hr class="my-3">
-            <div class="flex justify-between mt-6">
-                <div class="flex">
-                    <img class="h-20 w-20 object-cover rounded" src="https://images.unsplash.com/photo-1593642632823-8f785ba67e45?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1189&q=80" alt="">
-                    <div class="mx-3">
-                        <h3 class="text-sm text-gray-600">Mac Book Pro</h3>
-                        <div class="flex items-center mt-2">
-                            <button class="text-gray-500 focus:outline-none focus:text-gray-600">
-                                <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                            </button>
-                            <span class="text-gray-700 mx-2">2</span>
-                            <button class="text-gray-500 focus:outline-none focus:text-gray-600">
-                                <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                            </button>
+            @foreach($dropzone as $link)
+                {{ $link }}
+            @endforeach
+            {{ $data->links() }}
+
+            <x-jet-dialog-modal wire:model="displayingToken" :maxWidth="'modal-full'">
+                <x-slot name="title">
+                    @if($artikalId)
+                        {{ __('Uredi artikal') }}
+                    @else
+                        {{ __('Dodaj artikal') }}
+                    @endif
+                </x-slot>
+
+                <x-slot name="content">
+
+                    <x-jet-label for="name" value="{{ __('Slike') }}"/>
+                    <form method="post" action="{{url('image/upload/store')}}" enctype="multipart/form-data"
+                          class="dropzone" id="dropzone">
+                        @csrf
+                    </form>
+
+                    <form wire:submit.prevent="submit" enctype="multipart/form-data" id="addArticle">
+                        <div class="grid grid-cols-3 gap-4">
+                            <div class="mt-4">
+                                <x-jet-label for="name" value="{{ __('Naziv artikla') }}"/>
+                                <x-jet-input id="name" class="block mt-1 w-full" type="text" name="name"
+                                             :value="old('name')"
+                                             wire:model.debounce.800ms="name"/>
+                                @error('name') <span class="error">{{ $message }}</span> @enderror
+                            </div>
+
+                            <div class="mt-4">
+                                <x-jet-label for="brand" value="{{ __('Brand') }}"/>
+                                <x-jet-input id="brand" class="block mt-1 w-full" type="text" name="brand"
+                                             :value="old('brand')"
+                                             wire:model.debounce.800ms="brand"/>
+                                @error('brand') <span class="error">{{ $message }}</span> @enderror
+                            </div>
+
+                            <div class="mt-4">
+                                <x-jet-label for="price" value="{{ __('Cijena') }}"/>
+                                <x-jet-input id="price" class="block mt-1 w-full" type="text" name="price"
+                                             :value="old('price')"
+                                             wire:model.debounce.800ms="price"/>
+                                @error('price') <span class="error">{{ $message }}</span> @enderror
+                            </div>
+
+                            <div class="mt-2 col-span-2">
+                                <x-jet-label for="desc" value="{{ __('Opis') }}"/>
+                                <textarea class="form-textarea mt-1 block w-full" rows="3" name="desc"
+                                          placeholder="Unesite opis ovdje."></textarea>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <span class="text-gray-600">20$</span>
-            </div>
-            <div class="flex justify-between mt-6">
-                <div class="flex">
-                    <img class="h-20 w-20 object-cover rounded" src="https://images.unsplash.com/photo-1593642632823-8f785ba67e45?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1189&q=80" alt="">
-                    <div class="mx-3">
-                        <h3 class="text-sm text-gray-600">Mac Book Pro</h3>
-                        <div class="flex items-center mt-2">
-                            <button class="text-gray-500 focus:outline-none focus:text-gray-600">
-                                <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                            </button>
-                            <span class="text-gray-700 mx-2">2</span>
-                            <button class="text-gray-500 focus:outline-none focus:text-gray-600">
-                                <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                            </button>
+
+                        <div class="grid grid-cols-3 gap-4">
+                            <div class="mt-4">
+                                <x-jet-label for="size" value="{{ __('Veličina') }}"/>
+                                <x-jet-input id="size" class="block mt-1 w-full" type="text" name="size"
+                                             :value="old('size')"
+                                             wire:model.debounce.800ms="size"/>
+                                @error('size') <span class="error">{{ $message }}</span> @enderror
+                            </div>
+
+                            <div class="mt-4">
+                                <x-jet-label for="color" value="{{ __('Boja') }}"/>
+                                <x-jet-input id="color" class="block mt-1 w-full" type="text" name="color"
+                                             :value="old('color')"
+                                             wire:model.debounce.800ms="color"/>
+                                @error('color') <span class="error">{{ $message }}</span> @enderror
+                            </div>
+
+                            <div class="mt-4">
+                                <x-jet-label for="categoryId" value="{{ __('Kategorija') }}"/>
+                                <select id="categoryId" name="categoryId"
+                                        class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                    <option>United States</option>
+                                    <option>Canada</option>
+                                    <option>Mexico</option>
+                                </select>
+                                @error('categoryId') <span class="error">{{ $message }}</span> @enderror
+                            </div>
+
+                            <div class="mt-4">
+                                <x-jet-label for="isActive" value="{{ __('Aktivan') }}"/>
+                                <select id="isActive" name="isActive"
+                                        class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                    <option>United States</option>
+                                    <option>Canada</option>
+                                    <option>Mexico</option>
+                                </select>
+                                @error('isActive') <span class="error">{{ $message }}</span> @enderror
+                            </div>
+
+                            <div class="mt-4">
+                                <x-jet-label for="isOnSale" value="{{ __('Snizenje') }}"/>
+                                <select id="isOnSale" name="isOnSale"
+                                        class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                    <option>United States</option>
+                                    <option>Canada</option>
+                                    <option>Mexico</option>
+                                </select>
+                                @error('isOnSale') <span class="error">{{ $message }}</span> @enderror
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <span class="text-gray-600">20$</span>
-            </div>
-            <div class="flex justify-between mt-6">
-                <div class="flex">
-                    <img class="h-20 w-20 object-cover rounded" src="https://images.unsplash.com/photo-1593642632823-8f785ba67e45?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1189&q=80" alt="">
-                    <div class="mx-3">
-                        <h3 class="text-sm text-gray-600">Mac Book Pro</h3>
-                        <div class="flex items-center mt-2">
-                            <button class="text-gray-500 focus:outline-none focus:text-gray-600">
-                                <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                            </button>
-                            <span class="text-gray-700 mx-2">2</span>
-                            <button class="text-gray-500 focus:outline-none focus:text-gray-600">
-                                <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <span class="text-gray-600">20$</span>
-            </div>
-            <a class="flex items-center justify-center mt-4 px-3 py-2 bg-blue-600 text-white text-sm uppercase font-medium rounded hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
-                <span>Chechout</span>
-                <svg class="h-5 w-5 mx-2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-            </a>
+
+
+                    </form>
+                </x-slot>
+
+                <x-slot name="footer">
+                    <x-jet-secondary-button wire:click="$set('displayingToken', false)" wire:loading.attr="disabled">
+                        {{ __('Zatvori') }}
+                    </x-jet-secondary-button>
+
+                    @if($artikalId)
+                        <x-jet-danger-button wire:click="update" wire:loading.attr="disabled">
+                            {{ __('Uredi artikal') }}
+                        </x-jet-danger-button>
+                    @else
+                        <x-jet-danger-button wire:click="create" wire:loading.attr="disabled">
+                            {{ __('Snimi artikal') }}
+                        </x-jet-danger-button>
+                    @endif
+                </x-slot>
+            </x-jet-dialog-modal>
+
+            <!-- Delete User Confirmation Modal -->
+            <x-jet-dialog-modal wire:model="modalConfirmDeleteVisible">
+                <x-slot name="title">
+                    {{ __('Izbriši Artikal') }}
+                </x-slot>
+
+                <x-slot name="content">
+                    {{ __('Jeste li sigurni da želite izbrisati artikal? Nakon što se artikal izbriše, svi resursi i podaci trajno će se izbrisati.') }}
+                </x-slot>
+
+                <x-slot name="footer">
+                    <x-jet-secondary-button wire:click="$toggle('modalConfirmDeleteVisible')"
+                                            wire:loading.attr="disabled">
+                        {{ __('Zatvori') }}
+                    </x-jet-secondary-button>
+                </x-slot>
+            </x-jet-dialog-modal>
         </div>
     </div>
-        <main class="my-8">
-            <div class="container mx-auto px-6">
-                <h3 class="text-gray-700 text-2xl font-medium">Wrist Watch</h3>
-                <span class="mt-3 text-sm text-gray-500">200+ Products</span>
-                <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-6">
-                    <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden" wire:click="showDetailsArticle(2)">
-                        <div class="flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('https://images.unsplash.com/photo-1495856458515-0637185db551?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80')">
-                            <button class="p-2 rounded-full bg-blue-600 text-white mx-5 -mb-4 hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
-                                <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                            </button>
-                        </div>
-                        <div class="px-5 py-3">
-                            <h3 class="text-gray-700 uppercase">Classic watch</h3>
-                            <span class="text-gray-500 mt-2">$123</span>
-                        </div>
-                    </div>
-                    <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden" wire:click="$set('showArtikal', true)">
-                        <div class="flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('https://images.unsplash.com/photo-1524592094714-0f0654e20314?ixlib=rb-1.2.1&auto=format&fit=crop&w=689&q=80')">
-                            <button class="p-2 rounded-full bg-blue-600 text-white mx-5 -mb-4 hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
-                                <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                            </button>
-                        </div>
-                        <div class="px-5 py-3">
-                            <h3 class="text-gray-700 uppercase">Old watch</h3>
-                            <span class="text-gray-500 mt-2">$95</span>
-                        </div>
-                    </div>
-                    <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden" wire:click="$set('showArtikal', true)">
-                        <div class="flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('https://images.unsplash.com/photo-1532667449560-72a95c8d381b?ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80')">
-                            <button class="p-2 rounded-full bg-blue-600 text-white mx-5 -mb-4 hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
-                                <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                            </button>
-                        </div>
-                        <div class="px-5 py-3">
-                            <h3 class="text-gray-700 uppercase">Classic watch</h3>
-                            <span class="text-gray-500 mt-2">$125</span>
-                        </div>
-                    </div>
-                    <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden" wire:click="$set('showArtikal', true)">
-                        <div class="flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('https://images.unsplash.com/photo-1542496658-e33a6d0d50f6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80')">
-                            <button class="p-2 rounded-full bg-blue-600 text-white mx-5 -mb-4 hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
-                                <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                            </button>
-                        </div>
-                        <div class="px-5 py-3">
-                            <h3 class="text-gray-700 uppercase">fossil watch</h3>
-                            <span class="text-gray-500 mt-2">$180</span>
-                        </div>
-                    </div>
-                    <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden" wire:click="$set('showArtikal', true)">
-                        <div class="flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('https://images.unsplash.com/photo-1434056886845-dac89ffe9b56?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80')">
-                            <button class="p-2 rounded-full bg-blue-600 text-white mx-5 -mb-4 hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
-                                <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                            </button>
-                        </div>
-                        <div class="px-5 py-3">
-                            <h3 class="text-gray-700 uppercase">braun watch</h3>
-                            <span class="text-gray-500 mt-2">$49</span>
-                        </div>
-                    </div>
-                    <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden" wire:click="$set('showArtikal', true)">
-                        <div class="flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('https://images.unsplash.com/photo-1526045431048-f857369baa09?ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80')">
-                            <button class="p-2 rounded-full bg-blue-600 text-white mx-5 -mb-4 hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
-                                <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                            </button>
-                        </div>
-                        <div class="px-5 py-3">
-                            <h3 class="text-gray-700 uppercase">rolex watch</h3>
-                            <span class="text-gray-500 mt-2">$86</span>
-                        </div>
-                    </div>
-                    <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden" wire:click="$set('showArtikal', true)">
-                        <div class="flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('https://images.unsplash.com/photo-1495857000853-fe46c8aefc30?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80')">
-                            <button class="p-2 rounded-full bg-blue-600 text-white mx-5 -mb-4 hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
-                                <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                            </button>
-                        </div>
-                        <div class="px-5 py-3">
-                            <h3 class="text-gray-700 uppercase">MVMtx watch</h3>
-                            <span class="text-gray-500 mt-2">$100</span>
-                        </div>
-                    </div>
-                    <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden" wire:click="$set('showArtikal', true)">
-                        <div class="flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('https://images.unsplash.com/photo-1444881421460-d838c3b98f95?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=889&q=80')">
-                            <button class="p-2 rounded-full bg-blue-600 text-white mx-5 -mb-4 hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
-                                <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                            </button>
-                        </div>
-                        <div class="px-5 py-3">
-                            <h3 class="text-gray-700 uppercase">breitling watch</h3>
-                            <span class="text-gray-500 mt-2">$180</span>
-                        </div>
-                    </div>
-                    <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden" wire:click="$set('showArtikal', true)">
-                        <div class="flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('https://images.unsplash.com/photo-1495856458515-0637185db551?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80')">
-                            <button class="p-2 rounded-full bg-blue-600 text-white mx-5 -mb-4 hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
-                                <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                            </button>
-                        </div>
-                        <div class="px-5 py-3">
-                            <h3 class="text-gray-700 uppercase">Classic watch</h3>
-                            <span class="text-gray-500 mt-2">$123</span>
-                        </div>
-                    </div>
-                    <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden" wire:click="$set('showArtikal', true)">
-                        <div class="flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('https://images.unsplash.com/photo-1524592094714-0f0654e20314?ixlib=rb-1.2.1&auto=format&fit=crop&w=689&q=80')">
-                            <button class="p-2 rounded-full bg-blue-600 text-white mx-5 -mb-4 hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
-                                <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                            </button>
-                        </div>
-                        <div class="px-5 py-3">
-                            <h3 class="text-gray-700 uppercase">Old watch</h3>
-                            <span class="text-gray-500 mt-2">$95</span>
-                        </div>
-                    </div>
-                    <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden" wire:click="$set('showArtikal', true)">
-                        <div class="flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('https://images.unsplash.com/photo-1532667449560-72a95c8d381b?ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80')">
-                            <button class="p-2 rounded-full bg-blue-600 text-white mx-5 -mb-4 hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
-                                <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                            </button>
-                        </div>
-                        <div class="px-5 py-3">
-                            <h3 class="text-gray-700 uppercase">Classic watch</h3>
-                            <span class="text-gray-500 mt-2">$125</span>
-                        </div>
-                    </div>
-                    <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden" wire:click="$set('showArtikal', true)">
-                        <div class="flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('https://images.unsplash.com/photo-1542496658-e33a6d0d50f6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80')">
-                            <button class="p-2 rounded-full bg-blue-600 text-white mx-5 -mb-4 hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
-                                <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                            </button>
-                        </div>
-                        <div class="px-5 py-3">
-                            <h3 class="text-gray-700 uppercase">fossil watch</h3>
-                            <span class="text-gray-500 mt-2">$180</span>
-                        </div>
-                    </div>
-                    <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden" wire:click="$set('showArtikal', true)">
-                        <div class="flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('https://images.unsplash.com/photo-1434056886845-dac89ffe9b56?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80')">
-                            <button class="p-2 rounded-full bg-blue-600 text-white mx-5 -mb-4 hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
-                                <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                            </button>
-                        </div>
-                        <div class="px-5 py-3">
-                            <h3 class="text-gray-700 uppercase">braun watch</h3>
-                            <span class="text-gray-500 mt-2">$49</span>
-                        </div>
-                    </div>
-                    <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden" wire:click="$set('showArtikal', true)">
-                        <div class="flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('https://images.unsplash.com/photo-1526045431048-f857369baa09?ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80')">
-                            <button class="p-2 rounded-full bg-blue-600 text-white mx-5 -mb-4 hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
-                                <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                            </button>
-                        </div>
-                        <div class="px-5 py-3">
-                            <h3 class="text-gray-700 uppercase">rolex watch</h3>
-                            <span class="text-gray-500 mt-2">$86</span>
-                        </div>
-                    </div>
-                    <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden" wire:click="$set('showArtikal', true)">
-                        <div class="flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('https://images.unsplash.com/photo-1495857000853-fe46c8aefc30?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80')">
-                            <button class="p-2 rounded-full bg-blue-600 text-white mx-5 -mb-4 hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
-                                <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                            </button>
-                        </div>
-                        <div class="px-5 py-3">
-                            <h3 class="text-gray-700 uppercase">MVMtx watch</h3>
-                            <span class="text-gray-500 mt-2">$100</span>
-                        </div>
-                    </div>
-                    <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden" wire:click="$set('showArtikal', true)">
-                        <div class="flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('https://images.unsplash.com/photo-1444881421460-d838c3b98f95?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=889&q=80')">
-                            <button class="p-2 rounded-full bg-blue-600 text-white mx-5 -mb-4 hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
-                                <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                            </button>
-                        </div>
-                        <div class="px-5 py-3">
-                            <h3 class="text-gray-700 uppercase">breitling watch</h3>
-                            <span class="text-gray-500 mt-2">$180</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="flex justify-center">
-                    <div class="flex rounded-md mt-8">
-                        <a href="#" class="py-2 px-4 leading-tight bg-white border border-gray-200 text-blue-700 border-r-0 ml-0 rounded-l hover:bg-blue-500 hover:text-white"><span>Previous</a></a>
-                        <a href="#" class="py-2 px-4 leading-tight bg-white border border-gray-200 text-blue-700 border-r-0 hover:bg-blue-500 hover:text-white"><span>1</span></a>
-                        <a href="#" class="py-2 px-4 leading-tight bg-white border border-gray-200 text-blue-700 border-r-0 hover:bg-blue-500 hover:text-white"><span>2</span></a>
-                        <a href="#" class="py-2 px-4 leading-tight bg-white border border-gray-200 text-blue-700 border-r-0 hover:bg-blue-500 hover:text-white"><span>3</span></a>
-                        <a href="#" class="py-2 px-4 leading-tight bg-white border border-gray-200 text-blue-700 rounded-r hover:bg-blue-500 hover:text-white"><span>Next</span></a>
-                    </div>
-                </div>
-            </div>
-        </main>
 
+    <script type="text/javascript">
+        let counter = 0;
+        function createHidden(value) {
+            var input = document.createElement("input");
 
-    <x-jet-dialog-modal wire:model="showArtikal" :maxWidth="'modal-full'">
-        <x-slot name="title">
-          Detalji artikla
-            <button wire:click="$set('showArtikal', false)" wire:loading.attr="enabled" class="float-right w-5 h-5">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-            </button>
-        </x-slot>
-
-        <x-slot name="content">
-            <section class="text-gray-700 body-font overflow-hidden">
-                <div class="container px-5 py-24 mx-auto">
-                    <div class="lg:w-4/5 mx-auto flex flex-wrap">
-                        <div class="lg:w-1/2 w-full lg:pr-10 lg:py-6 mb-6 lg:mb-0">
-                            <h2 class="text-sm title-font text-gray-500 tracking-widest">{{ $articleBrand }}</h2>
-                            <h1 class="text-gray-900 text-3xl title-font font-medium mb-4">{{ $articleName }}</h1>
-                            <div class="flex mb-4">
-                                <a class="flex-grow text-indigo-500 border-b-2 border-indigo-500 py-2 text-lg px-1">Detaljnije</a>
-                            </div>
-                            <p class="leading-relaxed mb-4">{{ $articleDesc }}</p>
-                            <div class="flex border-t border-gray-300 py-2">
-                                <span class="text-gray-500">Boja</span>
-                                <span class="ml-auto text-gray-900">{{ $articleColor }}</span>
-                            </div>
-                            <div class="flex border-t border-gray-300 py-2">
-                                <span class="text-gray-500">Veličina</span>
-                                <span class="ml-auto text-gray-900">{{ $articleSize }}</span>
-                            </div>
-                            <div class="flex border-t border-b mb-6 border-gray-300 py-2">
-                                <span class="text-gray-500 flex-1">Količina</span>
-                                <div class="custom-number-input h-10 w-32">
-                                    <div class="flex flex-row h-10 w-full rounded-lg relative bg-transparent mt-1">
-                                        <button data-action="decrement" class=" bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-l cursor-pointer outline-none">
-                                            <span class="m-auto text-2xl font-thin">−</span>
-                                        </button>
-                                        <input type="number" class="outline-none focus:outline-none text-center w-full bg-gray-300 font-semibold text-md hover:text-black focus:text-black  md:text-basecursor-default flex items-center text-gray-700  outline-none" name="custom-input-number" value="{{ $articleQuantity }}" />
-                                        <button data-action="increment" class="bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-r cursor-pointer">
-                                            <span class="m-auto text-2xl font-thin">+</span>
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <span class="ml-auto text-gray-900"></span>
-                            </div>
-                            <div class="flex">
-                                <span class="title-font font-medium text-2xl text-gray-900">{{ $articleTotal }}</span>
-                                <button class="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">
-                                    Kupi
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="w-5 h-5 ml-2" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                        <img alt="ecommerce" class="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded" src="{{ $image }}">
-                    </div>
-                </div>
-            </section>
-        </x-slot>
-
-        <x-slot name="footer">
-            <x-jet-secondary-button wire:click="$set('showArtikal', false)" wire:loading.attr="enabled">
-                {{ __('Zatvori') }}
-            </x-jet-secondary-button>
-        </x-slot>
-    </x-jet-dialog-modal>
-
-    <script>
-        function decrement(e) {
-            const btn = e.target.parentNode.parentElement.querySelector(
-                'button[data-action="decrement"]'
-            );
-            const target = btn.nextElementSibling;
-            let value = Number(target.value);
-            value--;
-            target.value = value;
+            input.setAttribute("type", "hidden");
+            input.setAttribute("name", counter + "-image");
+            input.setAttribute("value", value);
+            input.classList.add('image-hidden');
+            document.getElementById("addArticle").appendChild(input);
         }
+        Dropzone.options.dropzone =
+            {
+                maxFiles: 20,
+                maxFilesize: 1000, // MB
+                renameFile: function(file) {
+                    var dt = new Date();
+                    var time = dt.getTime();
+                    return time+file.name;
+                },
+                acceptedFiles: ".jpeg,.jpg,.png,.gif",
+                addRemoveLinks: true,
+                timeout: 50000,
+                removedfile: function(file)
+                {
+                    var name = file.upload.filename;
+                    $.ajax({
+                        headers: {
+                            'X-CSRF-TOKEN': $('input[name="_token"]').val(),
+                        },
+                        type: 'POST',
+                        url: '{{ url("image/delete") }}',
+                        data: {filename: name},
+                        success: function (data){
+                            console.log("File has been successfully removed!!");
+                        },
+                        error: function(e) {
+                            console.log(e);
+                        }});
+                    var fileRef;
+                    return (fileRef = file.previewElement) != null ?
+                        fileRef.parentNode.removeChild(file.previewElement) : void 0;
+                },
 
-        function increment(e) {
-            const btn = e.target.parentNode.parentElement.querySelector(
-                'button[data-action="decrement"]'
-            );
-            const target = btn.nextElementSibling;
-            let value = Number(target.value);
-            value++;
-            target.value = value;
-        }
-
-        const decrementButtons = document.querySelectorAll(
-            `button[data-action="decrement"]`
-        );
-
-        const incrementButtons = document.querySelectorAll(
-            `button[data-action="increment"]`
-        );
-
-        decrementButtons.forEach(btn => {
-            btn.addEventListener("click", decrement);
-        });
-
-        incrementButtons.forEach(btn => {
-            btn.addEventListener("click", increment);
-        });
+                success: function(file, response)
+                {
+                    console.log(response);
+                    createHidden(response.success);
+                },
+                error: function(file, response)
+                {
+                    return false;
+                }
+            };
     </script>
 
 </div>
