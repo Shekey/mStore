@@ -17,14 +17,14 @@ class ArtikliLiveWire extends Component
 
     protected $listeners = ['uploadedNew'];
     public $messageText = "Uspješno ste dodali novi artikal.";
-    public $market, $images = ["1605990937348best.png","1605990937350black.png"], $dropzone = [], $artikalId, $isOpen = true,  $showArtikal = false, $maxWidth = "w-screen" ,$displayingToken = false, $modalConfirmDeleteVisible = false,  $uploadedNewImage = false;
+    public $market, $images = [], $dropzone = [], $artikalId, $isOpen = true,  $showArtikal = false, $maxWidth = "w-screen" ,$displayingToken = false, $modalConfirmDeleteVisible = false,  $uploadedNewImage = false;
 
     public function uploadedNew()
     {
         $this->uploadedNewImage = true;
     }
 
-    public function addImages($image) {
+    public function addImage($image) {
         array_push( $this->images, $image);
     }
 
@@ -32,11 +32,6 @@ class ArtikliLiveWire extends Component
         $pos = array_search($image, $this->images);
         unset($this->images[$pos]);
     }
-
-    public function updatedDropzone() {
-        dd($this->dropzone);
-    }
-
 
     public function updatedDisplayingToken() {
         if(!$this->displayingToken) {

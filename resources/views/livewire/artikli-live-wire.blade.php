@@ -224,8 +224,8 @@
                 </div>
             </div>
 
-            @foreach($dropzone as $link)
-                {{ $link }}
+            @foreach($images as $image)
+                {{ $image }}
             @endforeach
             {{ $data->links() }}
 
@@ -247,6 +247,10 @@
                     </form>
 
                     <form wire:submit.prevent="submit" enctype="multipart/form-data" id="addArticle">
+
+                        <x-jet-input id="images" class="block mt-1 w-full" type="hidden" name="images"
+                                     value=""
+                                     wire:model="images"/>
                         <div class="grid grid-cols-3 gap-4">
                             <div class="mt-4">
                                 <x-jet-label for="name" value="{{ __('Naziv artikla') }}"/>
@@ -372,83 +376,98 @@
     </div>
 
     <script type="text/javascript">
-        let counter = 0;
+        $(function () {
+            Dropzone.autoDiscover = false;
 
-        function createHidden(value) {
-            var input = document.createElement("input");
+                let counter = 0;
+                const button = document.querySelector('button.bg-white');
 
-            input.setAttribute("type", "hidden");
-            input.setAttribute("name", counter + "-image");
-            input.setAttribute("value", value);
-            input.classList.add('image-hidden');
-            document.getElementById("addArticle").appendChild(input);
-        }
+                function createHidden(value) {
+                    var input = document.createElement("input");
 
-        Dropzone.autoDiscover = false;
-        new Dropzone("#dropzone",
-            {
-                maxFiles: 20,
-                maxFilesize: 1000, // MB
-                renameFile: function (file) {
-                    var dt = new Date();
-                    var time = dt.getTime();
-                    return time + file.name;
-                },
-                acceptedFiles: ".jpeg,.jpg,.png,.gif",
-                addRemoveLinks: true,
-                timeout: 50000,
-                init: function() {
-                    let myDropzone = this;
-
-                    @if (count($images))
-                    let mockFile = null;
-                    let callback = null; // Optional callback when it's done
-                    let crossOrigin = null; // Added to the `img` tag for crossOrigin handling
-                    let resizeThumbnail = false; // Tells Dropzone whether it should resize the image first
-                    @foreach($images as $image)
-                        mockFile = {name: "{{ $image }}", size: 1234};
-                        myDropzone.displayExistingFile(mockFile, "/storage/images/articles/{{ $image }}", callback, crossOrigin, resizeThumbnail);
-                    @endforeach
-
-
-                        // If you use the maxFiles option, make sure you adjust it to the
-                        // correct amount:
-                        let fileCountOnServer = {{ count($images) }}; // The number of files already uploaded
-                        myDropzone.options.maxFiles = myDropzone.options.maxFiles - fileCountOnServer;
-                    @endif
-                },
-
-                removedfile: function (file) {
-                    var name = file.upload === undefined ? file.name : file.upload.filename;
-                    $.ajax({
-                        headers: {
-                            'X-CSRF-TOKEN': $('input[name="_token"]').val(),
-                        },
-                        type: 'POST',
-                        url: '{{ url("image/delete") }}',
-                        data: {filename: name},
-                        success: function (data) {
-                            console.log("File has been successfully removed!!");
-                            console.log(data);
-                        },
-                        error: function (e) {
-                            console.log(e);
-                        }
-                    });
-                    var fileRef;
-                    return (fileRef = file.previewElement) != null ?
-                        fileRef.parentNode.removeChild(file.previewElement) : void 0;
-                },
-
-                success: function (file, response) {
-                    console.log(response);
-                },
-                error: function (file, response) {
-                    return false;
+                    input.setAttribute("type", "hidden");
+                    input.setAttribute("name", counter + "-image");
+                    input.setAttribute("value", value);
+                    input.classList.add('image-hidden');
+                    document.getElementById("addArticle").appendChild(input);
                 }
-            }
-        );
 
+                const dropzone = new Dropzone("#dropzone",
+                    {
+                        maxFiles: 20,
+                        maxFilesize: 1000, // MB
+                        autoDiscover: false,
+                        renameFile: function (file) {
+                            var dt = new Date();
+                            var time = dt.getTime();
+                            return time + file.name;
+                        },
+                        acceptedFiles: ".jpeg,.jpg,.png,.gif",
+                        addRemoveLinks: true,
+                        timeout: 50000,
+                        init: function () {
+                            let myDropzone = this;
+
+                                @if (count($images))
+                            let mockFile = null;
+                            let callback = null; // Optional callback when it's done
+                            let crossOrigin = null; // Added to the `img` tag for crossOrigin handling
+                            let resizeThumbnail = false; // Tells Dropzone whether it should resize the image first
+                            @foreach($images as $image)
+                                mockFile = {name: "{{ $image }}", size: 1234};
+                            myDropzone.displayExistingFile(mockFile, "/storage/images/articles/{{ $image }}", callback, crossOrigin, resizeThumbnail);
+                            @endforeach
+
+                            // If you use the maxFiles option, make sure you adjust it to the
+                            // correct amount:
+                            let fileCountOnServer = {{ count($images) }}; // The number of files already uploaded
+                            myDropzone.options.maxFiles = myDropzone.options.maxFiles - fileCountOnServer;
+                            @endif
+
+                                this.on("addedfile", function(file) {
+                            });
+                        },
+
+                        removedfile: function (file) {
+                            var name = file.upload === undefined ? file.name : file.upload.filename;
+                            $.ajax({
+                                headers: {
+                                    'X-CSRF-TOKEN': $('input[name="_token"]').val(),
+                                },
+                                type: 'POST',
+                                url: '{{ url("image/delete") }}',
+                                data: {filename: name},
+                                success: function (data) {
+                                    console.log("File has been successfully removed!!");
+                                    console.log(data);
+                                },
+                                error: function (e) {
+                                    console.log(e);
+                                }
+                            });
+                            var fileRef;
+                            return (fileRef = file.previewElement) != null ?
+                                fileRef.parentNode.removeChild(file.previewElement) : void 0;
+                        },
+
+                        success: function (file, response) {
+                            console.log(response.success);
+                        },
+                        error: function (file, response) {
+                            return false;
+                        }
+                    }
+                );
+
+            button.addEventListener('click', () => {
+                const files = dropzone.getAcceptedFiles();
+                console.log(files);
+                for(let i = 0; i < files.length; i++) {
+                    console.log(files[i]);
+                    @this.addImage(files[i].upload.filename);
+                }
+            });
+        })
     </script>
 
 </div>
