@@ -121,7 +121,7 @@ class Categories extends Component
         $this->loadModel();
     }
 
-    public function deleteShowModal ($id) {
+    public function deleteShowModal($id) {
         $this->modelId = $id;
         $this->modalConfirmDeleteVisible = true;
     }

@@ -32,14 +32,6 @@ class ArtikliLiveWire extends Component
         unset($this->images[$pos]);
     }
 
-    public function updatedDisplayingToken() {
-        if(!$this->displayingToken) {
-            $this->image = null;
-            $this->name = null;
-            $this->uploadedNewImage = false;
-        }
-    }
-
     public function create() {
         $this->validate();
         Articles::create($this->createData());
@@ -57,6 +49,9 @@ class ArtikliLiveWire extends Component
     }
 
     public function deleteCategory() {
+        $art = Articles::find($this->artikalId);
+        Articles::destroy($this->artikalId);
+        $this->modalConfirmDeleteVisible = false;
         $this->resetPage();
     }
 
@@ -119,14 +114,27 @@ class ArtikliLiveWire extends Component
     public function updateShowModal($id) {
         $this->resetFields();
         $this->displayingToken = true;
+        $this->artikalId = $id;
         $this->loadModel();
     }
 
     public function deleteShowModal ($id) {
+        $this->artikalId = $id;
         $this->modalConfirmDeleteVisible = true;
     }
 
     public function loadModel() {
+        $art = Articles::find($this->artikalId);
+        $this->name = $art->name;
+        $this->desc = $art->desc;
+        $this->brand = $art->brand;
+        $this->size = $art->size;
+        $this->color = $art->color;
+        $this->price = $art->price;
+        $this->isActive = $art->isActive;
+        $this->isOnSale = $art->isOnSale;
+        $this->profitMake = $art->profitMake;
+        $this->category_id = $art->category_id;
     }
 
 
@@ -135,7 +143,7 @@ class ArtikliLiveWire extends Component
         $categories = Category::all();
         $data = Articles::whereHas('market', function (Builder $query) {
             $query->where('market_id', '=', $this->marketId);
-        })->with('category')->paginate(7);
+        })->with('category')->simplePaginate(7);
 
         return view('livewire.artikli-live-wire', compact('categories', 'data'));
     }

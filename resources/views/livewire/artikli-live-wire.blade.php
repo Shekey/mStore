@@ -2,6 +2,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/min/dropzone.min.css">
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.0/dropzone.js"></script>
+    <style>
+        nav {
+            margin-top: 15px;
+        }
+    </style>
 
     <div class="relative">
         <div wire:model="isOpen" wire:loading.attr="disabled"
@@ -45,81 +50,85 @@
                 <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                         <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-                            <table class="min-w-full divide-y divide-gray-200">
-                                <thead>
-                                <tr>
-                                    <th scope="col"
-                                        class="px-6 py-3 bg-gray-800 text-left text-xs font-medium text-white uppercase tracking-wider">
-                                        Naziv
-                                    </th>
-                                    <th scope="col"
-                                        class="px-6 py-3 bg-gray-800 text-left text-xs font-medium text-white uppercase tracking-wider">
-                                        Cijena
-                                    </th>
-
-                                    <th scope="col"
-                                        class="px-6 py-3 bg-gray-800 text-left text-xs font-medium text-white uppercase tracking-wider">
-                                        Sniženje
-                                    </th>
-
-                                    <th scope="col"
-                                        class="px-6 py-3 bg-gray-800 text-left text-xs font-medium text-white uppercase tracking-wider">
-                                        Kategorija
-                                    </th>
-                                    <th scope="col"
-                                        class="px-6 py-3 bg-gray-800 text-left text-xs font-medium text-white uppercase tracking-wider">
-                                        Aktivan
-                                    </th>
-
-                                    <th scope="col" class="px-6 py-3 bg-gray-800">
-                                        <span class="sr-only">Edit</span>
-                                    </th>
-                                </tr>
-                                </thead>
-                                <tbody class="bg-white divide-y divide-gray-200">
-                                @foreach($data as $d)
+                            @if(count($data))
+                                <table class="min-w-full divide-y divide-gray-200">
+                                    <thead>
                                     <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap capitalize">
-                                        <div class="flex items-center">
-                                            <div class="flex-shrink-0 h-10 w-10">
-                                                <img class="h-10 w-10 rounded-full"
-                                                     src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=4&amp;w=256&amp;h=256&amp;q=60"
-                                                     alt="">
-                                            </div>
-                                            <div class="ml-4">
-                                                <div class="text-sm font-medium text-gray-900">
-                                                    {{ $d->name }}
+                                        <th scope="col"
+                                            class="px-6 py-3 bg-gray-800 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                            Naziv
+                                        </th>
+                                        <th scope="col"
+                                            class="px-6 py-3 bg-gray-800 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                            Cijena
+                                        </th>
+
+                                        <th scope="col"
+                                            class="px-6 py-3 bg-gray-800 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                            Sniženje
+                                        </th>
+
+                                        <th scope="col"
+                                            class="px-6 py-3 bg-gray-800 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                            Kategorija
+                                        </th>
+                                        <th scope="col"
+                                            class="px-6 py-3 bg-gray-800 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                            Aktivan
+                                        </th>
+
+                                        <th scope="col" class="px-6 py-3 bg-gray-800">
+                                            <span class="sr-only">Edit</span>
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="bg-white divide-y divide-gray-200">
+                                    @foreach($data as $d)
+                                        <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap capitalize">
+                                            <div class="flex items-center">
+                                                <div class="flex-shrink-0 h-10 w-10">
+                                                    <img class="h-10 w-10 rounded-full"
+                                                         src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=4&amp;w=256&amp;h=256&amp;q=60"
+                                                         alt="">
                                                 </div>
-                                                <div class="text-sm text-gray-500">
-                                                    {{ $d->brand }}
+                                                <div class="ml-4">
+                                                    <div class="text-sm font-medium text-gray-900">
+                                                        {{ $d->name }}
+                                                    </div>
+                                                    <div class="text-sm text-gray-500">
+                                                        {{ $d->brand }}
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap capitalize">
-                                        <div class="text-sm text-gray-900">KM {{ $d->price }}</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap capitalize">
-                                        <div class="text-sm text-gray-500">{!! $d->isOnSale ? '<span class="uppercase px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Da</span>': '<span class="uppercase px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Ne</span>' !!}</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 capitalize">
-                                        {{ $d->category->name }}
-                                    </td>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap capitalize">
+                                            <div class="text-sm text-gray-900">KM {{ $d->price }}</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap capitalize">
+                                            <div class="text-sm text-gray-500">{!! $d->isOnSale ? '<span class="uppercase px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Da</span>': '<span class="uppercase px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-300 text-green-800">Ne</span>' !!}</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 capitalize">
+                                            {{ $d->category->name }}
+                                        </td>
 
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        <div class="text-sm text-gray-500">{!! $d->isActive ? '<span class="uppercase px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Da</span>': '<span class="uppercase px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Ne</span>' !!}</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                        <a href="#" class="text-indigo-600 hover:text-indigo-900">Uredi</a> |
-                                        <a href="#" class="text-indigo-600 hover:text-indigo-900">Izbriši</a>
-                                    </td>
-                                </tr>
-                                @endforeach
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            <div class="text-sm text-gray-500">{!! $d->isActive ? '<span class="uppercase px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Da</span>': '<span class="uppercase px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-300 text-green-800">Ne</span>' !!}</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                            <button class="text-indigo-600 hover:text-indigo-900" wire:click="updateShowModal({{ $d->id }})">Uredi</button> |
+                                            <button class="text-indigo-600 hover:text-indigo-900" wire:click="deleteShowModal({{ $d->id }})">Izbriši</button>
+                                        </td>
+                                    </tr>
+                                    @endforeach
 
-                                </tbody>
-                            </table>
+                                    </tbody>
+                                </table>
 
-                            {{ $data->links() }}
+                                {{ $data->links() }}
+                            @else
+                                <h1 class="text-center">Nemate dodatih artikala</h1>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -194,9 +203,10 @@
                                 <x-jet-label for="category_id" value="{{ __('Kategorija') }}"/>
                                 <select id="category_id" name="category_id"  wire:model="category_id"
                                         class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                    <option value="10">United States</option>
-                                    <option value="11">Canada</option>
-                                    <option value="13">Mexico</option>
+                                <option value="0">Odaberite kategoriju</option>
+                                @foreach($categories as $category)
+                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                    @endforeach
                                 </select>
                                 @error('categoryId') <span class="error">{{ $message }}</span> @enderror
                             </div>
@@ -205,9 +215,8 @@
                                 <x-jet-label for="isActive" value="{{ __('Aktivan') }}"/>
                                 <select id="isActive" name="isActive" wire:model="isActive"
                                         class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                    <option value="0">United States</option>
-                                    <option value="1">Canada</option>
-                                    <option value="0">Mexico</option>
+                                    <option value="1" selected>Aktivan</option>
+                                    <option value="0">Neaktivan</option>
                                 </select>
                                 @error('isActive') <span class="error">{{ $message }}</span> @enderror
                             </div>
@@ -216,9 +225,8 @@
                                 <x-jet-label for="isOnSale" value="{{ __('Snizenje') }}"/>
                                 <select id="isOnSale" name="isOnSale" wire:model="isOnSale"
                                         class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                    <option value="0">United States</option>
-                                    <option value="1">Canada</option>
-                                    <option value="1">Mexico</option>
+                                    <option value="0" selected>Ne</option>
+                                    <option value="1">Da</option>
                                 </select>
                                 @error('isOnSale') <span class="error">{{ $message }}</span> @enderror
                             </div>
@@ -227,9 +235,8 @@
                                 <x-jet-label for="profitMake" value="{{ __('Ima li zarade') }}"/>
                                 <select id="profitMake" name="profitMake" wire:model="profitMake"
                                         class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                    <option value="0">United States</option>
-                                    <option value="1">Canada</option>
-                                    <option value="1">Mexico</option>
+                                    <option value="1">Da</option>
+                                    <option value="0">Ne</option>
                                 </select>
                                 @error('profitMake') <span class="error">{{ $message }}</span> @enderror
                             </div>
@@ -269,6 +276,10 @@
                                             wire:loading.attr="disabled">
                         {{ __('Zatvori') }}
                     </x-jet-secondary-button>
+
+                    <x-jet-danger-button class="ml-2" wire:click="deleteCategory" wire:loading.attr="disabled">
+                        {{ __('Izbriši artikal') }}
+                    </x-jet-danger-button>
                 </x-slot>
             </x-jet-dialog-modal>
         </div>
@@ -357,14 +368,14 @@
                     }
                 );
 
-            // button.addEventListener('click', () => {
-            //     const files = dropzone.getAcceptedFiles();
-            //     console.log(files);
-            //     for(let i = 0; i < files.length; i++) {
-            //         console.log(files[i]);
-            //         @this.addImage(files[i].upload.filename);
-            //     }
-            // });
+            button.addEventListener('click', () => {
+                const files = dropzone.getAcceptedFiles();
+                console.log(files);
+                for(let i = 0; i < files.length; i++) {
+                    console.log(files[i]);
+                    @this.addImage(files[i].upload.filename);
+                }
+            });
         })
     </script>
 </div>
