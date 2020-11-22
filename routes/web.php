@@ -20,14 +20,14 @@ Route::get('/', function () {
 });
 
 
-Route::get('/test', 'ArticlesController@handle');
+Route::get('/test', 'App\Http\Controllers\ArticlesController@handle');
 
-Route::post('image/upload/store','ImageUploadController@fileStore');
-Route::post('image/delete','ImageUploadController@fileDestroy');
+Route::post('image/upload/store','App\Http\Controllers\ImageUploadController@fileStore');
+Route::post('image/delete','App\Http\Controllers\ImageUploadController@fileDestroy');
 
 Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
-    Route::get('stripe', [StripePaymentController::class, 'index']);
-    Route::post('payment-process', [StripePaymentController::class, 'process']);
+    Route::get('stripe', [App\Http\Controllers\StripePaymentController::class, 'index']);
+    Route::post('payment-process', [App\Http\Controllers\StripePaymentController::class, 'process']);
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
@@ -43,10 +43,8 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
         return view('admin.prodavnice.index');
     })->name('prodavnice');
 
-    Route::get('/prodavnice/{prodavnicaId}/artikli', function () {
-        return view('admin.prodavnice.artikli');
-    })->name('prodavnice-artikli');
-
-
+    Route::get('/prodavnice/{id}/artikli',  function ($id) {
+        return view('admin.prodavnice.artikli', compact('id'));
+    });
 });
 

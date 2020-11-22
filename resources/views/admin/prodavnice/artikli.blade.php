@@ -4,7 +4,5 @@
             {{ __('Artikli') }}
         </h2>
     </x-slot>
-
-    @livewire('artikli-live-wire')
-
+    @livewire('artikli-live-wire', ['id' => $id])
 </x-app-layout>
