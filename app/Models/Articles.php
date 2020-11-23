@@ -21,4 +21,9 @@ class Articles extends Model
         return $this->belongsTo('App\Models\Market');
     }
 
+    public function images()
+    {
+        return $this->hasMany('App\Models\ArtikalImage', 'articleId', 'id');
+    }
+
 }

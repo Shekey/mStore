@@ -1,7 +1,5 @@
 <div class="w-full">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/min/dropzone.min.css">
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.0/dropzone.js"></script>
     <style>
         nav {
             margin-top: 15px;
@@ -10,7 +8,7 @@
 
     <div class="relative">
         <div wire:model="isOpen" wire:loading.attr="disabled"
-             class="bg-indigo-600 w-full absolute left-0 w-full @if ($isOpen) visible @else invisible @endif"
+             class="bg-indigo-600 flash-message w-full absolute left-0 w-full @if ($isOpen) visible @else invisible @endif"
              style="top: -64px;">
             <div class="container mx-auto py-3 px-3 sm:px-6 lg:px-8">
                 <div class="flex items-center justify-between flex-wrap">
@@ -145,13 +143,60 @@
 
                 <x-slot name="content">
 
-                    <x-jet-label for="name" value="{{ __('Slike') }}"/>
-                    <form method="post" action="{{url('image/upload/store')}}" enctype="multipart/form-data"
-                          class="dropzone" id="dropzone">
-                        @csrf
-                    </form>
+                    <div class="flex flex-wrap -mx-2 justify-center">
+                        @if( !empty( $images ) && $artikalId == null )
+                        <p style="flex-basis: 100%; text-align: center;">Pregled slika</p>
+                            <div style="flex-basis: 100%; text-align: center">
+                                @foreach($images as $image)
+                                <img src="{{ $image->temporaryUrl() }}" width="200" height="200"
+                                     style="display: inline-block; margin-top: 20px;">
+                                @endforeach
+                            </div>
+                        @endif
+
+                        @if($artikalId != null && count($images))
+                            @foreach($images as $image)
+                                <div class="mr-4 text-center">
+                                    <div class="mb-4">
+                                        @if(isset($image->url))
+                                         <img src="/storage/{{ $image->url }}" width="200" height="200">
+                                        @else
+                                            <img src="{{ $image->temporaryUrl() }}" width="200" height="200">
+                                        @endif
+                                    </div>
+                                    @if(isset($image->url))
+                                    <x-jet-danger-button wire:click="removeImage({{ $image->id }})" wire:loading.attr="disabled">
+                                        {{ __('Izbriši sliku') }}
+                                    </x-jet-danger-button>
+                                    @else
+                                        <p>Pregled slike</p>
+                                    @endif
+
+                                </div>
+                            @endforeach
+                        @endif
+                    </div>
 
                     <form wire:submit.prevent="submit" enctype="multipart/form-data" id="addArticle">
+
+                        <div class="mt-4">
+                            <div
+                                x-data="{ isUploading: false, progress: 0 }"
+                                x-on:livewire-upload-start="isUploading = true"
+                                x-on:livewire-upload-finish="isUploading = false"
+                                x-on:livewire-upload-error="isUploading = false"
+                                x-on:livewire-upload-progress="progress = $event.detail.progress">
+                                <x-jet-label value="{{ __('Slike') }}"/>
+                                <input type="file" wire:change="$emit('uploadedNew')" multiple accept="image/x-png,image/gif,image/jpeg"
+                                       wire:model="images" class=""/>
+                                <div>
+                                    @error('images.*') <span class="text-sm text-red-500 italic">{{ $message }}</span>@enderror
+                                </div>
+                                <div x-show="isUploading" style="width: 100%">
+                                    <progress max="100" x-bind:value="progress"></progress>
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="grid grid-cols-3 gap-4">
                             <div class="mt-4">
@@ -177,7 +222,7 @@
 
                             <div class="mt-2 col-span-2">
                                 <x-jet-label for="desc" value="{{ __('Opis') }}"/>
-                                <textarea class="form-textarea mt-1 block w-full" rows="3" name="desc" wire:model="desc"
+                                <textarea class="form-textarea mt-1 block w-full" value="old(desc)" rows="3" name="desc" wire:model="desc"
                                           placeholder="Unesite opis ovdje."></textarea>
                                 @error('desc') <span class="error">{{ $message }}</span> @enderror
 
@@ -213,9 +258,9 @@
 
                             <div class="mt-4">
                                 <x-jet-label for="isActive" value="{{ __('Aktivan') }}"/>
-                                <select id="isActive" name="isActive" wire:model="isActive"
+                                <select wire:model="isActive"
                                         class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                    <option value="1" selected>Aktivan</option>
+                                    <option value="1">Aktivan</option>
                                     <option value="0">Neaktivan</option>
                                 </select>
                                 @error('isActive') <span class="error">{{ $message }}</span> @enderror
@@ -223,9 +268,9 @@
 
                             <div class="mt-4">
                                 <x-jet-label for="isOnSale" value="{{ __('Snizenje') }}"/>
-                                <select id="isOnSale" name="isOnSale" wire:model="isOnSale"
+                                <select wire:model="isOnSale"
                                         class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                    <option value="0" selected>Ne</option>
+                                    <option value="0">Ne</option>
                                     <option value="1">Da</option>
                                 </select>
                                 @error('isOnSale') <span class="error">{{ $message }}</span> @enderror
@@ -233,7 +278,7 @@
 
                             <div class="mt-4">
                                 <x-jet-label for="profitMake" value="{{ __('Ima li zarade') }}"/>
-                                <select id="profitMake" name="profitMake" wire:model="profitMake"
+                                <select wire:model="profitMake"
                                         class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                     <option value="1">Da</option>
                                     <option value="0">Ne</option>
@@ -284,98 +329,4 @@
             </x-jet-dialog-modal>
         </div>
     </div>
-    <script type="text/javascript">
-        $(function () {
-            Dropzone.autoDiscover = false;
-
-                let counter = 0;
-                const button = document.querySelector('button.bg-red-600');
-
-                function createHidden(value) {
-                    var input = document.createElement("input");
-
-                    input.setAttribute("type", "hidden");
-                    input.setAttribute("name", counter + "-image");
-                    input.setAttribute("value", value);
-                    input.classList.add('image-hidden');
-                    document.getElementById("addArticle").appendChild(input);
-                }
-
-                const dropzone = new Dropzone("#dropzone",
-                    {
-                        maxFiles: 20,
-                        maxFilesize: 1000, // MB
-                        autoDiscover: false,
-                        renameFile: function (file) {
-                            var dt = new Date();
-                            var time = dt.getTime();
-                            return time + file.name;
-                        },
-                        acceptedFiles: ".jpeg,.jpg,.png,.gif",
-                        addRemoveLinks: true,
-                        timeout: 50000,
-                        init: function () {
-                            let myDropzone = this;
-
-                                @if (count($images))
-                            let mockFile = null;
-                            let callback = null; // Optional callback when it's done
-                            let crossOrigin = null; // Added to the `img` tag for crossOrigin handling
-                            let resizeThumbnail = false; // Tells Dropzone whether it should resize the image first
-                            @foreach($images as $image)
-                                mockFile = {name: "{{ $image }}", size: 1234};
-                            myDropzone.displayExistingFile(mockFile, "/storage/images/articles/{{ $image }}", callback, crossOrigin, resizeThumbnail);
-                            @endforeach
-
-                            // If you use the maxFiles option, make sure you adjust it to the
-                            // correct amount:
-                            let fileCountOnServer = {{ count($images) }}; // The number of files already uploaded
-                            myDropzone.options.maxFiles = myDropzone.options.maxFiles - fileCountOnServer;
-                            @endif
-
-                                this.on("addedfile", function(file) {
-                            });
-                        },
-
-                        removedfile: function (file) {
-                            var name = file.upload === undefined ? file.name : file.upload.filename;
-                            $.ajax({
-                                headers: {
-                                    'X-CSRF-TOKEN': $('input[name="_token"]').val(),
-                                },
-                                type: 'POST',
-                                url: '{{ url("image/delete") }}',
-                                data: {filename: name},
-                                success: function (data) {
-                                    console.log("File has been successfully removed!!");
-                                    console.log(data);
-                                },
-                                error: function (e) {
-                                    console.log(e);
-                                }
-                            });
-                            var fileRef;
-                            return (fileRef = file.previewElement) != null ?
-                                fileRef.parentNode.removeChild(file.previewElement) : void 0;
-                        },
-
-                        success: function (file, response) {
-                            console.log(response.success);
-                        },
-                        error: function (file, response) {
-                            return false;
-                        }
-                    }
-                );
-
-            button.addEventListener('click', () => {
-                const files = dropzone.getAcceptedFiles();
-                console.log(files);
-                for(let i = 0; i < files.length; i++) {
-                    console.log(files[i]);
-                    @this.addImage(files[i].upload.filename);
-                }
-            });
-        })
-    </script>
 </div>

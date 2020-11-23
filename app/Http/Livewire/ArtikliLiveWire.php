@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Articles;
+use App\Models\ArtikalImage;
 use App\Models\Category;
 use App\Models\Market;
 use Illuminate\Database\Eloquent\Builder;
@@ -19,23 +20,47 @@ class ArtikliLiveWire extends Component
     use WithPagination;
 
     public $messageText = "Uspješno ste dodali novi artikal.";
-    public $market, $images = [],  $artikalId, $isOpen = true, $showArtikal = false, $maxWidth = "w-screen" ,$displayingToken = false, $modalConfirmDeleteVisible = false;
-    public $name, $size, $brand, $color, $price, $desc, $isActive, $isOnSale, $profitMake = 1, $category_id, $marketId;
+    protected $listeners = ['uploadedNew'];
+    public $market, $images = [],  $artikalId, $isOpen = false, $showArtikal = false, $maxWidth = "w-screen" ,$displayingToken = false, $modalConfirmDeleteVisible = false, $uploadedNewImage = false;
+    public $name, $size, $brand, $color, $price, $desc, $isActive = 0, $isOnSale = 0, $profitMake = 1, $category_id, $marketId;
 
-
-    public function addImage($image) {
-        array_push( $this->images, $image);
+    public function uploadedNew()
+    {
+        $this->uploadedNewImage = true;
     }
 
-    public function removeImage($image) {
-        $pos = array_search($image, $this->images);
-        unset($this->images[$pos]);
+    public function removeImage($id) {
+        $index = null;
+        foreach($this->images as $key=>$value) {
+            if ($id == $this->images[$key]->id) {
+                $index = $key;
+                break;
+            }
+        }
+
+        if ($index !== null) {
+            unset($this->images[$index]);
+        }
     }
 
     public function create() {
         $this->validate();
-        Articles::create($this->createData());
+        $article = Articles::create($this->createData());
+        if( !empty( $this->images ) ){
+            foreach( $this->images as $image ){
+                $imageName = time() .'-'.$image->getClientOriginalName().'.' . $image->getClientOriginalExtension();
+                $imageUpload = \Intervention\Image\Facades\Image::make($image)->fit(1500);
+                Storage::disk('public')->put("images/articles/".$imageName, (string) $imageUpload->encode());
+                $imageName = 'images/articles/' . $imageName;
+                ArtikalImage::create([
+                    'url' => $imageName,
+                    'articleId' => $article->id
+                ]);
+            }
+        }
         $this->displayingToken = false;
+        $this->isOpen = true;
+        $this->messageText = "Uspješno ste dodali novi artikal.";
         $this->resetPage();
     }
 
@@ -45,6 +70,8 @@ class ArtikliLiveWire extends Component
     }
 
     public function update() {
+        $this->isOpen = true;
+        $this->messageText = "Uspješno ste uredili artikal.";
         $this->resetFields();
     }
 
@@ -63,15 +90,13 @@ class ArtikliLiveWire extends Component
                     ->where('market_id', $this->marketId)
                     ->where('name', $this->name),
             ],
-            'desc' => ['min:10','max:255'],
+            'desc' => ['min:0','max:100'],
             'brand' => ['max:100'],
             'size' => ['max:100'],
             'color' => ['max:100'],
             'price' => ['numeric'],
-            'isActive' => ['required','numeric', 'max:1'],
-            'isOnSale' => ['required','numeric', 'max:1'],
-            'profitMake' => ['required','numeric'],
             'category_id' => 'required',
+            'images.*' => 'image'
         ];
     }
 
@@ -87,6 +112,7 @@ class ArtikliLiveWire extends Component
       $this->isOnSale= null;
       $this->profitMake= null;
       $this->category_id= null;
+      $this->images = [];
     }
 
     public function createData() {
@@ -124,7 +150,7 @@ class ArtikliLiveWire extends Component
     }
 
     public function loadModel() {
-        $art = Articles::find($this->artikalId);
+        $art = Articles::find($this->artikalId)->with('images')->first();
         $this->name = $art->name;
         $this->desc = $art->desc;
         $this->brand = $art->brand;
@@ -135,6 +161,7 @@ class ArtikliLiveWire extends Component
         $this->isOnSale = $art->isOnSale;
         $this->profitMake = $art->profitMake;
         $this->category_id = $art->category_id;
+        $this->images = $art->images;
     }
 
 
