@@ -189,7 +189,7 @@
                                 <input id="{{ $fileId }}" type="file" wire:change="$emit('uploadedNew')" multiple accept="image/x-png,image/gif,image/jpeg"
                                        wire:model="images" class=""/>
                                 <div>
-                                    @error('images.*') <span class="text-sm text-red-500 italic">{{ $message }}</span>@enderror
+                                    @error('images.*') <span class="text-red-500">{{ $message }}</span>@enderror
                                 </div>
                                 <div x-show="isUploading" style="width: 100%">
                                     <progress max="100" x-bind:value="progress"></progress>
@@ -202,28 +202,28 @@
                                 <x-jet-label for="name" value="{{ __('Naziv artikla') }}"/>
                                 <x-jet-input id="name" class="block mt-1 w-full" type="text" name="name" wire:model="name"
                                              :value="old('name')" />
-                                @error('name') <span class="error">{{ $message }}</span> @enderror
+                                @error('name') <span class="text-red-500">{{ $message }}</span> @enderror
                             </div>
 
                             <div class="mt-4">
                                 <x-jet-label for="brand" value="{{ __('Brand') }}"/>
                                 <x-jet-input id="brand" class="block mt-1 w-full" type="text" name="brand" wire:model="brand"
                                              :value="old('brand')"/>
-                                @error('brand') <span class="error">{{ $message }}</span> @enderror
+                                @error('brand') <span class="text-red-500">{{ $message }}</span> @enderror
                             </div>
 
                             <div class="mt-4">
                                 <x-jet-label for="price" value="{{ __('Cijena') }}"/>
                                 <x-jet-input id="price" class="block mt-1 w-full" type="text" name="price" wire:model="price"
                                              :value="old('price')"/>
-                                @error('price') <span class="error">{{ $message }}</span> @enderror
+                                @error('price') <span class="text-red-500">{{ $message }}</span> @enderror
                             </div>
 
                             <div class="mt-2 col-span-2">
                                 <x-jet-label for="desc" value="{{ __('Opis') }}"/>
                                 <textarea class="form-textarea mt-1 block w-full" value="old(desc)" rows="3" name="desc" wire:model="desc"
                                           placeholder="Unesite opis ovdje."></textarea>
-                                @error('desc') <span class="error">{{ $message }}</span> @enderror
+                                @error('desc') <span class="text-red-500">{{ $message }}</span> @enderror
 
                             </div>
                         </div>
@@ -233,14 +233,14 @@
                                 <x-jet-label for="size" value="{{ __('Veličina') }}"/>
                                 <x-jet-input id="size" class="block mt-1 w-full" type="text" name="size" wire:model="size"
                                              :value="old('size')"/>
-                                @error('size') <span class="error">{{ $message }}</span> @enderror
+                                @error('size') <span class="text-red-500">{{ $message }}</span> @enderror
                             </div>
 
                             <div class="mt-4">
                                 <x-jet-label for="color" value="{{ __('Boja') }}"/>
                                 <x-jet-input id="color" class="block mt-1 w-full" type="text" name="color" wire:model="color"
                                              :value="old('color')"/>
-                                @error('color') <span class="error">{{ $message }}</span> @enderror
+                                @error('color') <span class="text-red-500">{{ $message }}</span> @enderror
                             </div>
 
                             <div class="mt-4">
@@ -252,7 +252,7 @@
                                         <option value="{{ $category->id }}">{{ $category->name }}</option>
                                     @endforeach
                                 </select>
-                                @error('categoryId') <span class="error">{{ $message }}</span> @enderror
+                                @error('categoryId') <span class="text-red-500">{{ $message }}</span> @enderror
                             </div>
 
                             <div class="mt-4">
@@ -262,7 +262,7 @@
                                     <option value="1">Aktivan</option>
                                     <option value="0">Neaktivan</option>
                                 </select>
-                                @error('isActive') <span class="error">{{ $message }}</span> @enderror
+                                @error('isActive') <span class="text-red-500">{{ $message }}</span> @enderror
                             </div>
 
                             <div class="mt-4">
@@ -272,7 +272,7 @@
                                     <option value="0">Ne</option>
                                     <option value="1">Da</option>
                                 </select>
-                                @error('isOnSale') <span class="error">{{ $message }}</span> @enderror
+                                @error('isOnSale') <span class="text-red-500">{{ $message }}</span> @enderror
                             </div>
 
                             <div class="mt-4">
@@ -282,7 +282,7 @@
                                     <option value="1">Da</option>
                                     <option value="0">Ne</option>
                                 </select>
-                                @error('profitMake') <span class="error">{{ $message }}</span> @enderror
+                                @error('profitMake') <span class="text-red-500">{{ $message }}</span> @enderror
                             </div>
                         </div>
                     </form>

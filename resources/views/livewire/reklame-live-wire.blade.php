@@ -109,10 +109,10 @@
                         x-on:livewire-upload-error="isUploading = false"
                         x-on:livewire-upload-progress="progress = $event.detail.progress">
                         <x-jet-label for="image" value="{{ __('Slika') }}"/>
-                        <input type="file" wire:change="$emit('uploadedNew')" accept="image/x-png,image/gif,image/jpeg"
+                        <input id="{{ $fileId }}" type="file" wire:change="$emit('uploadedNew')" accept="image/x-png,image/gif,image/jpeg"
                                wire:model="image" class=""/>
                         <div>
-                            @error('image') <span class="text-sm text-red-500 italic">{{ $message }}</span>@enderror
+                            @error('image') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
                         <div x-show="isUploading" style="width: 100%">
                             <progress max="100" x-bind:value="progress"></progress>
@@ -131,20 +131,20 @@
                     <x-jet-label for="name" value="{{ __('Bodovi') }}"/>
                     <x-jet-input id="points" class="block mt-1 w-full" type="text" name="points" :value="old('points')"
                                  wire:model.debounce.800ms="points"/>
-                    @error('points') <span class="error">{{ $message }}</span> @enderror
+                    @error('points') <span class="text-red-500">{{ $message }}</span> @enderror
                 </div>
 
                 <div class="mt-4">
                     <x-jet-label for="desc" value="{{ __('Opis') }}"/>
                     <x-jet-input id="desc" class="block mt-1 w-full" type="text" name="desc" :value="old('desc')"
                                  wire:model.debounce.800ms="desc"/>
-                    @error('desc') <span class="error">{{ $message }}</span> @enderror
+                    @error('desc') <span class="text-red-500">{{ $message }}</span> @enderror
                 </div>
 
                 <div class="mt-4">
                     <x-jet-label for="url" value="{{ __('URL') }}"/>
-                    <x-jet-input id="url" class="block mt-1 w-full" type="text" name="url" :value="old('url')"/>
-                    @error('url') <span class="error">{{ $message }}</span> @enderror
+                    <x-jet-input id="url" class="block mt-1 w-full" type="text" wire:model.debounce.800ms="url" :value="old('url')"/>
+                    @error('url') <span class="text-red-500">{{ $message }}</span> @enderror
                 </div>
             </form>
         </x-slot>

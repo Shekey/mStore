@@ -16,7 +16,7 @@ class AdsLiveWire extends Component
     use WithPagination;
     protected $listeners = ['uploadedNew'];
 
-    public $desc, $url, $points,  $image, $modelId, $displayingToken = false, $modalConfirmDeleteVisible = false, $uploadedNewImage = false;
+    public $desc, $url, $points, $fileId = 1,  $image, $modelId, $displayingToken = false, $modalConfirmDeleteVisible = false, $uploadedNewImage = false;
 
 
     public function uploadedNew()
@@ -26,11 +26,7 @@ class AdsLiveWire extends Component
 
     public function updatedDisplayingToken() {
         if(!$this->displayingToken) {
-            $this->image = null;
-            $this->points = null;
-            $this->desc = null;
-            $this->url = null;
-            $this->uploadedNewImage = false;
+            $this->resetFields();
         }
     }
 
@@ -39,6 +35,12 @@ class AdsLiveWire extends Component
         Ads::create($this->createData());
         $this->displayingToken = false;
         $this->resetFields();
+    }
+
+    public function hydrate()
+    {
+        $this->resetErrorBag();
+        $this->resetValidation();
     }
 
     public function mount() {
@@ -77,9 +79,19 @@ class AdsLiveWire extends Component
     public function rules() {
         return [
             'image' => ['required','image', 'max:1048'],
-            'points' => ['required','numeric', ],
+            'points' => ['required','numeric'],
             'desc' => 'nullable',
             'url' => 'nullable',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'image.required' => 'Slika je obavezna.',
+            'image.image' => 'File koji ste izabrali nije slika.',
+            'points.required' => 'Morate unijeti bodove',
+            'points.numeric' => 'Bodovi mogu biti samo brojevi',
         ];
     }
 
@@ -90,6 +102,7 @@ class AdsLiveWire extends Component
         $this->desc = null;
         $this->url = null;
         $this->uploadedNewImage = false;
+        $this->fileId = rand();
     }
 
     public function createData() {

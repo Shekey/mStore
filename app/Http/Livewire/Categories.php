@@ -17,7 +17,7 @@ class Categories extends Component
     use WithPagination;
 
     protected $listeners = ['uploadedNew'];
-    public $name, $image, $modelId, $displayingToken = false, $modalConfirmDeleteVisible = false,  $uploadedNewImage = false;
+    public $name, $image, $fileId = 1, $modelId, $displayingToken = false, $modalConfirmDeleteVisible = false,  $uploadedNewImage = false;
 
     public function uploadedNew()
     {
@@ -37,6 +37,12 @@ class Categories extends Component
         Category::create($this->createData());
         $this->displayingToken = false;
         $this->resetFields();
+    }
+
+    public function hydrate()
+    {
+        $this->resetErrorBag();
+        $this->resetValidation();
     }
 
     public function mount() {
@@ -76,11 +82,21 @@ class Categories extends Component
         ];
     }
 
+    public function messages()
+    {
+        return [
+            'image.max:1048' => 'Slika je zauzima previse prostora.',
+            'name.image' => 'Naziv je obavezan.',
+            'name.unique' => 'Vec postoji kategorija sa ovim imenom.',
+        ];
+    }
+
     public function resetFields() {
         $this->image = null;
         $this->name = null;
         $this->modelId = null;
         $this->uploadedNewImage = false;
+        $this->fileId = rand();
     }
 
     public function createData() {

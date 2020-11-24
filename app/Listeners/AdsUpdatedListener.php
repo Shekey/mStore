@@ -29,7 +29,7 @@ class AdsUpdatedListener
     {
         $changes = $event->ads->getChanges();
         $original = $event->ads->getOriginal();
-        if(isset($changes)) {
+        if(isset($changes["points"])) {
             $pointsDiff = $changes["points"] - $original["points"];
             $users = User::all();
             foreach ($users as $user) {

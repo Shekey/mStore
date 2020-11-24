@@ -66,10 +66,10 @@
                         x-on:livewire-upload-error="isUploading = false"
                         x-on:livewire-upload-progress="progress = $event.detail.progress">
                         <x-jet-label for="image" value="{{ __('Slika') }}"/>
-                        <input type="file" wire:change="$emit('uploadedNew')" accept="image/x-png,image/gif,image/jpeg"
+                        <input id="{{ $fileId }}" type="file" wire:change="$emit('uploadedNew')" accept="image/x-png,image/gif,image/jpeg"
                                wire:model="image" class=""/>
                         <div>
-                            @error('image') <span class="text-sm text-red-500 italic">{{ $message }}</span>@enderror
+                            @error('image') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
                         <div x-show="isUploading" style="width: 100%">
                             <progress max="100" x-bind:value="progress"></progress>
@@ -81,7 +81,7 @@
                     <x-jet-label for="name" value="{{ __('Naziv prodavnice') }}"/>
                     <x-jet-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')"
                                  wire:model.debounce.800ms="name"/>
-                    @error('name') <span class="error">{{ $message }}</span> @enderror
+                    @error('name') <span class="text-red-500">{{ $message }}</span> @enderror
                 </div>
 
 
@@ -89,7 +89,7 @@
                     <x-jet-label for="points" value="{{ __('Bodovi') }}"/>
                     <x-jet-input id="points" class="block mt-1 w-full" type="text" name="points" :value="old('points')"
                                  wire:model.debounce.800ms="points"/>
-                    @error('points') <span class="error">{{ $message }}</span> @enderror
+                    @error('points') <span class="text-red-500">{{ $message }}</span> @enderror
                 </div>
 
                 <div class="mt-4 mb-4">

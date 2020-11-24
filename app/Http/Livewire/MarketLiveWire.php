@@ -16,7 +16,7 @@ class MarketLiveWire extends Component
     use WithPagination;
     protected $listeners = ['uploadedNew'];
 
-    public $name, $points,  $image, $freeDelivery = 0, $modelId, $displayingToken = false, $modalConfirmDeleteVisible = false, $uploadedNewImage = false;
+    public $name, $points ,$fileId = 1,  $image, $freeDelivery = 0, $modelId, $displayingToken = false, $modalConfirmDeleteVisible = false, $uploadedNewImage = false;
 
 
     public function uploadedNew()
@@ -43,6 +43,12 @@ class MarketLiveWire extends Component
 
     public function mount() {
         $this->resetPage();
+    }
+
+    public function hydrate()
+    {
+        $this->resetErrorBag();
+        $this->resetValidation();
     }
 
     public function update() {
@@ -76,9 +82,20 @@ class MarketLiveWire extends Component
     public function rules() {
         return [
             'image' => ['required','image', 'max:1548'],
-            'points' => ['required','numeric', ],
+            'points' => ['required','numeric'],
             'name' => ['required', Rule::unique('markets', 'name')->ignore($this->modelId)],
             'freeDelivery' => 'required',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'image.required' => 'Slika je obavezna.',
+            'points.required' => 'Poeni su obavezani.',
+            'points.numeric' => 'Poeni smiju biti samo brojevi.',
+            'name.required' => 'Naziv je obavezan.',
+            'name.unique' => 'Vec postoji prodavnica sa ovim imenom.',
         ];
     }
 
@@ -89,6 +106,7 @@ class MarketLiveWire extends Component
         $this->name = null;
         $this->freeDelivery = false;
         $this->uploadedNewImage = false;
+        $this->fileId = rand();
     }
 
     public function createData() {

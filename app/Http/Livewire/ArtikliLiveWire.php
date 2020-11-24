@@ -52,6 +52,12 @@ class ArtikliLiveWire extends Component
         }
     }
 
+    public function hydrate()
+    {
+        $this->resetErrorBag();
+        $this->resetValidation();
+    }
+
     public function create() {
         $this->validate();
         $article = Articles::create($this->createData());
@@ -124,6 +130,20 @@ class ArtikliLiveWire extends Component
             'price' => ['numeric'],
             'category_id' => 'required',
             'images.*' => 'image'
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'desc.max:100' => 'Opis ne smije imati više od 100 karaktera.',
+            'brand.max:100' => 'Brend ne smije imati više od 100 karaktera.',
+            'size.max:100' => 'Veličina ne smije imati više od 100 karaktera.',
+            'color.max:100' => 'Boja ne smije imati više od 100 karaktera.',
+            'price.numeric' => 'Cijena smije biti samo brojevi.',
+            'category_id.required' => 'Kategorija je obavezana.',
+            'name.required' => 'Naziv je obavezan.',
+            'name.unique' => 'Vec postoji artikal sa ovim imenom.',
         ];
     }
 
