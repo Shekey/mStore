@@ -131,6 +131,11 @@ nav .active {
     max-height: calc(90vh);
     overflow-y: auto;
 }
+
+.modal-scrollable:not(.modal-full) {
+    overflow-y: auto !important;
+    padding-bottom: 24px;
+}
 .sm-w-full {
     overflow-y: auto;
 }

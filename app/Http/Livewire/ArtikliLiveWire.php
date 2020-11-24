@@ -21,7 +21,7 @@ class ArtikliLiveWire extends Component
 
     public $messageText = "Uspješno ste dodali novi artikal.";
     protected $listeners = ['uploadedNew'];
-    public $market, $images = [],  $artikalId, $isOpen = false, $showArtikal = false, $maxWidth = "w-screen" ,$displayingToken = false, $modalConfirmDeleteVisible = false, $uploadedNewImage = false;
+    public $market, $images = [], $fileId = 1,  $artikalId, $isOpen = false, $showArtikal = false, $maxWidth = "w-screen" ,$displayingToken = false, $modalConfirmDeleteVisible = false, $uploadedNewImage = false;
     public $name, $size, $brand, $color, $price, $desc, $isActive = 0, $isOnSale = 0, $profitMake = 1, $category_id, $marketId;
 
     public function uploadedNew()
@@ -39,6 +39,15 @@ class ArtikliLiveWire extends Component
         }
 
         if ($index !== null) {
+            ArtikalImage::destroy($id);
+            $imageName = substr_replace($this->images[$index]->url ,"",-3);
+            if(Storage::disk('public')->exists( $imageName . 'jpg')) {
+                Storage::disk('public')->delete($imageName . 'jpg');
+                if(Storage::disk('public')->exists($imageName . 'webp')) {
+                    Storage::disk('public')->delete($imageName . 'webp');
+                }
+            }
+
             unset($this->images[$index]);
         }
     }
@@ -48,12 +57,14 @@ class ArtikliLiveWire extends Component
         $article = Articles::create($this->createData());
         if( !empty( $this->images ) ){
             foreach( $this->images as $image ){
-                $imageName = time() .'-'.$image->getClientOriginalName().'.' . $image->getClientOriginalExtension();
-                $imageUpload = \Intervention\Image\Facades\Image::make($image)->fit(1500);
-                Storage::disk('public')->put("images/articles/".$imageName, (string) $imageUpload->encode());
+                $imageName = time() .'-'.pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
+                $imageNameWebp = $imageName.'.webp';
+                $imageUpload = \Intervention\Image\Facades\Image::make($image);
+                Storage::disk('public')->put("images/articles/".$imageName .'.jpg', (string) $imageUpload->encode('jpg', 80));
+                Storage::disk('public')->put("images/articles/".$imageNameWebp, (string) $imageUpload->encode('webp', 20));
                 $imageName = 'images/articles/' . $imageName;
                 ArtikalImage::create([
-                    'url' => $imageName,
+                    'url' => $imageName . '.jpg',
                     'articleId' => $article->id
                 ]);
             }
@@ -67,11 +78,27 @@ class ArtikliLiveWire extends Component
     public function mount($id) {
         $this->marketId = $id;
         $this->resetPage();
+        $this->resetFields();
     }
 
     public function update() {
         $this->isOpen = true;
         $this->messageText = "Uspješno ste uredili artikal.";
+
+        $this->validate([
+            'name' => ['required', Rule::unique('articles')
+                ->where('market_id', $this->marketId)
+                ->where('name', $this->name)->ignore($this->artikalId)],
+            'desc' => ['min:0','max:100'],
+            'brand' => ['max:100'],
+            'size' => ['max:100'],
+            'color' => ['max:100'],
+            'price' => ['numeric'],
+            'category_id' => 'required',
+            'images.*' => 'image'
+        ]);
+        Articles::find($this->artikalId)->update($this->createData());
+        $this->displayingToken = false;
         $this->resetFields();
     }
 
@@ -112,7 +139,9 @@ class ArtikliLiveWire extends Component
       $this->isOnSale= null;
       $this->profitMake= null;
       $this->category_id= null;
-      $this->images = [];
+      $this->artikalId = null;
+      $this->images = null;
+      $this->fileId = rand();
     }
 
     public function createData() {
@@ -150,7 +179,7 @@ class ArtikliLiveWire extends Component
     }
 
     public function loadModel() {
-        $art = Articles::find($this->artikalId)->with('images')->first();
+        $art = Articles::where('id', $this->artikalId)->with('images')->first();
         $this->name = $art->name;
         $this->desc = $art->desc;
         $this->brand = $art->brand;

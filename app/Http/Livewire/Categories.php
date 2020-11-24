@@ -26,9 +26,9 @@ class Categories extends Component
 
     public function updatedDisplayingToken() {
         if(!$this->displayingToken) {
+            $this->uploadedNewImage = false;
             $this->image = null;
             $this->name = null;
-            $this->uploadedNewImage = false;
         }
     }
 

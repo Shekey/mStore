@@ -178,7 +178,6 @@
                     </div>
 
                     <form wire:submit.prevent="submit" enctype="multipart/form-data" id="addArticle">
-
                         <div class="mt-4">
                             <div
                                 x-data="{ isUploading: false, progress: 0 }"
@@ -187,7 +186,7 @@
                                 x-on:livewire-upload-error="isUploading = false"
                                 x-on:livewire-upload-progress="progress = $event.detail.progress">
                                 <x-jet-label value="{{ __('Slike') }}"/>
-                                <input type="file" wire:change="$emit('uploadedNew')" multiple accept="image/x-png,image/gif,image/jpeg"
+                                <input id="{{ $fileId }}" type="file" wire:change="$emit('uploadedNew')" multiple accept="image/x-png,image/gif,image/jpeg"
                                        wire:model="images" class=""/>
                                 <div>
                                     @error('images.*') <span class="text-sm text-red-500 italic">{{ $message }}</span>@enderror
