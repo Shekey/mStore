@@ -78,14 +78,14 @@ class Categories extends Component
     public function rules() {
         return [
             'name' => ['required', Rule::unique('categories', 'name')->ignore($this->modelId)],
-            'image' => ['nullable','image', 'max:1048']
+            'image' => ['nullable','image', 'max:2548']
         ];
     }
 
     public function messages()
     {
         return [
-            'image.max:1048' => 'Slika je zauzima previse prostora.',
+            'image.max:2548' => 'Slika je zauzima previse prostora.',
             'name.image' => 'Naziv je obavezan.',
             'name.unique' => 'Vec postoji kategorija sa ovim imenom.',
         ];

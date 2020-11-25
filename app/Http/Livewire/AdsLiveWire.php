@@ -78,7 +78,7 @@ class AdsLiveWire extends Component
 
     public function rules() {
         return [
-            'image' => ['required','image', 'max:1048'],
+            'image' => ['required','image', 'max:2548'],
             'points' => ['required','numeric'],
             'desc' => 'nullable',
             'url' => 'nullable',

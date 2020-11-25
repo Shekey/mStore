@@ -2,6 +2,8 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Articles;
+use App\Models\ArtikalImage;
 use App\Models\Market;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
@@ -74,6 +76,23 @@ class MarketLiveWire extends Component
             Storage::disk('public')->delete($market->image);
         }
 
+        $articles = Articles::where('market_id', $market->id)->get();
+        foreach ($articles as $article) {
+            $images = ArtikalImage::where('articleId', $article->id)->get();
+
+            foreach ($images as $image) {
+                $imageName = substr_replace($image->url ,"",-3);
+                if(Storage::disk('public')->exists( $imageName . 'jpg')) {
+                    Storage::disk('public')->delete($imageName . 'jpg');
+                    if(Storage::disk('public')->exists($imageName . 'webp')) {
+                        Storage::disk('public')->delete($imageName . 'webp');
+                    }
+                }
+
+                ArtikalImage::destroy($image->id);
+            }
+        }
+
         Market::destroy($this->modelId);
         $this->modalConfirmDeleteVisible = false;
         $this->resetPage();
@@ -81,7 +100,7 @@ class MarketLiveWire extends Component
 
     public function rules() {
         return [
-            'image' => ['required','image', 'max:1548'],
+            'image' => ['required','image', 'max:2548'],
             'points' => ['required','numeric'],
             'name' => ['required', Rule::unique('markets', 'name')->ignore($this->modelId)],
             'freeDelivery' => 'required',
@@ -92,6 +111,7 @@ class MarketLiveWire extends Component
     {
         return [
             'image.required' => 'Slika je obavezna.',
+            'image.max:2548' => 'Slika je prevelika.',
             'points.required' => 'Poeni su obavezani.',
             'points.numeric' => 'Poeni smiju biti samo brojevi.',
             'name.required' => 'Naziv je obavezan.',

@@ -31,6 +31,7 @@ class ArtikliLiveWire extends Component
 
     public function removeImage($id) {
         $index = null;
+        $this->isImageDeleted = true;
         foreach($this->images as $key=>$value) {
             if ($id == $this->images[$key]->id) {
                 $index = $key;
@@ -58,9 +59,7 @@ class ArtikliLiveWire extends Component
         $this->resetValidation();
     }
 
-    public function create() {
-        $this->validate();
-        $article = Articles::create($this->createData());
+    public function insertImages($id) {
         if( !empty( $this->images ) ){
             foreach( $this->images as $image ){
                 $imageName = time() .'-'.pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
@@ -71,15 +70,23 @@ class ArtikliLiveWire extends Component
                 $imageName = 'images/articles/' . $imageName;
                 ArtikalImage::create([
                     'url' => $imageName . '.jpg',
-                    'articleId' => $article->id
+                    'articleId' => $id
                 ]);
             }
         }
+
+    }
+
+    public function create() {
+        $this->validate();
+        $article = Articles::create($this->createData());
+        $this->insertImages($article->id);
         $this->displayingToken = false;
         $this->isOpen = true;
         $this->messageText = "Uspješno ste dodali novi artikal.";
         $this->resetPage();
     }
+
 
     public function mount($id) {
         $this->marketId = $id;
@@ -104,12 +111,25 @@ class ArtikliLiveWire extends Component
             'images.*' => 'image'
         ]);
         Articles::find($this->artikalId)->update($this->createData());
+        $this->insertImages($this->artikalId);
         $this->displayingToken = false;
         $this->resetFields();
     }
 
     public function deleteCategory() {
-        $art = Articles::find($this->artikalId);
+        $images = ArtikalImage::where('articleId', $this->artikalId)->get();
+        foreach ($images as $image) {
+            $imageName = substr_replace($image->url ,"",-3);
+            if(Storage::disk('public')->exists( $imageName . 'jpg')) {
+                Storage::disk('public')->delete($imageName . 'jpg');
+                if(Storage::disk('public')->exists($imageName . 'webp')) {
+                    Storage::disk('public')->delete($imageName . 'webp');
+                }
+            }
+
+            ArtikalImage::destroy($imageName->id);
+        }
+
         Articles::destroy($this->artikalId);
         $this->modalConfirmDeleteVisible = false;
         $this->resetPage();

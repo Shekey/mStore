@@ -134,7 +134,7 @@
 
             <x-jet-dialog-modal wire:model="displayingToken" :maxWidth="'modal-full'">
                 <x-slot name="title">
-                    @if($artikalId)
+                @if($artikalId)
                         {{ __('Uredi artikal') }}
                     @else
                         {{ __('Dodaj artikal') }}
@@ -142,7 +142,6 @@
                 </x-slot>
 
                 <x-slot name="content">
-
                     <div class="flex flex-wrap -mx-2 justify-center">
                         @if( !empty( $images ) && $artikalId == null )
                         <p style="flex-basis: 100%; text-align: center;">Pregled slika</p>
@@ -206,54 +205,25 @@
                             </div>
 
                             <div class="mt-4">
-                                <x-jet-label for="brand" value="{{ __('Brand') }}"/>
-                                <x-jet-input id="brand" class="block mt-1 w-full" type="text" name="brand" wire:model="brand"
-                                             :value="old('brand')"/>
-                                @error('brand') <span class="text-red-500">{{ $message }}</span> @enderror
+                                <x-jet-label for="category_id" value="{{ __('Kategorija') }}"/>
+                                <select  wire:model="category_id"
+                                        class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                    <option value="0">Odaberite kategoriju</option>
+                                    @foreach($categories as $category)
+                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                    @endforeach
+                                </select>
+                                @error('category_id') <span class="text-red-500">{{ $message }}</span> @enderror
                             </div>
-
                             <div class="mt-4">
                                 <x-jet-label for="price" value="{{ __('Cijena') }}"/>
                                 <x-jet-input id="price" class="block mt-1 w-full" type="text" name="price" wire:model="price"
                                              :value="old('price')"/>
                                 @error('price') <span class="text-red-500">{{ $message }}</span> @enderror
                             </div>
-
-                            <div class="mt-2 col-span-2">
-                                <x-jet-label for="desc" value="{{ __('Opis') }}"/>
-                                <textarea class="form-textarea mt-1 block w-full" value="old(desc)" rows="3" name="desc" wire:model="desc"
-                                          placeholder="Unesite opis ovdje."></textarea>
-                                @error('desc') <span class="text-red-500">{{ $message }}</span> @enderror
-
-                            </div>
                         </div>
 
                         <div class="grid grid-cols-3 gap-4">
-                            <div class="mt-4">
-                                <x-jet-label for="size" value="{{ __('Veličina') }}"/>
-                                <x-jet-input id="size" class="block mt-1 w-full" type="text" name="size" wire:model="size"
-                                             :value="old('size')"/>
-                                @error('size') <span class="text-red-500">{{ $message }}</span> @enderror
-                            </div>
-
-                            <div class="mt-4">
-                                <x-jet-label for="color" value="{{ __('Boja') }}"/>
-                                <x-jet-input id="color" class="block mt-1 w-full" type="text" name="color" wire:model="color"
-                                             :value="old('color')"/>
-                                @error('color') <span class="text-red-500">{{ $message }}</span> @enderror
-                            </div>
-
-                            <div class="mt-4">
-                                <x-jet-label for="category_id" value="{{ __('Kategorija') }}"/>
-                                <select id="category_id" name="category_id"  wire:model="category_id"
-                                        class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                <option value="0">Odaberite kategoriju</option>
-                                @foreach($categories as $category)
-                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                    @endforeach
-                                </select>
-                                @error('categoryId') <span class="text-red-500">{{ $message }}</span> @enderror
-                            </div>
 
                             <div class="mt-4">
                                 <x-jet-label for="isActive" value="{{ __('Aktivan') }}"/>
@@ -283,6 +253,35 @@
                                     <option value="0">Ne</option>
                                 </select>
                                 @error('profitMake') <span class="text-red-500">{{ $message }}</span> @enderror
+                            </div>
+
+                            <div class="mt-4">
+                                <x-jet-label for="size" value="{{ __('Veličina') }}"/>
+                                <x-jet-input id="size" class="block mt-1 w-full" type="text" name="size" wire:model="size"
+                                             :value="old('size')"/>
+                                @error('size') <span class="text-red-500">{{ $message }}</span> @enderror
+                            </div>
+
+                            <div class="mt-4">
+                                <x-jet-label for="brand" value="{{ __('Brand') }}"/>
+                                <x-jet-input id="brand" class="block mt-1 w-full" type="text" name="brand" wire:model="brand"
+                                             :value="old('brand')"/>
+                                @error('brand') <span class="text-red-500">{{ $message }}</span> @enderror
+                            </div>
+
+                            <div class="mt-4">
+                                <x-jet-label for="color" value="{{ __('Boja') }}"/>
+                                <x-jet-input id="color" class="block mt-1 w-full" type="text" name="color" wire:model="color"
+                                             :value="old('color')"/>
+                                @error('color') <span class="text-red-500">{{ $message }}</span> @enderror
+                            </div>
+
+                            <div class="mt-2 col-span-2">
+                                <x-jet-label for="desc" value="{{ __('Opis') }}"/>
+                                <textarea class="form-textarea mt-1 block w-full" value="old(desc)" rows="3" name="desc" wire:model="desc"
+                                          placeholder="Unesite opis ovdje."></textarea>
+                                @error('desc') <span class="text-red-500">{{ $message }}</span> @enderror
+
                             </div>
                         </div>
                     </form>
