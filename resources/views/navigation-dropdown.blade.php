@@ -13,21 +13,23 @@
                 <!-- Navigation Links -->
                 @auth
                     <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-jet-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                        {{ __('Home') }}
-                    </x-jet-nav-link>
+                    @if( Auth::user()->isAdmin)
+                        <x-jet-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
+                        {{ __('Dashboard') }}
+                        </x-jet-nav-link>
 
-                    <x-jet-nav-link href="{{ route('kategorije') }}" :active="request()->routeIs('kategorije')">
-                        {{ __('Kategorije') }}
-                    </x-jet-nav-link>
+                        <x-jet-nav-link href="{{ route('kategorije') }}" :active="request()->routeIs('kategorije')">
+                            {{ __('Kategorije') }}
+                        </x-jet-nav-link>
 
-                    <x-jet-nav-link href="{{ route('reklame') }}" :active="request()->routeIs('reklame')">
-                        {{ __('Reklame') }}
-                    </x-jet-nav-link>
+                        <x-jet-nav-link href="{{ route('reklame') }}" :active="request()->routeIs('reklame')">
+                            {{ __('Reklame') }}
+                        </x-jet-nav-link>
 
-                    <x-jet-nav-link href="{{ route('prodavnice') }}" :active="request()->routeIs('prodavnice')">
-                        {{ __('Prodavnice') }}
-                    </x-jet-nav-link>
+                        <x-jet-nav-link href="{{ route('prodavnice') }}" :active="request()->routeIs('prodavnice')">
+                            {{ __('Prodavnice') }}
+                        </x-jet-nav-link>
+                    @endif
                 </div>
                 @endauth
             </div>
@@ -144,9 +146,38 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-jet-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
-            </x-jet-responsive-nav-link>
+
+            @auth
+                @if( Auth::user()->isAdmin)
+                <x-jet-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
+                        {{ __('Dashboard') }}
+                    </x-jet-responsive-nav-link>
+
+                    <x-jet-responsive-nav-link href="{{ route('kategorije') }}" :active="request()->routeIs('kategorije')">
+                        {{ __('Kategorije') }}
+                    </x-jet-responsive-nav-link>
+
+                    <x-jet-responsive-nav-link href="{{ route('reklame') }}" :active="request()->routeIs('reklame')">
+                        {{ __('Reklame') }}
+                    </x-jet-responsive-nav-link>
+
+                    <x-jet-responsive-nav-link href="{{ route('prodavnice') }}" :active="request()->routeIs('prodavnice')">
+                        {{ __('Prodavnice') }}
+                    </x-jet-responsive-nav-link>
+                @endif
+            @endauth
+
+            @guest
+                <x-jet-responsive-nav-link href="{{ route('prodavnice') }}" :active="request()->routeIs('prodavnice')">
+                    {{ __('Login') }}
+                </x-jet-responsive-nav-link>
+
+                <x-jet-responsive-nav-link href="{{ route('prodavnice') }}" :active="request()->routeIs('prodavnice')">
+                    {{ __('Register') }}
+                </x-jet-responsive-nav-link>
+             @endguest
+
+
         </div>
 
         <!-- Responsive Settings Options -->
@@ -166,7 +197,7 @@
             <div class="mt-3 space-y-1">
                 <!-- Account Management -->
                 <x-jet-responsive-nav-link href="{{ route('profile.show') }}" :active="request()->routeIs('profile.show')">
-                    {{ __('Profile') }}
+                    {{ __('Profil') }}
                 </x-jet-responsive-nav-link>
 
                 @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
@@ -182,7 +213,7 @@
                     <x-jet-responsive-nav-link href="{{ route('logout') }}"
                                     onclick="event.preventDefault();
                                                 this.closest('form').submit();">
-                        {{ __('Logout') }}
+                        {{ __('Odjava') }}
                     </x-jet-responsive-nav-link>
                 </form>
 

@@ -20,7 +20,7 @@ class MarketLiveWire extends Component
     use WithPagination;
     protected $listeners = ['uploadedNew'];
 
-    public $name, $points = 0 ,$fileId = 1, $orderPaid = 0, $startTime, $endTime, $startTimeSunday, $endTimeSunday, $isClosed = 1,  $image, $freeDelivery = 0, $modelId, $displayingToken = false, $modalConfirmDeleteVisible = false, $uploadedNewImage = false;
+    public $name, $points = 0 ,$fileId = 1, $orderPaid = 0, $startTime, $endTime, $startTimeSunday, $endTimeSunday, $isClosed = null,  $image, $freeDelivery = 0, $modelId, $displayingToken = false, $modalConfirmDeleteVisible = false, $uploadedNewImage = false;
 
 
     public function uploadedNew()
@@ -62,7 +62,6 @@ class MarketLiveWire extends Component
     }
 
     public function update() {
-
         if ($this->uploadedNewImage && $this->modelId !== null) {
             $this->validate();
         } else {
@@ -70,7 +69,13 @@ class MarketLiveWire extends Component
                 'image' => 'required',
                 'points' => ['required','numeric'],
                 'name' => ['required', Rule::unique('markets', 'name')->ignore($this->modelId)],
+                'freeDelivery' => 'required',
+                'startTime' => 'required',
+                'endTime' => 'required|different:startTime',
+                'startTimeSunday' => 'required',
+                'endTimeSunday' => 'required|different:startTimeSunday',
             ]);
+
         }
         $market = Market::find($this->modelId);
         $market->update($this->createData());
@@ -112,6 +117,10 @@ class MarketLiveWire extends Component
             'points' => ['required','numeric'],
             'name' => ['required', Rule::unique('markets', 'name')->ignore($this->modelId)],
             'freeDelivery' => 'required',
+            'startTime' => 'required',
+            'endTime' => 'required|different:startTime',
+            'startTimeSunday' => 'required',
+            'endTimeSunday' => 'required|different:startTimeSunday',
         ];
     }
 
@@ -123,7 +132,8 @@ class MarketLiveWire extends Component
             'points.required' => 'Poeni su obavezani.',
             'points.numeric' => 'Poeni smiju biti samo brojevi.',
             'name.required' => 'Naziv je obavezan.',
-            'name.unique' => 'Vec postoji prodavnica sa ovim imenom.',
+            'endTime.different:startTime' => 'Nije validno radno vrijeme, skratite bar minutu kraj radnog vremena',
+            'endTimeSunday.different:startTimeSunday' => 'Nije validno radno vrijeme, skratite bar minutu kraj radnog vremena.',
         ];
     }
 
@@ -161,15 +171,17 @@ class MarketLiveWire extends Component
         } else {
             $market = Market::find($this->modelId);
             $carbon=Carbon::now();
-            $m = 1;
+            $m = null;
             $dayToday = $carbon->format('l');
+
             if ($dayToday === 'Sunday') {
-                $m = DB::table('markets')->where('id', $this->modelId)->selectRaw('curtime() >= startTimeSunday AND curtime() <= endTimeSunday as startTimeDiff')->first();
+                $m = $carbon->lte($this->endTimeSunday) && $carbon->gte($this->startTimeSunday);
             } else {
-                $m = DB::table('markets')->where('id', $this->modelId)->selectRaw('curtime() >= startTime AND curtime() <= endTime as startTimeDiff')->first();
+                $m = $carbon->lte($this->endTime) && $carbon->gte($this->startTime);
+
             }
 
-            $this->isClosed = !$m->startTimeDiff;
+            $this->isClosed = !$m;
             $imageName = $market->image;
         }
 

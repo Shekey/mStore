@@ -7,27 +7,7 @@
 
         @if ($data->count())
             @foreach($data as $i)
-                <section class="text-gray-700 body-font">
-                    <div class="container mx-auto flex flex-wrap px-5 py-4 md:flex-row flex-col items-center">
-                        <div class="lg:flex-grow md:w-1/2 sm:pl-0 md:pl-0 flex flex-col md:items-start md:text-left items-center text-center">
-                            <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900"><a href="#">{{ $i->name }}</a></h1>
-                            <p class="mb-8 leading-relaxed"><b>Gratis poeni: </b>{{ $i->points }}
-                                <br>
-                                <b>Dostava: </b>{!! $i->freeDelivery == 0 ? '<span class="inline-block bg-red-200 text-teal-800 px-2 rounded-full uppercase font-semibold text-xl tracking-wide">Dostava se plaća (' . $i->orderPaid . 'KM )</span>' : '<span class="inline-block bg-green-200 text-teal-800 text-xl px-2 rounded-full uppercase font-semibold tracking-wide">Besplatna dostava</span>'  !!}
-                            </p>
-                            <p class="mb-8 leading-relaxed"><b>Radno vrijeme: </b>{{  substr($i->startTime, 0, -3) }} - {{  substr($i->endTime, 0, -3) }} {!! $i->isClosed == 0 ? '<span class="inline-block bg-red-200 text-teal-800 px-2 rounded-full uppercase font-semibold text-xl tracking-wide">Zatvoreno</span>' : '<span class="inline-block bg-green-200 text-teal-800 text-xl px-2 rounded-full uppercase font-semibold tracking-wide">Otvoreno</span>'  !!}
-
-                            <div class="flex justify-center mb-5">
-                                <button class="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg" wire:click="updateShowModal({{ $i->id }})">{{ __('Uredi') }}</button>
-                                <button class="ml-4 inline-flex text-gray-700 bg-gray-200 border-0 py-2 px-6 focus:outline-none hover:bg-gray-300 rounded text-lg" wire:click="deleteShowModal({{ $i->id }})">{{ __('Izbriši') }}</button>
-                                <a href="/prodavnice/{{ $i->id }}/artikli" class="ml-4 inline-flex text-gray-700 bg-gray-200 border-0 py-2 px-6 focus:outline-none hover:bg-gray-300 rounded text-lg">{{ __('Artikli') }}</a>
-                            </div>
-                        </div>
-                        <a href="#" class="lg:max-w-sm lg:w-full md:w-1/2 w-5/6 mb-10 md:mb-0 order-first md:order-last">
-                            <img class="object-cover object-center rounded" alt="hero" src="/storage/{{ $i->image }}">
-                        </a>
-                    </div>
-                </section>
+                 @include('partials.list-markets');
             @endforeach
         @else
             <p class="mb-8 leading-relaxed">Nema rezultata</p>
@@ -129,14 +109,14 @@
                     @error('endTimeSunday') <span class="text-red-500">{{ $message }}</span> @enderror
                 </div>
 
-                <div class="mt-4 mb-4">
-                    <label class="inline-flex items-center">
-                        <input type="checkbox" {{ $isClosed == 0 ? '': 'checked' }} wire:click="$toggle('isClosed')"  wire.model="isClosed"  class="form-checkbox h-6 w-6 text-green-500">
-                        <span class="ml-3 text-sm">Da li želite zatvoriti prodavnicu sad?</span>
-                    </label>
-                </div>
+{{--                <div class="mt-4 mb-4">--}}
+{{--                    <label class="inline-flex items-center">--}}
+{{--                        <input type="checkbox" {{ $isClosed == 0 ? '': 'checked' }} wire:click="$toggle('isClosed')"  wire.model="isClosed"  class="form-checkbox h-6 w-6 text-green-500">--}}
+{{--                        <span class="ml-3 text-sm">Da li želite zatvoriti prodavnicu sad?</span>--}}
+{{--                    </label>--}}
+{{--                </div>--}}
 
-                <p>Preporučujem da prodavnica ostane zatvorena dok ne završite sa dodavanjem artikala.</p>
+{{--                <p>Preporučujem da prodavnica ostane zatvorena dok ne završite sa dodavanjem artikala.</p>--}}
 
             </form>
         </x-slot>
