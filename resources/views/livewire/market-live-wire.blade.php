@@ -7,7 +7,7 @@
 
         @if ($data->count())
             @foreach($data as $i)
-                 @include('partials.list-markets');
+                 @include('partials.list-markets-admin')
             @endforeach
         @else
             <p class="mb-8 leading-relaxed">Nema rezultata</p>

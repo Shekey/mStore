@@ -1,4 +1,4 @@
-<div>
+<div style="width: 100%; flex-basis: 100%;">
     <style>
         input[type="number"]::-webkit-inner-spin-button,
         input[type="number"]::-webkit-outer-spin-button {
@@ -32,9 +32,43 @@
     <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-ui.js"></script>
     <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js"></script>
 
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+    <style>
+        .swiper-container {
+            width: calc(100vw - 16px);
+            margin-left: calc((100vw - 100% - 16px) / 2 * -1);
+            margin-bottom: 30px;
+        }
+        .swiper-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+    </style>
 
     <div x-data="{ cartOpen: false , isOpen: false }" class="bg-white">
         <header>
+            <div class="swiper-container w-100 h-64">
+                <!-- Additional required wrapper -->
+                <div class="swiper-wrapper">
+                    <!-- Slides -->
+                    <div class="swiper-slide">
+                        <img src="https://source.unsplash.com/weekly?water">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="https://source.unsplash.com/weekly?mountain">
+                    </div>
+                </div>
+                <!-- If we need navigation buttons -->
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+                <!-- If we need pagination -->
+                <div class="swiper-pagination"></div>
+            </div>
+
             <div class="container mx-auto px-6 py-3">
                 <div class="flex items-center justify-between">
                     <div class="hidden w-full text-gray-600 md:flex md:items-center">
@@ -43,8 +77,8 @@
                         </svg>
                         <span class="mx-1 text-sm">Bugojno</span>
                     </div>
-                    <div class="w-full text-gray-700 md:text-center text-2xl font-semibold">
-                        Brand
+                    <div class="w-full text-gray-700 md:text-center text-2xl font-semibold capitalize">
+                        {{ $market->name }}
                     </div>
                     <div class="flex items-center justify-end w-full">
                         <button @click="cartOpen = !cartOpen" class="text-gray-600 focus:outline-none mx-4 sm:mx-0">
@@ -64,11 +98,10 @@
                 </div>
                 <nav :class="isOpen ? '' : 'hidden'" class="sm:flex sm:justify-center sm:items-center mt-4">
                     <div class="flex flex-col sm:flex-row">
-                        <a class="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0" href="#">Home</a>
-                        <a class="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0" href="#">Shop</a>
-                        <a class="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0" href="#">Categories</a>
-                        <a class="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0" href="#">Contact</a>
-                        <a class="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0" href="#">About</a>
+                    <a class="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0" data-id="0" role="button">Svi artikli</a>
+                    @foreach($categories as $cat)
+                            <a class="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0" data-id="{{ $cat->id }}" role="button">{{ $cat->name }}</a>
+                        @endforeach
                     </div>
                 </nav>
                 <div class="relative mt-6 max-w-lg mx-auto">
@@ -78,7 +111,7 @@
                 </svg>
             </span>
 
-                    <input class="w-full border rounded-md pl-10 pr-4 py-2 focus:border-blue-500 focus:outline-none focus:shadow-outline" type="text" placeholder="Search">
+                    <input class="w-full border rounded-md pl-10 pr-4 py-2 focus:border-blue-500 focus:outline-none focus:shadow-outline" type="text" placeholder="Pretraga">
                 </div>
             </div>
         </header>
@@ -150,10 +183,10 @@
             </a>
         </div>
     </div>
-    <main class="my-8">
+    <main class="">
         <div class="container mx-auto px-6">
             <h3 class="text-gray-700 text-2xl font-medium">Katalog</h3>
-            <span class="mt-3 text-sm text-gray-500">200+ Products</span>
+            <span class="mt-3 text-sm text-gray-500"></span>
             <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-6">
                 <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden" wire:click="showDetailsArticle(2)">
                     <div class="flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('https://images.unsplash.com/photo-1495856458515-0637185db551?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80')">
@@ -525,7 +558,7 @@
             suggestionsContainer = document.getElementById('panel');
 
         //Step 1: initialize communication with the platform
-        var APIKEY = 'IIuq18mPrLPDuuAcYdc7iMIfkMdkWe7UDdjsVAakCnQ';
+        var APIKEY = 'obSf2Hrwgm1IxeXv12ai09KHpbH4bQncYYFJLThl8QM';
 
         var platform = new H.service.Platform({
             apikey: APIKEY,
@@ -694,6 +727,32 @@
 
         suggestionsContainer.innerHTML = content;
 
+    </script>
+    <script>
+        var mySwiper = new Swiper ('.swiper-container', {
+            // Optional parameters
+            direction: 'horizontal',
+            loop: true,
+            autoplay: {
+                delay: 5000,
+            },
+
+            // If we need pagination
+            pagination: {
+                el: '.swiper-pagination',
+            },
+
+            // Navigation arrows
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+
+            // And if we need scrollbar
+            scrollbar: {
+                el: '.swiper-scrollbar',
+            },
+        })
     </script>
 
 </div>

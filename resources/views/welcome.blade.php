@@ -6,7 +6,7 @@
             <div class="p-6 min-w-full leading-normal">
                 @if ($data->count())
                     @foreach($data as $i)
-                        @include('partials.list-markets');
+                        @include('partials.list-markets')
                     @endforeach
                 @else
                     <p class="mb-8 leading-relaxed">Nema dodanih prodavnica</p>

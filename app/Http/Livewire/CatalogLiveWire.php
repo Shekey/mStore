@@ -2,12 +2,17 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Category;
+use App\Models\Market;
 use Livewire\Component;
 
 class CatalogLiveWire extends Component
 {
-    public $showArtikal = false, $articalId = "", $maxWidth = "w-screen", $articleBrand = "", $articleName, $articleSize, $articleColor, $articleDesc, $articleQuantity, $articleTotal, $image = "https://dummyimage.com/400x400" ;
+    public $showArtikal = false, $marketId = null, $articalId = "", $maxWidth = "w-screen", $articleBrand = "", $articleName, $articleSize, $articleColor, $articleDesc, $articleQuantity, $articleTotal, $image = "https://dummyimage.com/400x400" ;
 
+    public function mount($id) {
+        $this->marketId = $id;
+    }
 
     public function updatedShowArtikal() {
         if(!$this->showArtikal) {
@@ -42,6 +47,8 @@ class CatalogLiveWire extends Component
 
     public function render()
     {
-        return view('livewire.catalog-live-wire');
+        $categories = Category::all();
+        $market = Market::where('id', $this->marketId)->first();
+        return view('livewire.catalog-live-wire', compact('categories', 'market'));
     }
 }

@@ -28,9 +28,6 @@ Route::post('image/delete','App\Http\Controllers\ImageUploadController@fileDestr
 Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::get('stripe', [App\Http\Controllers\StripePaymentController::class, 'index']);
     Route::post('payment-process', [App\Http\Controllers\StripePaymentController::class, 'process']);
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
     Route::get('/kategorije', function () {
         return view('admin.categories.index');
     })->name('kategorije');
@@ -45,6 +42,9 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
 
     Route::get('/prodavnice/{id}/artikli',  function ($id) {
         return view('admin.prodavnice.artikli', compact('id'));
+    });
+    Route::get('/prodavnica/{id}',  function ($id) {
+        return view('prodavnica.index', compact('id'));
     });
 });
 

@@ -125,7 +125,7 @@ nav .active {
 }
 
 .modal-full {
-    width: calc(90vw - 30px);
+    width: calc(100vw - 30px) !important;
     max-width: calc(90vw - 30px);
     margin: 0 auto;
     max-height: calc(90vh);
