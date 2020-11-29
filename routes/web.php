@@ -16,9 +16,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
-
+    $market = \App\Models\Market::all();
+    return view('welcome', ['data' => $market]);
+})->name('home');
 
 Route::get('/test', 'App\Http\Controllers\ArticlesController@handle');
 

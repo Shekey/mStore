@@ -13,7 +13,7 @@
         <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
             @csrf
                 <div>
-                <x-jet-label for="name" value="{{ __('Name') }}" />
+                <x-jet-label for="name" value="{{ __('Ime i prezime') }}" />
                 <x-jet-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
             </div>
 
@@ -23,22 +23,22 @@
             </div>
 
             <div class="mt-4">
-                <x-jet-label for="phone" value="{{ __('Tel') }}" />
+                <x-jet-label for="phone" value="{{ __('Telefon') }}" />
                 <x-jet-input id="phone" class="block mt-1 w-full" type="text" name="phone" :value="old('phone')" required />
             </div>
 
             <div class="mt-4">
-                <x-jet-label for="address" value="{{ __('Address') }}" />
+                <x-jet-label for="address" value="{{ __('Adresa') }}" />
                 <x-jet-input id="address" class="block mt-1 w-full" type="text" name="address" :value="old('address')" required autofocus />
             </div>
 
             <div class="mt-4">
-                <x-jet-label for="front_ID" value="{{ __('Image of ID (front)') }}" />
+                <x-jet-label for="front_ID" value="{{ __('Slika lične karte (prednja strana)') }}" />
                 <x-jet-input id="front_ID" class="block mt-1 w-full" type="file" name="front_ID" :value="old('front_ID')" required autofocus />
             </div>
 
             <div class="mt-4">
-                <x-jet-label for="back_ID" value="{{ __('Image of ID (back)') }}" />
+                <x-jet-label for="back_ID" value="{{ __('Slika lične karte (zadnja strana)') }}" />
                 <x-jet-input id="back_ID" class="block mt-1 w-full" type="file" name="back_ID" :value="old('back_ID')" required autofocus />
             </div>
 
@@ -48,17 +48,17 @@
             </div>
 
             <div class="mt-4">
-                <x-jet-label for="password_confirmation" value="{{ __('Confirm Password') }}" />
+                <x-jet-label for="password_confirmation" value="{{ __('Potvrdite password') }}" />
                 <x-jet-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" />
             </div>
 
             <div class="flex items-center justify-end mt-4">
                 <a class="underline text-sm text-gray-600 hover:text-gray900" href="{{ route('login') }}">
-                    {{ __('Already registered?') }}
+                    {{ __('Već imate account?') }}
                 </a>
 
                 <x-jet-button class="ml-4">
-                    {{ __('Register') }}
+                    {{ __('Registrujte se') }}
                 </x-jet-button>
             </div>
         </form>

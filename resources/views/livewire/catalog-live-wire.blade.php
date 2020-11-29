@@ -525,7 +525,7 @@
             suggestionsContainer = document.getElementById('panel');
 
         //Step 1: initialize communication with the platform
-        var APIKEY = 'x-m-jUc74MxzzxPuFtbZNVZbNco5qdkDUkvATzFMUI8';
+        var APIKEY = 'IIuq18mPrLPDuuAcYdc7iMIfkMdkWe7UDdjsVAakCnQ';
 
         var platform = new H.service.Platform({
             apikey: APIKEY,

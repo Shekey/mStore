@@ -5,6 +5,8 @@ namespace App\Http\Livewire;
 use App\Models\Articles;
 use App\Models\ArtikalImage;
 use App\Models\Market;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Intervention\Image\Facades\Image;
@@ -18,7 +20,7 @@ class MarketLiveWire extends Component
     use WithPagination;
     protected $listeners = ['uploadedNew'];
 
-    public $name, $points ,$fileId = 1,  $image, $freeDelivery = 0, $modelId, $displayingToken = false, $modalConfirmDeleteVisible = false, $uploadedNewImage = false;
+    public $name, $points = 0 ,$fileId = 1, $orderPaid = 0, $startTime, $endTime, $startTimeSunday, $endTimeSunday, $isClosed = 1,  $image, $freeDelivery = 0, $modelId, $displayingToken = false, $modalConfirmDeleteVisible = false, $uploadedNewImage = false;
 
 
     public function uploadedNew()
@@ -29,10 +31,16 @@ class MarketLiveWire extends Component
     public function updatedDisplayingToken() {
         if(!$this->displayingToken) {
             $this->image = null;
-            $this->points = null;
+            $this->points = 0;
             $this->name = null;
             $this->freeDelivery = false;
             $this->uploadedNewImage = false;
+            $this->startTime = null;
+            $this->endTime = null;
+            $this->startTimeSunday = null;
+            $this->endTimeSunday = null;
+            $this->orderPaid = 0;
+            $this->isClosed = 1;
         }
     }
 
@@ -64,8 +72,8 @@ class MarketLiveWire extends Component
                 'name' => ['required', Rule::unique('markets', 'name')->ignore($this->modelId)],
             ]);
         }
-
-        Market::find($this->modelId)->update($this->createData());
+        $market = Market::find($this->modelId);
+        $market->update($this->createData());
         $this->displayingToken = false;
         $this->resetFields();
     }
@@ -122,11 +130,17 @@ class MarketLiveWire extends Component
     public function resetFields() {
         $this->image = null;
         $this->modelId = null;
-        $this->points = null;
+        $this->points = 0;
         $this->name = null;
         $this->freeDelivery = false;
         $this->uploadedNewImage = false;
         $this->fileId = rand();
+        $this->startTime = null;
+        $this->endTime = null;
+        $this->startTimeSunday = null;
+        $this->endTimeSunday = null;
+        $this->isClosed = 1;
+        $this->orderPaid = 0;
     }
 
     public function createData() {
@@ -146,14 +160,32 @@ class MarketLiveWire extends Component
             }
         } else {
             $market = Market::find($this->modelId);
+            $carbon=Carbon::now();
+            $m = 1;
+            $dayToday = $carbon->format('l');
+            if ($dayToday === 'Sunday') {
+                $m = DB::table('markets')->where('id', $this->modelId)->selectRaw('curtime() >= startTimeSunday AND curtime() <= endTimeSunday as startTimeDiff')->first();
+            } else {
+                $m = DB::table('markets')->where('id', $this->modelId)->selectRaw('curtime() >= startTime AND curtime() <= endTime as startTimeDiff')->first();
+            }
+
+            $this->isClosed = !$m->startTimeDiff;
             $imageName = $market->image;
         }
+
+
 
         return [
             'name' => $this->name,
             'freeDelivery' => $this->freeDelivery,
             'points' => $this->points,
-            'image' => $imageName
+            'image' => $imageName,
+            'startTime' => $this->startTime,
+            'endTime' => $this->endTime,
+            'startTimeSunday' => $this->startTimeSunday,
+            'endTimeSunday' => $this->endTimeSunday,
+            'isClosed' => $this->isClosed,
+            'orderPaid' => $this->orderPaid,
         ];
     }
 
@@ -180,6 +212,11 @@ class MarketLiveWire extends Component
         $this->points = $market->points;
         $this->image = $market->image;
         $this->freeDelivery = $market->freeDelivery;
+        $this->startTime = $market->startTime;
+        $this->startTimeSunday = $market->startTimeSunday;
+        $this->endTime = $market->endTime;
+        $this->endTimeSunday = $market->endTimeSunday;
+        $this->isClosed = $market->isClosed;
     }
 
     public function read() {

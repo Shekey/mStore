@@ -44,11 +44,11 @@
                                         recovery = false;
                                         $nextTick(() => { $refs.code.focus() })
                                     ">
-                        {{ __('Use an authentication code') }}
+                        {{ __('Koristite kod za autentifikaciju') }}
                     </button>
 
                     <x-jet-button class="ml-4">
-                        {{ __('Login') }}
+                        {{ __('Logirajte se') }}
                     </x-jet-button>
                 </div>
             </form>
