@@ -58,8 +58,8 @@
             top: 0;
             width: 100%;
             height: 100%;
-            background: rgb(2,1,13);
-            background: linear-gradient(110deg, rgba(2,1,13,0.7343312324929971) 17%, rgba(246,144,42,0.9444152661064426) 46%, rgba(208,56,1,0.8239670868347339) 96%);
+            background: rgb(0,0,0);
+            background: linear-gradient(77deg, rgba(0,0,0,0.7539390756302521) 42%, rgba(246,144,42,0.8463760504201681) 50%, rgba(97,27,4,0.8183648459383753) 57%);
         }
     </style>
     <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css?dp-version=1578490236" />
@@ -88,7 +88,7 @@
         }
 
         .articles > div {
-           box-shadow: 5px 5px 15px 5px #000000;
+           box-shadow: 8px 8px 15px 8px #000000;
         }
 
         .cart {
@@ -122,24 +122,25 @@
                         <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd" d="M16.2721 10.2721C16.2721 12.4813 14.4813 14.2721 12.2721 14.2721C10.063 14.2721 8.27214 12.4813 8.27214 10.2721C8.27214 8.06298 10.063 6.27212 12.2721 6.27212C14.4813 6.27212 16.2721 8.06298 16.2721 10.2721ZM14.2721 10.2721C14.2721 11.3767 13.3767 12.2721 12.2721 12.2721C11.1676 12.2721 10.2721 11.3767 10.2721 10.2721C10.2721 9.16755 11.1676 8.27212 12.2721 8.27212C13.3767 8.27212 14.2721 9.16755 14.2721 10.2721Z" fill="currentColor" /><path fill-rule="evenodd" clip-rule="evenodd" d="M5.79417 16.5183C2.19424 13.0909 2.05438 7.39409 5.48178 3.79417C8.90918 0.194243 14.6059 0.054383 18.2059 3.48178C21.8058 6.90918 21.9457 12.6059 18.5183 16.2059L12.3124 22.7241L5.79417 16.5183ZM17.0698 14.8268L12.243 19.8965L7.17324 15.0698C4.3733 12.404 4.26452 7.97318 6.93028 5.17324C9.59603 2.3733 14.0268 2.26452 16.8268 4.93028C19.6267 7.59603 19.7355 12.0268 17.0698 14.8268Z" fill="currentColor" />
                         </svg>
-                        <span class="mx-1 text-sm">Bugojno</span>
+                        <span class="mx-1 text-lg">Bugojno</span>
                     </div>
-                    <div class="w-full text-white md:text-center text-2xl font-semibold capitalize">
+                    <div class="w-full text-white md:text-center text-3xl font-semibold capitalize">
                         {{ $market->name }}
                     </div>
                     <div class="flex items-center justify-end w-full">
                         <button @click="cartOpen = !cartOpen" class="text-white focus:outline-none mx-4 sm:mx-0">
-                            <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                            Korpa
+                            <svg class="h-10 w-10" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
                                 <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
                             </svg>
                         </button>
                     </div>
                 </div>
-                <h4 class="text-sm font-medium text-orange-700 bg-orange-100 px-2 py-2 mt-8 text-center">Odaberite kategoriju kako bi ste filtrirali artikle.</h4>
+                <h4 class="text-lg font-bold text-orange-700 bg-white px-2 py-2 mt-8 text-center">Odaberite kategoriju kako bi ste filtrirali artikle.</h4>
                     <nav :class="isOpen ? '' : ''" class="flex justify-center items-center mt-0">
 
                     <div class="flex flex-row flex-wrap mt-5 mb-4">
-                        <a class="mt-3 mx-3 mt-0 category bg-orange-600 text-white" data-id="0" role="button">Svi artikli</a>
+                        <a class="mt-3 mx-3 mt-0 category bg-orange-600 text-white uppercase" data-id="0" role="button">Svi artikli</a>
                     @foreach($categories as $cat)
                             <a class="mt-3 category mx-3 mt-0 uppercase bg-orange-600 text-white" data-id="{{ $cat->id }}" role="button">{{ $cat->name }}</a>
                         @endforeach
@@ -228,190 +229,26 @@
             <h3 class="text-white text-3xl font-bold text-uppercase mt-4 text-center md:text-left">Katalog artikala</h3>
             <span class="mt-3 text-sm text-white"></span>
             <div class="grid gap-10 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 mt-6 articles">
-                <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden" wire:click="showDetailsArticle(2)">
+                @foreach($articles as $article)
+                    <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden" wire:click="showDetailsArticle(2)">
                     <div class="flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('https://images.unsplash.com/photo-1495856458515-0637185db551?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80')">
                         <button class="p-2 rounded-full bg-orange-600 text-white mx-5 -mb-4 hover:bg-orange-600 focus:outline-none focus:bg-blue-500">
                             <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
                         </button>
                     </div>
                     <div class="px-5 py-3">
-                        <h3 class="text-white uppercase">Classic watch</h3>
-                        <span class="text-white mt-2">$123</span>
+                        <h3 class="text-white uppercase">{{ $article->name }}</h3>
+                        <p class="text-white mt-2">{{ $article->price }} KM</p>
+                        <p class="text-white mt-2">{{ $article->category->name }}</p>
                     </div>
                 </div>
-                <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden" wire:click="$set('showArtikal', true)">
-                    <div class="flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('https://images.unsplash.com/photo-1524592094714-0f0654e20314?ixlib=rb-1.2.1&auto=format&fit=crop&w=689&q=80')">
-                        <button class="p-2 rounded-full bg-orange-600 text-white mx-5 -mb-4 hover:bg-orange-800 focus:outline-none focus:bg-blue-500">
-                            <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                        </button>
-                    </div>
-                    <div class="px-5 py-3">
-                        <h3 class="text-white uppercase">Old watch</h3>
-                        <span class="text-white mt-2">$95</span>
-                    </div>
-                </div>
-                <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden" wire:click="$set('showArtikal', true)">
-                    <div class="flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('https://images.unsplash.com/photo-1532667449560-72a95c8d381b?ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80')">
-                        <button class="p-2 rounded-full bg-orange-600 text-white mx-5 -mb-4 hover:bg-orange-800 focus:outline-none focus:bg-blue-500">
-                            <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                        </button>
-                    </div>
-                    <div class="px-5 py-3">
-                        <h3 class="text-white uppercase">Classic watch</h3>
-                        <span class="text-white mt-2">$125</span>
-                    </div>
-                </div>
-                <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden" wire:click="$set('showArtikal', true)">
-                    <div class="flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('https://images.unsplash.com/photo-1542496658-e33a6d0d50f6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80')">
-                        <button class="p-2 rounded-full bg-orange-600 text-white mx-5 -mb-4 hover:bg-orange-800 focus:outline-none focus:bg-blue-500">
-                            <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                        </button>
-                    </div>
-                    <div class="px-5 py-3">
-                        <h3 class="text-white uppercase">fossil watch</h3>
-                        <span class="text-white mt-2">$180</span>
-                    </div>
-                </div>
-                <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden" wire:click="$set('showArtikal', true)">
-                    <div class="flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('https://images.unsplash.com/photo-1434056886845-dac89ffe9b56?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80')">
-                        <button class="p-2 rounded-full bg-orange-600 text-white mx-5 -mb-4 hover:bg-orange-800 focus:outline-none focus:bg-blue-500">
-                            <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                        </button>
-                    </div>
-                    <div class="px-5 py-3">
-                        <h3 class="text-white uppercase">braun watch</h3>
-                        <span class="text-white mt-2">$49</span>
-                    </div>
-                </div>
-                <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden" wire:click="$set('showArtikal', true)">
-                    <div class="flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('https://images.unsplash.com/photo-1526045431048-f857369baa09?ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80')">
-                        <button class="p-2 rounded-full bg-orange-600 text-white mx-5 -mb-4 hover:bg-orange-800 focus:outline-none focus:bg-blue-500">
-                            <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                        </button>
-                    </div>
-                    <div class="px-5 py-3">
-                        <h3 class="text-white uppercase">rolex watch</h3>
-                        <span class="text-white mt-2">$86</span>
-                    </div>
-                </div>
-                <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden" wire:click="$set('showArtikal', true)">
-                    <div class="flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('https://images.unsplash.com/photo-1495857000853-fe46c8aefc30?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80')">
-                        <button class="p-2 rounded-full bg-orange-600 text-white mx-5 -mb-4 hover:bg-orange-800 focus:outline-none focus:bg-blue-500">
-                            <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                        </button>
-                    </div>
-                    <div class="px-5 py-3">
-                        <h3 class="text-white uppercase">MVMtx watch</h3>
-                        <span class="text-white mt-2">$100</span>
-                    </div>
-                </div>
-                <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden" wire:click="$set('showArtikal', true)">
-                    <div class="flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('https://images.unsplash.com/photo-1444881421460-d838c3b98f95?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=889&q=80')">
-                        <button class="p-2 rounded-full bg-orange-600 text-white mx-5 -mb-4 hover:bg-orange-800 focus:outline-none focus:bg-blue-500">
-                            <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                        </button>
-                    </div>
-                    <div class="px-5 py-3">
-                        <h3 class="text-white uppercase">breitling watch</h3>
-                        <span class="text-white mt-2">$180</span>
-                    </div>
-                </div>
-                <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden" wire:click="$set('showArtikal', true)">
-                    <div class="flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('https://images.unsplash.com/photo-1495856458515-0637185db551?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80')">
-                        <button class="p-2 rounded-full bg-orange-600 text-white mx-5 -mb-4 hover:bg-orange-800 focus:outline-none focus:bg-blue-500">
-                            <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                        </button>
-                    </div>
-                    <div class="px-5 py-3">
-                        <h3 class="text-white uppercase">Classic watch</h3>
-                        <span class="text-white mt-2">$123</span>
-                    </div>
-                </div>
-                <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden" wire:click="$set('showArtikal', true)">
-                    <div class="flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('https://images.unsplash.com/photo-1524592094714-0f0654e20314?ixlib=rb-1.2.1&auto=format&fit=crop&w=689&q=80')">
-                        <button class="p-2 rounded-full bg-orange-600 text-white mx-5 -mb-4 hover:bg-orange-800 focus:outline-none focus:bg-blue-500">
-                            <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                        </button>
-                    </div>
-                    <div class="px-5 py-3">
-                        <h3 class="text-white uppercase">Old watch</h3>
-                        <span class="text-white mt-2">$95</span>
-                    </div>
-                </div>
-                <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden" wire:click="$set('showArtikal', true)">
-                    <div class="flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('https://images.unsplash.com/photo-1532667449560-72a95c8d381b?ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80')">
-                        <button class="p-2 rounded-full bg-orange-600 text-white mx-5 -mb-4 hover:bg-orange-800 focus:outline-none focus:bg-blue-500">
-                            <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                        </button>
-                    </div>
-                    <div class="px-5 py-3">
-                        <h3 class="text-white uppercase">Classic watch</h3>
-                        <span class="text-white mt-2">$125</span>
-                    </div>
-                </div>
-                <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden" wire:click="$set('showArtikal', true)">
-                    <div class="flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('https://images.unsplash.com/photo-1542496658-e33a6d0d50f6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80')">
-                        <button class="p-2 rounded-full bg-orange-600 text-white mx-5 -mb-4 hover:bg-orange-800 focus:outline-none focus:bg-blue-500">
-                            <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                        </button>
-                    </div>
-                    <div class="px-5 py-3">
-                        <h3 class="text-white uppercase">fossil watch</h3>
-                        <span class="text-white mt-2">$180</span>
-                    </div>
-                </div>
-                <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden" wire:click="$set('showArtikal', true)">
-                    <div class="flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('https://images.unsplash.com/photo-1434056886845-dac89ffe9b56?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80')">
-                        <button class="p-2 rounded-full bg-orange-600 text-white mx-5 -mb-4 hover:bg-orange-800 focus:outline-none focus:bg-blue-500">
-                            <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                        </button>
-                    </div>
-                    <div class="px-5 py-3">
-                        <h3 class="text-white uppercase">braun watch</h3>
-                        <span class="text-white mt-2">$49</span>
-                    </div>
-                </div>
-                <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden" wire:click="$set('showArtikal', true)">
-                    <div class="flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('https://images.unsplash.com/photo-1526045431048-f857369baa09?ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80')">
-                        <button class="p-2 rounded-full bg-orange-600 text-white mx-5 -mb-4 hover:bg-orange-800 focus:outline-none focus:bg-blue-500">
-                            <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                        </button>
-                    </div>
-                    <div class="px-5 py-3">
-                        <h3 class="text-white uppercase">rolex watch</h3>
-                        <span class="text-white mt-2">$86</span>
-                    </div>
-                </div>
-                <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden" wire:click="$set('showArtikal', true)">
-                    <div class="flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('https://images.unsplash.com/photo-1495857000853-fe46c8aefc30?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80')">
-                        <button class="p-2 rounded-full bg-orange-600 text-white mx-5 -mb-4 hover:bg-orange-800 focus:outline-none focus:bg-blue-500">
-                            <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                        </button>
-                    </div>
-                    <div class="px-5 py-3">
-                        <h3 class="text-white uppercase">MVMtx watch</h3>
-                        <span class="text-white mt-2">$100</span>
-                    </div>
-                </div>
-                <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden" wire:click="$set('showArtikal', true)">
-                    <div class="flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('https://images.unsplash.com/photo-1444881421460-d838c3b98f95?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=889&q=80')">
-                        <button class="p-2 rounded-full bg-orange-600 text-white mx-5 -mb-4 hover:bg-orange-800 focus:outline-none focus:bg-blue-500">
-                            <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                        </button>
-                    </div>
-                    <div class="px-5 py-3">
-                        <h3 class="text-white uppercase">breitling watch</h3>
-                        <span class="text-white mt-2">$180</span>
-                    </div>
-                </div>
+                @endforeach
+
             </div>
             <div class="flex justify-center">
                 <div class="flex rounded-md mt-8">
-                    <a href="#" class="py-2 px-4 leading-tight bg-white border border-red-200 text-orange-700 border-r-0 ml-0 rounded-l hover:bg-orange-800 hover:text-white"><span>Previous</a></a>
-                    <a href="#" class="py-2 px-4 leading-tight bg-white border border-red-200 text-orange-700 border-r-0 hover:bg-orange-800 hover:text-white"><span>1</span></a>
-                    <a href="#" class="py-2 px-4 leading-tight bg-white border border-red-200 text-orange-700 border-r-0 hover:bg-orange-800 hover:text-white"><span>2</span></a>
-                    <a href="#" class="py-2 px-4 leading-tight bg-white border border-red-200 text-orange-700 border-r-0 hover:bg-orange-800 hover:text-white"><span>3</span></a>
-                    <a href="#" class="py-2 px-4 leading-tight bg-white border border-red-200 text-orange-700 rounded-r hover:bg-orange-800 hover:text-white"><span>Next</span></a>
+                    {{ $articles->links() }}
+{{--                    <a href="#" class="py-2 px-4 leading-tight bg-white border border-red-200 text-orange-700 border-r-0 ml-0 rounded-l hover:bg-orange-800 hover:text-white"><span>Previous</a></a>--}}
                 </div>
             </div>
         </div>

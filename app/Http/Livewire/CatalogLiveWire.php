@@ -2,12 +2,16 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Articles;
 use App\Models\Category;
 use App\Models\Market;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class CatalogLiveWire extends Component
 {
+    use WithPagination;
+
     public $showArtikal = false, $marketId = null, $articalId = "", $maxWidth = "w-screen", $articleBrand = "", $articleName, $articleSize, $articleColor, $articleDesc, $articleQuantity, $articleTotal, $image = "https://dummyimage.com/400x400" ;
 
     public function mount($id) {
@@ -49,6 +53,7 @@ class CatalogLiveWire extends Component
     {
         $categories = Category::all();
         $market = Market::where('id', $this->marketId)->first();
-        return view('livewire.catalog-live-wire', compact('categories', 'market'));
+        $articles = Articles::where([['market_id', $this->marketId], ['isActive', '1'] , ['isOnSale', 0]])->with('category')->simplePaginate(24);
+        return view('livewire.catalog-live-wire', compact('categories', 'market', 'articles'));
     }
 }
