@@ -8,12 +8,12 @@
 
     <div class="relative">
         <div wire:model="isOpen" wire:loading.attr="disabled"
-             class="bg-indigo-600 flash-message w-full absolute left-0 w-full @if ($isOpen) visible @else invisible @endif"
+             class="bg-orange-600 flash-message w-full absolute left-0 w-full @if ($isOpen) visible @else invisible @endif"
              style="top: -64px;">
             <div class="container mx-auto py-3 px-3 sm:px-6 lg:px-8">
                 <div class="flex items-center justify-between flex-wrap">
                     <div class="w-0 flex-1 flex items-center">
-                        <span class="flex p-2 rounded-lg bg-indigo-800">
+                        <span class="flex p-2 rounded-lg bg-orange-800">
                           <!-- Heroicon name: speakerphone -->
                           <svg class="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                stroke="currentColor" aria-hidden="true">
@@ -25,7 +25,7 @@
                     </div>
                     <div class="order-2 flex-shrink-0 sm:order-3 sm:ml-3">
                         <button type="button" wire:click="$set('isOpen', false)"
-                                class="-mr-1 flex p-2 rounded-md hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-white sm:-mr-2">
+                                class="-mr-1 flex p-2 rounded-md hover:bg-orange-500 focus:outline-none focus:ring-2 focus:ring-white sm:-mr-2">
                             <span class="sr-only">Dismiss</span>
                             <!-- Heroicon name: x -->
                             <svg class="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -114,8 +114,8 @@
                                             <div class="text-sm text-gray-500">{!! $d->isActive ? '<span class="uppercase px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Da</span>': '<span class="uppercase px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-300 text-green-800">Ne</span>' !!}</div>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                            <button class="text-indigo-600 hover:text-indigo-900" wire:click="updateShowModal({{ $d->id }})">Uredi</button> |
-                                            <button class="text-indigo-600 hover:text-indigo-900" wire:click="deleteShowModal({{ $d->id }})">Izbriši</button>
+                                            <button class="text-orange-600 hover:text-orange-900" wire:click="updateShowModal({{ $d->id }})">Uredi</button> |
+                                            <button class="text-orange-600 hover:text-orange-900" wire:click="deleteShowModal({{ $d->id }})">Izbriši</button>
                                         </td>
                                     </tr>
                                     @endforeach

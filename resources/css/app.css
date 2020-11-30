@@ -156,10 +156,10 @@ nav .active {
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-    background: #6875f5;
+    background: #ff5a1f;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-    background: #6844f2;
+    background: #f54c0d;
 }

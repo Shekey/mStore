@@ -199,7 +199,7 @@
     </div>
     <main class="">
         <div class="container mx-auto px-6">
-            <h3 class="text-gray-700 text-3xl font-bold text-uppercase">Katalog</h3>
+            <h3 class="text-gray-700 text-3xl font-bold text-uppercase mt-4">Katalog artikala</h3>
             <span class="mt-3 text-sm text-gray-500"></span>
             <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 mt-6 articles">
                 <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden" wire:click="showDetailsArticle(2)">
@@ -381,11 +381,11 @@
             </div>
             <div class="flex justify-center">
                 <div class="flex rounded-md mt-8">
-                    <a href="#" class="py-2 px-4 leading-tight bg-white border border-gray-200 text-blue-700 border-r-0 ml-0 rounded-l hover:bg-orange-800 hover:text-white"><span>Previous</a></a>
-                    <a href="#" class="py-2 px-4 leading-tight bg-white border border-gray-200 text-blue-700 border-r-0 hover:bg-orange-800 hover:text-white"><span>1</span></a>
-                    <a href="#" class="py-2 px-4 leading-tight bg-white border border-gray-200 text-blue-700 border-r-0 hover:bg-orange-800 hover:text-white"><span>2</span></a>
-                    <a href="#" class="py-2 px-4 leading-tight bg-white border border-gray-200 text-blue-700 border-r-0 hover:bg-orange-800 hover:text-white"><span>3</span></a>
-                    <a href="#" class="py-2 px-4 leading-tight bg-white border border-gray-200 text-blue-700 rounded-r hover:bg-orange-800 hover:text-white"><span>Next</span></a>
+                    <a href="#" class="py-2 px-4 leading-tight bg-white border border-red-200 text-orange-700 border-r-0 ml-0 rounded-l hover:bg-orange-800 hover:text-white"><span>Previous</a></a>
+                    <a href="#" class="py-2 px-4 leading-tight bg-white border border-red-200 text-orange-700 border-r-0 hover:bg-orange-800 hover:text-white"><span>1</span></a>
+                    <a href="#" class="py-2 px-4 leading-tight bg-white border border-red-200 text-orange-700 border-r-0 hover:bg-orange-800 hover:text-white"><span>2</span></a>
+                    <a href="#" class="py-2 px-4 leading-tight bg-white border border-red-200 text-orange-700 border-r-0 hover:bg-orange-800 hover:text-white"><span>3</span></a>
+                    <a href="#" class="py-2 px-4 leading-tight bg-white border border-red-200 text-orange-700 rounded-r hover:bg-orange-800 hover:text-white"><span>Next</span></a>
                 </div>
             </div>
         </div>
@@ -411,7 +411,7 @@
                             <h2 class="text-sm title-font text-gray-500 tracking-widest">{{ $articleBrand }}</h2>
                             <h1 class="text-gray-900 text-3xl title-font font-medium mb-4">{{ $articleName }}</h1>
                             <div class="flex mb-4">
-                                <a class="flex-grow text-indigo-500 border-b-2 border-indigo-500 py-2 text-lg px-1">Detaljnije</a>
+                                <a class="flex-grow text-orange-500 border-b-2 border-orange-500 py-2 text-lg px-1">Detaljnije</a>
                             </div>
                             <p class="leading-relaxed mb-4">{{ $articleDesc }}</p>
                             <div class="flex border-t border-gray-300 py-2">
@@ -440,7 +440,7 @@
                             </div>
                             <div class="flex">
                                 <span class="title-font font-medium text-2xl text-gray-900">{{ $articleTotal }}</span>
-                                <button class="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">
+                                <button class="flex ml-auto text-white bg-orange-500 border-0 py-2 px-6 focus:outline-none hover:bg-orange-600 rounded">
                                     Kupi
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="w-5 h-5 ml-2" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
