@@ -12,7 +12,7 @@ class CatalogLiveWire extends Component
 {
     use WithPagination;
 
-    public $showArtikal = false, $marketId = null, $articalId = "", $maxWidth = "w-screen", $articleBrand = "", $articleName, $articleSize, $articleColor, $articleDesc, $articleQuantity, $articleTotal, $image = "https://dummyimage.com/400x400" ;
+    public $showArtikal = false, $marketId = null, $search = '', $filterCat = '', $articalId = "", $maxWidth = "w-screen", $articleBrand = "", $articleName, $articleSize, $articleColor, $articleDesc, $articleQuantity, $articleTotal, $image = "https://dummyimage.com/400x400" ;
 
     public function mount($id) {
         $this->marketId = $id;
@@ -49,11 +49,33 @@ class CatalogLiveWire extends Component
         $this->image = "";
     }
 
+    public function updatingFilterCat()
+    {
+        $this->resetPage();
+        $this->search = '';
+    }
+
+    public function updatingSearch()
+    {
+        $this->resetPage();
+    }
+
     public function render()
     {
         $categories = Category::all();
         $market = Market::where('id', $this->marketId)->first();
-        $articles = Articles::where([['market_id', $this->marketId], ['isActive', '1'] , ['isOnSale', 0]])->with('category')->simplePaginate(24);
+        $articles = Articles::where([['market_id', $this->marketId], ['isActive', '1'] , ['isOnSale', 0]])->with('category');
+
+        if ($this->filterCat != '') {
+            $articles = $articles->where([['category_id', $this->filterCat]])->with('category');
+        }
+
+        if($this->search != '') {
+            $articles = $articles->where('name', 'like', '%'.$this->search.'%');
+        }
+
+        $articles = $articles->simplePaginate(24);
+
         return view('livewire.catalog-live-wire', compact('categories', 'market', 'articles'));
     }
 }

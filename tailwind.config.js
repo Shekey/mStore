@@ -10,7 +10,7 @@ module.exports = {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Raleway'],
+                sans: ['Open Sans', 'sans-serif'],
             },
         },
     },

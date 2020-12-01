@@ -43,23 +43,8 @@
             padding-bottom: 70px;
         }
 
-        .min-h-screen > main,
-        .min-h-screen > nav,
-        .min-h-screen > div {
-            position: relative;
-            z-index: 11;
-        }
-
-        .min-h-screen::before {
-            content: '';
-            z-index: 10;
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background: rgb(0,0,0);
-            background: linear-gradient(77deg, rgba(0,0,0,0.7539390756302521) 42%, rgba(246,144,42,0.8463760504201681) 50%, rgba(97,27,4,0.8183648459383753) 57%);
+        .min-h-screen > main {
+            background: #373737;
         }
     </style>
     <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css?dp-version=1578490236" />
@@ -140,9 +125,9 @@
                     <nav :class="isOpen ? '' : ''" class="flex justify-center items-center mt-0">
 
                     <div class="flex flex-row flex-wrap mt-5 mb-4">
-                        <a class="mt-3 mx-3 mt-0 category bg-orange-600 text-white uppercase" data-id="0" role="button">Svi artikli</a>
+                        <a class="mt-3 mx-3 mt-0 category bg-orange-600 text-white uppercase" data-id="0" role="button" wire:click="$set('filterCat', '')">Svi artikli</a>
                     @foreach($categories as $cat)
-                            <a class="mt-3 category mx-3 mt-0 uppercase bg-orange-600 text-white" data-id="{{ $cat->id }}" role="button">{{ $cat->name }}</a>
+                            <a class="mt-3 category mx-3 mt-0 uppercase bg-orange-600 text-white" data-id="{{ $cat->id }}" wire:click="$set('filterCat', {{ $cat->id }})" role="button">{{ $cat->name }}</a>
                         @endforeach
                     </div>
                 </nav>
@@ -152,7 +137,7 @@
                     <path d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
             </span>
-                    <input class="w-full border rounded-md pl-10 pr-4 py-2 focus:border-blue-500 focus:outline-none focus:shadow-outline" type="text" placeholder="Pretraga po nazivu artikla">
+                    <input class="w-full border rounded-md pl-10 pr-4 py-2 focus:border-blue-500 focus:outline-none focus:shadow-outline" type="text" wire:model.debounce.800ms="search" placeholder="Pretraga po nazivu artikla">
                 </div>
             </div>
         </header>
@@ -229,7 +214,8 @@
             <h3 class="text-white text-3xl font-bold text-uppercase mt-4 text-center md:text-left">Katalog artikala</h3>
             <span class="mt-3 text-sm text-white"></span>
             <div class="grid gap-10 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 mt-6 articles">
-                @foreach($articles as $article)
+
+            @foreach($articles as $article)
                     <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden" wire:click="showDetailsArticle(2)">
                     <div class="flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('https://images.unsplash.com/photo-1495856458515-0637185db551?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80')">
                         <button class="p-2 rounded-full bg-orange-600 text-white mx-5 -mb-4 hover:bg-orange-600 focus:outline-none focus:bg-blue-500">
@@ -245,6 +231,9 @@
                 @endforeach
 
             </div>
+            @if(count($articles) == 0)
+                <h3 class="text-white text-xl font-bold text-uppercase mt-4 text-center">Nažalost ne postoji ovakav artikal.</h3>
+            @endif
             <div class="flex justify-center">
                 <div class="flex rounded-md mt-8">
                     {{ $articles->links() }}
