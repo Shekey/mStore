@@ -176,7 +176,8 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\FortifyServiceProvider::class,
         App\Providers\JetstreamServiceProvider::class,
-        Intervention\Image\ImageServiceProvider::class
+        Intervention\Image\ImageServiceProvider::class,
+        Overtrue\LaravelShoppingCart\ServiceProvider::class,
     ],
 
     /*
@@ -229,7 +230,8 @@ return [
     'Validator' => Illuminate\Support\Facades\Validator::class,
     'View' => Illuminate\Support\Facades\View::class,
     'Stripe' => Cartalyst\Stripe\Laravel\Facades\Stripe::class,
-    'Image' => Intervention\Image\Facades\Image::class
+    'Image' => Intervention\Image\Facades\Image::class,
+    'ShoppingCart' => Overtrue\LaravelShoppingCart\Facade::class,
 ],
 
 ];

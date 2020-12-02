@@ -35,7 +35,7 @@
                 @if (Route::has('login'))
                     <div class="hidden px-6 py-4 sm:block">
                         @guest
-                            <a href="{{ route('login') }}" class="text-lg text-gray-700 underline">Logirajte se</a>
+                            <a href="{{ route('login') }}" class="text-lg text-gray-700 underline">Prijavite se</a>
 
                             @if (Route::has('register'))
                                 <a href="{{ route('register') }}" class="ml-4 text-lg text-gray-700 underline">Registrujte se</a>

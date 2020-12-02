@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Market;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Overtrue\LaravelShoppingCart\Cart;
 
 class CatalogLiveWire extends Component
 {
@@ -17,6 +18,13 @@ class CatalogLiveWire extends Component
     public function mount($id) {
         $this->marketId = $id;
     }
+    public function addToCart(int $productId)
+    {
+        $row = Cart::add(37, 'Item name', 5, 100.00, ['color' => 'red', 'size' => 'M']);
+        $items = Cart::all();
+        dd($items);
+    }
+
 
     public function updatedShowArtikal() {
         if(!$this->showArtikal) {
@@ -74,7 +82,7 @@ class CatalogLiveWire extends Component
             $articles = $articles->where('name', 'like', '%'.$this->search.'%');
         }
 
-        $articles = $articles->simplePaginate(24);
+        $articles = $articles->paginate(24);
 
         return view('livewire.catalog-live-wire', compact('categories', 'market', 'articles'));
     }
