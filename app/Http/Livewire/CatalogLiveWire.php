@@ -7,24 +7,26 @@ use App\Models\Category;
 use App\Models\Market;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Overtrue\LaravelShoppingCart\Cart;
+use Overtrue\LaravelShoppingCart\Facade as ShoppingCart;
 
 class CatalogLiveWire extends Component
 {
     use WithPagination;
 
-    public $showArtikal = false, $marketId = null, $search = '', $filterCat = '', $articalId = "", $maxWidth = "w-screen", $articleBrand = "", $articleName, $articleSize, $articleColor, $articleDesc, $articleQuantity, $articleTotal, $image = "https://dummyimage.com/400x400" ;
+    public $showArtikal = false, $marketId = null, $cartTotalItems = 0, $allCartItems = [], $search = '', $filterCat = '', $articalId = "", $maxWidth = "w-screen", $articleBrand = "", $articleName, $articleSize, $articleColor, $articleDesc, $articleQuantity, $articleTotal, $image = "https://dummyimage.com/400x400" ;
 
     public function mount($id) {
         $this->marketId = $id;
+        $this->cartTotalItems = ShoppingCart::countRows();
+        $this->allCartItems = ShoppingCart::all();
     }
-    public function addToCart(int $productId)
+    public function addToCart(int $productId, $qty = 1)
     {
-        $row = Cart::add(37, 'Item name', 5, 100.00, ['color' => 'red', 'size' => 'M']);
-        $items = Cart::all();
-        dd($items);
+        $article = Articles::find($productId);
+        ShoppingCart::add($article->id, $article->name, $qty, $article->price, ['color' => $article->color]);
+        $this->cartTotalItems = ShoppingCart::countRows();
+        $this->allCartItems = ShoppingCart::all();
     }
-
 
     public function updatedShowArtikal() {
         if(!$this->showArtikal) {
