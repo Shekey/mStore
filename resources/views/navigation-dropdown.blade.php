@@ -13,19 +13,28 @@
                 <!-- Navigation Links -->
                 @auth
                     <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    @if( Auth::user()->isAdmin)
-                        <x-jet-nav-link href="{{ route('kategorije') }}" :active="request()->routeIs('kategorije')">
+                        @can('tasks_access')
+                            <x-jet-nav-link href="{{ route('korisnici.index') }}" :active="request()->routeIs('korisnici.*')">
+                                Korisnici
+                            </x-jet-nav-link>
+                        @endcan
+                        @can('tasks_access')
+                            <x-jet-nav-link href="{{ route('kategorije') }}" :active="request()->routeIs('kategorije')">
                             {{ __('Kategorije') }}
-                        </x-jet-nav-link>
+                             </x-jet-nav-link>
+                        @endcan
 
-                        <x-jet-nav-link href="{{ route('reklame') }}" :active="request()->routeIs('reklame')">
+                        @can('tasks_access')
+                            <x-jet-nav-link href="{{ route('reklame') }}" :active="request()->routeIs('reklame')">
                             {{ __('Reklame') }}
-                        </x-jet-nav-link>
+                            </x-jet-nav-link>
+                        @endcan
 
-                        <x-jet-nav-link href="{{ route('prodavnice') }}" :active="request()->routeIs('prodavnice')">
+                        @can('tasks_access')
+                            <x-jet-nav-link href="{{ route('prodavnice') }}" :active="request()->routeIs('prodavnice')">
                             {{ __('Prodavnice') }}
-                        </x-jet-nav-link>
-                    @endif
+                            </x-jet-nav-link>
+                        @endcan
                 </div>
                 @endauth
             </div>

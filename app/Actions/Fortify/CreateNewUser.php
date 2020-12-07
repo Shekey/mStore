@@ -23,11 +23,11 @@ class CreateNewUser implements CreatesNewUsers
     {
         Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:korisnici'],
             'address' => ['required', 'string', 'max:255'],
             'front_ID' => ['required', 'image'],
             'back_ID' => ['required', 'image'],
-            'phone' => ['required', 'numeric', 'min:9', 'min:10', 'unique:users'],
+            'phone' => ['required', 'numeric', 'min:9', 'min:10', 'unique:korisnici'],
             'password' => $this->passwordRules(),
         ])->validate();
 
@@ -42,7 +42,7 @@ class CreateNewUser implements CreatesNewUsers
         Storage::disk('public')->put("images/".$imageNameBack, (string) $imageBack->encode());
 
 
-        return User::create([
+        $user = User::create([
             'name' => $input['name'],
             'email' => $input['email'],
             'phone' => $input['phone'],
@@ -51,5 +51,8 @@ class CreateNewUser implements CreatesNewUsers
             'idBack' => '/images/'. $imageNameBack,
             'password' => Hash::make($input['password']),
         ]);
+
+        $user->roles()->attach(1);
+        return $user;
     }
 }

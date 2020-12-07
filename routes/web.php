@@ -29,6 +29,7 @@ Route::get('/prodavnice/{id}/artikli',  function ($id) {
     return view('admin.prodavnice.artikli', compact('id'));
 });
 
+
 Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::get('stripe', [App\Http\Controllers\StripePaymentController::class, 'index']);
     Route::post('payment-process', [App\Http\Controllers\StripePaymentController::class, 'process']);
@@ -47,5 +48,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::get('/prodavnica/{id}',  function ($id) {
         return view('prodavnica.index', compact('id'));
     });
+
+    Route::resource('korisnici', \App\Http\Controllers\UsersController::class);
 });
 
