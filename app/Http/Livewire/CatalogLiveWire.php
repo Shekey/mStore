@@ -13,19 +13,27 @@ class CatalogLiveWire extends Component
 {
     use WithPagination;
 
-    public $showArtikal = false, $marketId = null, $cartTotalItems = 0, $allCartItems = [], $search = '', $filterCat = '', $articalId = "", $maxWidth = "w-screen", $articleBrand = "", $articleName, $articleSize, $articleColor, $articleDesc, $articleQuantity, $articleTotal, $image = "https://dummyimage.com/400x400" ;
+    public $showArtikal = false, $marketId = null, $cartTotalItems = 0, $totalPrice = 0, $allCartItems = [], $search = '', $filterCat = '', $articalId = "", $maxWidth = "w-screen", $articleBrand = "", $articleName, $articleSize, $articleColor, $articleDesc, $articlePrice, $qty = 0, $articleTotal, $image = "https://dummyimage.com/400x400", $calcTempPrice = 0 ;
 
     public function mount($id) {
         $this->marketId = $id;
         $this->cartTotalItems = ShoppingCart::countRows();
         $this->allCartItems = ShoppingCart::all();
+        $this->totalPrice = ShoppingCart::totalPrice();
     }
     public function addToCart(int $productId, $qty = 1)
     {
         $article = Articles::find($productId);
-        ShoppingCart::add($article->id, $article->name, $qty, $article->price, ['color' => $article->color]);
+        $articleInCart = ShoppingCart::search(['id' => $productId]);
+        if (count($articleInCart)) {
+            ShoppingCart::update($articleInCart->first()->__raw_id, $qty);
+        } else {
+            ShoppingCart::add($article->id, $article->name, $qty, $article->price, ['color' => $article->color]);
+        }
         $this->cartTotalItems = ShoppingCart::countRows();
         $this->allCartItems = ShoppingCart::all();
+        $this->totalPrice = ShoppingCart::totalPrice();
+        $this->showArtikal = false;
     }
 
     public function updatedShowArtikal() {
@@ -36,27 +44,51 @@ class CatalogLiveWire extends Component
 
     public function showDetailsArticle ($id) {
         $this->showArtikal = true;
-        $this->articalId = $id;
-        $this->articleBrand = "test";
-        $this->articleName = "2";
-        $this->articleSize = "3";
-        $this->articleColor = "4";
-        $this->articleDesc = "5";
-        $this->articleQuantity = "6";
-        $this->articleTotal = "7";
-        $this->image = "https://dummyimage.com/400x400";
+        $article = Articles::where('id', $id)->with('images')->first();
+        $articleInCart = ShoppingCart::search(['id' => $id]);
+        $this->articalId = $article->id;
+        $this->articleBrand = $article->brand;
+        $this->articleName = $article->name;
+        $this->articleSize = $article->size;
+        $this->articleColor = $article->color;
+        $this->articlePrice = $article->price;
+        $this->articleDesc = $article->desc;
+        $this->qty = count($articleInCart) > 0 ? $articleInCart->first()->qty : 0;
+        $this->articleTotal = count($articleInCart) > 0 ? $articleInCart->first()->total : 0;
+        $this->image = count($article->images) > 0 ? $article->images[0]->url : 'https://dummyimage.com/400x400';
+    }
+
+    public function increment() {
+        $this->qty += 1;
+        $this->calcTempPrice = $this->articlePrice * $this->qty;
+        $this->totalPrice = ShoppingCart::totalPrice();
+    }
+
+    public function decrement() {
+        $this->qty -= 1;
+        if ($this->qty < 0) $this->qty = 0;
+        $this->calcTempPrice = $this->articlePrice * $this->qty;
+        $this->totalPrice = ShoppingCart::totalPrice();
+    }
+
+    public function updateCartQty($rowId, $qty) {
+        if($qty < 0) $qty = 0;
+        ShoppingCart::update($rowId, $qty);
+        $this->totalPrice = ShoppingCart::totalPrice();
     }
 
     public function resetAllFields() {
         $this->articalId = "";
-        $this->articleBrand = "";
-        $this->articleName = "";
-        $this->articleSize = "";
-        $this->articleColor = "";
-        $this->articleDesc = "";
-        $this->articleQuantity = "";
-        $this->articleTotal = "";
-        $this->image = "";
+        $this->qty = 0;
+        $this->calcTempPrice = 0;
+
+//        $this->articleBrand = "";
+//        $this->articleName = "";
+//        $this->articleSize = "";
+//        $this->articleColor = "";
+//        $this->articleDesc = "";
+//        $this->articleTotal = "";
+//        $this->image = "";
     }
 
     public function updatingFilterCat()
@@ -85,7 +117,8 @@ class CatalogLiveWire extends Component
         }
 
         $articles = $articles->paginate(24);
-
+        $this->allCartItems = ShoppingCart::all();
+        $this->totalPrice = ShoppingCart::totalPrice();
         return view('livewire.catalog-live-wire', compact('categories', 'market', 'articles'));
     }
 }

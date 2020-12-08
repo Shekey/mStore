@@ -103,7 +103,7 @@
             </div>
 
             <div class="container mx-auto px-6">
-                <div class="flex items-center justify-between">
+                <div class="flex items-center justify-between flex-wrap sm:no-wrap">
                     <div class="hidden w-full text-white md:flex md:items-center">
                         <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd"
@@ -115,12 +115,12 @@
                         </svg>
                         <span class="mx-1 text-lg">Bugojno</span>
                     </div>
-                    <div class="w-full text-white md:text-center text-3xl font-semibold capitalize">
+                    <div class="w-full text-white md:text-center text-3xl font-semibold capitalize order-1 sm:order-0">
                         {{ $market->name }}
                     </div>
-                    <div class="flex items-center justify-end w-full">
+                    <div class="flex items-center sm:justify-end w-full">
+                        <p class="text-white mt-0 mr-4">Ukupno ( {{ $totalPrice }} KM )</p>
                         <button @click="cartOpen = !cartOpen" class="text-white focus:outline-none mx-4 sm:mx-0">
-                            Korpa {{ $cartTotalItems }}
                             <svg class="h-10 w-10" fill="none" stroke-linecap="round" stroke-linejoin="round"
                                  stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
                                 <path
@@ -160,7 +160,7 @@
         <div :class="cartOpen ? 'translate-x-0 ease-out w-full h-full px-6 py-4' : 'translate-x-full ease-in'"
              class="cart fixed right-0 top-0 max-w-sm w-0 transition duration-300 transform overflow-y-auto bg-white border-l-2 border-gray-300">
             <div class="flex items-center justify-between">
-                <h3 class="text-2xl font-medium text-black">Vaša korpa</h3>
+                <h3 class="text-2xl font-medium text-black">Korpa ( {{ $totalPrice }} KM)</h3>
                 <button @click="cartOpen = !cartOpen" class="text-black focus:outline-none">
                     <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                          viewBox="0 0 24 24" stroke="currentColor">
@@ -176,23 +176,27 @@
                          alt="">
                     <div class="mx-3">
                         <h3 class="text-sm text-black">{{ $cartItem->name }}</h3>
-                        <div class="flex items-center mt-2">
-                            <a role="button" class="text-black focus:outline-none focus:text-black">
-                                <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round"
-                                     stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                </svg>
-                            </a>
-                            <span class="text-black mx-2">{{ $cartItem->qty }}</span>
-                            <a role="button" class="text-black focus:outline-none focus:text-black">
+                        <div class="flex items-center mt-4">
+                            <a role="button" class="text-black focus:outline-none focus:text-black" wire:click.stop="updateCartQty('{{ $cartItem->__raw_id }}', {{ $cartItem->qty - 1 }})">
                                 <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round"
                                      stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
                                     <path d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                 </svg>
                             </a>
+                            <span class="text-black mx-2">{{ $cartItem->qty }}</span>
+                            <a role="button" class="text-black focus:outline-none focus:text-black" wire:click.stop="updateCartQty('{{ $cartItem->__raw_id }}', {{ $cartItem->qty + 1 }})">
+                                <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round"
+                                     stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                            </a>
                         </div>
                     </div>
-                    <span class="text-black">{{ $cartItem->price }} KM, ukupno {{ $cartItem->total }}</span>
+                    <div>
+                        <p class="text-black flex-1 text-center">({{ $cartItem->price }}  X {{ $cartItem->qty }})</p>
+                        <p class="text-orange-700 text-center mt-3">{{ $cartItem->total }} KM</p>
+                    </div>
+
                 </div>
             @endforeach
             <a class="flex items-center justify-center mt-4 px-3 py-2 bg-blue-600 text-white text-sm uppercase font-medium rounded hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
@@ -213,7 +217,7 @@
                 @foreach($articles as $article)
                     <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden">
                         <div class="flex items-end justify-end h-56 w-full bg-cover"
-                             wire:click.stop="showDetailsArticle(2)"
+                             wire:click.stop="showDetailsArticle({{ $article->id }})"
                              style="background-image: url('https://images.unsplash.com/photo-1495856458515-0637185db551?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80')">
                             <a role="button"
                                class="add-to-cart p-2 rounded-full bg-orange-600 text-white mx-5 -mb-4 hover:bg-orange-200 focus:outline-none focus:bg-blue-500"
@@ -272,6 +276,10 @@
                             </div>
                             <p class="leading-relaxed mb-4 text-black">{{ $articleDesc }}</p>
                             <div class="flex border-t border-gray-300 py-2">
+                                <span class="text-black">Cijena</span>
+                                <span class="ml-auto text-black">{{ $articlePrice }} KM</span>
+                            </div>
+                            <div class="flex border-t border-gray-300 py-2">
                                 <span class="text-black">Boja</span>
                                 <span class="ml-auto text-black">{{ $articleColor }}</span>
                             </div>
@@ -283,14 +291,14 @@
                                 <span class="text-black flex-1">Količina</span>
                                 <div class="custom-number-input h-10 w-32">
                                     <div class="flex flex-row h-10 w-full rounded-lg relative bg-transparent mt-1">
-                                        <button data-action="decrement"
+                                        <button data-action="decrement" wire:click="decrement"
                                                 class=" bg-orange-500 text-white hover:text-black hover:bg-gray-400 h-full w-20 rounded-l cursor-pointer outline-none">
                                             <span class="m-auto text-2xl font-thin">−</span>
                                         </button>
                                         <input type="number"
-                                               class="outline-none focus:outline-none text-center w-full bg-orange-500 font-semibold text-md hover:text-black focus:text-black  md:text-basecursor-default flex items-center text-black  outline-none"
-                                               name="custom-input-number" value="{{ $articleQuantity }}"/>
-                                        <button data-action="increment"
+                                               class="outline-none focus:outline-none text-center w-full bg-orange-500 font-semibold text-md hover:text-white focus:text-white  md:text-basecursor-default flex items-center text-white  outline-none"
+                                               name="custom-input-number" wire:model="qty"/>
+                                        <button data-action="increment" wire:click="increment"
                                                 class="bg-orange-500 text-white hover:text-white hover:bg-gray-400 h-full w-20 rounded-r cursor-pointer">
                                             <span class="m-auto text-2xl font-thin">+</span>
                                         </button>
@@ -300,9 +308,9 @@
                                 <span class="ml-auto text-black"></span>
                             </div>
                             <div class="flex">
-                                <span class="title-font font-medium text-2xl text-black">{{ $articleTotal }}</span>
-                                <button
-                                    class="flex ml-auto text-black bg-orange-500 border-0 py-2 px-6 focus:outline-none hover:bg-orange-600 rounded">
+                                <span class="title-font font-medium text-2xl text-black">{{ $articleTotal }} KM {!! $calcTempPrice != 0 ? '<span class="text-orange-500"> ( '. $calcTempPrice . ' KM) </span>' : '' !!}</span>
+                                <button wire:click="addToCart({{ $this->articalId }}, {{ $this->qty }})"
+                                    class="flex ml-auto text-white bg-orange-500 border-0 py-2 px-6 focus:outline-none hover:bg-orange-600 rounded"  wire:click.stop="addToCart({{ $article->id }})">
                                     Kupi
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                          class="w-5 h-5 ml-2" stroke="currentColor">
@@ -327,42 +335,6 @@
     </x-jet-dialog-modal>
 
     <script>
-        function decrement(e) {
-            const btn = e.target.parentNode.parentElement.querySelector(
-                'button[data-action="decrement"]'
-            );
-            const target = btn.nextElementSibling;
-            let value = Number(target.value);
-            value--;
-            target.value = value;
-        }
-
-        function increment(e) {
-            const btn = e.target.parentNode.parentElement.querySelector(
-                'button[data-action="decrement"]'
-            );
-            const target = btn.nextElementSibling;
-            let value = Number(target.value);
-            value++;
-            target.value = value;
-        }
-
-        const decrementButtons = document.querySelectorAll(
-            `button[data-action="decrement"]`
-        );
-
-        const incrementButtons = document.querySelectorAll(
-            `button[data-action="increment"]`
-        );
-
-        decrementButtons.forEach(btn => {
-            btn.addEventListener("click", decrement);
-        });
-
-        incrementButtons.forEach(btn => {
-            btn.addEventListener("click", increment);
-        });
-
         var AUTOCOMPLETION_URL = 'https://autocomplete.geocoder.ls.hereapi.com/6.2/suggest.json',
             ajaxRequest = new XMLHttpRequest(),
             query = '';
