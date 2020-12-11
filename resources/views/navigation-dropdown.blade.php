@@ -14,23 +14,6 @@
                 @auth
                     <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                         @can('tasks_access')
-                            <x-jet-nav-link href="{{ route('korisnici.index') }}" :active="request()->routeIs('korisnici.*')">
-                                Korisnici
-                            </x-jet-nav-link>
-                        @endcan
-                        @can('tasks_access')
-                            <x-jet-nav-link href="{{ route('kategorije') }}" :active="request()->routeIs('kategorije')">
-                            {{ __('Kategorije') }}
-                             </x-jet-nav-link>
-                        @endcan
-
-                        @can('tasks_access')
-                            <x-jet-nav-link href="{{ route('reklame') }}" :active="request()->routeIs('reklame')">
-                            {{ __('Reklame') }}
-                            </x-jet-nav-link>
-                        @endcan
-
-                        @can('tasks_access')
                             <x-jet-nav-link href="{{ route('prodavnice') }}" :active="request()->routeIs('prodavnice')">
                             {{ __('Prodavnice') }}
                             </x-jet-nav-link>
@@ -120,6 +103,23 @@
 
                             <div class="border-t border-gray-100"></div>
                         @endif
+
+                        @can('tasks_access')
+                            <x-jet-dropdown-link href="{{ route('korisnici.index') }}">
+                                {{ __('Korisnici') }}
+                            </x-jet-dropdown-link>
+                        @endcan
+                        @can('tasks_access')
+                            <x-jet-dropdown-link href="{{ route('kategorije') }}">
+                                {{ __('Kategorije') }}
+                            </x-jet-dropdown-link>
+                        @endcan
+
+                        @can('tasks_access')
+                            <x-jet-dropdown-link href="{{ route('reklame') }}">
+                                {{ __('Reklame') }}
+                            </x-jet-dropdown-link>
+                    @endcan
 
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">

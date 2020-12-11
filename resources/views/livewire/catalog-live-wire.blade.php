@@ -40,11 +40,19 @@
 
         .min-h-screen {
             position: relative;
-            padding-bottom: 70px;
         }
 
         .min-h-screen > main {
             background: #373737;
+        }
+
+        .cart-active {
+            transform: translateX(0) !important;
+        }
+
+        .cart {
+            transform: translateX(600px);
+            width: 100%;
         }
     </style>
     <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css?dp-version=1578490236"/>
@@ -82,7 +90,7 @@
         }
     </style>
 
-    <div x-data="{ cartOpen: false, isOpen: false }" class="">
+    <div class="">
         <header>
             <div class="swiper-container w-100 h-64">
                 <!-- Additional required wrapper -->
@@ -120,7 +128,7 @@
                     </div>
                     <div class="flex items-center sm:justify-end w-full">
                         <p class="text-white mt-0 mr-4">Ukupno ( {{ $totalPrice }} KM )</p>
-                        <button @click="cartOpen = !cartOpen" class="text-white focus:outline-none mx-4 sm:mx-0">
+                        <button wire:click="$set('cartOpen', true)" class="text-white focus:outline-none mx-4 sm:mx-0">
                             <svg class="h-10 w-10" fill="none" stroke-linecap="round" stroke-linejoin="round"
                                  stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
                                 <path
@@ -131,7 +139,7 @@
                 </div>
                 <h4 class="text-lg font-bold text-orange-700 bg-white px-2 py-2 mt-8 text-center">Odaberite kategoriju
                     kako bi ste filtrirali artikle.</h4>
-                <nav :class="isOpen ? '' : ''" class="flex justify-center items-center mt-0">
+                <nav class="flex justify-center items-center mt-0">
 
                     <div class="flex flex-row flex-wrap mt-5 mb-4 filters">
                         <a class="mt-3 mx-3 mt-0 category bg-orange-600 text-white uppercase" data-id="0" role="button"
@@ -157,11 +165,11 @@
                 </div>
             </div>
         </header>
-        <div :class="cartOpen ? 'translate-x-0 ease-out w-full h-full px-6 py-4' : 'translate-x-full ease-in'"
-             class="cart fixed right-0 top-0 max-w-sm w-0 transition duration-300 transform overflow-y-auto bg-white border-l-2 border-gray-300">
+        <div
+             class="cart fixed right-0 top-0 max-w-sm transition duration-300 ease-out transform overflow-y-auto bg-white border-l-2 border-gray-300 w-full h-full {{ $cartClass }}">
             <div class="flex items-center justify-between">
                 <h3 class="text-2xl font-medium text-black">Korpa ( {{ $totalPrice }} KM)</h3>
-                <button @click="cartOpen = !cartOpen" class="text-black focus:outline-none">
+                <button wire:click="$set('cartOpen', false)" class="text-black focus:outline-none">
                     <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                          viewBox="0 0 24 24" stroke="currentColor">
                         <path d="M6 18L18 6M6 6l12 12"></path>
@@ -199,17 +207,21 @@
 
                 </div>
             @endforeach
-            <a class="flex items-center justify-center mt-4 px-3 py-2 bg-blue-600 text-white text-sm uppercase font-medium rounded hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
-                <span>Završi narudzbu</span>
-                <svg class="h-5 w-5 mx-2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                     viewBox="0 0 24 24" stroke="currentColor">
-                    <path d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
-                </svg>
-            </a>
+            @if (count($allCartItems) > 0)
+                <a role="button" class="flex items-center justify-center mt-4 px-3 py-2 bg-blue-600 text-white text-sm uppercase font-medium rounded hover:bg-blue-500 focus:outline-none focus:bg-blue-500" wire:click="cartDetails">
+                    Završi narudzbu
+                    <svg class="h-5 w-5 mx-2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                         viewBox="0 0 24 24" stroke="currentColor">
+                        <path d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                    </svg>
+                </a>
+            @else
+                <p class="text-orange-700 text-center mt-5">Korpa je prazna.</p>
+            @endif
         </div>
     </div>
-    <main class="">
-        <div class="container">
+    <main class="px-4">
+        <div class="container py-4">
             <h3 class="text-white text-3xl font-bold text-uppercase mt-4 text-center md:text-left">Katalog artikala</h3>
             <span class="mt-3 text-sm text-white"></span>
             <div class="grid gap-10 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 mt-6 articles">
@@ -221,7 +233,7 @@
                              style="background-image: url('https://images.unsplash.com/photo-1495856458515-0637185db551?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80')">
                             <a role="button"
                                class="add-to-cart p-2 rounded-full bg-orange-600 text-white mx-5 -mb-4 hover:bg-orange-200 focus:outline-none focus:bg-blue-500"
-                               style="position: relative; z-index: 10" wire:click.stop="addToCart({{ $article->id }})">
+                               style="position: relative; z-index: 10" wire:click.stop="quickAddToCart({{ $article->id }})">
                                 <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round"
                                      stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
                                     <path
@@ -254,6 +266,7 @@
     <div id="panel" class="hidden"
          style="position:absolute; width:49%; left:51%; height:100%; background:inherit"></div>
 
+    @if(count($articles) != 0)
     <x-jet-dialog-modal wire:model="showArtikal" :maxWidth="'modal-full'">
         <x-slot name="title">
             Detalji artikla
@@ -334,6 +347,94 @@
         </x-slot>
     </x-jet-dialog-modal>
 
+    <x-jet-dialog-modal wire:model="showCart" :maxWidth="'modal-full'">
+        <x-slot name="title">
+            Detalji korpe
+            <button wire:click="$set('showCart', false)" wire:loading.attr="enabled" class="float-right w-5 h-5">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+        </x-slot>
+
+        <x-slot name="content">
+            <div class="container mx-auto mt-10">
+                <div class="flex shadow-md my-10">
+                    <div class="w-3/4 bg-white px-10 py-10">
+                        <div class="flex justify-between border-b pb-8">
+                            <h1 class="font-semibold text-2xl">Korpa</h1>
+                            <h2 class="font-semibold text-2xl">{{ $cartTotalItems }} Artikla</h2>
+                        </div>
+                        <div class="flex mt-10 mb-5">
+                            <h3 class="font-semibold text-gray-600 text-xs uppercase w-2/5">Detaljnije</h3>
+                            <h3 class="font-semibold text-center text-gray-600 text-xs uppercase w-1/5 text-center">Količina</h3>
+                            <h3 class="font-semibold text-center text-gray-600 text-xs uppercase w-1/5 text-center">Cijena</h3>
+                            <h3 class="font-semibold text-center text-gray-600 text-xs uppercase w-1/5 text-center">Iznos</h3>
+                        </div>
+
+                        @foreach($allCartItems as $item)
+                            <div class="flex items-center hover:bg-gray-100 -mx-8 px-6 py-5">
+                            <div class="flex w-2/5"> <!-- product -->
+                                <div class="w-20">
+                                    <img class="h-24" src="{{ $item->image }}" alt="Cart item image">
+                                </div>
+                                <div class="flex flex-col justify-between ml-4 flex-grow">
+                                    <span class="font-bold text-sm">{{ $item->name }}</span>
+                                    <span class="text-red-500 text-xs">{{ $item->market }}</span>
+                                    <a role="button" class="font-semibold hover:text-red-500 text-gray-500 text-xs" wire:click="removeFromCart('{{ $item->__raw_id }}')">Izbriši</a>
+                                </div>
+                            </div>
+                            <div class="flex justify-center w-1/5"  wire:click.stop="updateCartQty('{{ $item->__raw_id }}', {{ $item->qty - 1 }})">
+                                <svg class="fill-current text-gray-600 w-3" viewBox="0 0 448 512"><path d="M416 208H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h384c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"/>
+                                </svg>
+
+                                <input class="mx-2 border text-center w-8" type="text" value="{{ $item->qty }}">
+
+                                <svg class="fill-current text-gray-600 w-3" viewBox="0 0 448 512" wire:click.stop="updateCartQty('{{ $item->__raw_id }}', {{ $item->qty + 1 }})">
+                                    <path d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"/>
+                                </svg>
+                            </div>
+                            <span class="text-center w-1/5 font-semibold text-sm">{{ $item->price }} KM</span>
+                            <span class="text-center w-1/5 font-semibold text-sm">{{ $item->total }} KM</span>
+                        </div>
+                        @endforeach
+                        <a role="button" class="flex font-semibold text-indigo-600 text-sm mt-10" wire:click="$set('showCart', false)">
+                            <svg class="fill-current mr-2 text-indigo-600 w-4" viewBox="0 0 448 512"><path d="M134.059 296H436c6.627 0 12-5.373 12-12v-56c0-6.627-5.373-12-12-12H134.059v-46.059c0-21.382-25.851-32.09-40.971-16.971L7.029 239.029c-9.373 9.373-9.373 24.569 0 33.941l86.059 86.059c15.119 15.119 40.971 4.411 40.971-16.971V296z"/></svg>
+                            Nastavite kupovati
+                        </a>
+                    </div>
+
+                    <div id="summary" class="w-1/4 px-8 py-10">
+                        <h1 class="font-semibold text-2xl border-b pb-8">Detalji narudžbe</h1>
+                        <div class="flex justify-between mt-10 mb-5">
+                            <span class="font-semibold text-sm uppercase">Artikli ( {{ $cartTotalItems }} )</span>
+                            <span class="font-semibold text-sm">{{ $totalPrice }} KM</span>
+                        </div>
+                        <div>
+                            <label class="font-medium inline-block mb-3 text-sm uppercase">Dostava</label>
+                            <p class="block p-2 text-gray-600 w-full text-sm">Standard shipping - $10.00</p>
+                        </div>
+
+                        <div class="border-t mt-8">
+                            <div class="flex font-semibold justify-between py-6 text-sm uppercase">
+                                <span>Ukupan iznos</span>
+                                <span>{{ $totalPrice }} KM</span>
+                            </div>
+                            <button class="bg-indigo-500 font-semibold hover:bg-indigo-600 py-3 text-sm text-white uppercase w-full">Završi</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </x-slot>
+
+        <x-slot name="footer">
+            <x-jet-secondary-button wire:click="$set('showCart', false)" wire:loading.attr="enabled">
+                {{ __('Zatvori') }}
+            </x-jet-secondary-button>
+        </x-slot>
+    </x-jet-dialog-modal>
+    @endif
     <script>
         var AUTOCOMPLETION_URL = 'https://autocomplete.geocoder.ls.hereapi.com/6.2/suggest.json',
             ajaxRequest = new XMLHttpRequest(),

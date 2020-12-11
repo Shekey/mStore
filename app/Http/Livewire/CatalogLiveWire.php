@@ -13,32 +13,70 @@ class CatalogLiveWire extends Component
 {
     use WithPagination;
 
-    public $showArtikal = false, $marketId = null, $cartTotalItems = 0, $totalPrice = 0, $allCartItems = [], $search = '', $filterCat = '', $articalId = "", $maxWidth = "w-screen", $articleBrand = "", $articleName, $articleSize, $articleColor, $articleDesc, $articlePrice, $qty = 0, $articleTotal, $image = "https://dummyimage.com/400x400", $calcTempPrice = 0 ;
+    public $showArtikal = false, $marketId = null, $marketName = '', $shippingPrice = 0, $cartTotalItems = 0, $showCart = false, $cartClass = '', $totalPrice = 0, $allCartItems = [], $search = '', $filterCat = '', $articalId = "", $maxWidth = "w-screen", $articleBrand = "", $articleName, $articleSize, $articleColor, $articleDesc, $articlePrice, $qty = 0, $articleTotal, $image = "https://dummyimage.com/400x400", $calcTempPrice = 0, $cartOpen = false;
 
     public function mount($id) {
         $this->marketId = $id;
+        if($this->marketId !== null ) {
+            $market =  Market::find($id);
+            $this->marketName = $market->name;
+            $this->shippingPrice = $market->orderPaid;
+        }
+
+        $this->updateCartDetails();
+    }
+
+    public function updateCartDetails() {
         $this->cartTotalItems = ShoppingCart::countRows();
         $this->allCartItems = ShoppingCart::all();
-        $this->totalPrice = ShoppingCart::totalPrice();
+        $this->totalPrice = ShoppingCart::totalPrice() + $this->shippingPrice;
     }
+
+    public function removeFromCart($id) {
+        ShoppingCart::remove($id);
+        $this->updateCartDetails();
+    }
+
+    public function quickAddToCart(int $productId, $qty = 1) {
+        $article = Articles::find($productId);
+        $articleInCart = ShoppingCart::search(['id' => $productId]);
+
+        if (count($articleInCart) > 1) {
+            ShoppingCart::update($articleInCart->first()->__raw_id, $articleInCart->first()->qty + 1);
+        } else {
+            $image = count($article->images) > 0 ? $article->images[0]->url : 'https://dummyimage.com/400x400';
+            ShoppingCart::add($article->id, $article->name, $qty, $article->price, ['color' => $article->color, 'image' => $image, 'market' => $this->marketName]);
+        }
+
+        $this->updateCartDetails();
+    }
+
     public function addToCart(int $productId, $qty = 1)
     {
         $article = Articles::find($productId);
         $articleInCart = ShoppingCart::search(['id' => $productId]);
-        if (count($articleInCart)) {
+        if (count($articleInCart) > 1) {
             ShoppingCart::update($articleInCart->first()->__raw_id, $qty);
         } else {
-            ShoppingCart::add($article->id, $article->name, $qty, $article->price, ['color' => $article->color]);
+            $image = count($article->images) > 0 ? $article->images[0]->url : 'https://dummyimage.com/400x400';
+            ShoppingCart::add($article->id, $article->name, $qty, $article->price, ['color' => $article->color, 'image' => $image]);
         }
-        $this->cartTotalItems = ShoppingCart::countRows();
-        $this->allCartItems = ShoppingCart::all();
-        $this->totalPrice = ShoppingCart::totalPrice();
+        $this->updateCartDetails();
         $this->showArtikal = false;
     }
 
     public function updatedShowArtikal() {
         if(!$this->showArtikal) {
             $this->resetAllFields();
+        }
+    }
+
+    public function updatedCartOpen()
+    {
+        if($this->cartOpen) {
+            $this->cartClass = 'cart-active px-6 py-4';
+        } else {
+            $this->cartClass = '';
         }
     }
 
@@ -74,7 +112,7 @@ class CatalogLiveWire extends Component
     public function updateCartQty($rowId, $qty) {
         if($qty < 0) $qty = 0;
         ShoppingCart::update($rowId, $qty);
-        $this->totalPrice = ShoppingCart::totalPrice();
+        $this->updateCartDetails();
     }
 
     public function resetAllFields() {
@@ -102,6 +140,13 @@ class CatalogLiveWire extends Component
         $this->resetPage();
     }
 
+    public function cartDetails() {
+        $this->cartOpen = false;
+        $this->cartClass = '';
+        $this->showCart = true;
+        $this->updateCartDetails();
+    }
+
     public function render()
     {
         $categories = Category::all();
@@ -117,8 +162,7 @@ class CatalogLiveWire extends Component
         }
 
         $articles = $articles->paginate(24);
-        $this->allCartItems = ShoppingCart::all();
-        $this->totalPrice = ShoppingCart::totalPrice();
+        $this->updateCartDetails();
         return view('livewire.catalog-live-wire', compact('categories', 'market', 'articles'));
     }
 }

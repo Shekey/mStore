@@ -81,6 +81,13 @@
                     </label>
                 </div>
 
+                <div class="mt-4 mb-4 {{ $showOrderPaid ? '' : 'hide' }}">
+                    <x-jet-label for="orderPaid" value="{{ __('Cijena dostave') }}"/>
+                    <x-jet-input id="orderPaid" class="block mt-1 w-full" type="text" name="orderPaid" :value="old('orderPaid')"
+                                 wire:model.debounce.1000ms="orderPaid"/>
+                    @error('orderPaid') <span class="text-red-500">{{ $message }}</span> @enderror
+                </div>
+
                 <div class="mt-4">
                     <x-jet-label for="points" value="{{ __('Početak radnog vremena') }}"/>
                     <x-jet-input id="points" class="block mt-1 w-full" placeholder="08:00:00" type="text" name="startTime" :value="old('startTime')"

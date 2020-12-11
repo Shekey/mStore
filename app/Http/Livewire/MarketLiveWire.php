@@ -20,12 +20,16 @@ class MarketLiveWire extends Component
     use WithPagination;
     protected $listeners = ['uploadedNew'];
 
-    public $name, $points = 0 ,$fileId = 1, $orderPaid = 0, $startTime, $endTime, $startTimeSunday, $endTimeSunday, $isClosed = null,  $image, $freeDelivery = 0, $modelId, $displayingToken = false, $modalConfirmDeleteVisible = false, $uploadedNewImage = false;
+    public $name, $points = 0 ,$fileId = 1, $orderPaid = 0, $showOrderPaid = 0, $startTime, $endTime, $startTimeSunday, $endTimeSunday, $isClosed = null,  $image, $freeDelivery = 0, $modelId, $displayingToken = false, $modalConfirmDeleteVisible = false, $uploadedNewImage = false;
 
 
     public function uploadedNew()
     {
         $this->uploadedNewImage = true;
+    }
+
+    public function updatedFreeDelivery () {
+        $this->showOrderPaid = $this->freeDelivery;
     }
 
     public function updatedDisplayingToken() {
@@ -224,6 +228,7 @@ class MarketLiveWire extends Component
         $this->points = $market->points;
         $this->image = $market->image;
         $this->freeDelivery = $market->freeDelivery;
+        $this->showOrderPaid = $market->freeDelivery;
         $this->startTime = $market->startTime;
         $this->startTimeSunday = $market->startTimeSunday;
         $this->endTime = $market->endTime;
