@@ -13,7 +13,7 @@ class CatalogLiveWire extends Component
 {
     use WithPagination;
 
-    public $showArtikal = false, $marketId = null, $marketName = '', $shippingPrice = 0, $cartTotalItems = 0, $showCart = false, $cartClass = '', $totalPrice = 0, $allCartItems = [], $search = '', $filterCat = '', $articalId = "", $maxWidth = "w-screen", $articleBrand = "", $articleName, $articleSize, $articleColor, $articleDesc, $articlePrice, $qty = 0, $articleTotal, $image = "https://dummyimage.com/400x400", $calcTempPrice = 0, $cartOpen = false;
+    public $showArtikal = false, $marketId = null, $stepsCompleted = false, $marketName = '', $totalShipping = 0, $shippingPrice = 0, $cartTotalItems = 0, $showCart = false, $cartClass = '', $totalPrice = 0, $allCartItems = [], $search = '', $filterCat = '', $articalId = "", $maxWidth = "w-screen", $articleBrand = "", $articleName, $articleSize, $articleColor, $articleDesc, $articlePrice, $qty = 0, $articleTotal, $image = "https://dummyimage.com/400x400", $calcTempPrice = 0, $cartOpen = false;
 
     public function mount($id) {
         $this->marketId = $id;
@@ -26,10 +26,26 @@ class CatalogLiveWire extends Component
         $this->updateCartDetails();
     }
 
+    public function clearCart() {
+        ShoppingCart::clean();
+        $this->cartOpen = false;
+        $this->cartClass = '';
+    }
+
     public function updateCartDetails() {
         $this->cartTotalItems = ShoppingCart::countRows();
         $this->allCartItems = ShoppingCart::all();
-        $this->totalPrice = ShoppingCart::totalPrice() + $this->shippingPrice;
+
+        $collection = $this->allCartItems->map(function ($array) {
+            return $array->all();
+        });
+
+        $newCollection = collect( $collection )->unique('market');
+        $this->totalShipping = 0;
+        foreach ($newCollection as $item) {
+            $this->totalShipping += $item['shipping'];
+        }
+        $this->totalPrice = ShoppingCart::totalPrice() + $this->totalShipping;
     }
 
     public function removeFromCart($id) {
@@ -45,7 +61,7 @@ class CatalogLiveWire extends Component
             ShoppingCart::update($articleInCart->first()->__raw_id, $articleInCart->first()->qty + 1);
         } else {
             $image = count($article->images) > 0 ? $article->images[0]->url : 'https://dummyimage.com/400x400';
-            ShoppingCart::add($article->id, $article->name, $qty, $article->price, ['color' => $article->color, 'image' => $image, 'market' => $this->marketName]);
+            ShoppingCart::add($article->id, $article->name, $qty, $article->price, ['color' => $article->color, 'image' => $image, 'market' => $this->marketName, 'shipping' => $this->shippingPrice]);
         }
 
         $this->updateCartDetails();
@@ -59,7 +75,7 @@ class CatalogLiveWire extends Component
             ShoppingCart::update($articleInCart->first()->__raw_id, $qty);
         } else {
             $image = count($article->images) > 0 ? $article->images[0]->url : 'https://dummyimage.com/400x400';
-            ShoppingCart::add($article->id, $article->name, $qty, $article->price, ['color' => $article->color, 'image' => $image]);
+            ShoppingCart::add($article->id, $article->name, $qty, $article->price, ['color' => $article->color, 'image' => $image, 'market' => $this->marketName, 'shipping' => $this->shippingPrice]);
         }
         $this->updateCartDetails();
         $this->showArtikal = false;
@@ -119,6 +135,8 @@ class CatalogLiveWire extends Component
         $this->articalId = "";
         $this->qty = 0;
         $this->calcTempPrice = 0;
+        $this->shippingPrice = 0;
+        $this->totalPrice = 0;
 
 //        $this->articleBrand = "";
 //        $this->articleName = "";

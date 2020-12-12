@@ -54,6 +54,10 @@
             transform: translateX(600px);
             width: 100%;
         }
+
+        button[disabled]:hover {
+            cursor: not-allowed;
+        }
     </style>
     <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css?dp-version=1578490236"/>
     <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-core.js"></script>
@@ -168,7 +172,9 @@
         <div
              class="cart fixed right-0 top-0 max-w-sm transition duration-300 ease-out transform overflow-y-auto bg-white border-l-2 border-gray-300 w-full h-full {{ $cartClass }}">
             <div class="flex items-center justify-between">
-                <h3 class="text-2xl font-medium text-black">Korpa ( {{ $totalPrice }} KM)</h3>
+                <h3 class="text-2xl font-medium text-black">Korpa ( {{ $totalPrice - $totalShipping }} KM)
+                <p class="text-sm text-orange-500">Sa dostavom ( {{ $totalShipping }} KM)</p>
+                </h3>
                 <button wire:click="$set('cartOpen', false)" class="text-black focus:outline-none">
                     <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                          viewBox="0 0 24 24" stroke="currentColor">
@@ -218,6 +224,14 @@
             @else
                 <p class="text-orange-700 text-center mt-5">Korpa je prazna.</p>
             @endif
+
+            <button class="flex items-center justify-center block w-full mt-4 px-3 py-2 bg-blue-600 text-white text-sm uppercase font-medium rounded hover:bg-blue-500 focus:outline-none focus:bg-blue-500 clear-cart {{ count($allCartItems) ? '' : 'invisible' }}" wire:click="clearCart">
+                <svg class="h-5 w-5 mx-2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                     viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+                Očisti korpu
+            </button>
         </div>
     </div>
     <main class="px-4">
@@ -360,7 +374,7 @@
         <x-slot name="content">
             <div class="container mx-auto mt-10">
                 <div class="flex shadow-md my-10">
-                    <div class="w-3/4 bg-white px-10 py-10">
+                    <div class="w-3/4 bg-white px-5 py-5">
                         <div class="flex justify-between border-b pb-8">
                             <h1 class="font-semibold text-2xl">Korpa</h1>
                             <h2 class="font-semibold text-2xl">{{ $cartTotalItems }} Artikla</h2>
@@ -408,11 +422,11 @@
                         <h1 class="font-semibold text-2xl border-b pb-8">Detalji narudžbe</h1>
                         <div class="flex justify-between mt-10 mb-5">
                             <span class="font-semibold text-sm uppercase">Artikli ( {{ $cartTotalItems }} )</span>
-                            <span class="font-semibold text-sm">{{ $totalPrice }} KM</span>
+                            <span class="font-semibold text-sm">{{ $totalPrice - $totalShipping }} KM</span>
                         </div>
                         <div>
                             <label class="font-medium inline-block mb-3 text-sm uppercase">Dostava</label>
-                            <p class="block p-2 text-gray-600 w-full text-sm">Standard shipping - $10.00</p>
+                            <p class="block p-2 text-gray-600 w-full text-sm">Standardna dostava - {{ $totalShipping }} KM</p>
                         </div>
 
                         <div class="border-t mt-8">
@@ -420,7 +434,7 @@
                                 <span>Ukupan iznos</span>
                                 <span>{{ $totalPrice }} KM</span>
                             </div>
-                            <button class="bg-indigo-500 font-semibold hover:bg-indigo-600 py-3 text-sm text-white uppercase w-full">Završi</button>
+                            <button class="bg-indigo-500 font-semibold py-3 text-sm text-white uppercase w-full disabled:opacity-50" disabled>Završi</button>
                         </div>
                     </div>
 
@@ -506,7 +520,7 @@
 
 
 // set up containers for the map  + panel
-        var mapContainer = document.getElementById('map'),
+        var mapContainer = document.getElementById('mapmap'),
             suggestionsContainer = document.getElementById('panel');
 
         //Step 1: initialize communication with the platform
@@ -678,8 +692,6 @@
 
         suggestionsContainer.innerHTML = content;
 
-    </script>
-    <script>
         var mySwiper = new Swiper('.swiper-container', {
             // Optional parameters
             direction: 'horizontal',
@@ -706,10 +718,15 @@
         })
 
         const addToCartButtons = document.querySelectorAll('.add-to-cart');
+        const clearCart = document.querySelector('.clear-cart');
         addToCartButtons.forEach((btn) => {
             btn.addEventListener('click', () => {
                 $.notify("Uspjesno ste dodali artikal u korpu.", "success");
             });
+        });
+
+        clearCart.addEventListener('click', () => {
+            $.notify("Korpa je očišćena.", "warn");
         });
     </script>
 
