@@ -20,6 +20,7 @@
         "laravel/nexmo-notification-channel": "^2.4",
         "laravel/sanctum": "^2.6",
         "laravel/tinker": "^2.5",
+        "laravel/ui": "^3.1",
         "livewire/livewire": "^2.0",
         "overtrue/laravel-shopping-cart": "~2.0"
     },

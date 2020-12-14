@@ -3,6 +3,7 @@
 namespace App\Actions\Fortify;
 
 use App\Models\User;
+use Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -23,11 +24,11 @@ class CreateNewUser implements CreatesNewUsers
     {
         Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:korisnici'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'address' => ['required', 'string', 'max:255'],
             'front_ID' => ['required', 'image'],
             'back_ID' => ['required', 'image'],
-            'phone' => ['required', 'numeric', 'min:9', 'min:10', 'unique:korisnici'],
+            'phone' => ['required', 'numeric', 'min:9', 'min:10', 'unique:users'],
             'password' => $this->passwordRules(),
         ])->validate();
 
@@ -52,7 +53,22 @@ class CreateNewUser implements CreatesNewUsers
             'password' => Hash::make($input['password']),
         ]);
 
-        $user->roles()->attach(1);
-        return $user;
+        $user->roles()->attach(2);
+        Auth::login($user);
+    }
+
+    public function messages() {
+        return [
+            'name.required' => 'Ime i prezime su obavezni.',
+            'email.required' => 'Email je obavezan.',
+            'address.required' => 'Adresa je obavezan.',
+            'front_ID.required' => 'Slika licne karte(prednja) je obavezna.',
+            'back_ID.required' => 'Slika licne karte(zadnja) je obavezna.',
+            'front_ID.image' => 'Slika licne karte(prednja) mora biti .jpg ili .png formata.',
+            'back_ID.image' => 'Slika licne karte(zadnja) mora biti .jpg ili .png formata.',
+            'phone.required' => 'Telefonski broj je obavezan',
+            'phone.numeric' => 'Telefonski broj mogu biti samo brojevi',
+            'phone.unique' => 'Ovaj telefonski broj već neko koristi.',
+        ];
     }
 }

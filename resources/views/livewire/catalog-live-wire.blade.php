@@ -59,7 +59,7 @@
             cursor: not-allowed;
         }
     </style>
-    <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css?dp-version=1578490236"/>
+    <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css?dp-version=1578490236" />
     <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-core.js"></script>
     <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-service.js"></script>
     <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-ui.js"></script>
@@ -276,9 +276,8 @@
             </div>
         </div>
     </main>
-    <div id="map" class="hidden" style="position:absolute; width:49%; height:100%; background:grey"></div>
-    <div id="panel" class="hidden"
-         style="position:absolute; width:49%; left:51%; height:100%; background:inherit"></div>
+    <div id="map" style="position:absolute; width:49%; background:grey; height: 700px;" ></div>
+    <div id="panel" style="position:absolute; width:49%; left:51%; background:inherit; height: 700px;"></div>
 
     @if(count($articles) != 0)
     <x-jet-dialog-modal wire:model="showArtikal" :maxWidth="'modal-full'">
@@ -463,8 +462,8 @@
          */
         function autoCompleteListener(textBox, event) {
 
-            if (query != textBox.value) {
-                if (textBox.value.length >= 1) {
+            if (query != textBox.value){
+                if (textBox.value.length >= 1){
 
                     /**
                      * A full list of available request parameters can be found in the Geocoder Autocompletion
@@ -472,13 +471,13 @@
                      *
                      */
                     var params = '?' +
-                        'query=' + encodeURIComponent(textBox.value) +   // The search text which is the basis of the query
+                        'query=' +  encodeURIComponent(textBox.value) +   // The search text which is the basis of the query
                         '&beginHighlight=' + encodeURIComponent('<mark>') + //  Mark the beginning of the match in a token.
                         '&endHighlight=' + encodeURIComponent('</mark>') + //  Mark the end of the match in a token.
                         '&maxresults=5' +  // The upper limit the for number of suggestions to be included
                         // in the response.  Default is set to 5.
                         '&apikey=' + APIKEY;
-                    ajaxRequest.open('GET', AUTOCOMPLETION_URL + params);
+                    ajaxRequest.open('GET', AUTOCOMPLETION_URL + params );
                     ajaxRequest.send();
                 }
             }
@@ -520,7 +519,7 @@
 
 
 // set up containers for the map  + panel
-        var mapContainer = document.getElementById('mapmap'),
+        var mapContainer = document.getElementById('map'),
             suggestionsContainer = document.getElementById('panel');
 
         //Step 1: initialize communication with the platform
@@ -529,7 +528,7 @@
         var platform = new H.service.Platform({
             apikey: APIKEY,
             useCIT: false,
-            useHTTPS: true
+            useHTTPS: false
         });
         var defaultLayers = platform.createDefaultLayers();
         var geocoder = platform.getGeocodingService();
@@ -544,8 +543,8 @@
 
         //Step 2: initialize a map - this map is centered over Europe
         var map = new H.Map(mapContainer,
-            defaultLayers.vector.normal.map, {
-                center: {lat: 52.5160, lng: 13.3779},
+            defaultLayers.vector.normal.map,{
+                center: {lat:52.5160, lng:13.3779},
                 zoom: 3
             });
 
@@ -567,16 +566,16 @@
          * @param  {H.geo.Point} position     The location on the map.
          * @param  {String} text              The contents of the infobubble.
          */
-        function openBubble(position, text) {
-            if (!bubble) {
-                bubble = new H.ui.InfoBubble(
+        function openBubble(position, text){
+            if(!bubble){
+                bubble =  new H.ui.InfoBubble(
                     position,
                     // The FO property holds the province name.
-                    {content: '<small>' + text + '</small>'});
+                    {content: '<small>' + text+ '</small>'});
                 ui.addBubble(bubble);
             } else {
                 bubble.setPosition(position);
-                bubble.setContent('<small>' + text + '</small>');
+                bubble.setContent('<small>' + text+ '</small>');
                 bubble.open();
             }
         }
@@ -597,7 +596,7 @@
          *
          * @param {Object} response
          */
-        function addSuggestionsToMap(response) {
+        function addSuggestionsToMap(response){
             /**
              * This function will be called once the Geocoder REST API provides a response
              * @param  {Object} result          A JSONP object representing the  location(s) found.
@@ -610,8 +609,8 @@
                     // Add a marker for each location found
                     for (i = 0; i < locations.length; i++) {
                         marker = new H.map.Marker({
-                            lat: locations[i].Location.DisplayPosition.Latitude,
-                            lng: locations[i].Location.DisplayPosition.Longitude
+                            lat : locations[i].Location.DisplayPosition.Latitude,
+                            lng : locations[i].Location.DisplayPosition.Longitude
                         });
                         marker.setData(locations[i].Location.Address.Label);
                         group.addObject(marker);
@@ -620,7 +619,7 @@
                     map.getViewModel().setLookAtData({
                         bounds: group.getBoundingBox()
                     });
-                    if (group.getObjects().length < 2) {
+                    if(group.getObjects().length < 2){
                         map.setZoom(15);
                     }
                 },
@@ -642,7 +641,7 @@
                  */
                 geocodeByLocationId = function (locationId) {
                     geocodingParameters = {
-                        locationId: locationId
+                        locationId : locationId
                     };
 
                     geocoder.geocode(
@@ -666,9 +665,9 @@
         /**
          * Removes all H.map.Marker points from the map and adds closes the info bubble
          */
-        function clearOldSuggestions() {
-            group.removeAll();
-            if (bubble) {
+        function clearOldSuggestions(){
+            group.removeAll ();
+            if(bubble){
                 bubble.close();
             }
         }
@@ -678,10 +677,20 @@
          *
          * @param {Object} response
          */
-        function addSuggestionsToPanel(response) {
+        function addSuggestionsToPanel(response){
             var suggestions = document.getElementById('suggestions');
             suggestions.innerHTML = JSON.stringify(response, null, ' ');
         }
+
+
+
+        var content =  '<strong style="font-size: large;">' + 'Geocoding Autocomplete'  + '</strong></br>';
+
+        content  += '<br/><input type="text" id="auto-complete" style="margin-left:5%; margin-right:5%; min-width:90%"  onkeyup="return autoCompleteListener(this, event);"><br/>';
+        content  += '<br/><strong>Response:</strong><br/>';
+        content  += '<div style="margin-left:5%; margin-right:5%;"><pre style="max-height:235px"><code  id="suggestions" style="font-size: small;">' +'{}' + '</code></pre></div>';
+
+        suggestionsContainer.innerHTML = content;
 
 
         var content = '<strong style="font-size: large;">' + 'Geocoding Autocomplete' + '</strong></br>';
