@@ -120,7 +120,7 @@ class CatalogLiveWire extends Component
 
     public function decrement() {
         $this->qty -= 1;
-        if ($this->qty < 0) $this->qty = 0;
+        if ($this->qty < 1) $this->qty = 1;
         $this->calcTempPrice = $this->articlePrice * $this->qty;
         $this->totalPrice = ShoppingCart::totalPrice();
     }
@@ -137,14 +137,6 @@ class CatalogLiveWire extends Component
         $this->calcTempPrice = 0;
         $this->shippingPrice = 0;
         $this->totalPrice = 0;
-
-//        $this->articleBrand = "";
-//        $this->articleName = "";
-//        $this->articleSize = "";
-//        $this->articleColor = "";
-//        $this->articleDesc = "";
-//        $this->articleTotal = "";
-//        $this->image = "";
     }
 
     public function updatingFilterCat()

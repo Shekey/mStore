@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Auth;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -70,6 +71,7 @@ class User extends Authenticatable implements MustVerifyEmail
             if ($user->roles()->get()->contains(2)) {
                 $user->roles()->attach(2);
             }
+            Auth::login($user);
         });
     }
 

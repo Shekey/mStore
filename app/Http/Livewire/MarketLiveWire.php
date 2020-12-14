@@ -182,9 +182,7 @@ class MarketLiveWire extends Component
                 $m = $carbon->lte($this->endTimeSunday) && $carbon->gte($this->startTimeSunday);
             } else {
                 $m = $carbon->lte($this->endTime) && $carbon->gte($this->startTime);
-
             }
-
             $this->isClosed = !$m;
             $imageName = $market->image;
         }

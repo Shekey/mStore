@@ -58,6 +58,50 @@
         button[disabled]:hover {
             cursor: not-allowed;
         }
+
+        /*Banner open/load animation*/
+        .alert-banner {
+            -webkit-animation: slide-in-top 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+            animation: slide-in-top 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+        }
+
+        /*Banner close animation*/
+        .alert-banner input:checked ~ * {
+            -webkit-animation: slide-out-top 0.5s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
+            animation: slide-out-top 0.5s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
+        }
+
+        /*Footer open/load animation*/
+        .alert-footer {
+            -webkit-animation: slide-in-bottom 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+            animation: slide-in-bottom 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+        }
+
+        /*Footer close animation*/
+        .alert-footer input:checked ~ * {
+            -webkit-animation: slide-out-bottom 0.5s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
+            animation: slide-out-bottom 0.5s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
+        }
+
+        /*Toast open/load animation*/
+        .alert-toast {
+            -webkit-animation: slide-in-right 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+            animation: slide-in-right 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+        }
+
+        /*Toast close animation*/
+        .alert-toast input:checked ~ * {
+            -webkit-animation: fade-out-right 0.7s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+            animation: fade-out-right 0.7s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+        }
+
+        /* -------------------------------------------------------------
+         * Animations generated using Animista * w: http://animista.net,
+         * ---------------------------------------------------------- */
+
+        @-webkit-keyframes slide-in-top{0%{-webkit-transform:translateY(-1000px);transform:translateY(-1000px);opacity:0}100%{-webkit-transform:translateY(0);transform:translateY(0);opacity:1}}@keyframes slide-in-top{0%{-webkit-transform:translateY(-1000px);transform:translateY(-1000px);opacity:0}100%{-webkit-transform:translateY(0);transform:translateY(0);opacity:1}}@-webkit-keyframes slide-out-top{0%{-webkit-transform:translateY(0);transform:translateY(0);opacity:1}100%{-webkit-transform:translateY(-1000px);transform:translateY(-1000px);opacity:0}}@keyframes slide-out-top{0%{-webkit-transform:translateY(0);transform:translateY(0);opacity:1}100%{-webkit-transform:translateY(-1000px);transform:translateY(-1000px);opacity:0}}@-webkit-keyframes slide-in-bottom{0%{-webkit-transform:translateY(1000px);transform:translateY(1000px);opacity:0}100%{-webkit-transform:translateY(0);transform:translateY(0);opacity:1}}@keyframes slide-in-bottom{0%{-webkit-transform:translateY(1000px);transform:translateY(1000px);opacity:0}100%{-webkit-transform:translateY(0);transform:translateY(0);opacity:1}}@-webkit-keyframes slide-out-bottom{0%{-webkit-transform:translateY(0);transform:translateY(0);opacity:1}100%{-webkit-transform:translateY(1000px);transform:translateY(1000px);opacity:0}}@keyframes slide-out-bottom{0%{-webkit-transform:translateY(0);transform:translateY(0);opacity:1}100%{-webkit-transform:translateY(1000px);transform:translateY(1000px);opacity:0}}@-webkit-keyframes slide-in-right{0%{-webkit-transform:translateX(1000px);transform:translateX(1000px);opacity:0}100%{-webkit-transform:translateX(0);transform:translateX(0);opacity:1}}@keyframes slide-in-right{0%{-webkit-transform:translateX(1000px);transform:translateX(1000px);opacity:0}100%{-webkit-transform:translateX(0);transform:translateX(0);opacity:1}}@-webkit-keyframes fade-out-right{0%{-webkit-transform:translateX(0);transform:translateX(0);opacity:1}100%{-webkit-transform:translateX(50px);transform:translateX(50px);opacity:0}}@keyframes fade-out-right{0%{-webkit-transform:translateX(0);transform:translateX(0);opacity:1}100%{-webkit-transform:translateX(50px);transform:translateX(50px);opacity:0}}
+
+
     </style>
     <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css?dp-version=1578490236" />
     <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-core.js"></script>
@@ -127,22 +171,53 @@
                         </svg>
                         <span class="mx-1 text-lg">Bugojno</span>
                     </div>
+
                     <div class="w-full text-white md:text-center text-3xl font-semibold capitalize order-1 sm:order-0">
                         {{ $market->name }}
                     </div>
-                    <div class="flex items-center sm:justify-end w-full">
-                        <p class="text-white mt-0 mr-4">Ukupno ( {{ $totalPrice }} KM )</p>
-                        <button wire:click="$set('cartOpen', true)" class="text-white focus:outline-none mx-4 sm:mx-0">
-                            <svg class="h-10 w-10" fill="none" stroke-linecap="round" stroke-linejoin="round"
-                                 stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
-                                <path
-                                    d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
-                            </svg>
-                        </button>
-                    </div>
+                    @auth
+                        @php
+                            $carbon=Carbon\Carbon::now();
+                            $m = null;
+                            $dayToday = $carbon->format('l');
+
+                           if ($dayToday === 'Sunday') {
+                            $m = $carbon->lte($market->endTimeSunday) && $carbon->gte($market->startTimeSunday);
+                           } else {
+                            $m = $carbon->lte($market->endTime) && $carbon->gte($market->startTime);
+                           }
+                        @endphp
+                        @if($m)
+                            <div class="flex items-center sm:justify-end w-full">
+                                <p class="text-white mt-0 mr-4">Ukupno ( {{ $totalPrice }} KM )</p>
+                                <button wire:click="$set('cartOpen', true)" class="text-white focus:outline-none mx-4 sm:mx-0">
+                                    <svg class="h-10 w-10" fill="none" stroke-linecap="round" stroke-linejoin="round"
+                                         stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path
+                                            d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                        @endif
+                    @endauth
                 </div>
                 <h4 class="text-lg font-bold text-orange-700 bg-white px-2 py-2 mt-8 text-center">Odaberite kategoriju
                     kako bi ste filtrirali artikle.</h4>
+
+                @guest
+                    <div class="alert-toast fixed bottom-0 right-0 m-8 w-5/6 md:w-full max-w-sm">
+                        <input type="checkbox" class="hidden" id="footertoast">
+
+                        <label class="close cursor-pointer flex items-start justify-between w-full p-2 bg-green-500 h-24 rounded shadow-lg text-white" title="close" for="footertoast">
+                            <svg class="fill-current w-4 h-4 mr-2" width="18" height="18" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M12.432 0c1.34 0 2.01.912 2.01 1.957 0 1.305-1.164 2.512-2.679 2.512-1.269 0-2.009-.75-1.974-1.99C9.789 1.436 10.67 0 12.432 0zM8.309 20c-1.058 0-1.833-.652-1.093-3.524l1.214-5.092c.211-.814.246-1.141 0-1.141-.317 0-1.689.562-2.502 1.117l-.528-.88c2.572-2.186 5.531-3.467 6.801-3.467 1.057 0 1.233 1.273.705 3.23l-1.391 5.352c-.246.945-.141 1.271.106 1.271.317 0 1.357-.392 2.379-1.207l.6.814C12.098 19.02 9.365 20 8.309 20z"/></svg>
+                            <p>Morate se registrirati da bi ste mogli naručivati artikle.</p>
+                            <svg class="fill-current text-white" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
+                                <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
+                            </svg>
+                        </label>
+                    </div>
+                @endguest
+
                 <nav class="flex justify-center items-center mt-0">
 
                     <div class="flex flex-row flex-wrap mt-5 mb-4 filters">
@@ -245,15 +320,30 @@
                         <div class="flex items-end justify-end h-56 w-full bg-cover"
                              wire:click.stop="showDetailsArticle({{ $article->id }})"
                              style="background-image: url('https://images.unsplash.com/photo-1495856458515-0637185db551?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80')">
-                            <a role="button"
-                               class="add-to-cart p-2 rounded-full bg-orange-600 text-white mx-5 -mb-4 hover:bg-orange-200 focus:outline-none focus:bg-blue-500"
-                               style="position: relative; z-index: 10" wire:click.stop="quickAddToCart({{ $article->id }})">
-                                <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round"
-                                     stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path
-                                        d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
-                                </svg>
-                            </a>
+                            @auth
+                                @php
+                                    $carbon=Carbon\Carbon::now();
+                                    $m = null;
+                                    $dayToday = $carbon->format('l');
+
+                                   if ($dayToday === 'Sunday') {
+                                    $m = $carbon->lte($market->endTimeSunday) && $carbon->gte($market->startTimeSunday);
+                                   } else {
+                                    $m = $carbon->lte($market->endTime) && $carbon->gte($market->startTime);
+                                   }
+                                @endphp
+                               @if($m)
+                                    <a role="button"
+                                       class="add-to-cart p-2 rounded-full bg-orange-600 text-white mx-5 -mb-4 hover:bg-orange-200 focus:outline-none focus:bg-blue-500"
+                                       style="position: relative; z-index: 10" wire:click.stop="quickAddToCart({{ $article->id }})">
+                                        <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round"
+                                             stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path
+                                                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                                        </svg>
+                                    </a>
+                                @endif
+                            @endauth
                         </div>
                         <div class="px-5 py-3">
                             <h3 class="text-white uppercase">{{ $article->name }}</h3>
@@ -313,7 +403,20 @@
                                 <span class="text-black">Veličina</span>
                                 <span class="ml-auto text-black">{{ $articleSize }}</span>
                             </div>
-                            <div class="flex border-t border-b mb-6 border-gray-300 py-2">
+                            @auth
+                                @php
+                                    $carbon=Carbon\Carbon::now();
+                                    $m = null;
+                                    $dayToday = $carbon->format('l');
+
+                                   if ($dayToday === 'Sunday') {
+                                    $m = $carbon->lte($market->endTimeSunday) && $carbon->gte($market->startTimeSunday);
+                                   } else {
+                                    $m = $carbon->lte($market->endTime) && $carbon->gte($market->startTime);
+                                   }
+                                @endphp
+                                @if($m)
+                                    <div class="flex border-t border-b mb-6 border-gray-300 py-2">
                                 <span class="text-black flex-1">Količina</span>
                                 <div class="custom-number-input h-10 w-32">
                                     <div class="flex flex-row h-10 w-full rounded-lg relative bg-transparent mt-1">
@@ -333,17 +436,34 @@
 
                                 <span class="ml-auto text-black"></span>
                             </div>
+                                @endif
+                            @endauth
                             <div class="flex">
-                                <span class="title-font font-medium text-2xl text-black">{{ $articleTotal }} KM {!! $calcTempPrice != 0 ? '<span class="text-orange-500"> ( '. $calcTempPrice . ' KM) </span>' : '' !!}</span>
-                                <button wire:click="addToCart({{ $this->articalId }}, {{ $this->qty }})"
-                                    class="flex ml-auto text-white bg-orange-500 border-0 py-2 px-6 focus:outline-none hover:bg-orange-600 rounded"  wire:click.stop="addToCart({{ $article->id }})">
-                                    Kupi
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                         class="w-5 h-5 ml-2" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                              d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
-                                    </svg>
-                                </button>
+                                <span class="title-font font-medium text-2xl text-black">Ukupno: {{ $articleTotal }} KM {!! $calcTempPrice != 0 ? '<span class="text-orange-500"> ( '. $calcTempPrice . ' KM) </span>' : '' !!}</span>
+                                @auth
+                                    @php
+                                        $carbon=Carbon\Carbon::now();
+                                        $m = null;
+                                        $dayToday = $carbon->format('l');
+
+                                       if ($dayToday === 'Sunday') {
+                                        $m = $carbon->lte($market->endTimeSunday) && $carbon->gte($market->startTimeSunday);
+                                       } else {
+                                        $m = $carbon->lte($market->endTime) && $carbon->gte($market->startTime);
+                                       }
+                                    @endphp
+                                    @if($m)
+                                        <button wire:click="addToCart({{ $this->articalId }}, {{ $this->qty }})"
+                                            class="flex ml-auto text-white bg-orange-500 border-0 py-2 px-6 focus:outline-none hover:bg-orange-600 rounded"  wire:click.stop="addToCart({{ $article->id }})">
+                                            Kupi
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                 class="w-5 h-5 ml-2" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                      d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+                                            </svg>
+                                        </button>
+                                    @endif
+                                @endauth
                             </div>
                         </div>
                         <img alt="ecommerce" class="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded"

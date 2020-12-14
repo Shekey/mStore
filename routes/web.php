@@ -28,9 +28,8 @@ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $requ
     return redirect('/');
 })->middleware(['auth', 'signed'])->name('verification.verify');
 
-Route::post('/email/verification-notification', function (Request $request) {
+Route::post('/email/verification-notification', function (\Illuminate\Http\Request $request) {
     $request->user()->sendEmailVerificationNotification();
-
     return back()->with('message', 'Verification link sent!');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
@@ -39,19 +38,14 @@ Route::get('/', function () {
     return view('welcome', ['data' => $market]);
 })->name('home');
 
-Route::get('/test', 'App\Http\Controllers\ArticlesController@handle');
-
 Route::post('image/upload/store','App\Http\Controllers\ImageUploadController@fileStore');
 Route::post('image/delete','App\Http\Controllers\ImageUploadController@fileDestroy');
 
-Route::get('/prodavnice/{id}/artikli',  function ($id) {
-    return view('admin.prodavnice.artikli', compact('id'));
+Route::get('/prodavnica/{id}',  function ($id) {
+    return view('prodavnica.index', compact('id'));
 });
 
-
 Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
-    Route::get('stripe', [App\Http\Controllers\StripePaymentController::class, 'index']);
-    Route::post('payment-process', [App\Http\Controllers\StripePaymentController::class, 'process']);
     Route::get('/kategorije', function () {
         return view('admin.categories.index');
     })->name('kategorije');
@@ -60,12 +54,13 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
         return view('admin.reklame.index');
     })->name('reklame');
 
+
     Route::get('/prodavnice', function () {
         return view('admin.prodavnice.index');
     })->name('prodavnice');
 
-    Route::get('/prodavnica/{id}',  function ($id) {
-        return view('prodavnica.index', compact('id'));
+    Route::get('/prodavnice/{id}/artikli',  function ($id) {
+        return view('admin.prodavnice.artikli', compact('id'));
     });
 
     Route::resource('korisnici', \App\Http\Controllers\UsersController::class);

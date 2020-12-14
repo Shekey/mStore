@@ -3,7 +3,6 @@
 namespace App\Actions\Fortify;
 
 use App\Models\User;
-use Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -30,7 +29,7 @@ class CreateNewUser implements CreatesNewUsers
             'back_ID' => ['required', 'image'],
             'phone' => ['required', 'numeric', 'min:9', 'min:10', 'unique:users'],
             'password' => $this->passwordRules(),
-        ])->validate();
+        ], $this->messages())->validate();
 
         $mime= $input['front_ID']->getClientOriginalExtension();
         $imageName = time().".".$mime;
@@ -54,13 +53,13 @@ class CreateNewUser implements CreatesNewUsers
         ]);
 
         $user->roles()->attach(2);
-        Auth::login($user);
     }
 
     public function messages() {
         return [
             'name.required' => 'Ime i prezime su obavezni.',
             'email.required' => 'Email je obavezan.',
+            'email.unique' => 'Ovaj email već neko koristi.',
             'address.required' => 'Adresa je obavezan.',
             'front_ID.required' => 'Slika licne karte(prednja) je obavezna.',
             'back_ID.required' => 'Slika licne karte(zadnja) je obavezna.',
