@@ -15,6 +15,13 @@
 
         <!-- Scripts -->
         <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.3/dist/alpine.js" defer></script>
+        <!-- Development -->
+        <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js"></script>
+        <script src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.js"></script>
+
+{{--        <!-- Production -->--}}
+{{--        <script src="https://unpkg.com/@popperjs/core@2"></script>--}}
+{{--        <script src="https://unpkg.com/tippy.js@6"></script>--}}
     </head>
     <body>
         <div class="font-sans text-gray-900 antialiased">

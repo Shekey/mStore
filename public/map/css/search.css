@@ -1,0 +1,53 @@
+.search-container {
+   margin-top: 20px;
+}
+
+.outer-city-field-container {
+   display: flex;
+    border-bottom: 1px solid lightgray;
+}
+
+.inner-city-field-container {
+   position: relative;
+}
+
+.outer-city-field-container img {
+   height: 36px;
+   margin-top: 14px;
+   margin-right: 5px;
+}
+
+.city-field {
+   font-weight: 500;
+   color: var(--primary-text);
+   font-size: 24px;
+   cursor: pointer;
+   border-bottom: 3px solid transparent;
+   transition: .3s all ease-in-out;
+   z-index: 10;
+}
+
+.city-field:focus {
+   outline: none;
+}
+
+.inner-city-field-container {
+   width: 100%;
+}
+
+.city-field-suggestion {
+   font-size: 24px;
+   font-weight: 500;
+   color: lightgrey;
+}
+
+.city-field, .city-field-suggestion {
+   width: 100%;
+   margin-top: 10px;
+   overflow: hidden;
+}
+
+.city-label {
+   font-weight: 500;
+   margin-bottom: 10px;
+}

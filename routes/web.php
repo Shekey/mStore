@@ -45,6 +45,8 @@ Route::get('/prodavnica/{id}',  function ($id) {
     return view('prodavnica.index', compact('id'));
 });
 
+Route::get('/cart', \App\Http\Livewire\CartDetails::class);
+
 Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::get('/kategorije', function () {
         return view('admin.categories.index');

@@ -1,4 +1,4 @@
-<nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
+<nav class="bg-white border-b border-gray-100">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-white">
         <div class="flex justify-between h-20">
@@ -10,7 +10,6 @@
                     </a>
                 </div>
 
-                <!-- Navigation Links -->
                 @auth
                     <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                         @can('tasks_access')
@@ -18,12 +17,59 @@
                             {{ __('Prodavnice') }}
                             </x-jet-nav-link>
                         @endcan
-                </div>
+                    </div>
                 @endauth
             </div>
 
+            <div class="flex sm:hidden items-center">
+                @auth
+                        <a href="/cart" class="text-white focus:outline-none text-gray-600 mr-4 flex items-center">
+                            <svg class="h-4 w-4" fill="none" stroke-linecap="round" stroke-linejoin="round"
+                                 stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                                <path
+                                    d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                            </svg>
+                            <p class="text:xs ml-1">Korpa</p>
+                        </a>
+                <div class="tooltip flex">
+                    <span>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-4 w-4">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
+                        </svg>
+                    </span>
+                    <p class="text:xs ml-1">{{ auth()->user()->points }} {{ auth()->user()->points == 1 ? 'Bod' : 'Bodova' }}</p>
+                    <div style="display: none;">
+                        <div id="one">
+                            <div class="bg-white">
+                                <div class="px-3 py-2 font-bold text-gray-500 ">Datum zadnje transakcije</div>
+                                <div class="px-3 py-3 text-gray-500">Zadnja transakcija je obavljenja 17.11.2020 i ukoliko ne kupite nešto do 17.12.2020 vaši bodovi će biti izbrisani.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endauth
+            </div>
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ml-6">
+                @auth
+                    <a href="/cart" class="text-white focus:outline-none mx-4 text-gray-600 mr-4 flex items-center navigateToCart">
+                        <svg class="h-6 w-6" fill="none" stroke-linecap="round" stroke-linejoin="round"
+                             stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                            <path
+                                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                        </svg>
+                        <p class="text:sm ml-3">Korpa</p>
+                    </a>
+                    <div class="flex items-center tooltip">
+                    <span>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
+                        </svg>
+                    </span>
+                        <p class="text:sm ml-3">{{ auth()->user()->points }} {{ auth()->user()->points == 1 ? 'Bod' : 'Bodova' }}</p>
+                    </div>
+                @endauth
+
                 @if (Route::has('login'))
                     <div class="hidden px-6 py-4 sm:block">
                         @guest
@@ -251,3 +297,10 @@
         @endauth
     </div>
 </nav>
+
+<script>
+    tippy('.tooltip', {
+        content:document.getElementById('one').innerHTML,
+        allowHTML: true,
+    });
+</script>

@@ -1,4 +1,4 @@
-<div style="width: 100%; flex-basis: 100%;">
+<div style="width: 100%; flex-basis: 100%;" class="catalog">
     <style>
         input[type="number"]::-webkit-inner-spin-button,
         input[type="number"]::-webkit-outer-spin-button {
@@ -104,6 +104,15 @@
 
     </style>
     <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css?dp-version=1578490236" />
+    <!-- Style -->
+    <link rel="stylesheet" type="text/css" href="/map/css/index.css" />
+    <link rel="stylesheet" type="text/css" href="/map/css/sidebar.css" />
+    <link rel="stylesheet" type="text/css" href="/map/css/search.css" />
+
+    <!-- JS API -->
+    <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css" />
+    <!-- Turf for area calculations -->
+    <script src="https://npmcdn.com/@turf/turf/turf.min.js"></script>
     <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-core.js"></script>
     <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-service.js"></script>
     <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-ui.js"></script>
@@ -289,7 +298,7 @@
                 </div>
             @endforeach
             @if (count($allCartItems) > 0)
-                <a role="button" class="flex items-center justify-center mt-4 px-3 py-2 bg-blue-600 text-white text-sm uppercase font-medium rounded hover:bg-blue-500 focus:outline-none focus:bg-blue-500" wire:click="cartDetails">
+                <a href="/cart" class="flex items-center justify-center mt-4 px-3 py-2 bg-blue-600 text-white text-sm uppercase font-medium rounded hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
                     Završi narudzbu
                     <svg class="h-5 w-5 mx-2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                          viewBox="0 0 24 24" stroke="currentColor">
@@ -366,8 +375,6 @@
             </div>
         </div>
     </main>
-    <div id="map" style="position:absolute; width:49%; background:grey; height: 700px;" ></div>
-    <div id="panel" style="position:absolute; width:49%; left:51%; background:inherit; height: 700px;"></div>
 
     @if(count($articles) != 0)
     <x-jet-dialog-modal wire:model="showArtikal" :maxWidth="'modal-full'">
@@ -491,6 +498,90 @@
         </x-slot>
 
         <x-slot name="content">
+            <div id="sidebar">
+                <div class="gradient-line"></div>
+                <div class="header">
+                    <h1>Odaberite lokaciju za dostavu</h1>
+                    <p class="py-4">
+                        Ukoliko želite da dostavite na trenutnu adresu, odaberite "trenutna adresa"
+                    </p>
+                    <div class="gradient-line"></div>
+                    <p class="py-4">
+                        Ukoliko želite da dostavite na pronadjete adresu, odaberite "pronadji adresu" a zatim upisite neke dodatne detalje oko vaše adrese.
+                    </p>
+                    <div class="gradient-line"></div>
+                    <p class="py-4">
+                        Ukoliko niste pronašli vašu tačnu adresu, možete nam pomoći tako što ćete kliknuti na kuću, zgradu ili površinu. Na taj način ste 100% sigruni da je to adersa gdje želite da dostavimo.
+                    </p>
+                    <div class="gradient-line"></div>
+
+                    <label for="current" class="py-4">
+                        Koristi trenutnu adresu
+                        <input type="radio" name="address" id="current" value="current">
+                    </label>
+
+                    <label for="select">
+                        Izaberite adresu
+                        <input type="radio" name="address" id="select" value="select">
+                    </label>
+                    <div class="search-container">
+                        <h2 class="city-label">Unesite vasu adresu</h2>
+                        <div class="outer-city-field-container">
+                            <img src="/map/resources/outline-search-24px.svg">
+                            <div class="inner-city-field-container">
+                                <div contenteditable="true" class="city-field"></div>
+                                <div class="city-field-suggestion"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="tabs">
+                    <div class="tab-container" style="display: none;">
+                        <div class="tab tab-active" id="tab-1">
+                            Isoline Options
+                        </div>
+                    </div>
+                    <div class="tab-bar"></div>
+                </div>
+
+
+                <div class="content">
+                    <div class="content-group" id="content-group-1">
+                        <div class="group columns" style="display: none;">
+                            <div class="col">
+                                <h2>Mode</h2>
+                                <label class="radio-container">
+                                    <input class="isoline-controls" type="radio" id="car" name="mode" checked>
+                                    <span class="checkmark"></span>
+                                    Car
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="group" style="display: none;">
+                            <h2>Date</h2>
+                            <input class="isoline-controls text-input" id="date-value" type="date" name="date" >
+                        </div>
+
+                        <div class="group" style="display: none;">
+                            <div class="h2-row">
+                                <h2>Time</h2>
+                                <div id="hour-slider-val" class="h2-val"></div>
+                            </div>
+                            <div class="graph-container">
+                                <div class="no-graph-text">Distribution is only available in range type time and mode car.</div>
+                                <div class="graph"></div>
+                            </div>
+                            <input class="isoline-controls slider" id="hour-slider" type="range" min="0" max="23" value="10" />
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div>
+            <div id="map"></div>
+            </div>
             <div class="container mx-auto mt-10">
                 <div class="flex shadow-md my-10">
                     <div class="w-3/4 bg-white px-5 py-5">
@@ -531,12 +622,12 @@
                             <span class="text-center w-1/5 font-semibold text-sm">{{ $item->total }} KM</span>
                         </div>
                         @endforeach
+
                         <a role="button" class="flex font-semibold text-indigo-600 text-sm mt-10" wire:click="$set('showCart', false)">
                             <svg class="fill-current mr-2 text-indigo-600 w-4" viewBox="0 0 448 512"><path d="M134.059 296H436c6.627 0 12-5.373 12-12v-56c0-6.627-5.373-12-12-12H134.059v-46.059c0-21.382-25.851-32.09-40.971-16.971L7.029 239.029c-9.373 9.373-9.373 24.569 0 33.941l86.059 86.059c15.119 15.119 40.971 4.411 40.971-16.971V296z"/></svg>
                             Nastavite kupovati
                         </a>
                     </div>
-
                     <div id="summary" class="w-1/4 px-8 py-10">
                         <h1 class="font-semibold text-2xl border-b pb-8">Detalji narudžbe</h1>
                         <div class="flex justify-between mt-10 mb-5">
@@ -569,258 +660,8 @@
     </x-jet-dialog-modal>
     @endif
     <script>
-        var AUTOCOMPLETION_URL = 'https://autocomplete.geocoder.ls.hereapi.com/6.2/suggest.json',
-            ajaxRequest = new XMLHttpRequest(),
-            query = '';
 
-        /**
-         * If the text in the text box  has changed, and is not empty,
-         * send a geocoding auto-completion request to the server.
-         *
-         * @param {Object} textBox the textBox DOM object linked to this event
-         * @param {Object} event the DOM event which fired this listener
-         */
-        function autoCompleteListener(textBox, event) {
-
-            if (query != textBox.value){
-                if (textBox.value.length >= 1){
-
-                    /**
-                     * A full list of available request parameters can be found in the Geocoder Autocompletion
-                     * API documentation.
-                     *
-                     */
-                    var params = '?' +
-                        'query=' +  encodeURIComponent(textBox.value) +   // The search text which is the basis of the query
-                        '&beginHighlight=' + encodeURIComponent('<mark>') + //  Mark the beginning of the match in a token.
-                        '&endHighlight=' + encodeURIComponent('</mark>') + //  Mark the end of the match in a token.
-                        '&maxresults=5' +  // The upper limit the for number of suggestions to be included
-                        // in the response.  Default is set to 5.
-                        '&apikey=' + APIKEY;
-                    ajaxRequest.open('GET', AUTOCOMPLETION_URL + params );
-                    ajaxRequest.send();
-                }
-            }
-            query = textBox.value;
-        }
-
-
-        /**
-         *  This is the event listener which processes the XMLHttpRequest response returned from the server.
-         */
-        function onAutoCompleteSuccess() {
-            /*
-             * The styling of the suggestions response on the map is entirely under the developer's control.
-             * A representitive styling can be found the full JS + HTML code of this example
-             * in the functions below:
-             */
-            clearOldSuggestions();
-            addSuggestionsToPanel(this.response);  // In this context, 'this' means the XMLHttpRequest itself.
-            addSuggestionsToMap(this.response);
-        }
-
-
-        /**
-         * This function will be called if a communication error occurs during the XMLHttpRequest
-         */
-        function onAutoCompleteFailed() {
-            alert('Ooops!');
-        }
-
-        // Attach the event listeners to the XMLHttpRequest object
-        ajaxRequest.addEventListener("load", onAutoCompleteSuccess);
-        ajaxRequest.addEventListener("error", onAutoCompleteFailed);
-        ajaxRequest.responseType = "json";
-
-
-        /**
-         * Boilerplate map initialization code starts below:
-         */
-
-
-// set up containers for the map  + panel
-        var mapContainer = document.getElementById('map'),
-            suggestionsContainer = document.getElementById('panel');
-
-        //Step 1: initialize communication with the platform
-        var APIKEY = 'obSf2Hrwgm1IxeXv12ai09KHpbH4bQncYYFJLThl8QM';
-
-        var platform = new H.service.Platform({
-            apikey: APIKEY,
-            useCIT: false,
-            useHTTPS: false
-        });
-        var defaultLayers = platform.createDefaultLayers();
-        var geocoder = platform.getGeocodingService();
-        var group = new H.map.Group();
-
-        group.addEventListener('tap', function (evt) {
-            map.setCenter(evt.target.getGeometry());
-            openBubble(
-                evt.target.getGeometry(), evt.target.getData());
-        }, false);
-
-
-        //Step 2: initialize a map - this map is centered over Europe
-        var map = new H.Map(mapContainer,
-            defaultLayers.vector.normal.map,{
-                center: {lat:52.5160, lng:13.3779},
-                zoom: 3
-            });
-
-        map.addObject(group);
-
-        //Step 3: make the map interactive
-        // MapEvents enables the event system
-        // Behavior implements default interactions for pan/zoom (also on mobile touch environments)
-        var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
-
-        // Create the default UI components
-        var ui = H.ui.UI.createDefault(map, defaultLayers);
-
-        // Hold a reference to any infobubble opened
-        var bubble;
-
-        /**
-         * Function to Open/Close an infobubble on the map.
-         * @param  {H.geo.Point} position     The location on the map.
-         * @param  {String} text              The contents of the infobubble.
-         */
-        function openBubble(position, text){
-            if(!bubble){
-                bubble =  new H.ui.InfoBubble(
-                    position,
-                    // The FO property holds the province name.
-                    {content: '<small>' + text+ '</small>'});
-                ui.addBubble(bubble);
-            } else {
-                bubble.setPosition(position);
-                bubble.setContent('<small>' + text+ '</small>');
-                bubble.open();
-            }
-        }
-
-
-        /**
-         * The Geocoder Autocomplete API response retrieves a complete addresses and a `locationId`.
-         * for each suggestion.
-         *
-         * You can subsequently use the Geocoder API to geocode the address based on the ID and
-         * thus obtain the geographic coordinates of the address.
-         *
-         * For demonstration purposes only, this function makes a geocoding request
-         * for every `locationId` found in the array of suggestions and displays it on the map.
-         *
-         * A more typical use-case would only make a single geocoding request - for example
-         * when the user has selected a single suggestion from a list.
-         *
-         * @param {Object} response
-         */
-        function addSuggestionsToMap(response){
-            /**
-             * This function will be called once the Geocoder REST API provides a response
-             * @param  {Object} result          A JSONP object representing the  location(s) found.
-             */
-            var onGeocodeSuccess = function (result) {
-                    var marker,
-                        locations = result.Response.View[0].Result,
-                        i;
-
-                    // Add a marker for each location found
-                    for (i = 0; i < locations.length; i++) {
-                        marker = new H.map.Marker({
-                            lat : locations[i].Location.DisplayPosition.Latitude,
-                            lng : locations[i].Location.DisplayPosition.Longitude
-                        });
-                        marker.setData(locations[i].Location.Address.Label);
-                        group.addObject(marker);
-                    }
-
-                    map.getViewModel().setLookAtData({
-                        bounds: group.getBoundingBox()
-                    });
-                    if(group.getObjects().length < 2){
-                        map.setZoom(15);
-                    }
-                },
-                /**
-                 * This function will be called if a communication error occurs during the JSON-P request
-                 * @param  {Object} error  The error message received.
-                 */
-                onGeocodeError = function (error) {
-                    alert('Ooops!');
-                },
-                /**
-                 * This function uses the geocoder service to calculate and display information
-                 * about a location based on its unique `locationId`.
-                 *
-                 * A full list of available request parameters can be found in the Geocoder API documentation.
-                 * see: http://developer.here.com/rest-apis/documentation/geocoder/topics/resource-search.html
-                 *
-                 * @param {string} locationId    The id assigned to a given location
-                 */
-                geocodeByLocationId = function (locationId) {
-                    geocodingParameters = {
-                        locationId : locationId
-                    };
-
-                    geocoder.geocode(
-                        geocodingParameters,
-                        onGeocodeSuccess,
-                        onGeocodeError
-                    );
-                }
-
-            /*
-             * Loop through all the geocoding suggestions and make a request to the geocoder service
-             * to find out more information about them.
-             */
-
-            response.suggestions.forEach(function (item, index, array) {
-                geocodeByLocationId(item.locationId);
-            });
-        }
-
-
-        /**
-         * Removes all H.map.Marker points from the map and adds closes the info bubble
-         */
-        function clearOldSuggestions(){
-            group.removeAll ();
-            if(bubble){
-                bubble.close();
-            }
-        }
-
-        /**
-         * Format the geocoding autocompletion repsonse object's data for display
-         *
-         * @param {Object} response
-         */
-        function addSuggestionsToPanel(response){
-            var suggestions = document.getElementById('suggestions');
-            suggestions.innerHTML = JSON.stringify(response, null, ' ');
-        }
-
-
-
-        var content =  '<strong style="font-size: large;">' + 'Geocoding Autocomplete'  + '</strong></br>';
-
-        content  += '<br/><input type="text" id="auto-complete" style="margin-left:5%; margin-right:5%; min-width:90%"  onkeyup="return autoCompleteListener(this, event);"><br/>';
-        content  += '<br/><strong>Response:</strong><br/>';
-        content  += '<div style="margin-left:5%; margin-right:5%;"><pre style="max-height:235px"><code  id="suggestions" style="font-size: small;">' +'{}' + '</code></pre></div>';
-
-        suggestionsContainer.innerHTML = content;
-
-
-        var content = '<strong style="font-size: large;">' + 'Geocoding Autocomplete' + '</strong></br>';
-
-        content += '<br/><input type="text" id="auto-complete" style="margin-left:5%; margin-right:5%; min-width:90%"  onkeyup="return autoCompleteListener(this, event);"><br/>';
-        content += '<br/><strong>Response:</strong><br/>';
-        content += '<div style="margin-left:5%; margin-right:5%;"><pre style="max-height:235px"><code  id="suggestions" style="font-size: small;">' + '{}' + '</code></pre></div>';
-
-        suggestionsContainer.innerHTML = content;
-
+        document.addEventListener("DOMContentLoaded", () => {
         var mySwiper = new Swiper('.swiper-container', {
             // Optional parameters
             direction: 'horizontal',
@@ -854,9 +695,22 @@
             });
         });
 
-        clearCart.addEventListener('click', () => {
+        clearCart.addEventListener('click', () => {$cartOpen
             $.notify("Korpa je očišćena.", "warn");
         });
-    </script>
 
+        const navigateToCart = document.querySelector('.navigateToCart');
+
+        Livewire.hook('component.initialized', (component) => {
+            console.log(component.el);
+            if (component.el.classList.contains('catalog')) {
+                navigateToCart.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    component.set('cartOpen', true);
+                });
+            }
+        })
+        });
+    </script>
+    <script type="module" src="/map/js/app.js"></script>
 </div>
