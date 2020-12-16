@@ -15,7 +15,6 @@ class Ads extends Model
     use Notifiable;
 
     protected $guarded = [];
-    protected $table = 'reklame';
 
     protected $dispatchesEvents = [
         'created' => AdsCreated::class,

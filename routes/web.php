@@ -69,3 +69,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::resource('korisnici', \App\Http\Controllers\UsersController::class);
 });
 
+Route::group(['middleware' => ['auth']], function () {
+    Route::post('/mark-as-read', '\App\Http\Controllers\UsersController@markNotification')->name('markNotification');
+});
+

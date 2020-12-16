@@ -73,7 +73,7 @@ class CatalogLiveWire extends Component
         $articleInCart = ShoppingCart::search(['id' => $productId]);
         if (count($articleInCart) > 1) {
             ShoppingCart::update($articleInCart->first()->__raw_id, $qty);
-        } else if(count($articleInCart) > 1) {
+        } else if(count($articleInCart) == 0) {
             $image = count($article->images) > 0 ? $article->images[0]->url : 'https://dummyimage.com/400x400';
             ShoppingCart::add($article->id, $article->name, $qty, $article->price, ['color' => $article->color, 'image' => $image, 'market' => $this->marketName, 'shipping' => $this->shippingPrice]);
         }

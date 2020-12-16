@@ -1,4 +1,4 @@
-<nav class="bg-white border-b border-gray-100">
+<nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-white">
         <div class="flex justify-between h-20">
@@ -10,15 +10,6 @@
                     </a>
                 </div>
 
-                @auth
-                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                        @can('tasks_access')
-                            <x-jet-nav-link href="{{ route('prodavnice') }}" :active="request()->routeIs('prodavnice')">
-                            {{ __('Prodavnice') }}
-                            </x-jet-nav-link>
-                        @endcan
-                    </div>
-                @endauth
             </div>
 
             <div class="flex sm:hidden items-center">
@@ -31,7 +22,7 @@
                             </svg>
                             <p class="text:xs ml-1">Korpa</p>
                         </a>
-                <div class="tooltip flex">
+                <div class="tooltip flex items-center">
                     <span>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-4 w-4">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
@@ -149,6 +140,12 @@
 
                             <div class="border-t border-gray-100"></div>
                         @endif
+
+                        @can('tasks_access')
+                            <x-jet-dropdown-link href="{{ route('prodavnice') }}">
+                                {{ __('Prodavnice') }}
+                            </x-jet-dropdown-link>
+                        @endcan
 
                         @can('tasks_access')
                             <x-jet-dropdown-link href="{{ route('korisnici.index') }}">

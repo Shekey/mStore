@@ -62,6 +62,12 @@ class CartDetails extends Component
         $this->updateCartDetails();
     }
 
+    public function updateCartQty($rowId, $qty) {
+        if($qty < 0) $qty = 0;
+        ShoppingCart::update($rowId, $qty);
+        $this->updateCartDetails();
+    }
+
     public function addToCart(int $productId, $qty = 1)
     {
         $article = Articles::find($productId);

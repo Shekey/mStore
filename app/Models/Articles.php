@@ -26,4 +26,8 @@ class Articles extends Model
         return $this->hasMany('App\Models\ArtikalImage', 'articleId', 'id');
     }
 
+    public function orderproduct(){
+        return $this->belongsTo('App\OrderProduct');
+    }
+
 }

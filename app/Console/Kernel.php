@@ -27,6 +27,8 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')->hourly();
         $schedule->command('market:closed')
             ->everyMinute();
+        $schedule->command('notifications:clear')
+            ->dailyAt('23:00');
     }
 
     /**
