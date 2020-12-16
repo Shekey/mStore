@@ -169,34 +169,12 @@
 
             <div class="container mx-auto px-6">
                 <div class="flex items-center justify-between flex-wrap sm:no-wrap">
-                    <div class="hidden w-full text-white md:flex md:items-center">
-                        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd" clip-rule="evenodd"
-                                  d="M16.2721 10.2721C16.2721 12.4813 14.4813 14.2721 12.2721 14.2721C10.063 14.2721 8.27214 12.4813 8.27214 10.2721C8.27214 8.06298 10.063 6.27212 12.2721 6.27212C14.4813 6.27212 16.2721 8.06298 16.2721 10.2721ZM14.2721 10.2721C14.2721 11.3767 13.3767 12.2721 12.2721 12.2721C11.1676 12.2721 10.2721 11.3767 10.2721 10.2721C10.2721 9.16755 11.1676 8.27212 12.2721 8.27212C13.3767 8.27212 14.2721 9.16755 14.2721 10.2721Z"
-                                  fill="currentColor"/>
-                            <path fill-rule="evenodd" clip-rule="evenodd"
-                                  d="M5.79417 16.5183C2.19424 13.0909 2.05438 7.39409 5.48178 3.79417C8.90918 0.194243 14.6059 0.054383 18.2059 3.48178C21.8058 6.90918 21.9457 12.6059 18.5183 16.2059L12.3124 22.7241L5.79417 16.5183ZM17.0698 14.8268L12.243 19.8965L7.17324 15.0698C4.3733 12.404 4.26452 7.97318 6.93028 5.17324C9.59603 2.3733 14.0268 2.26452 16.8268 4.93028C19.6267 7.59603 19.7355 12.0268 17.0698 14.8268Z"
-                                  fill="currentColor"/>
-                        </svg>
-                        <span class="mx-1 text-lg">Bugojno</span>
-                    </div>
-
                     <div class="w-full text-white md:text-center text-3xl font-semibold capitalize order-1 sm:order-0">
                         {{ $market->name }}
                     </div>
                     @auth
-                        @php
-                            $carbon=Carbon\Carbon::now();
-                            $m = null;
-                            $dayToday = $carbon->format('l');
 
-                           if ($dayToday === 'Sunday') {
-                            $m = $carbon->lte($market->endTimeSunday) && $carbon->gte($market->startTimeSunday);
-                           } else {
-                            $m = $carbon->lte($market->endTime) && $carbon->gte($market->startTime);
-                           }
-                        @endphp
-                        @if($m)
+                        @if(!$market->isClosed)
                             <div class="flex items-center sm:justify-end w-full">
                                 <p class="text-white mt-0 mr-4">Ukupno ( {{ $totalPrice }} KM )</p>
                                 <button wire:click="$set('cartOpen', true)" class="text-white focus:outline-none mx-4 sm:mx-0">
@@ -215,9 +193,9 @@
 
                 @guest
                     <div class="alert-toast fixed bottom-0 right-0 m-8 w-5/6 md:w-full max-w-sm">
-                        <input type="checkbox" class="hidden" id="footertoast">
+                        <input type="checkbox" class="hidden" id="not_registered">
 
-                        <label class="close cursor-pointer flex items-start justify-between w-full p-2 bg-green-500 h-24 rounded shadow-lg text-white" title="close" for="footertoast">
+                        <label class="close cursor-pointer flex items-start justify-between w-full p-2 bg-green-500 h-24 rounded shadow-lg text-white" title="close" for="not_registered">
                             <svg class="fill-current w-4 h-4 mr-2" width="18" height="18" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M12.432 0c1.34 0 2.01.912 2.01 1.957 0 1.305-1.164 2.512-2.679 2.512-1.269 0-2.009-.75-1.974-1.99C9.789 1.436 10.67 0 12.432 0zM8.309 20c-1.058 0-1.833-.652-1.093-3.524l1.214-5.092c.211-.814.246-1.141 0-1.141-.317 0-1.689.562-2.502 1.117l-.528-.88c2.572-2.186 5.531-3.467 6.801-3.467 1.057 0 1.233 1.273.705 3.23l-1.391 5.352c-.246.945-.141 1.271.106 1.271.317 0 1.357-.392 2.379-1.207l.6.814C12.098 19.02 9.365 20 8.309 20z"/></svg>
                             <p>Morate se registrirati da bi ste mogli naručivati artikle.</p>
                             <svg class="fill-current text-white" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
@@ -330,18 +308,7 @@
                              wire:click.stop="showDetailsArticle({{ $article->id }})"
                              style="background-image: url('https://images.unsplash.com/photo-1495856458515-0637185db551?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80')">
                             @auth
-                                @php
-                                    $carbon=Carbon\Carbon::now();
-                                    $m = null;
-                                    $dayToday = $carbon->format('l');
-
-                                   if ($dayToday === 'Sunday') {
-                                    $m = $carbon->lte($market->endTimeSunday) && $carbon->gte($market->startTimeSunday);
-                                   } else {
-                                    $m = $carbon->lte($market->endTime) && $carbon->gte($market->startTime);
-                                   }
-                                @endphp
-                               @if($m)
+                               @if(!$market->isClosed)
                                     <a role="button"
                                        class="add-to-cart p-2 rounded-full bg-orange-600 text-white mx-5 -mb-4 hover:bg-orange-200 focus:outline-none focus:bg-blue-500"
                                        style="position: relative; z-index: 10" wire:click.stop="quickAddToCart({{ $article->id }})">
@@ -411,18 +378,7 @@
                                 <span class="ml-auto text-black">{{ $articleSize }}</span>
                             </div>
                             @auth
-                                @php
-                                    $carbon=Carbon\Carbon::now();
-                                    $m = null;
-                                    $dayToday = $carbon->format('l');
-
-                                   if ($dayToday === 'Sunday') {
-                                    $m = $carbon->lte($market->endTimeSunday) && $carbon->gte($market->startTimeSunday);
-                                   } else {
-                                    $m = $carbon->lte($market->endTime) && $carbon->gte($market->startTime);
-                                   }
-                                @endphp
-                                @if($m)
+                                @if(!$market->isClosed)
                                     <div class="flex border-t border-b mb-6 border-gray-300 py-2">
                                 <span class="text-black flex-1">Količina</span>
                                 <div class="custom-number-input h-10 w-32">
@@ -448,18 +404,7 @@
                             <div class="flex">
                                 <span class="title-font font-medium text-2xl text-black">Ukupno: {{ $articleTotal }} KM {!! $calcTempPrice != 0 ? '<span class="text-orange-500"> ( '. $calcTempPrice . ' KM) </span>' : '' !!}</span>
                                 @auth
-                                    @php
-                                        $carbon=Carbon\Carbon::now();
-                                        $m = null;
-                                        $dayToday = $carbon->format('l');
-
-                                       if ($dayToday === 'Sunday') {
-                                        $m = $carbon->lte($market->endTimeSunday) && $carbon->gte($market->startTimeSunday);
-                                       } else {
-                                        $m = $carbon->lte($market->endTime) && $carbon->gte($market->startTime);
-                                       }
-                                    @endphp
-                                    @if($m)
+                                    @if(!$market->isClosed)
                                         <button wire:click="addToCart({{ $this->articalId }}, {{ $this->qty }})"
                                             class="flex ml-auto text-white bg-orange-500 border-0 py-2 px-6 focus:outline-none hover:bg-orange-600 rounded"  wire:click.stop="addToCart({{ $article->id }})">
                                             Kupi

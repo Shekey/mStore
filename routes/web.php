@@ -3,6 +3,7 @@
 use App\Http\Controllers\StripePaymentController;
 use App\Http\Livewire\ArtikliLiveWire;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 
 /*

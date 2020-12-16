@@ -39,6 +39,15 @@ class Categories extends Component
         $this->resetFields();
     }
 
+    public function submit() {
+
+        if ($this->modelId === null ) {
+            $this->create();
+        } else {
+            $this->update();
+        }
+    }
+
     public function hydrate()
     {
         $this->resetErrorBag();

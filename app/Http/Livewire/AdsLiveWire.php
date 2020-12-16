@@ -24,6 +24,15 @@ class AdsLiveWire extends Component
         $this->uploadedNewImage = true;
     }
 
+    public function submit() {
+
+        if ($this->modelId === null ) {
+            $this->create();
+        } else {
+            $this->update();
+        }
+    }
+
     public function updatedDisplayingToken() {
         if(!$this->displayingToken) {
             $this->resetFields();

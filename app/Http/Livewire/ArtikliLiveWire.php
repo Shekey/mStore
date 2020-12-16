@@ -29,6 +29,15 @@ class ArtikliLiveWire extends Component
         $this->uploadedNewImage = true;
     }
 
+    public function submit() {
+
+        if ($this->modelId === null ) {
+            $this->create();
+        } else {
+            $this->update();
+        }
+    }
+
     public function removeImage($id) {
         $index = null;
         $this->isImageDeleted = true;

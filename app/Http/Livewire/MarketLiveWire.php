@@ -87,6 +87,15 @@ class MarketLiveWire extends Component
         $this->resetFields();
     }
 
+    public function submit() {
+
+        if ($this->modelId === null ) {
+            $this->create();
+        } else {
+            $this->update();
+        }
+    }
+
     public function deleteCategory() {
         $market = Market::find($this->modelId);
         if(Storage::disk('public')->exists($market->image)) {
@@ -157,6 +166,24 @@ class MarketLiveWire extends Component
         $this->orderPaid = 0;
     }
 
+    public function checkIsClosed() {
+        $carbon=Carbon::now();
+        $m = null;
+        $dayToday = $carbon->format('l');
+
+
+        if ($dayToday === 'Sunday') {
+            $startDateSunday = new Carbon($this->startTimeSunday);
+            $endDateSunday = new Carbon($this->endTimeSunday);
+            $m = $carbon->lte($endDateSunday) && $carbon->gte($startDateSunday);
+        } else {
+            $startDate = new Carbon($this->startTime);
+            $endDate = new Carbon($this->endTime);
+            $m = $carbon->lte($endDate) && $carbon->gte($startDate);
+        }
+        $this->isClosed = !$m;
+    }
+
     public function createData() {
 
         $imageName = null;
@@ -174,20 +201,10 @@ class MarketLiveWire extends Component
             }
         } else {
             $market = Market::find($this->modelId);
-            $carbon=Carbon::now();
-            $m = null;
-            $dayToday = $carbon->format('l');
-
-            if ($dayToday === 'Sunday') {
-                $m = $carbon->lte($this->endTimeSunday) && $carbon->gte($this->startTimeSunday);
-            } else {
-                $m = $carbon->lte($this->endTime) && $carbon->gte($this->startTime);
-            }
-            $this->isClosed = !$m;
             $imageName = $market->image;
         }
 
-
+        $this->checkIsClosed();
 
         return [
             'name' => $this->name,
