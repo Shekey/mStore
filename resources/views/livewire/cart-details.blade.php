@@ -1,19 +1,5 @@
 <div class="bg-white pt-4 py-10 cart-details">
-    <!-- Style -->
-    @if(count($allCartItems))
-        <link rel="stylesheet" type="text/css" href="/map/css/index.css" />
-        <link rel="stylesheet" type="text/css" href="/map/css/sidebar.css" />
-        <link rel="stylesheet" type="text/css" href="/map/css/search.css" />
-        <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css" />
-
-        <!-- JS API -->
-        <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-core.js"></script>
-        <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-service.js"></script>
-        <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-ui.js"></script>
-        <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js"></script>
-    @endif
-
-    <style>
+      <style>
         button[disabled]:hover {
             cursor: not-allowed;
         }
@@ -32,7 +18,6 @@
             z-index: 100;
         }
     </style>
-
     <div class="container mx-auto mt-10">
         <div class="flex flex-wrap z-index-large">
             <div class="f-100 lg:w-3/4 px-5 py-5">
@@ -56,7 +41,7 @@
                             <div class="flex flex-col justify-between ml-4 flex-grow">
                                 <span class="font-bold text-sm text-black">{{ $item->name }}</span>
                                 <span class="text-red-500 text-xs">{{ $item->market }}</span>
-                                <a role="button" class="font-semibold hover:text-red-500 text-black text-xs" wire:click="removeFromCart('{{ $item->__raw_id }}')">Izbriši</a>
+                                <a role="button" class="font-semibold hover:text-red-500 text-black text-xs" wire:click.stop="removeFromCart('{{ $item->__raw_id }}')">Izbriši</a>
                             </div>
                         </div>
                         <div class="flex justify-center w-1/5 decrease"  wire:click.stop="updateCartQty('{{ $item->__raw_id }}', {{ $item->qty - 1 }})">
@@ -97,16 +82,16 @@
 
 
         @if(count($allCartItems))
-            <div class="relative">
+            <div class="relative" style="overflow: hidden">
             <div id="sidebar">
                 <div class="gradient-line"></div>
 
                 <div class="header">
                     <h1>Odaberite lokaciju za dostavu</h1>
 
-                    <label for="current" class="block">
-                        Trenutna adresa
-                        <input type="radio" name="address" id="current" value="current">
+                    <label for="current" class="block" wire:click.stop>
+                        Trenutna lokacija
+                        <input type="checkbox" name="address" id="current" value="current">
                     </label>
                     <div class="search-container">
                         <h2 class="city-label">Unesite vašu adresu</h2>
@@ -120,10 +105,6 @@
                     </div>
                     <p class="py-4">
                         Ukoliko želite da dostavite na trenutnu adresu, odaberite "trenutna adresa"
-                    </p>
-                    <div class="gradient-line"></div>
-                    <p class="py-4">
-                        Ukoliko želite da dostavite na pronadjete adresu, odaberite "pronadji adresu" a zatim upisite neke dodatne detalje oko vaše adrese.
                     </p>
                     <div class="gradient-line"></div>
                     <p class="py-4">
@@ -179,25 +160,9 @@
     </div>
 
     @if(count($allCartItems))
-        <script type="module" src="/map/js/app.js"></script>
 
         <script>
             document.addEventListener("DOMContentLoaded", () => {
-
-                const increase = document.querySelectorAll('.increase');
-                const decrease = document.querySelectorAll('.decrease');
-                increase.forEach((btn) => {
-                    btn.addEventListener('click', () => {
-                        $.notify("Uspjesno ste povećali količinu artikla.", "success");
-                    });
-                });
-
-                decrease.forEach((btn) => {
-                    btn.addEventListener('click', () => {
-                        $.notify("Uspjesno ste oduzeli količinu artikla.", "error");
-                    });
-                });
-
                 Livewire.hook('component.initialized', (component) => {
                     if (component.el.classList.contains('cart-details')) {
                         document.addEventListener('addedMarkers', function (e) {

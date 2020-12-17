@@ -528,6 +528,24 @@
         <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     @endif
 
+    @if(request()->routeIs('cart'))
+        @php
+            $allCartItems = \Overtrue\LaravelShoppingCart\Facade::all();
+        @endphp
+        @if(count($allCartItems))
+            <link rel="stylesheet" type="text/css" href="/map/css/index.css" />
+            <link rel="stylesheet" type="text/css" href="/map/css/sidebar.css" />
+            <link rel="stylesheet" type="text/css" href="/map/css/search.css" />
+            <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css" />
+
+            <!-- JS API -->
+            <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-core.js"></script>
+            <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-service.js"></script>
+            <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-ui.js"></script>
+            <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js"></script>
+        @endif
+    @endif
+
 
     {{--        <!-- Production -->--}}
     {{--        <script src="https://unpkg.com/@popperjs/core@2"></script>--}}
@@ -607,6 +625,10 @@
 @stack('modals')
 
 @livewireScripts
+
+@if(count(\Overtrue\LaravelShoppingCart\Facade::all()))
+    <script type="module" src="/map/js/app.js"></script>
+@endif
 
 <script>
     function sendMarkRequest(id = null) {

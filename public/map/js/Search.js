@@ -24,11 +24,9 @@ class Search {
 
    checkState() {
       const that = this;
-      $$('input[type=radio][name=address]').forEach(c => c.onchange = (e) => {
+      $$('input[type=checkbox][name=address]').forEach(c => c.onchange = (e) => {
          if (e.target.value == 'current') {
             that.selectCurrent();
-         } else if (e.target.value == 'select') {
-            alert("Select adresa");
          }
       });
    }
@@ -42,7 +40,6 @@ class Search {
       this.matches = await fetch( autocompleteGeocodeUrl(value) ).then(res => res.json());
       this.matches = this.matches.suggestions.reverse().filter(x => x.countryCode === 'BIH' && x.address.city === 'Bugojno');
       const match = this.matches[this.currentIndex];
-      console.log(match);
 
       if (match === undefined) {
          $('.city-field-suggestion').innerText = '';
@@ -80,7 +77,6 @@ class Search {
             evt.target.innerText = this.label;
             this.active = this.matches[this.currentIndex].locationId;
          } else {
-            alert(this.matches);
             this.currentIndex = 0;
          }
          this.currentIndex++;
@@ -109,7 +105,6 @@ class Search {
       center.lat = lat;
       center.lng = lng;
       this.distance = await fetch( distanceCalculate(center.lat, center.lng) ).then(res => res.json());
-      console.log(this.distance.response.route[0].summary.distance);
       var marker = new H.map.Marker({lat:lat, lng: lng});
       if (this.searchMarkers.length) {
           var event = new CustomEvent("removedMarkers");
@@ -118,13 +113,13 @@ class Search {
       }
       this.searchMarkers.length = 0;
        // create and dispatch the event
-       var event = new CustomEvent("addedMarker", {
+       var eventSelect = new CustomEvent("addedMarkers", {
            detail: {
-               lat,
-               lng
+               lat: lat,
+               lng: lng
            }
        });
-       document.dispatchEvent(event);
+       document.dispatchEvent(eventSelect);
       this.checkMarker(marker, lat, lng);
       // calculateIsoline(center);
    }
@@ -141,13 +136,13 @@ class Search {
          var coord = map.screenToGeo(evt.currentPointer.viewportX,evt.currentPointer.viewportY);
          var marker = new H.map.Marker({lat:coord.lat.toFixed(4), lng:coord.lng.toFixed(4)});
          that.checkMarker(marker, coord.lat.toFixed(4), coord.lng.toFixed(4));
-          var event = new CustomEvent("addedMarkers", {
+          const eventAddress = new CustomEvent("addedMarkers", {
               detail: {
                   lat: coord.lat.toFixed(4),
                   lng: coord.lng.toFixed(4)
               }
           });
-          document.dispatchEvent(event);
+          document.dispatchEvent(eventAddress);
       });
    }
 
