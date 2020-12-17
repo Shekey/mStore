@@ -13,7 +13,7 @@ class CatalogLiveWire extends Component
 {
     use WithPagination;
 
-    public $showArtikal = false, $marketId = null, $stepsCompleted = false, $marketName = '', $totalShipping = 0, $shippingPrice = 0, $cartTotalItems = 0, $showCart = false, $cartClass = '', $totalPrice = 0, $allCartItems = [], $search = '', $filterCat = '', $articalId = "", $maxWidth = "w-screen", $articleBrand = "", $articleName, $articleSize, $articleColor, $articleDesc, $articlePrice, $qty = 0, $articleTotal, $image = "https://dummyimage.com/400x400", $calcTempPrice = 0, $cartOpen = false;
+    public $showArtikal = false, $marketId = null, $stepsCompleted = false, $marketName = '', $totalShipping = 0, $shippingPrice = 0, $cartTotalItems = 0, $showCart = false, $cartClass = '', $totalPrice = 0, $allCartItems = [], $search = '', $filterCat = '', $articalId = "", $maxWidth = "w-screen", $articleBrand = "", $articleName, $articleSize, $articleColor, $articleDesc, $articlePrice, $qty = 1, $articleTotal, $image = "https://dummyimage.com/400x400", $calcTempPrice = 0, $cartOpen = false;
 
     public function mount($id) {
         $this->marketId = $id;
@@ -28,6 +28,7 @@ class CatalogLiveWire extends Component
 
     public function clearCart() {
         ShoppingCart::clean();
+        $this->dispatchBrowserEvent('clearedArticleCart');
         $this->cartOpen = false;
         $this->cartClass = '';
     }
@@ -50,7 +51,12 @@ class CatalogLiveWire extends Component
 
     public function removeFromCart($id) {
         ShoppingCart::remove($id);
+        $this->dispatchBrowserEvent('removedArticleCart');
         $this->updateCartDetails();
+    }
+
+    public function updatedPage() {
+        dd("changed page");
     }
 
     public function quickAddToCart(int $productId, $qty = 1) {
@@ -59,11 +65,13 @@ class CatalogLiveWire extends Component
 
         if (count($articleInCart) > 1) {
             ShoppingCart::update($articleInCart->first()->__raw_id, $articleInCart->first()->qty + 1);
+            $this->dispatchBrowserEvent('updatedArticleCart');
         } else {
             $image = count($article->images) > 0 ? $article->images[0]->url : 'https://dummyimage.com/400x400';
             ShoppingCart::add($article->id, $article->name, $qty, $article->price, ['color' => $article->color, 'image' => $image, 'market' => $this->marketName, 'shipping' => $this->shippingPrice]);
         }
 
+        $this->dispatchBrowserEvent('addedArticleCart');
         $this->updateCartDetails();
     }
 
@@ -71,11 +79,14 @@ class CatalogLiveWire extends Component
     {
         $article = Articles::find($productId);
         $articleInCart = ShoppingCart::search(['id' => $productId]);
-        if (count($articleInCart) > 1) {
+        if (count($articleInCart) >= 1) {
             ShoppingCart::update($articleInCart->first()->__raw_id, $qty);
-        } else if(count($articleInCart) == 0) {
+            $this->dispatchBrowserEvent('updatedArticleCart');
+
+        } else {
+            $this->dispatchBrowserEvent('addedArticleCart');
             $image = count($article->images) > 0 ? $article->images[0]->url : 'https://dummyimage.com/400x400';
-            ShoppingCart::add($article->id, $article->name, $qty, $article->price, ['color' => $article->color, 'image' => $image, 'market' => $this->marketName, 'shipping' => $this->shippingPrice]);
+            ShoppingCart::add($productId, $article->name, $qty, $article->price, ['color' => $article->color, 'image' => $image, 'market' => $this->marketName, 'shipping' => $this->shippingPrice]);
         }
         $this->updateCartDetails();
         $this->showArtikal = false;
@@ -132,6 +143,7 @@ class CatalogLiveWire extends Component
     public function updateCartQty($rowId, $qty) {
         if($qty < 0) $qty = 0;
         ShoppingCart::update($rowId, $qty);
+        $this->dispatchBrowserEvent('updatedArticleCart');
         $this->updateCartDetails();
     }
 
@@ -149,9 +161,9 @@ class CatalogLiveWire extends Component
         $this->search = '';
     }
 
-    public function updatingSearch()
-    {
+    public function searchArticle($value) {
         $this->resetPage();
+        $this->search =  $value;
     }
 
 

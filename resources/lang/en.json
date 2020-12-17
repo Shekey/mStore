@@ -3,5 +3,10 @@
     "Please click the button below to verify your email address.":"Molimo vas da kliknete na dugme ako želite da verifikujete email adresu.",
     "If you did not create an account, no further action is required.": "Ako niste kreirali račun, ne morate ništa uraditi.",
     "Regards": "S poštovanjem",
-    "Hello!": "Pozdrav!"
+    "Hello!": "Pozdrav!",
+    "You are receiving this email because we received a password reset request for your account.": "Primili ste ovaj email jer ste zatražili promjenu passworda.",
+    "This password reset link will expire in 60 minutes.": "Ovaj link važi 1h.",
+    "If you did not request a password reset, no further action is required.": "Ako niste zatražili promjenu passworda, ne morate ništa uraditi.",
+    "Reset Password Notification": "Notifikacija za resetovanje passworda",
+    "Reset Password": "Resetujte password"
 }

@@ -209,7 +209,7 @@
             </span>
                 <input
                     class="w-full border rounded-md pl-10 pr-4 py-2 focus:border-blue-500 focus:outline-none focus:shadow-outline"
-                    type="text" wire:model.debounce.250ms="search" placeholder="Pretraga po nazivu artikla">
+                    type="text" wire:model.lazy="search" wire:keydown.enter="searchArticle($event.target.value)" placeholder="Pretraga po nazivu artikla (enter)">
             </div>
         </div>
 
@@ -388,8 +388,8 @@
                                 <span class="title-font font-medium text-2xl text-black">Ukupno: {{ $articleTotal }} KM {!! $calcTempPrice != 0 ? '<span class="text-orange-500"> ( '. number_format((float)$calcTempPrice  , 2, '.', '') . ' KM) </span>' : '' !!}</span>
                                 @auth
                                     @if(!$market->isClosed)
-                                        <button wire:click="addToCart({{ $this->articalId }}, {{ $this->qty }})"
-                                            class="flex ml-auto text-white bg-orange-500 border-0 py-2 px-6 focus:outline-none hover:bg-orange-600 rounded"  wire:click.stop="addToCart({{ $article->id }})">
+                                        <button wire:click="addToCart({{ $this->articalId }}, {{ $qty }})"
+                                            class="flex ml-auto text-white bg-orange-500 border-0 py-2 px-6 focus:outline-none hover:bg-orange-600 rounded">
                                             Kupi
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                  class="w-5 h-5 ml-2" stroke="currentColor">
@@ -591,17 +591,31 @@
 
         document.addEventListener("DOMContentLoaded", () => {
 
-        const navigateToCart = document.querySelector('.navigateToCart');
-        Livewire.hook('component.initialized', (component) => {
-            console.log(component.el);
-            if (component.el.classList.contains('catalog')) {
-                navigateToCart.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    component.set('cartOpen', true);
-                });
-            }
-        })
+            const navigateToCart = document.querySelector('.navigateToCart');
+            Livewire.hook('component.initialized', (component) => {
+                console.log(component.el);
+                if (component.el.classList.contains('catalog')) {
+                    navigateToCart.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        component.set('cartOpen', true);
+                    });
+                }
+            })
 
+            Livewire.hook('message.sent', (message, component) => {
+                if (component.el.classList.contains('catalog')) {
+                    var event = new CustomEvent("sent");
+                    document.dispatchEvent(event);
+                }
+            })
+
+            Livewire.hook('message.processed', (message, component) => {
+                if (component.el.classList.contains('catalog')) {
+                    console.log("processed");
+                    var event = new CustomEvent("processed");
+                    document.dispatchEvent(event);
+                }
+            });
         });
     </script>
 </div>

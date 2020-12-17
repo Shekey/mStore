@@ -5,7 +5,9 @@
 <x-guest-layout>
     <x-jet-authentication-card>
         <x-slot name="logo">
-            <x-jet-authentication-card-logo />
+            <a href="/">
+                <img src="/assets/logo.png" alt="Image logo" width="250" height="200">
+            </a>
         </x-slot>
 
         <x-jet-validation-errors class="mb-4" />

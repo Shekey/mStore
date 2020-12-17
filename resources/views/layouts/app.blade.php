@@ -658,25 +658,46 @@
             })
         }
 
-        $(window).bind("load", function() {
-            setTimeout(() => {
-                $('.preloader').fadeOut('slow', () => {
-                    $('body').removeClass('preloader-active');
-                    const addToCartButtons = document.querySelectorAll('.add-to-cart');
-                    const clearCart = document.querySelector('.clear-cart');
-                    addToCartButtons.forEach((btn) => {
-                        btn.addEventListener('click', () => {
-                            $.notify("Uspjesno ste dodali artikal u korpu.", "success");
-                        });
-                    });
+        window.addEventListener('addedArticleCart', event => {
+            $.notify("Uspjesno ste dodali artikal u korpu.", "success");
+        });
 
-                    if(clearCart) {
-                        clearCart.addEventListener('click', () => {
-                            $.notify("Korpa je očišćena.", "warn");
-                        });
-                    }
+        window.addEventListener('updatedArticleCart', event => {
+            $.notify("Uspjesno ste ažurirali količinu artikla.", "success");
+        })
+
+        window.addEventListener('removedArticleCart', event => {
+            $.notify("Uspješno ste obrisali artikal iz korpe.", "warn");
+        });
+
+        window.addEventListener('clearedArticleCart', event => {
+            $.notify("Uspješno ste obrisali sve artikale iz korpe.", "error");
+        });
+
+        document.addEventListener('processed', event => {
+            removePreloader(0, "fast");
+        });
+
+        document.addEventListener('sent', event => {
+            $('body').addClass('preloader-active');
+            $('.preloader').css("display", "");
+
+            $("header+div")[0].scrollIntoView({
+                behavior: "instant", // or "auto" or "instant"
+                block: "start",
+            });
+        });
+
+        function removePreloader(time, speed) {
+            setTimeout(() => {
+                $('.preloader').fadeOut(speed, () => {
+                    $('body').removeClass('preloader-active');
                 });
-            }, 300)
+            }, time)
+        }
+
+        $(window).bind("load", function() {
+            removePreloader(300, "slow");
         });
 
     });

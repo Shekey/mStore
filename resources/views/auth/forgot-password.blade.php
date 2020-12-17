@@ -1,7 +1,9 @@
 <x-guest-layout>
     <x-jet-authentication-card>
         <x-slot name="logo">
-            <x-jet-authentication-card-logo />
+            <a href="/">
+                <img src="/assets/logo.png" alt="Image logo" width="250" height="200">
+            </a>
         </x-slot>
 
         <div class="mb-4 text-sm text-gray600">
@@ -30,5 +32,13 @@
                 </x-jet-button>
             </div>
         </form>
+
+        <div class="flex items-center justify-end mt-4">
+            <a class="underline text-sm text-gray600 hover:text-gray-900" href="{{ route('login') }}">
+                {{ __('Logirajte se') }}
+            </a>
+        </div>
+
+
     </x-jet-authentication-card>
 </x-guest-layout>
