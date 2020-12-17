@@ -12,10 +12,8 @@ class OrderProduct extends Model
 
     //Table Name
     protected $table = 'order_product';
-
     //Primary Key
     public $primaryKey = 'id';
-
 
     //Timestamps
     public $timestamps =true;

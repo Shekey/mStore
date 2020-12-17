@@ -4,12 +4,16 @@ namespace App\Http\Livewire;
 
 use App\Models\Articles;
 use App\Models\Market;
+use App\Models\Order;
+use App\Models\OrderProduct;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Overtrue\LaravelShoppingCart\Facade as ShoppingCart;
 
 class CartDetails extends Component
 {
-    public $showArtikal = false, $marketId = null, $stepsCompleted = false, $locationAddress = '', $marketName = '', $totalShipping = 0, $shippingPrice = 0, $cartTotalItems = 0, $showCart = false, $cartClass = '', $totalPrice = 0, $allCartItems = [], $search = '', $filterCat = '', $articalId = "", $maxWidth = "w-screen", $articleBrand = "", $articleName, $articleSize, $articleColor, $articleDesc, $articlePrice, $qty = 0, $articleTotal, $image = "https://dummyimage.com/400x400", $calcTempPrice = 0, $cartOpen = false;
+    public $showArtikal = false, $marketId = null, $orderFinished = false, $locationAddress = '', $marketName = '', $totalShipping = 0, $shippingPrice = 0, $cartTotalItems = 0, $showCart = false, $cartClass = '', $totalPrice = 0, $allCartItems = [], $search = '', $filterCat = '', $articalId = "", $maxWidth = "w-screen", $articleBrand = "", $articleName, $articleSize, $articleColor, $articleDesc, $articlePrice, $qty = 0, $articleTotal, $image = "https://dummyimage.com/400x400", $calcTempPrice = 0, $cartOpen = false;
 
     public function mount() {
         $this->locationAddress = '';
@@ -20,6 +24,41 @@ class CartDetails extends Component
         $this->cartOpen = false;
         $this->cartClass = '';
         $this->locationAddress = '';
+    }
+
+    public function finishOrder() {
+
+        DB::transaction(function() {
+
+            $order = new Order;
+            $date = date('Y-m-d H:i');
+            $order->name = auth()->user()->name;
+            $order->address = implode(",", $this->locationAddress);
+            $order->phone = auth()->user()->phone;
+            $order->order_date =  $date;
+            $order->customer_id = auth()->user()->id;
+            $order->save();
+
+            $orderProducts = [];
+
+            foreach ($this->allCartItems as $item) {
+                $orderProducts[] = [
+                    'order_id' => $order->id,
+                    'product_id' => $item['id'],
+                    'quantity' => $item['qty'],
+                    'currentPrice' => $item['price'],
+                    'shippingPrice' => $item['shipping'],
+                    'marketName' => $item['market'],
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ];
+            }
+
+            OrderProduct::insert($orderProducts);
+            $this->orderFinished = true;
+            $this->clearCart();
+        });
+
     }
 
     public function updateCartDetails() {

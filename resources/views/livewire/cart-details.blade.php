@@ -17,7 +17,24 @@
         .z-index-large {
             z-index: 100;
         }
-    </style>
+
+      .order-finished {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          position: fixed;
+          top: 80px;
+          width: 100vw;
+          height: calc(100vh - 80px);
+          background: #fff;
+          z-index: 100;
+
+      }
+        .order-finished.hidden {
+            display: none;
+        }
+
+      </style>
     <div class="container mx-auto mt-10">
         <div class="flex flex-wrap z-index-large">
             <div class="f-100 lg:w-3/4 px-5 py-5">
@@ -75,7 +92,7 @@
                         <span>Ukupan iznos</span>
                         <span>{{ $totalPrice }} KM</span>
                     </div>
-                    <button class="bg-indigo-500 font-semibold py-3 text-sm text-white uppercase w-full {{ $locationAddress === '' ? 'disabled:opacity-50' : '' }}" {{ $locationAddress === '' ? 'disabled' : '' }}>Završi</button>
+                    <button wire:click="finishOrder" class="bg-orange-500 font-semibold py-3 text-sm text-white uppercase w-full {{ $locationAddress === '' ? 'disabled:opacity-50' : '' }}" {{ $locationAddress === '' ? 'disabled' : '' }}>Završi</button>
                 </div>
             </div>
         </div>
@@ -159,8 +176,17 @@
         @endif
     </div>
 
-    @if(count($allCartItems))
+    <div class="order-finished {{ $orderFinished  ? '' : 'hidden' }}">
+        <div class="text-center">
+            <svg style="width: 210px; height: 210px; margin: 0 auto 30px;" fill="none" stroke="#f58b1e" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path></svg>
+            <h3 class="text-3xl">Uspješno ste obavili narudžbu.</h3>
+            <p class="text-xl mt-1">Oćekujte naruđžbu u roku od 1h.</p>
+            <a href="/" class="border border-orange-500 mt-4 inline-block text-orange-500 rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:text-white hover:bg-orange-500 focus:outline-none focus:shadow-outline"
+            >Povratak na početnu stranu.</a>
+        </div>
+    </div>
 
+    @if(count($allCartItems))
         <script>
             document.addEventListener("DOMContentLoaded", () => {
                 Livewire.hook('component.initialized', (component) => {
