@@ -630,6 +630,15 @@
             let request = sendMarkRequest();
         });
 
+        $('.pagination').click(function () {
+            $("header+div")[0].scrollIntoView({
+                behavior: "smooth", // or "auto" or "instant"
+                block: "start",
+            });
+        });
+
+
+
         const swiper = document.querySelector('.swiper-container');
         if (swiper) {
             var mySwiper = new Swiper(swiper, {
@@ -675,7 +684,7 @@
         });
 
         document.addEventListener('processed', event => {
-            removePreloader(0, "fast");
+            removePreloader(300, "slow");
         });
 
         document.addEventListener('sent', event => {

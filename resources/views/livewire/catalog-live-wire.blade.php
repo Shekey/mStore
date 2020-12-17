@@ -602,20 +602,6 @@
                 }
             })
 
-            Livewire.hook('message.sent', (message, component) => {
-                if (component.el.classList.contains('catalog')) {
-                    var event = new CustomEvent("sent");
-                    document.dispatchEvent(event);
-                }
-            })
-
-            Livewire.hook('message.processed', (message, component) => {
-                if (component.el.classList.contains('catalog')) {
-                    console.log("processed");
-                    var event = new CustomEvent("processed");
-                    document.dispatchEvent(event);
-                }
-            });
         });
     </script>
 </div>

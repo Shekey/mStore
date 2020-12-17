@@ -15,6 +15,10 @@ class CatalogLiveWire extends Component
 
     public $showArtikal = false, $marketId = null, $stepsCompleted = false, $marketName = '', $totalShipping = 0, $shippingPrice = 0, $cartTotalItems = 0, $showCart = false, $cartClass = '', $totalPrice = 0, $allCartItems = [], $search = '', $filterCat = '', $articalId = "", $maxWidth = "w-screen", $articleBrand = "", $articleName, $articleSize, $articleColor, $articleDesc, $articlePrice, $qty = 1, $articleTotal, $image = "https://dummyimage.com/400x400", $calcTempPrice = 0, $cartOpen = false;
 
+    protected $queryString = [
+        'page',
+    ];
+
     public function mount($id) {
         $this->marketId = $id;
         if($this->marketId !== null ) {
@@ -24,6 +28,22 @@ class CatalogLiveWire extends Component
         }
 
         $this->updateCartDetails();
+    }
+
+    public function updated($name, $value) {
+        if ($name === "search") {
+            $this->dispatchBrowserEvent('processed');
+        }
+
+         if ($name === "filterCat") {
+            $this->dispatchBrowserEvent('processed');
+        }
+    }
+
+    public function updating($name, $value) {
+        if ($name === "filterCat") {
+            $this->dispatchBrowserEvent('sent');
+        }
     }
 
     public function clearCart() {
@@ -55,9 +75,6 @@ class CatalogLiveWire extends Component
         $this->updateCartDetails();
     }
 
-    public function updatedPage() {
-        dd("changed page");
-    }
 
     public function quickAddToCart(int $productId, $qty = 1) {
         $article = Articles::find($productId);
@@ -163,6 +180,7 @@ class CatalogLiveWire extends Component
 
     public function searchArticle($value) {
         $this->resetPage();
+        $this->dispatchBrowserEvent('sent');
         $this->search =  $value;
     }
 
