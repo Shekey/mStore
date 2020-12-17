@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Ads;
 use App\Models\Articles;
 use App\Models\Category;
 use App\Models\Market;
@@ -188,6 +189,7 @@ class CatalogLiveWire extends Component
     public function render()
     {
         $categories = Category::all();
+        $ads = Ads::all();
         $market = Market::where('id', $this->marketId)->first();
         $articles = Articles::where([['market_id', $this->marketId], ['isActive', '1'] , ['isOnSale', 0]])->with('category');
 
@@ -201,6 +203,6 @@ class CatalogLiveWire extends Component
 
         $articles = $articles->paginate(24);
         $this->updateCartDetails();
-        return view('livewire.catalog-live-wire', compact('categories', 'market', 'articles'));
+        return view('livewire.catalog-live-wire', compact('categories', 'market', 'articles', 'ads'));
     }
 }

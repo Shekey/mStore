@@ -135,12 +135,14 @@
         <header>
             <div class="swiper-container w-100 h-64" wire:ignore>
                 <div class="swiper-wrapper">
+                    @foreach($ads as $ad)
                     <div class="swiper-slide">
-                        <img src="https://source.unsplash.com/weekly?water">
+                        <a href="{{ $ad->url }}">
+                            <img src="/storage/{{ $ad->image }}">
+                        </a>
                     </div>
-                    <div class="swiper-slide">
-                        <img src="https://source.unsplash.com/weekly?mountain">
-                    </div>
+                    @endforeach
+
                 </div>
                 <!-- If we need navigation buttons -->
                 <div class="swiper-button-prev"></div>
