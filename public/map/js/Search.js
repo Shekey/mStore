@@ -168,10 +168,10 @@ class Search {
              document.dispatchEvent(event);
             that.checkMarker(marker, latitude, longitude);
          },
-         function error(msg) {alert('Please enable your GPS position feature.');},
+         function error(msg) {alert('Molim vas uključite lokaciju.');},
              {maximumAge:60000, timeout:5000, enableHighAccuracy:true});
      } else {
-         alert("Geolocation API is not supported in your browser.");
+         alert("Nažalost ne možemo vas pronaći.");
      }
    }
 
@@ -184,12 +184,6 @@ class Search {
          this.map.addObject(marker);
          this.map.setZoom(18);
          this.map.setCenter({lat:lat, lng:lng});
-         var r = confirm("Da li ovdje da dostavimo?");
-         if (r == true) {
-            alert('Da');
-         } else {
-            alert('NE');
-         }
       }
    }
 }

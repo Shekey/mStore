@@ -38,7 +38,7 @@
             <div class="f-100 lg:w-3/4 px-5 py-5">
                 <div class="flex justify-between border-b pb-8">
                     <h1 class="font-semibold text-2xl mb-0">Korpa</h1>
-                    <h2 class="font-semibold text-2xl mb-0">{{ $cartTotalItems }} Artikla</h2>
+                    @if($cartTotalItems !== 0)<h2 class="font-semibold text-2xl mb-0">{{ $cartTotalItems }} {{ $cartTotalItems === 1 ? 'Artikal' : 'Artikla' }}</h2>@endif
                 </div>
                 <div class="flex mt-10 mb-5">
                     <h3 class="font-semibold text-gray-600 text-xs uppercase w-2/5">Detaljnije</h3>
@@ -104,14 +104,9 @@
                 <div class="header">
                     <h1>Odaberite lokaciju za dostavu</h1>
 
-                    <label for="current" class="py-4">
+                    <label for="current" class="block">
                         Trenutna adresa
                         <input type="radio" name="address" id="current" value="current">
-                    </label>
-
-                    <label for="select">
-                        Unesite adresu
-                        <input type="radio" name="address" id="select" value="select">
                     </label>
                     <div class="search-container">
                         <h2 class="city-label">Unesite vašu adresu</h2>

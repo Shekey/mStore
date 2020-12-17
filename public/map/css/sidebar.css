@@ -3,7 +3,7 @@
 #sidebar {
    position: relative;
    margin: var(--margin);
-   z-index: 5000;
+   z-index: 1;
    width: 325px;
    background: var(--background);
    overflow-y: auto;

@@ -659,22 +659,24 @@
         }
 
         $(window).bind("load", function() {
-            $('.preloader').fadeOut('slow', () => {
-                $('body').removeClass('preloader-active');
-                const addToCartButtons = document.querySelectorAll('.add-to-cart');
-                const clearCart = document.querySelector('.clear-cart');
-                addToCartButtons.forEach((btn) => {
-                    btn.addEventListener('click', () => {
-                        $.notify("Uspjesno ste dodali artikal u korpu.", "success");
+            setTimeout(() => {
+                $('.preloader').fadeOut('slow', () => {
+                    $('body').removeClass('preloader-active');
+                    const addToCartButtons = document.querySelectorAll('.add-to-cart');
+                    const clearCart = document.querySelector('.clear-cart');
+                    addToCartButtons.forEach((btn) => {
+                        btn.addEventListener('click', () => {
+                            $.notify("Uspjesno ste dodali artikal u korpu.", "success");
+                        });
                     });
-                });
 
-                if(clearCart) {
-                    clearCart.addEventListener('click', () => {
-                        $.notify("Korpa je očišćena.", "warn");
-                    });
-                }
-            });
+                    if(clearCart) {
+                        clearCart.addEventListener('click', () => {
+                            $.notify("Korpa je očišćena.", "warn");
+                        });
+                    }
+                });
+            }, 300)
         });
 
     });

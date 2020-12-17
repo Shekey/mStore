@@ -53,6 +53,7 @@ class CreateNewUser implements CreatesNewUsers
         ]);
 
         $user->roles()->attach(2);
+        return $user;
     }
 
     public function messages() {

@@ -53,10 +53,6 @@ import { isolineMaxRange, requestIsolineShape } from './here.js';
        }
     }, false);
 
-    function showPosition(position) {
-       alert( position.coords.latitude,position.coords.longitude)
-    }
-
     //Manage initial state
     $('#date-value').value = toDateInputFormat(new Date());
 

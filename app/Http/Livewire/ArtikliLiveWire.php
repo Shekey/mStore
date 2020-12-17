@@ -176,7 +176,6 @@ class ArtikliLiveWire extends Component
         ];
     }
 
-
     public function resetFields() {
       $this->name = null;
       $this->desc= null;
