@@ -38,7 +38,7 @@ class Search {
       if (value.length === 0) {
          return;
       }
-      
+
       this.matches = await fetch( autocompleteGeocodeUrl(value) ).then(res => res.json());
       this.matches = this.matches.suggestions.reverse().filter(x => x.countryCode === 'BIH' && x.address.city === 'Bugojno');
       const match = this.matches[this.currentIndex];
@@ -92,7 +92,6 @@ class Search {
          increase the currentIndex variable:*/
          if (this.matches !== undefined) {
             if (this.currentIndex === -1 || this.currentIndex ===  this.matches.length) this.currentIndex = this.matches.length - 1;
-            console.log(this.currentIndex);
             const textLabel = this.matches[this.currentIndex].address.houseNumber != undefined ? ' , ' + this.matches[this.currentIndex].address.houseNumber : '';
             this.label = `${this.matches[this.currentIndex].address.street}  ${textLabel}`;
             evt.target.innerText = this.label;
@@ -112,8 +111,20 @@ class Search {
       this.distance = await fetch( distanceCalculate(center.lat, center.lng) ).then(res => res.json());
       console.log(this.distance.response.route[0].summary.distance);
       var marker = new H.map.Marker({lat:lat, lng: lng});
-      if (this.searchMarkers.length)  this.map.removeObjects(this.searchMarkers);
+      if (this.searchMarkers.length) {
+          var event = new CustomEvent("removedMarkers");
+          document.dispatchEvent(event);
+          this.map.removeObjects(this.searchMarkers);
+      }
       this.searchMarkers.length = 0;
+       // create and dispatch the event
+       var event = new CustomEvent("addedMarker", {
+           detail: {
+               lat,
+               lng
+           }
+       });
+       document.dispatchEvent(event);
       this.checkMarker(marker, lat, lng);
       // calculateIsoline(center);
    }
@@ -121,11 +132,22 @@ class Search {
    setUpClickListener(map) {
       const that = this;
       map.addEventListener('tap', function (evt) {
-         if (that.searchMarkers.length)  that.map.removeObjects(that.searchMarkers);
+         if (that.searchMarkers.length) {
+             var event = new CustomEvent("removedMarkers");
+             document.dispatchEvent(event);
+             that.map.removeObjects(that.searchMarkers);
+         }
          that.searchMarkers = [];
          var coord = map.screenToGeo(evt.currentPointer.viewportX,evt.currentPointer.viewportY);
          var marker = new H.map.Marker({lat:coord.lat.toFixed(4), lng:coord.lng.toFixed(4)});
          that.checkMarker(marker, coord.lat.toFixed(4), coord.lng.toFixed(4));
+          var event = new CustomEvent("addedMarkers", {
+              detail: {
+                  lat: coord.lat.toFixed(4),
+                  lng: coord.lng.toFixed(4)
+              }
+          });
+          document.dispatchEvent(event);
       });
    }
 
@@ -137,10 +159,17 @@ class Search {
              var longitude = position.coords.longitude;
              var accuracy = position.coords.accuracy;
             var marker = new H.map.Marker({lat:latitude, lng: longitude});
+            var event = new CustomEvent("addedMarkers", {
+                 detail: {
+                     lat: latitude,
+                     lng: longitude
+                 }
+             });
+             document.dispatchEvent(event);
             that.checkMarker(marker, latitude, longitude);
          },
          function error(msg) {alert('Please enable your GPS position feature.');},
-         {maximumAge:0, timeout:0, enableHighAccuracy: true});
+             {maximumAge:60000, timeout:5000, enableHighAccuracy:true});
      } else {
          alert("Geolocation API is not supported in your browser.");
      }

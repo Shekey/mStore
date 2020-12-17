@@ -1,4 +1,4 @@
-<div class="bg-white pt-4 py-10">
+<div class="bg-white pt-4 py-10 cart-details">
     <!-- Style -->
     <link rel="stylesheet" type="text/css" href="/map/css/index.css" />
     <link rel="stylesheet" type="text/css" href="/map/css/sidebar.css" />
@@ -86,7 +86,7 @@
                         <span>Ukupan iznos</span>
                         <span>{{ $totalPrice }} KM</span>
                     </div>
-                    <button class="bg-indigo-500 font-semibold py-3 text-sm text-white uppercase w-full disabled:opacity-50" disabled>Završi</button>
+                    <button class="bg-indigo-500 font-semibold py-3 text-sm text-white uppercase w-full {{ $locationAddress === '' ? 'disabled:opacity-50' : '' }}" {{ $locationAddress === '' ? 'disabled' : '' }}>Završi</button>
                 </div>
             </div>
         </div>
@@ -173,22 +173,36 @@
 
                 </div>
             </div>
-            <div id="map"></div>
+            <div id="map" wire:ignore></div>
         </div>
     </div>
     <script type="module" src="/map/js/app.js"></script>
     <script>
-        const increase = document.querySelectorAll('.increase');
-        const decrease = document.querySelectorAll('.decrease');
-        increase.forEach((btn) => {
-            btn.addEventListener('click', () => {
-                $.notify("Uspjesno ste povećali količinu artikla.", "success");
+        document.addEventListener("DOMContentLoaded", () => {
+            const increase = document.querySelectorAll('.increase');
+            const decrease = document.querySelectorAll('.decrease');
+            increase.forEach((btn) => {
+                btn.addEventListener('click', () => {
+                    $.notify("Uspjesno ste povećali količinu artikla.", "success");
+                });
             });
-        });
 
-        decrease.forEach((btn) => {
-            btn.addEventListener('click', () => {
-                $.notify("Uspjesno ste oduzeli količinu artikla.", "error");
+            decrease.forEach((btn) => {
+                btn.addEventListener('click', () => {
+                    $.notify("Uspjesno ste oduzeli količinu artikla.", "error");
+                });
+            });
+
+            Livewire.hook('component.initialized', (component) => {
+                if (component.el.classList.contains('cart-details')) {
+                    document.addEventListener('addedMarkers', function (e) {
+                        component.set('locationAddress', e.detail);
+                    });
+
+                    document.addEventListener('removedMarkers', function (e) {
+                        component.set('locationAddress', '');
+                    });
+                }
             });
         });
     </script>

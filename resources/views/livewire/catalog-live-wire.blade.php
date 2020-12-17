@@ -655,7 +655,7 @@
                 });
             }
         })
+
         });
     </script>
-    <script type="module" src="/map/js/app.js"></script>
 </div>

@@ -9,9 +9,10 @@ use Overtrue\LaravelShoppingCart\Facade as ShoppingCart;
 
 class CartDetails extends Component
 {
-    public $showArtikal = false, $marketId = null, $stepsCompleted = false, $marketName = '', $totalShipping = 0, $shippingPrice = 0, $cartTotalItems = 0, $showCart = false, $cartClass = '', $totalPrice = 0, $allCartItems = [], $search = '', $filterCat = '', $articalId = "", $maxWidth = "w-screen", $articleBrand = "", $articleName, $articleSize, $articleColor, $articleDesc, $articlePrice, $qty = 0, $articleTotal, $image = "https://dummyimage.com/400x400", $calcTempPrice = 0, $cartOpen = false;
+    public $showArtikal = false, $marketId = null, $stepsCompleted = false, $locationAddress = '', $marketName = '', $totalShipping = 0, $shippingPrice = 0, $cartTotalItems = 0, $showCart = false, $cartClass = '', $totalPrice = 0, $allCartItems = [], $search = '', $filterCat = '', $articalId = "", $maxWidth = "w-screen", $articleBrand = "", $articleName, $articleSize, $articleColor, $articleDesc, $articlePrice, $qty = 0, $articleTotal, $image = "https://dummyimage.com/400x400", $calcTempPrice = 0, $cartOpen = false;
 
     public function mount() {
+        $this->locationAddress = '';
         $this->updateCartDetails();
     }
 
@@ -21,15 +22,22 @@ class CartDetails extends Component
         $this->resetValidation();
     }
 
+    public function updatedLocationaAddress() {
+        $this->dispatchBrowserEvent('contentChanged');
+    }
+
+
     public function clearCart() {
         ShoppingCart::clean();
         $this->cartOpen = false;
         $this->cartClass = '';
+        $this->locationAddress = '';
     }
 
     public function updateCartDetails() {
         $this->cartTotalItems = ShoppingCart::countRows();
         $this->allCartItems = ShoppingCart::all();
+        $this->dispatchBrowserEvent('contentChanged');
 
         $collection = $this->allCartItems->map(function ($array) {
             return $array->all();

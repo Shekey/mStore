@@ -114,4 +114,4 @@ import { isolineMaxRange, requestIsolineShape } from './here.js';
     }
 
 
-    export { calculateIsoline, marker, router, geocoder }
+export { calculateIsoline, marker, router, geocoder }
