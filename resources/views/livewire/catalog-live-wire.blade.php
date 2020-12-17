@@ -103,23 +103,7 @@
 
 
     </style>
-    <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css?dp-version=1578490236" />
-    <!-- Style -->
-    <link rel="stylesheet" type="text/css" href="/map/css/index.css" />
-    <link rel="stylesheet" type="text/css" href="/map/css/sidebar.css" />
-    <link rel="stylesheet" type="text/css" href="/map/css/search.css" />
 
-    <!-- JS API -->
-    <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css" />
-    <!-- Turf for area calculations -->
-    <script src="https://npmcdn.com/@turf/turf/turf.min.js"></script>
-    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-core.js"></script>
-    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-service.js"></script>
-    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-ui.js"></script>
-    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js"></script>
-
-    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
-    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 
     <style>
         .swiper-container {
@@ -149,10 +133,8 @@
 
     <div class="">
         <header>
-            <div class="swiper-container w-100 h-64">
-                <!-- Additional required wrapper -->
+            <div class="swiper-container w-100 h-64" wire:ignore>
                 <div class="swiper-wrapper">
-                    <!-- Slides -->
                     <div class="swiper-slide">
                         <img src="https://source.unsplash.com/weekly?water">
                     </div>
@@ -166,58 +148,58 @@
                 <!-- If we need pagination -->
                 <div class="swiper-pagination"></div>
             </div>
-
-            <div class="container mx-auto px-6">
-                <div class="flex items-center justify-between flex-wrap sm:no-wrap">
-                    <div class="w-full text-white md:text-center text-3xl font-semibold capitalize order-1 sm:order-0">
-                        {{ $market->name }}
-                    </div>
-                    @auth
-
-                        @if(!$market->isClosed)
-                            <div class="flex items-center sm:justify-end w-full">
-                                <p class="text-white mt-0 mr-4">Ukupno ( {{ $totalPrice }} KM )</p>
-                                <button wire:click="$set('cartOpen', true)" class="text-white focus:outline-none mx-4 sm:mx-0">
-                                    <svg class="h-10 w-10" fill="none" stroke-linecap="round" stroke-linejoin="round"
-                                         stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path
-                                            d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
-                                    </svg>
-                                </button>
-                            </div>
-                        @endif
-                    @endauth
+        </header>
+        <div class="container mx-auto px-6">
+            <div class="flex items-center justify-between flex-wrap sm:no-wrap">
+                <div class="w-full text-white md:text-center text-3xl font-semibold capitalize order-1 sm:order-0">
+                    {{ $market->name }}
                 </div>
-                <h4 class="text-lg font-bold text-orange-700 bg-white px-2 py-2 mt-8 text-center">Odaberite kategoriju
-                    kako bi ste filtrirali artikle.</h4>
+                @auth
 
-                @guest
-                    <div class="alert-toast fixed bottom-0 right-0 m-8 w-5/6 md:w-full max-w-sm">
-                        <input type="checkbox" class="hidden" id="not_registered">
+                    @if(!$market->isClosed)
+                        <div class="flex items-center sm:justify-end w-full">
+                            <p class="text-white mt-0 mr-4">Ukupno ( {{ $totalPrice }} KM )</p>
+                            <button wire:click="$set('cartOpen', true)" class="text-white focus:outline-none mx-4 sm:mx-0">
+                                <svg class="h-10 w-10" fill="none" stroke-linecap="round" stroke-linejoin="round"
+                                     stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path
+                                        d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    @endif
+                @endauth
+            </div>
+            <h4 class="text-lg font-bold text-orange-700 bg-white px-2 py-2 mt-8 text-center">Odaberite kategoriju
+                kako bi ste filtrirali artikle.</h4>
 
-                        <label class="close cursor-pointer flex items-start justify-between w-full p-2 bg-green-500 h-24 rounded shadow-lg text-white" title="close" for="not_registered">
-                            <svg class="fill-current w-4 h-4 mr-2" width="18" height="18" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M12.432 0c1.34 0 2.01.912 2.01 1.957 0 1.305-1.164 2.512-2.679 2.512-1.269 0-2.009-.75-1.974-1.99C9.789 1.436 10.67 0 12.432 0zM8.309 20c-1.058 0-1.833-.652-1.093-3.524l1.214-5.092c.211-.814.246-1.141 0-1.141-.317 0-1.689.562-2.502 1.117l-.528-.88c2.572-2.186 5.531-3.467 6.801-3.467 1.057 0 1.233 1.273.705 3.23l-1.391 5.352c-.246.945-.141 1.271.106 1.271.317 0 1.357-.392 2.379-1.207l.6.814C12.098 19.02 9.365 20 8.309 20z"/></svg>
-                            <p>Morate se registrirati da bi ste mogli naručivati artikle.</p>
-                            <svg class="fill-current text-white" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
-                                <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
-                            </svg>
-                        </label>
-                    </div>
-                @endguest
+            @guest
+                <div class="alert-toast fixed bottom-0 right-0 m-8 w-5/6 md:w-full max-w-sm">
+                    <input type="checkbox" class="hidden" id="not_registered">
 
-                <nav class="flex justify-center items-center mt-0">
+                    <label class="close cursor-pointer flex items-start justify-between w-full p-2 bg-green-500 h-24 rounded shadow-lg text-white" title="close" for="not_registered">
+                        <svg class="fill-current w-4 h-4 mr-2" width="18" height="18" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M12.432 0c1.34 0 2.01.912 2.01 1.957 0 1.305-1.164 2.512-2.679 2.512-1.269 0-2.009-.75-1.974-1.99C9.789 1.436 10.67 0 12.432 0zM8.309 20c-1.058 0-1.833-.652-1.093-3.524l1.214-5.092c.211-.814.246-1.141 0-1.141-.317 0-1.689.562-2.502 1.117l-.528-.88c2.572-2.186 5.531-3.467 6.801-3.467 1.057 0 1.233 1.273.705 3.23l-1.391 5.352c-.246.945-.141 1.271.106 1.271.317 0 1.357-.392 2.379-1.207l.6.814C12.098 19.02 9.365 20 8.309 20z"/></svg>
+                        <p>Morate se registrirati da bi ste mogli naručivati artikle.</p>
+                        <svg class="fill-current text-white" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
+                            <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
+                        </svg>
+                    </label>
+                </div>
+            @endguest
 
-                    <div class="flex flex-row flex-wrap mt-5 mb-4 filters">
-                        <a class="mt-3 mx-3 mt-0 category bg-orange-600 text-white uppercase" data-id="0" role="button"
-                           wire:click="$set('filterCat', '')">Svi artikli</a>
-                        @foreach($categories as $cat)
-                            <a class="mt-3 category mx-3 mt-0 uppercase bg-orange-600 text-white"
-                               data-id="{{ $cat->id }}" wire:click="$set('filterCat', {{ $cat->id }})"
-                               role="button">{{ $cat->name }}</a>
-                        @endforeach
-                    </div>
-                </nav>
-                <div class="relative mt-6 max-w-lg mx-auto">
+            <nav class="flex justify-center items-center mt-0">
+
+                <div class="flex flex-row flex-wrap mt-5 mb-4 filters">
+                    <a class="mt-3 mx-3 mt-0 category bg-orange-600 text-white uppercase" data-id="0" role="button"
+                       wire:click="$set('filterCat', '')">Svi artikli</a>
+                    @foreach($categories as $cat)
+                        <a class="mt-3 category mx-3 mt-0 uppercase bg-orange-600 text-white"
+                           data-id="{{ $cat->id }}" wire:click="$set('filterCat', {{ $cat->id }})"
+                           role="button">{{ $cat->name }}</a>
+                    @endforeach
+                </div>
+            </nav>
+            <div class="relative mt-6 max-w-lg mx-auto">
             <span class="absolute inset-y-0 left-0 pl-3 flex items-center">
                 <svg class="h-5 w-5 text-white" viewBox="0 0 24 24" fill="none">
                     <path
@@ -225,77 +207,78 @@
                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
             </span>
-                    <input
-                        class="w-full border rounded-md pl-10 pr-4 py-2 focus:border-blue-500 focus:outline-none focus:shadow-outline"
-                        type="text" wire:model.debounce.250ms="search" placeholder="Pretraga po nazivu artikla">
-                </div>
+                <input
+                    class="w-full border rounded-md pl-10 pr-4 py-2 focus:border-blue-500 focus:outline-none focus:shadow-outline"
+                    type="text" wire:model.debounce.250ms="search" placeholder="Pretraga po nazivu artikla">
             </div>
-        </header>
-        <div
-             class="cart fixed right-0 top-0 max-w-sm transition duration-300 ease-out transform overflow-y-auto bg-white border-l-2 border-gray-300 w-full h-full {{ $cartClass }}">
-            <div class="flex items-center justify-between">
-                <h3 class="text-2xl font-medium text-black">Korpa ( {{ $totalPrice - $totalShipping }} KM)
+        </div>
+
+    </div>
+    <div
+        class="cart fixed right-0 top-0 max-w-sm transition duration-300 ease-out transform overflow-y-auto bg-white border-l-2 border-gray-300 w-full h-full {{ $cartClass }}">
+        <div class="flex items-center justify-between">
+            <h3 class="text-2xl font-medium text-black">Korpa ( {{ $totalPrice - $totalShipping }} KM)
                 <p class="text-sm text-orange-500">Sa dostavom ( {{ $totalShipping }} KM)</p>
-                </h3>
-                <button wire:click="$set('cartOpen', false)" class="text-black focus:outline-none">
-                    <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                         viewBox="0 0 24 24" stroke="currentColor">
-                        <path d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                </button>
-            </div>
-            <hr class="my-3">
-            @foreach($allCartItems as $cartItem)
-                <div class="flex mb-5">
-                    <img class="h-20 w-20 object-cover rounded"
-                         src="https://images.unsplash.com/photo-1593642632823-8f785ba67e45?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1189&q=80"
-                         alt="">
-                    <div class="mx-3">
-                        <h3 class="text-sm text-black">{{ $cartItem->name }}</h3>
-                        <div class="flex items-center mt-4">
-                            <a role="button" class="text-black focus:outline-none focus:text-black" wire:click.stop="updateCartQty('{{ $cartItem->__raw_id }}', {{ $cartItem->qty - 1 }})">
-                                <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round"
-                                     stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                </svg>
-                            </a>
-                            <span class="text-black mx-2">{{ $cartItem->qty }}</span>
-                            <a role="button" class="text-black focus:outline-none focus:text-black" wire:click.stop="updateCartQty('{{ $cartItem->__raw_id }}', {{ $cartItem->qty + 1 }})">
-                                <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round"
-                                     stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                </svg>
-                            </a>
-                        </div>
-                    </div>
-                    <div>
-                        <p class="text-black flex-1 text-center">({{ $cartItem->price }}  X {{ $cartItem->qty }})</p>
-                        <p class="text-orange-700 text-center mt-3">{{ $cartItem->total }} KM</p>
-                    </div>
-
-                </div>
-            @endforeach
-            @if (count($allCartItems) > 0)
-                <a href="/cart" class="flex items-center justify-center mt-4 px-3 py-2 bg-blue-600 text-white text-sm uppercase font-medium rounded hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
-                    Završi narudzbu
-                    <svg class="h-5 w-5 mx-2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                         viewBox="0 0 24 24" stroke="currentColor">
-                        <path d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
-                    </svg>
-                </a>
-            @else
-                <p class="text-orange-700 text-center mt-5">Korpa je prazna.</p>
-            @endif
-
-            <button class="flex items-center justify-center block w-full mt-4 px-3 py-2 bg-blue-600 text-white text-sm uppercase font-medium rounded hover:bg-blue-500 focus:outline-none focus:bg-blue-500 clear-cart {{ count($allCartItems) ? '' : 'invisible' }}" wire:click="clearCart">
-                <svg class="h-5 w-5 mx-2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            </h3>
+            <button wire:click="$set('cartOpen', false)" class="text-black focus:outline-none">
+                <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                      viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    <path d="M6 18L18 6M6 6l12 12"></path>
                 </svg>
-                Očisti korpu
             </button>
         </div>
+        <hr class="my-3">
+        @foreach($allCartItems as $cartItem)
+            <div class="flex mb-5">
+                <img class="h-20 w-20 object-cover rounded"
+                     src="https://images.unsplash.com/photo-1593642632823-8f785ba67e45?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1189&q=80"
+                     alt="">
+                <div class="mx-3">
+                    <h3 class="text-sm text-black">{{ $cartItem->name }}</h3>
+                    <div class="flex items-center mt-4">
+                        <a role="button" class="text-black focus:outline-none focus:text-black" wire:click.stop="updateCartQty('{{ $cartItem->__raw_id }}', {{ $cartItem->qty - 1 }})">
+                            <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round"
+                                 stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                                <path d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </a>
+                        <span class="text-black mx-2">{{ $cartItem->qty }}</span>
+                        <a role="button" class="text-black focus:outline-none focus:text-black" wire:click.stop="updateCartQty('{{ $cartItem->__raw_id }}', {{ $cartItem->qty + 1 }})">
+                            <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round"
+                                 stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                                <path d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <p class="text-black flex-1 text-center">({{ $cartItem->price }}  X {{ $cartItem->qty }})</p>
+                    <p class="text-orange-700 text-center mt-3">{{ $cartItem->total }} KM</p>
+                </div>
+
+            </div>
+        @endforeach
+        @if (count($allCartItems) > 0)
+            <a href="/cart" class="flex items-center justify-center mt-4 px-3 py-2 bg-blue-600 text-white text-sm uppercase font-medium rounded hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
+                Završi narudzbu
+                <svg class="h-5 w-5 mx-2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                     viewBox="0 0 24 24" stroke="currentColor">
+                    <path d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                </svg>
+            </a>
+        @else
+            <p class="text-orange-700 text-center mt-5">Korpa je prazna.</p>
+        @endif
+
+        <button class="flex items-center justify-center block w-full mt-4 px-3 py-2 bg-blue-600 text-white text-sm uppercase font-medium rounded hover:bg-blue-500 focus:outline-none focus:bg-blue-500 clear-cart {{ count($allCartItems) ? '' : 'invisible' }}" wire:click="clearCart">
+            <svg class="h-5 w-5 mx-2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                 viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+            </svg>
+            Očisti korpu
+        </button>
     </div>
+
     <main class="px-4">
         <div class="container py-4">
             <h3 class="text-white text-3xl font-bold text-uppercase mt-4 text-center md:text-left">Katalog artikala</h3>
@@ -607,45 +590,8 @@
     <script>
 
         document.addEventListener("DOMContentLoaded", () => {
-        var mySwiper = new Swiper('.swiper-container', {
-            // Optional parameters
-            direction: 'horizontal',
-            loop: true,
-            autoplay: {
-                delay: 5000,
-            },
-
-            // If we need pagination
-            pagination: {
-                el: '.swiper-pagination',
-            },
-
-            // Navigation arrows
-            navigation: {
-                nextEl: '.swiper-button-next',
-                prevEl: '.swiper-button-prev',
-            },
-
-            // And if we need scrollbar
-            scrollbar: {
-                el: '.swiper-scrollbar',
-            },
-        })
-
-        const addToCartButtons = document.querySelectorAll('.add-to-cart');
-        const clearCart = document.querySelector('.clear-cart');
-        addToCartButtons.forEach((btn) => {
-            btn.addEventListener('click', () => {
-                $.notify("Uspjesno ste dodali artikal u korpu.", "success");
-            });
-        });
-
-        clearCart.addEventListener('click', () => {$cartOpen
-            $.notify("Korpa je očišćena.", "warn");
-        });
 
         const navigateToCart = document.querySelector('.navigateToCart');
-
         Livewire.hook('component.initialized', (component) => {
             console.log(component.el);
             if (component.el.classList.contains('catalog')) {

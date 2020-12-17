@@ -37,7 +37,6 @@ class CartDetails extends Component
     public function updateCartDetails() {
         $this->cartTotalItems = ShoppingCart::countRows();
         $this->allCartItems = ShoppingCart::all();
-        $this->dispatchBrowserEvent('contentChanged');
 
         $collection = $this->allCartItems->map(function ($array) {
             return $array->all();

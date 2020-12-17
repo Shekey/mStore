@@ -3,11 +3,9 @@
     <link rel="stylesheet" type="text/css" href="/map/css/index.css" />
     <link rel="stylesheet" type="text/css" href="/map/css/sidebar.css" />
     <link rel="stylesheet" type="text/css" href="/map/css/search.css" />
+    <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css" />
 
     <!-- JS API -->
-    <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css" />
-    <!-- Turf for area calculations -->
-    <script src="https://npmcdn.com/@turf/turf/turf.min.js"></script>
     <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-core.js"></script>
     <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-service.js"></script>
     <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-ui.js"></script>
@@ -176,6 +174,7 @@
             <div id="map" wire:ignore></div>
         </div>
     </div>
+
     <script type="module" src="/map/js/app.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", () => {

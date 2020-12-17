@@ -294,10 +294,3 @@
         @endauth
     </div>
 </nav>
-
-<script>
-    tippy('.tooltip', {
-        content:document.getElementById('one').innerHTML,
-        allowHTML: true,
-    });
-</script>

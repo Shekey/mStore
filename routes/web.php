@@ -44,7 +44,7 @@ Route::post('image/delete','App\Http\Controllers\ImageUploadController@fileDestr
 
 Route::get('/prodavnica/{id}',  function ($id) {
     return view('prodavnica.index', compact('id'));
-});
+})->name('catalog');
 
 Route::get('/cart', \App\Http\Livewire\CartDetails::class);
 
