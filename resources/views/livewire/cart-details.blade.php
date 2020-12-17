@@ -1,15 +1,17 @@
 <div class="bg-white pt-4 py-10 cart-details">
     <!-- Style -->
-    <link rel="stylesheet" type="text/css" href="/map/css/index.css" />
-    <link rel="stylesheet" type="text/css" href="/map/css/sidebar.css" />
-    <link rel="stylesheet" type="text/css" href="/map/css/search.css" />
-    <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css" />
+    @if(count($allCartItems))
+        <link rel="stylesheet" type="text/css" href="/map/css/index.css" />
+        <link rel="stylesheet" type="text/css" href="/map/css/sidebar.css" />
+        <link rel="stylesheet" type="text/css" href="/map/css/search.css" />
+        <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css" />
 
-    <!-- JS API -->
-    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-core.js"></script>
-    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-service.js"></script>
-    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-ui.js"></script>
-    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js"></script>
+        <!-- JS API -->
+        <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-core.js"></script>
+        <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-service.js"></script>
+        <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-ui.js"></script>
+        <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js"></script>
+    @endif
 
     <style>
         button[disabled]:hover {
@@ -94,7 +96,8 @@
         </div>
 
 
-        <div class="relative">
+        @if(count($allCartItems))
+            <div class="relative">
             <div id="sidebar">
                 <div class="gradient-line"></div>
 
@@ -177,36 +180,41 @@
             </div>
             <div id="map" wire:ignore></div>
         </div>
+        @endif
     </div>
 
-    <script type="module" src="/map/js/app.js"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const increase = document.querySelectorAll('.increase');
-            const decrease = document.querySelectorAll('.decrease');
-            increase.forEach((btn) => {
-                btn.addEventListener('click', () => {
-                    $.notify("Uspjesno ste povećali količinu artikla.", "success");
+    @if(count($allCartItems))
+        <script type="module" src="/map/js/app.js"></script>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+
+                const increase = document.querySelectorAll('.increase');
+                const decrease = document.querySelectorAll('.decrease');
+                increase.forEach((btn) => {
+                    btn.addEventListener('click', () => {
+                        $.notify("Uspjesno ste povećali količinu artikla.", "success");
+                    });
+                });
+
+                decrease.forEach((btn) => {
+                    btn.addEventListener('click', () => {
+                        $.notify("Uspjesno ste oduzeli količinu artikla.", "error");
+                    });
+                });
+
+                Livewire.hook('component.initialized', (component) => {
+                    if (component.el.classList.contains('cart-details')) {
+                        document.addEventListener('addedMarkers', function (e) {
+                            component.set('locationAddress', e.detail);
+                        });
+
+                        document.addEventListener('removedMarkers', function (e) {
+                            component.set('locationAddress', '');
+                        });
+                    }
                 });
             });
-
-            decrease.forEach((btn) => {
-                btn.addEventListener('click', () => {
-                    $.notify("Uspjesno ste oduzeli količinu artikla.", "error");
-                });
-            });
-
-            Livewire.hook('component.initialized', (component) => {
-                if (component.el.classList.contains('cart-details')) {
-                    document.addEventListener('addedMarkers', function (e) {
-                        component.set('locationAddress', e.detail);
-                    });
-
-                    document.addEventListener('removedMarkers', function (e) {
-                        component.set('locationAddress', '');
-                    });
-                }
-            });
-        });
-    </script>
+        </script>
+    @endif
 </div>

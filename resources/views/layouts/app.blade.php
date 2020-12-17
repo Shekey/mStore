@@ -9,32 +9,25 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
     <style>
-
         body {
             overflow-x: hidden;
         }
 
-        body.preloader-active .preloader {
-            display: block;
-            background-color: #f1c40f;
+        .preloader {
+            background-color: #f58b1e;
             position: fixed;
             height: 100vh;
             width: 100vw;
-            z-index: 99999;
+            z-index: -1;
         }
 
-        .preloader-active  h1 {
-            position: fixed;
-            font-weight: 600;
-            font-size: 12px;
-            text-transform: uppercase;
-            left: 50%;
-            top: 58%;
-            margin-left: -20px;
+        body.preloader-active .preloader {
+            display: block;
+            z-index: 99;
         }
 
         .preloader-active .body {
-            position: fixed;
+            position: absolute;
             top: 50%;
             margin-left: -50px;
             left: 50%;
@@ -666,7 +659,7 @@
         }
 
         $(window).bind("load", function() {
-            $('.preloader').fadeOut('1000', () => {
+            $('.preloader').fadeOut('slow', () => {
                 $('body').removeClass('preloader-active');
                 const addToCartButtons = document.querySelectorAll('.add-to-cart');
                 const clearCart = document.querySelector('.clear-cart');
@@ -682,9 +675,7 @@
                     });
                 }
             });
-
         });
-
 
     });
 </script>
