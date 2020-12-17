@@ -158,7 +158,7 @@
 
                     @if(!$market->isClosed)
                         <div class="flex items-center sm:justify-end w-full">
-                            <p class="text-white mt-0 mr-4">Ukupno ( {{ $totalPrice }} KM )</p>
+                            <p class="text-white mt-0 mr-4">Ukupno ( {{ number_format((float)$totalPrice, 2, '.', '') }} KM )</p>
                             <button wire:click="$set('cartOpen', true)" class="text-white focus:outline-none mx-4 sm:mx-0">
                                 <svg class="h-10 w-10" fill="none" stroke-linecap="round" stroke-linejoin="round"
                                      stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
@@ -217,7 +217,7 @@
     <div
         class="cart fixed right-0 top-0 max-w-sm transition duration-300 ease-out transform overflow-y-auto bg-white border-l-2 border-gray-300 w-full h-full {{ $cartClass }}">
         <div class="flex items-center justify-between">
-            <h3 class="text-2xl font-medium text-black">Korpa ( {{ $totalPrice - $totalShipping }} KM)
+            <h3 class="text-2xl font-medium text-black">Korpa ( {{ number_format((float)$totalPrice - $totalShipping, 2, '.', '') }} KM)
                 <p class="text-sm text-orange-500">Sa dostavom ( {{ $totalShipping }} KM)</p>
             </h3>
             <button wire:click="$set('cartOpen', false)" class="text-black focus:outline-none">
@@ -252,7 +252,7 @@
                     </div>
                 </div>
                 <div>
-                    <p class="text-black flex-1 text-center">({{ $cartItem->price }}  X {{ $cartItem->qty }})</p>
+                    <p class="text-black flex-1 text-center">({{ number_format((float)$cartItem->price, 2, '.', '') }}  X {{ $cartItem->qty }})</p>
                     <p class="text-orange-700 text-center mt-3">{{ $cartItem->total }} KM</p>
                 </div>
 
@@ -306,7 +306,7 @@
                         </div>
                         <div class="px-5 py-3">
                             <h3 class="text-white uppercase">{{ $article->name }}</h3>
-                            <p class="text-white mt-2">{{ $article->price }} KM</p>
+                            <p class="text-white mt-2">{{ number_format((float)$article->price, 2, '.', '') }} KM</p>
                             <p class="text-white mt-2">{{ $article->category->name }}</p>
                         </div>
                     </div>
@@ -350,7 +350,7 @@
                             <p class="leading-relaxed mb-4 text-black">{{ $articleDesc }}</p>
                             <div class="flex border-t border-gray-300 py-2">
                                 <span class="text-black">Cijena</span>
-                                <span class="ml-auto text-black">{{ $articlePrice }} KM</span>
+                                <span class="ml-auto text-black">{{ number_format((float)$articlePrice, 2, '.', '') }} KM</span>
                             </div>
                             <div class="flex border-t border-gray-300 py-2">
                                 <span class="text-black">Boja</span>
@@ -385,7 +385,7 @@
                                 @endif
                             @endauth
                             <div class="flex">
-                                <span class="title-font font-medium text-2xl text-black">Ukupno: {{ $articleTotal }} KM {!! $calcTempPrice != 0 ? '<span class="text-orange-500"> ( '. $calcTempPrice . ' KM) </span>' : '' !!}</span>
+                                <span class="title-font font-medium text-2xl text-black">Ukupno: {{ $articleTotal }} KM {!! $calcTempPrice != 0 ? '<span class="text-orange-500"> ( '. number_format((float)$calcTempPrice  , 2, '.', '') . ' KM) </span>' : '' !!}</span>
                                 @auth
                                     @if(!$market->isClosed)
                                         <button wire:click="addToCart({{ $this->articalId }}, {{ $this->qty }})"
@@ -546,8 +546,8 @@
                                     <path d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"/>
                                 </svg>
                             </div>
-                            <span class="text-center w-1/5 font-semibold text-sm">{{ $item->price }} KM</span>
-                            <span class="text-center w-1/5 font-semibold text-sm">{{ $item->total }} KM</span>
+                            <span class="text-center w-1/5 font-semibold text-sm">{{ number_format((float)$item->price , 2, '.', '')}} KM</span>
+                            <span class="text-center w-1/5 font-semibold text-sm">{{ number_format((float)$item->total , 2, '.', '')  }} KM</span>
                         </div>
                         @endforeach
 
@@ -560,7 +560,7 @@
                         <h1 class="font-semibold text-2xl border-b pb-8">Detalji narudžbe</h1>
                         <div class="flex justify-between mt-10 mb-5">
                             <span class="font-semibold text-sm uppercase">Artikli ( {{ $cartTotalItems }} )</span>
-                            <span class="font-semibold text-sm">{{ $totalPrice - $totalShipping }} KM</span>
+                            <span class="font-semibold text-sm">{{ number_format((float)$totalPrice - $totalShipping  , 2, '.', '')}} KM</span>
                         </div>
                         <div>
                             <label class="font-medium inline-block mb-3 text-sm uppercase">Dostava</label>
@@ -570,7 +570,7 @@
                         <div class="border-t mt-8">
                             <div class="flex font-semibold justify-between py-6 text-sm uppercase">
                                 <span>Ukupan iznos</span>
-                                <span>{{ $totalPrice }} KM</span>
+                                <span>{{ number_format((float)$totalPrice  , 2, '.', '')}} KM</span>
                             </div>
                             <button class="bg-indigo-500 font-semibold py-3 text-sm text-white uppercase w-full disabled:opacity-50" disabled>Završi</button>
                         </div>

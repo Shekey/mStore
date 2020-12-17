@@ -6,6 +6,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" type="image/png" href="/favicon.png"/>
     <title>{{ config('app.name', 'm-store') }}</title>
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
     <style>
 
@@ -13,16 +14,13 @@
             overflow-x: hidden;
         }
 
-        body .preloader {
-            display: none;
-        }
-
         body.preloader-active .preloader {
             display: block;
-        }
-
-        body.preloader-active::-webkit-scrollbar {
-            background: transparent;
+            background-color: #f1c40f;
+            position: fixed;
+            height: 100vh;
+            width: 100vw;
+            z-index: 99999;
         }
 
         .preloader-active  h1 {
@@ -220,7 +218,6 @@
             width: 100%;
             height: 100%;
             z-index: 9998;
-            background-color: #f1c40f;
         }
 
         .longfazers span {
@@ -517,7 +514,6 @@
             }
         }
     </style>
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
     @if(request()->routeIs('catalog'))
         <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css?dp-version=1578490236" />
@@ -668,24 +664,29 @@
                 },
             })
         }
-    });
 
-    window.onload = function () {
-        $('.preloader').fadeOut('1000', () => {
-            $('body').removeClass('preloader-active');
+        $(window).bind("load", function() {
+            $('.preloader').fadeOut('1000', () => {
+                $('body').removeClass('preloader-active');
                 const addToCartButtons = document.querySelectorAll('.add-to-cart');
-        const clearCart = document.querySelector('.clear-cart');
-        addToCartButtons.forEach((btn) => {
-            btn.addEventListener('click', () => {
-                $.notify("Uspjesno ste dodali artikal u korpu.", "success");
+                const clearCart = document.querySelector('.clear-cart');
+                addToCartButtons.forEach((btn) => {
+                    btn.addEventListener('click', () => {
+                        $.notify("Uspjesno ste dodali artikal u korpu.", "success");
+                    });
+                });
+
+                if(clearCart) {
+                    clearCart.addEventListener('click', () => {
+                        $.notify("Korpa je očišćena.", "warn");
+                    });
+                }
             });
+
         });
 
-        clearCart.addEventListener('click', () => {$cartOpen
-            $.notify("Korpa je očišćena.", "warn");
-        });
-});
-    }
+
+    });
 </script>
 
 </body>

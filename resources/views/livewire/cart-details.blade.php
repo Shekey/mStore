@@ -25,10 +25,14 @@
         main {
             overflow: hidden;
         }
+
+        .z-index-large {
+            z-index: 100;
+        }
     </style>
 
     <div class="container mx-auto mt-10">
-        <div class="flex flex-wrap">
+        <div class="flex flex-wrap z-index-large">
             <div class="f-100 lg:w-3/4 px-5 py-5">
                 <div class="flex justify-between border-b pb-8">
                     <h1 class="font-semibold text-2xl mb-0">Korpa</h1>
