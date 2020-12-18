@@ -29,18 +29,22 @@
                         </svg>
                     </span>
                     <p class="text:xs ml-1">{{ auth()->user()->points }} {{ auth()->user()->points == 1 ? 'Bod' : 'Bodova' }}</p>
+                    @php
+                        ;
+                          $lastTransaction = count(auth()->user()->order) ? auth()->user()->order->first()->created_at : auth()->user()->created_at;
+                    @endphp
                     <div style="display: none;">
                         <div id="one">
                             <div class="bg-white">
                                 <div class="px-3 py-2 font-bold text-gray-500 ">Datum zadnje transakcije</div>
-                                <div class="px-3 py-3 text-gray-500">Zadnja transakcija je obavljenja 17.11.2020 i ukoliko ne kupite nešto do 17.12.2020 vaši bodovi će biti izbrisani.</div>
+                                <div class="px-3 py-3 text-gray-500">Zadnja transakcija je obavljenja {{ $lastTransaction->format('d-m-Y')}} i ukoliko ne kupite nešto do {{ \Carbon\Carbon::parse($lastTransaction)->addMonth()->format('d-m-Y')}} vaši bodovi će biti izbrisani.</div>
                             </div>
                         </div>
                     </div>
                 </div>
             @endauth
             </div>
-            <!-- Settings Dropdown -->
+        <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ml-6">
                 @auth
                     <a href="/cart" class="text-white focus:outline-none mx-4 text-gray-600 mr-4 flex items-center navigateToCart">

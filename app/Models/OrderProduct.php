@@ -19,10 +19,10 @@ class OrderProduct extends Model
     public $timestamps =true;
 
     public function order(){
-        return $this->belongsTo('App\Order');
+        return $this->belongsTo(Order::class, 'id', 'order_id');
 
     }
     public function product(){
-        return $this->hasMany('App\Product');
+        return $this->hasMany(Articles::class, 'id', 'product_id');
     }
 }

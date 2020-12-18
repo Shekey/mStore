@@ -80,8 +80,8 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsToMany(Role::class);
     }
 
-    public function orderproduct(){
-        return $this->hasMany('App\OrderProduct');
+    public function order(){
+        return $this->hasMany(Order::class, 'customer_id', 'id')->latest();
     }
 
     public function getIsAdminAttribute()
