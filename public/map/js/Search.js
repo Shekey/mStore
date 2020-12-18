@@ -163,7 +163,10 @@ class Search {
              document.dispatchEvent(event);
             that.checkMarker(marker, latitude, longitude);
          },
-         function error(msg) {alert('Molim vas uključite lokaciju.');},
+         function error(msg) {
+             var event = new CustomEvent("locationEnable");
+             document.dispatchEvent(event);
+         },
              {maximumAge:60000, timeout:5000, enableHighAccuracy:true});
      } else {
          alert("Nažalost ne možemo vas pronaći.");

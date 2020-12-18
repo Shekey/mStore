@@ -4,11 +4,13 @@ namespace App\Http\Livewire;
 
 use App\Models\Ads;
 use App\Models\Category;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
+use Symfony\Component\HttpFoundation\Response;
 
 class AdsLiveWire extends Component
 {
@@ -53,6 +55,7 @@ class AdsLiveWire extends Component
     }
 
     public function mount() {
+        abort_if(Gate::denies('tasks_access'), Response::HTTP_FORBIDDEN, '403 zabranjen pristup');
         $this->resetPage();
     }
 

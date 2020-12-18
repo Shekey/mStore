@@ -7,12 +7,14 @@ use App\Models\ArtikalImage;
 use App\Models\Market;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Intervention\Image\Facades\Image;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
+use Symfony\Component\HttpFoundation\Response;
 
 class MarketLiveWire extends Component
 {
@@ -56,6 +58,7 @@ class MarketLiveWire extends Component
     }
 
     public function mount() {
+        abort_if(Gate::denies('tasks_access'), Response::HTTP_FORBIDDEN, '403 zabranjen pristup');
         $this->resetPage();
     }
 

@@ -6,9 +6,11 @@ use App\Models\Ads;
 use App\Models\Articles;
 use App\Models\Category;
 use App\Models\Market;
+use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Overtrue\LaravelShoppingCart\Facade as ShoppingCart;
+use Symfony\Component\HttpFoundation\Response;
 
 class CatalogLiveWire extends Component
 {

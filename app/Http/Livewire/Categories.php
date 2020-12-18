@@ -4,12 +4,14 @@ namespace App\Http\Livewire;
 
 use App\Models\Ads;
 use App\Models\Category;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Intervention\Image\Facades\Image;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
+use Symfony\Component\HttpFoundation\Response;
 
 class Categories extends Component
 {
@@ -56,6 +58,7 @@ class Categories extends Component
 
     public function mount() {
         $this->resetPage();
+        abort_if(Gate::denies('tasks_access'), Response::HTTP_FORBIDDEN, '403 zabranjen pristup');
     }
 
     public function update() {
