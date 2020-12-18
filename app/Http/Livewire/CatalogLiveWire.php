@@ -178,11 +178,11 @@ class CatalogLiveWire extends Component
     public function updatingFilterCat()
     {
         $this->resetPage();
-        $this->search = '';
     }
 
     public function searchArticle($value) {
         $this->resetPage();
+        $this->filterCat = '';
         $this->dispatchBrowserEvent('sent');
         $this->search =  $value;
     }
@@ -205,6 +205,7 @@ class CatalogLiveWire extends Component
 
         $articles = $articles->paginate(24);
         $this->updateCartDetails();
+        $this->dispatchBrowserEvent('processed');
         return view('livewire.catalog-live-wire', compact('categories', 'market', 'articles', 'ads'));
     }
 }

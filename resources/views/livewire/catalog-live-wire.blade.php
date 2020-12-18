@@ -129,6 +129,91 @@
         .cart {
             z-index: 1000;
         }
+
+        .search__container {
+            padding-top: 64px;
+        }
+        .search__title {
+            font-size: 22px;
+            font-weight: 900;
+            text-align: center;
+            color: #ff8b88;
+        }
+        .search__input {
+            width: 100%;
+            padding: 12px 24px;
+            background-color: transparent;
+            transition: transform 250ms ease-in-out;
+            font-size: 14px;
+            line-height: 18px;
+            color: #fff;
+            background-color: transparent;
+            background-image: url("data:image/svg+xml; charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='%23fff' viewBox='0 0 24 24'%3E%3Cpath d='M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z'/%3E%3Cpath d='M0 0h24v24H0z' fill='none'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-size: 18px 18px;
+            background-position: 95% center;
+            border-radius: 50px;
+            border: 1px solid #575756;
+            transition: all 250ms ease-in-out;
+            backface-visibility: hidden;
+            transform-style: preserve-3d;
+            }
+            .search__input::placeholder {
+            color: color(#575756 a(0.8));
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+        .search__input:hover, .search__input:focus {
+            padding: 12px 0;
+            outline: 0;
+            border: 1px solid transparent;
+            border-bottom: 1px solid #575756;
+            border-radius: 0;
+            background-position: 100% center;
+        }
+
+        .btn {
+            display: inline-block;
+            color: white;
+            min-width: 154px;
+            text-decoration: none;
+            padding: 20px;
+            position: relative;
+            text-align: center;
+        }
+
+        .btn:hover {
+            transition: color 0.3s ease-in 0.4s;
+            color: #ff5a1f;
+        }
+
+        .btn.filterActive {
+            color: #ff5a1f;
+        }
+
+        .btn:hover .button-stroke:nth-child(2) {
+            stroke-dashoffset: 0;
+        }
+        .button-stroke {
+            display: block;
+            width: calc(100% - 40px);
+            height: 20px;
+            stroke: #ff5a1f;
+            position: absolute;
+            left: 20px;
+            bottom: -10px;
+            stroke-width: 4;
+        }
+        .button-stroke:nth-child(2) {
+            stroke-dasharray: 650px;
+            stroke-dashoffset: 650px;
+            stroke: #555;
+            stroke-width: 5;
+            transition: stroke-dashoffset 800ms ease-out;
+        }
+
+
+
     </style>
 
     <div class="">
@@ -190,27 +275,37 @@
 
             <nav class="flex justify-center items-center mt-0">
 
-                <div class="flex flex-row flex-wrap mt-5 mb-4 filters">
-                    <a class="mt-3 mx-3 mt-0 category bg-orange-600 text-white uppercase" data-id="0" role="button"
-                       wire:click="$set('filterCat', '')">Svi artikli</a>
+                <svg id="stroke" xmlns="http://www.w3.org/2000/svg" width="0" height="0">
+                    <defs>
+                        <path id="line" d="M2 2c49.7 2.6 100 3.1 150 1.7-46.5 2-93 4.4-139.2 7.3 45.2-1.5 90.6-1.8 135.8-.6" fill="none" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>
+                    </defs>
+                </svg>
+                <div class="flex flex-row flex-wrap justify-center mt-5 mb-4 filters">
+                    <a class="btn mt-3 mx-3 uppercase {{ $filterCat === '' ? 'filterActive' : ''}}" data-id="0" wire:click="$set('filterCat', '')"role="button">Svi artikli
+                        <svg class="button-stroke" viewBox="0 0 154 13">
+                            <use href="#line"></use>
+                        </svg>
+                        <svg class="button-stroke" viewBox="0 0 154 13">
+                            <use href="#line"></use>
+                        </svg>
+                    </a>
                     @foreach($categories as $cat)
-                        <a class="mt-3 category mx-3 mt-0 uppercase bg-orange-600 text-white"
-                           data-id="{{ $cat->id }}" wire:click="$set('filterCat', {{ $cat->id }})"
-                           role="button">{{ $cat->name }}</a>
+
+                        <a class="btn mt-3 mx-3 uppercase {{ $filterCat === $cat->id ? 'filterActive' : ''}}" data-id="0" wire:click="$set('filterCat', {{ $cat->id}} )" data-id="{{ $cat->id }}" wire:click="$set('filterCat', {{ $cat->id }})" role="button">{{ $cat->name }}
+                            <svg class="button-stroke" viewBox="0 0 154 13">
+                                <use href="#line"></use>
+                            </svg>
+                            <svg class="button-stroke" viewBox="0 0 154 13">
+                                <use href="#line"></use>
+                            </svg>
+                        </a>
                     @endforeach
                 </div>
             </nav>
-            <div class="relative mt-6 max-w-lg mx-auto">
-            <span class="absolute inset-y-0 left-0 pl-3 flex items-center">
-                <svg class="h-5 w-5 text-white" viewBox="0 0 24 24" fill="none">
-                    <path
-                        d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            </span>
-                <input
-                    class="w-full border rounded-md pl-10 pr-4 py-2 focus:border-blue-500 focus:outline-none focus:shadow-outline"
-                    type="text" wire:model.lazy="search" wire:keydown.enter="searchArticle($event.target.value)" placeholder="Pretraga po nazivu artikla (enter)">
+            <div class="relative max-w-lg mx-auto">
+                <div class="search__container">
+                    <input class="search__input" type="text" wire:model.lazy="search" wire:keydown.enter="searchArticle($event.target.value)" placeholder="Pretražite artikle (enter)">
+                </div>
             </div>
         </div>
 
