@@ -4,6 +4,10 @@
             cursor: not-allowed;
         }
 
+        .f-100 {
+            overflow-x: hidden;
+        }
+
         @media (max-width: 1023px) {
             .f-100 {
                 flex-basis: 100%;
@@ -54,7 +58,7 @@
                 </div>
 
                 @foreach($allCartItems as $item)
-                    <div class="flex items-center hover:bg-gray-100 -mx-8 px-6 py-5 mt-1 {{ $item->isActive ? '' : 'border-2 border-red-500' }}">
+                    <div class="flex items-center hover:bg-gray-100 px-6 py-5 mt-1 w-full mr-0 {{ $item->isActive ? '' : 'border-2 border-red-500' }}">
                         <div class="flex w-2/5"> <!-- product -->
                             <div class="w-20">
                                 <img class="h-24" src="{{ $item->image }}" alt="Cart item image">
