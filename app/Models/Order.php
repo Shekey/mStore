@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\CalculatePointsUser;
 use App\Notifications\OrderCreatedNotification;
 use App\Notifications\OrderCreatedNotificationUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -35,6 +36,7 @@ class Order extends Model
 
             Notification::send($admins, new OrderCreatedNotification($order));
             Notification::send(auth()->user(), new OrderCreatedNotificationUser($order));
+            CalculatePointsUser::dispatch($order);
         });
     }
 

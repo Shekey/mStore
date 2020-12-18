@@ -92,7 +92,7 @@
                         <span>Ukupan iznos</span>
                         <span>{{ $totalPrice }} KM</span>
                     </div>
-                    <button wire:click="finishOrder" class="bg-orange-500 font-semibold py-3 text-sm text-white uppercase w-full {{ $locationAddress === '' ? 'disabled:opacity-50' : '' }}" {{ $locationAddress === '' ? 'disabled' : '' }}>Završi</button>
+                    <button wire:click="finishOrder" class="bg-orange-500 font-semibold py-3 text-sm text-white uppercase w-full finishOrderBtn {{ $locationAddress === '' ? 'disabled:opacity-50' : '' }}" {{ $locationAddress === '' ? 'disabled' : '' }}>Završi</button>
                 </div>
             </div>
         </div>

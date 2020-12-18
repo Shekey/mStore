@@ -5,9 +5,11 @@ namespace App\Providers;
 use App\Events\AdsCreated;
 use App\Events\AdsDeleted;
 use App\Events\AdsUpdated;
+use App\Events\CalculatePointsUser;
 use App\Listeners\AdsCreatedListener;
 use App\Listeners\AdsDeletedListener;
 use App\Listeners\AdsUpdatedListener;
+use App\Listeners\CalculatePointsUserListener;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -23,6 +25,9 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
+        ],
+        CalculatePointsUser::class => [
+            CalculatePointsUserListener::class
         ],
         AdsCreated::class => [
             AdsCreatedListener::class

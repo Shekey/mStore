@@ -27,9 +27,7 @@ class CartDetails extends Component
     }
 
     public function finishOrder() {
-
         DB::transaction(function() {
-
             $order = new Order;
             $date = date('Y-m-d H:i');
             $order->name = auth()->user()->name;
@@ -37,6 +35,7 @@ class CartDetails extends Component
             $order->phone = auth()->user()->phone;
             $order->order_date =  $date;
             $order->customer_id = auth()->user()->id;
+            $order->total = $this->totalPrice;
             $order->save();
 
             $orderProducts = [];
@@ -58,7 +57,7 @@ class CartDetails extends Component
             $this->orderFinished = true;
             $this->clearCart();
         });
-
+        $this->dispatchBrowserEvent('processed');
     }
 
     public function updateCartDetails() {

@@ -23,7 +23,7 @@
 
         body.preloader-active .preloader {
             display: block;
-            z-index: 99;
+            z-index: 999;
         }
 
         .preloader-active .body {
@@ -755,6 +755,15 @@
             });
         });
 
+        const btnFinishOrder = document.querySelector('.finishOrderBtn');
+
+        if(btnFinishOrder) {
+            btnFinishOrder.addEventListener('click', event => {
+                const eventSent = new CustomEvent("sent");
+                document.dispatchEvent(eventSent);
+            });
+        }
+
         function removePreloader(time, speed) {
             setTimeout(() => {
                 $('.preloader').fadeOut(speed, () => {
@@ -764,7 +773,8 @@
         }
 
         $(window).bind("load", function() {
-            removePreloader(300, "slow");
+            const time = 300;
+            removePreloader(time, "slow");
         });
 
     });
