@@ -33,5 +33,6 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
         Paginator::useTailwind();
+        \Carbon\Carbon::setLocale('bs');
     }
 }

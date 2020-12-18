@@ -1,5 +1,5 @@
 <section class="text-gray-700 body-font">
-    <div class="container mx-auto flex flex-wrap px-5 py-4 md:flex-row flex-col items-center">
+    <div class="container mx-auto flex flex-wrap sm:px-5 py-4 md:flex-row flex-col items-center">
         <div class="lg:flex-grow md:w-1/2 sm:pl-0 md:pl-0 flex flex-col md:items-start md:text-left items-center text-center">
             <h1 class="title-font sm:text-4xl text-3xl mb-2 font-medium text-gray-900"><a href="/prodavnica/{{ $i->id }}" class="capitalize flex items-center">{{ $i->name }}<span class="ml-4 inline-block bg-gray-900 text-white px-2 rounded-full uppercase font-semibold text-xl tracking-wide">{{ $i->points }} @if($i->points > 1) BODA @else BOD @endif GRATIS</span></a></h1>
             <p class="mb-3">

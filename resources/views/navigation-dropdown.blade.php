@@ -1,6 +1,6 @@
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
     <!-- Primary Navigation Menu -->
-    <div class="container mx-auto bg-white">
+    <div class="container mx-auto bg-white pr-5">
         <div class="flex justify-between h-20">
             <div class="flex">
                 <!-- Logo -->
@@ -14,14 +14,14 @@
 
             <div class="flex sm:hidden items-center">
                 @auth
-                        <a href="/korpa" class="text-white focus:outline-none text-gray-600 mr-4 flex items-center">
-                            <svg class="h-4 w-4" fill="none" stroke-linecap="round" stroke-linejoin="round"
-                                 stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
-                                <path
-                                    d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
-                            </svg>
-                            <p class="text:xs ml-1 font-light">Korpa</p>
-                        </a>
+                    <a href="/korpa" class="text-white focus:outline-none text-gray-600 mr-4 flex items-center">
+                        <svg class="h-4 w-4" fill="none" stroke-linecap="round" stroke-linejoin="round"
+                             stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                            <path
+                                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                        </svg>
+                        <p class="text:xs ml-1 font-light">Korpa</p>
+                    </a>
                 <div class="tooltip flex items-center text-gray-600">
                     <span>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-4 w-4">
@@ -102,10 +102,6 @@
                             {{ __('Postavke') }}
                         </div>
 
-                        <x-jet-dropdown-link href="{{ route('profile.show') }}">
-                            {{ __('Profil') }}
-                        </x-jet-dropdown-link>
-
                         @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
                             <x-jet-dropdown-link href="{{ route('api-tokens.index') }}">
                                 {{ __('API Tokens') }}
@@ -151,6 +147,10 @@
                             </x-jet-dropdown-link>
                         @endcan
 
+                        <x-jet-dropdown-link href="{{ route('orders') }}">
+                            {{ __('Narudžbe') }}
+                        </x-jet-dropdown-link>
+
                         @can('tasks_access')
                             <x-jet-dropdown-link href="{{ route('korisnici.index') }}">
                                 {{ __('Korisnici') }}
@@ -166,7 +166,11 @@
                             <x-jet-dropdown-link href="{{ route('reklame') }}">
                                 {{ __('Reklame') }}
                             </x-jet-dropdown-link>
-                    @endcan
+                        @endcan
+
+                        <x-jet-dropdown-link href="{{ route('profile.show') }}">
+                            {{ __('Profil') }}
+                        </x-jet-dropdown-link>
 
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
@@ -201,6 +205,15 @@
 
             @auth
                 @if( Auth::user()->isAdmin)
+
+                    <x-jet-responsive-nav-link href="{{ route('prodavnice') }}" :active="request()->routeIs('prodavnice')">
+                        {{ __('Prodavnice') }}
+                    </x-jet-responsive-nav-link>
+
+                    <x-jet-responsive-nav-link href="{{ route('orders') }}" :active="request()->routeIs('profile.show')">
+                        {{ __('Naruđžbe') }}
+                    </x-jet-responsive-nav-link>
+
                     <x-jet-responsive-nav-link href="{{ route('kategorije') }}" :active="request()->routeIs('kategorije')">
                         {{ __('Kategorije') }}
                     </x-jet-responsive-nav-link>
@@ -209,9 +222,6 @@
                         {{ __('Reklame') }}
                     </x-jet-responsive-nav-link>
 
-                    <x-jet-responsive-nav-link href="{{ route('prodavnice') }}" :active="request()->routeIs('prodavnice')">
-                        {{ __('Prodavnice') }}
-                    </x-jet-responsive-nav-link>
                 @endif
             @endauth
 
@@ -244,6 +254,13 @@
 
             <div class="mt-3 space-y-1">
                 <!-- Account Management -->
+
+                @if(!auth()->user()->isAdmin)
+                    <x-jet-responsive-nav-link href="{{ route('orders') }}" :active="request()->routeIs('profile.show')">
+                        {{ __('Naruđžbe') }}
+                    </x-jet-responsive-nav-link>
+                @endif
+
                 <x-jet-responsive-nav-link href="{{ route('profile.show') }}" :active="request()->routeIs('profile.show')">
                     {{ __('Profil') }}
                 </x-jet-responsive-nav-link>
