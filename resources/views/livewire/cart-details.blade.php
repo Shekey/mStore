@@ -30,9 +30,13 @@
           z-index: 100;
 
       }
-        .order-finished.hidden {
-            display: none;
-        }
+    .order-finished.hidden {
+        display: none;
+    }
+
+    .border-red-500 {
+        border-color: rgba(239,68,68,1);
+    }
 
       </style>
     <div class="container mx-auto mt-10">
@@ -50,7 +54,7 @@
                 </div>
 
                 @foreach($allCartItems as $item)
-                    <div class="flex items-center hover:bg-gray-100 -mx-8 px-6 py-5">
+                    <div class="flex items-center hover:bg-gray-100 -mx-8 px-6 py-5 mt-1 {{ $item->isActive ? '' : 'border-2 border-red-500' }}">
                         <div class="flex w-2/5"> <!-- product -->
                             <div class="w-20">
                                 <img class="h-24" src="{{ $item->image }}" alt="Cart item image">
@@ -93,6 +97,7 @@
                         <span>{{ $totalPrice }} KM</span>
                     </div>
                     <button wire:click="finishOrder" class="bg-orange-500 font-semibold py-3 text-sm text-white uppercase w-full finishOrderBtn {{ $locationAddress === '' ? 'disabled:opacity-50' : '' }}" {{ $locationAddress === '' ? 'disabled' : '' }}>Završi</button>
+                    <button wire:click="clearCart" class="bg-orange-500 mt-2 font-semibold py-3 text-sm text-white uppercase w-full finishOrderBtn {{ $cartTotalItems === 0 ? 'disabled:opacity-50' : '' }}" {{ $cartTotalItems === 0 ? 'disabled' : '' }}>Očisti korpu </button>
                 </div>
             </div>
         </div>

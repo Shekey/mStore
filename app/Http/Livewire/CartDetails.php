@@ -27,36 +27,49 @@ class CartDetails extends Component
     }
 
     public function finishOrder() {
-        DB::transaction(function() {
-            $order = new Order;
-            $date = date('Y-m-d H:i');
-            $order->name = auth()->user()->name;
-            $order->address = implode(",", $this->locationAddress);
-            $order->phone = auth()->user()->phone;
-            $order->order_date =  $date;
-            $order->customer_id = auth()->user()->id;
-            $order->total = $this->totalPrice;
-            $order->save();
-
-            $orderProducts = [];
-
-            foreach ($this->allCartItems as $item) {
-                $orderProducts[] = [
-                    'order_id' => $order->id,
-                    'product_id' => $item['id'],
-                    'quantity' => $item['qty'],
-                    'currentPrice' => $item['price'],
-                    'shippingPrice' => $item['shipping'],
-                    'marketName' => $item['market'],
-                    'created_at' => now(),
-                    'updated_at' => now()
-                ];
+        $countInactive = 0;
+        foreach($this->allCartItems as $cartItem) {
+            $isMarketClosed = Market::find($cartItem['marketId'])->isClosed || Articles::find($cartItem['id']->isActive === 0);
+            if($isMarketClosed) {
+                ShoppingCart::update($cartItem['__raw_id'], ['isActive' => '0']);
+                $countInactive += 1;
             }
+        }
 
-            OrderProduct::insert($orderProducts);
-            $this->orderFinished = true;
-            $this->clearCart();
-        });
+        if(!$countInactive) {
+            DB::transaction(function () {
+                $order = new Order;
+                $date = date('Y-m-d H:i');
+                $order->name = auth()->user()->name;
+                $order->address = implode(",", $this->locationAddress);
+                $order->phone = auth()->user()->phone;
+                $order->order_date = $date;
+                $order->customer_id = auth()->user()->id;
+                $order->total = $this->totalPrice;
+                $order->save();
+
+                $orderProducts = [];
+
+                foreach ($this->allCartItems as $item) {
+                    $orderProducts[] = [
+                        'order_id' => $order->id,
+                        'product_id' => $item['id'],
+                        'quantity' => $item['qty'],
+                        'currentPrice' => $item['price'],
+                        'shippingPrice' => $item['shipping'],
+                        'marketName' => $item['market'],
+                        'created_at' => now(),
+                        'updated_at' => now()
+                    ];
+                }
+
+                OrderProduct::insert($orderProducts);
+                $this->orderFinished = true;
+                $this->clearCart();
+            });
+        } else {
+            $this->dispatchBrowserEvent('articlesInActive');
+        }
         $this->dispatchBrowserEvent('processed');
     }
 

@@ -29,6 +29,8 @@ class Kernel extends ConsoleKernel
             ->everyMinute();
         $schedule->command('notifications:clear')
             ->dailyAt('23:00');
+        $schedule->command('reset:points')
+            ->dailyAt('23:00');
     }
 
     /**

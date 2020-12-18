@@ -720,6 +720,10 @@
             $.notify("Uspjesno ste dodali artikal u korpu.", "success");
         });
 
+        window.addEventListener('articlesInActive', event => {
+            $.notify("Nažalost ne možemo vam isporučiti artikle označeni sam crvenom linijom", "error");
+        });
+
         window.addEventListener('updatedArticleCart', event => {
             $.notify("Uspjesno ste ažurirali količinu artikla.", "success");
         })
