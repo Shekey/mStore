@@ -232,7 +232,7 @@
         @foreach($allCartItems as $cartItem)
             <div class="flex mb-5">
                 <img class="h-20 w-20 object-cover rounded"
-                     src="https://images.unsplash.com/photo-1593642632823-8f785ba67e45?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1189&q=80"
+                     src="{{ $cartItem->image }}"
                      alt="">
                 <div class="mx-3">
                     <h3 class="text-sm text-black">{{ $cartItem->name }}</h3>
@@ -260,7 +260,7 @@
             </div>
         @endforeach
         @if (count($allCartItems) > 0)
-            <a href="/cart" class="flex items-center justify-center mt-4 px-3 py-2 bg-blue-600 text-white text-sm uppercase font-medium rounded hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
+            <a href="/korpa" class="flex items-center justify-center mt-4 px-3 py-2 bg-blue-600 text-white text-sm uppercase font-medium rounded hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
                 Završi narudzbu
                 <svg class="h-5 w-5 mx-2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                      viewBox="0 0 24 24" stroke="currentColor">

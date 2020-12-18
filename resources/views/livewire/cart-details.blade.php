@@ -65,8 +65,8 @@
                             </div>
                             <div class="flex flex-col justify-between ml-4 flex-grow">
                                 <span class="font-bold text-sm text-black">{{ $item->name }}</span>
-                                <span class="text-red-500 text-xs">{{ $item->market }}</span>
-                                <a role="button" class="font-semibold hover:text-red-500 text-black text-xs" wire:click.stop="removeFromCart('{{ $item->__raw_id }}')">Izbriši</a>
+                                <a href="/prodavnica/{{ $item->marketId }}" class="text-red-500 text-lg text-underline capitalize inline-block">{{ $item->market }}</a>
+                                <a role="button" class="font-semibold hover:text-red-500 text-black text-sm capitalize" wire:click.stop="removeFromCart('{{ $item->__raw_id }}')">Izbriši</a>
                             </div>
                         </div>
                         <div class="flex justify-center w-1/5 decrease"  wire:click.stop="updateCartQty('{{ $item->__raw_id }}', {{ $item->qty - 1 }})">
@@ -108,7 +108,7 @@
 
 
         @if(count($allCartItems))
-            <div class="relative" style="overflow: hidden">
+            <div class="relative" style="overflow: hidden; width: 100%">
             <div id="sidebar">
                 <div class="gradient-line"></div>
 

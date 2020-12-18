@@ -29,7 +29,7 @@ class CartDetails extends Component
     public function finishOrder() {
         $countInactive = 0;
         foreach($this->allCartItems as $cartItem) {
-            $isMarketClosed = Market::find($cartItem['marketId'])->isClosed || Articles::find($cartItem['id']->isActive === 0);
+            $isMarketClosed = Market::find($cartItem['marketId'])->isClosed || Articles::find($cartItem['id'])->isActive === 0;
             if($isMarketClosed) {
                 ShoppingCart::update($cartItem['__raw_id'], ['isActive' => '0']);
                 $countInactive += 1;

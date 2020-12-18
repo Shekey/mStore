@@ -45,7 +45,7 @@ class OrderCreatedNotification extends Notification
                     ->line('Upravo ste dobili novu narudžbu')
                     ->line('Narudžba je za ' . $this->order->name)
                     ->line('Telefonski broj ' . $this->order->phone)
-                    ->action('Link za naruđžbu', url('/orders/'. $this->order->id))
+                    ->action('Link za naruđžbu', url('/narudzbe/'. $this->order->id))
                     ->line('Unaprijed hvala.');
     }
 

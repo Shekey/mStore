@@ -26,6 +26,8 @@ class Search {
       const that = this;
       $$('input[type=checkbox][name=address]').forEach(c => c.onchange = (e) => {
          if (e.target.value == 'current') {
+             var event = new CustomEvent("startLocation");
+             document.dispatchEvent(event);
             that.selectCurrent();
          }
       });
@@ -161,6 +163,8 @@ class Search {
                  }
              });
              document.dispatchEvent(event);
+             var eventProcessed = new CustomEvent("foundLocation");
+             document.dispatchEvent(eventProcessed);
             that.checkMarker(marker, latitude, longitude);
          },
          function error(msg) {

@@ -741,12 +741,21 @@
             paginationEvents();
         });
 
+        document.addEventListener('foundLocation', event => {
+            removePreloader(300, "slow");
+        });
+
         document.addEventListener('locationEnable', event => {
             $('.alert-toast-location').removeClass('hidden');
 
             setTimeout(() => {
                 $('.alert-toast-location').addClass('hidden');
             }, 5000)
+        });
+
+        document.addEventListener('startLocation', event => {
+            $('body').addClass('preloader-active');
+            $('.preloader').css("display", "");
         });
 
         document.addEventListener('sent', event => {
@@ -777,8 +786,11 @@
         }
 
         $(window).bind("load", function() {
-            const time = 300;
-            removePreloader(time, "slow");
+            @if(request()->routeIs('cart'))
+                removePreloader(800, "slow");
+            @else
+                removePreloader(300, "slow");
+            @endif
         });
 
     });

@@ -14,7 +14,7 @@
 
             <div class="flex sm:hidden items-center">
                 @auth
-                        <a href="/cart" class="text-white focus:outline-none text-gray-600 mr-4 flex items-center">
+                        <a href="/korpa" class="text-white focus:outline-none text-gray-600 mr-4 flex items-center">
                             <svg class="h-4 w-4" fill="none" stroke-linecap="round" stroke-linejoin="round"
                                  stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
                                 <path
@@ -47,7 +47,7 @@
         <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ml-6">
                 @auth
-                    <a href="/cart" class="text-white focus:outline-none mx-4 text-gray-600 mr-4 flex items-center navigateToCart">
+                    <a href="/korpa" class="text-white focus:outline-none mx-4 text-gray-600 mr-4 flex items-center navigateToCart">
                         <svg class="h-6 w-6" fill="none" stroke-linecap="round" stroke-linejoin="round"
                              stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
                             <path
