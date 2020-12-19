@@ -42,10 +42,6 @@
             position: relative;
         }
 
-        .min-h-screen > main {
-            background: #373737;
-        }
-
         .cart-active {
             transform: translateX(0) !important;
         }
@@ -122,9 +118,6 @@
             cursor: pointer;
         }
 
-        .articles > div {
-            box-shadow: 8px 8px 15px 8px #000000;
-        }
 
         .cart {
             z-index: 1000;
@@ -133,12 +126,7 @@
         .search__container {
             padding-top: 64px;
         }
-        .search__title {
-            font-size: 22px;
-            font-weight: 900;
-            text-align: center;
-            color: #ff8b88;
-        }
+
         .search__input {
             width: 100%;
             padding: 12px 24px;
@@ -146,20 +134,21 @@
             transition: transform 250ms ease-in-out;
             font-size: 14px;
             line-height: 18px;
-            color: #fff;
+            color: #000;
+            font-weight: 700;
             background-color: transparent;
-            background-image: url("data:image/svg+xml; charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='%23fff' viewBox='0 0 24 24'%3E%3Cpath d='M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z'/%3E%3Cpath d='M0 0h24v24H0z' fill='none'/%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml; charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='%23000' viewBox='0 0 24 24'%3E%3Cpath d='M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z'/%3E%3Cpath d='M0 0h24v24H0z' fill='none'/%3E%3C/svg%3E");
             background-repeat: no-repeat;
             background-size: 18px 18px;
             background-position: 95% center;
             border-radius: 50px;
-            border: 1px solid #575756;
+            border: 2px solid #000;
             transition: all 250ms ease-in-out;
             backface-visibility: hidden;
             transform-style: preserve-3d;
             }
             .search__input::placeholder {
-            color: color(#575756 a(0.8));
+            color: #000;
             text-transform: uppercase;
             letter-spacing: 1.5px;
         }
@@ -167,14 +156,14 @@
             padding: 12px 0;
             outline: 0;
             border: 1px solid transparent;
-            border-bottom: 1px solid #575756;
+            border-bottom: 1px solid #000;
             border-radius: 0;
             background-position: 100% center;
         }
 
         .btn {
             display: inline-block;
-            color: white;
+            color: #555555;
             min-width: 154px;
             text-decoration: none;
             padding: 20px;
@@ -239,15 +228,15 @@
         </header>
         <div class="container mx-auto px-6">
             <div class="flex items-center justify-between flex-wrap sm:no-wrap">
-                <div class="w-full text-white md:text-center text-3xl font-semibold capitalize order-1 sm:order-0">
+                <div class="w-full md:text-center text-3xl font-semibold capitalize order-1 sm:order-0">
                     {{ $market->name }}
                 </div>
                 @auth
 
                     @if(!$market->isClosed)
                         <div class="flex items-center sm:justify-end w-full">
-                            <p class="text-white mt-0 mr-4">Ukupno ( {{ number_format((float)$totalPrice, 2, '.', '') }} KM )</p>
-                            <button wire:click="$set('cartOpen', true)" class="text-white focus:outline-none mx-4 sm:mx-0">
+                            <p class="mt-0 mr-4">Ukupno ( {{ number_format((float)$totalPrice, 2, '.', '') }} KM )</p>
+                            <button wire:click="$set('cartOpen', true)" class="focus:outline-none mx-4 sm:mx-0">
                                 <svg class="h-10 w-10" fill="none" stroke-linecap="round" stroke-linejoin="round"
                                      stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
                                     <path
@@ -258,7 +247,7 @@
                     @endif
                 @endauth
             </div>
-            <h4 class="text-lg font-bold text-orange-700 bg-white px-2 py-2 mt-8 text-center">Odaberite kategoriju
+            <h4 class="text-lg font-bold text-orange-400 px-2 py-2 mt-8 text-center">Odaberite kategoriju
                 kako bi ste filtrirali artikle.</h4>
             @guest
                 <div class="alert-toast fixed bottom-0 right-0 m-8 w-5/6 md:w-full max-w-sm">
@@ -375,22 +364,22 @@
         </button>
     </div>
 
-    <main class="px-4">
+    <div class="px-4">
         <div class="container py-4">
-            <h3 class="text-white text-3xl font-bold text-uppercase mt-4 text-center md:text-left">Katalog artikala</h3>
+            <h3 class="text-3xl font-bold text-uppercase mt-4 text-center md:text-left">Katalog artikala</h3>
             <span class="mt-3 text-sm text-white"></span>
-            <div class="grid gap-10 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 mt-6 articles">
+            <div class="flex flex-wrap mt-6 articles">
 
                 @foreach($articles as $article)
-                    <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden">
-                        <div class="flex items-end justify-end h-56 w-full bg-cover"
-                             wire:click.stop="showDetailsArticle({{ $article->id }})"
-                             style="background-image: url('https://images.unsplash.com/photo-1495856458515-0637185db551?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80')">
+                    <div class="flex flex-col lg:w-1/3 mb-8 sm:px-2 px-10"  wire:click.stop="showDetailsArticle({{ $article->id }})">
+                        <img src="https://images.unsplash.com/photo-1495856458515-0637185db551?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80" alt="Logo image"
+                             class="w-full object-contain object-center rounded-lg shadow-md"
+                             style="border: 2px solid #f58b1e; border-radius: 10px;">
                             @auth
                                @if(!$market->isClosed)
                                     <a role="button"
-                                       class="add-to-cart p-2 rounded-full bg-orange-600 text-white mx-5 -mb-4 hover:bg-orange-200 focus:outline-none focus:bg-blue-500"
-                                       style="position: relative; z-index: 10" wire:click.stop="quickAddToCart({{ $article->id }})">
+                                       class="add-to-cart p-2 flex rounded-full bg-orange-600 text-white ml-auto hover:text-white hover:bg-orange-500 focus:outline-none focus:bg-orange-500"
+                                       style="width: 36px; margin-right: 30px; margin-top: -15px; z-index: 10" wire:click.stop="quickAddToCart({{ $article->id }})">
                                         <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round"
                                              stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
                                             <path
@@ -399,11 +388,33 @@
                                     </a>
                                 @endif
                             @endauth
-                        </div>
-                        <div class="px-5 py-3">
-                            <h3 class="text-white uppercase">{{ $article->name }}</h3>
-                            <p class="text-white mt-2">{{ number_format((float)$article->price, 2, '.', '') }} KM</p>
-                            <p class="text-white mt-2">{{ $article->category->name }}</p>
+
+                        <div class="relative px-4 -mt-16">
+                            <div class="bg-white p-6 rounded-lg shadow-lg">
+                                <div class="flex items-baseline">
+                                  <span
+                                      class="bg-orange-200 text-orange-800 text-xs px-2 inline-block rounded-full  uppercase font-semibold tracking-wide">
+                                    {{ $article->category->name }}
+                                  </span>
+
+                                    @php
+                                      $older = false;
+                                        if (10 - ((new \Carbon\Carbon($article->created_at, 'UTC'))->diffInDays()) < 0) {
+                                            $older = true;
+                                        }
+                                    @endphp
+                                    @if($older)
+                                        <span class="bg-green-200 text-green-800 text-xs px-2 inline-block rounded-full uppercase font-semibold tracking-wide ml-4">
+                                            Novo
+                                         </span>
+                                    @endif
+                                </div>
+                                <h4 class="mt-4 text-xl font-semibold uppercase leading-tight truncate">{{ $article->name }}</h4>
+                                <div class="mt-2">
+                                    {{ $article->price }}
+                                    <span class="text-gray-600 text-sm">KM</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 @endforeach
@@ -420,7 +431,7 @@
                 </div>
             </div>
         </div>
-    </main>
+    </div>
 
     @if(count($articles) != 0)
     <x-jet-dialog-modal wire:model="showArtikal" :maxWidth="'modal-full'">
@@ -518,7 +529,7 @@
             const navigateToCart = document.querySelector('.navigateToCart');
             Livewire.hook('component.initialized', (component) => {
                 console.log(component.el);
-                if (component.el.classList.contains('catalog')) {
+                if (component.el.classList.contains('catalog') && navigateToCart) {
                     navigateToCart.addEventListener('click', (e) => {
                         e.preventDefault();
                         component.set('cartOpen', true);

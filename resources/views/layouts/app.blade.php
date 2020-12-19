@@ -572,7 +572,7 @@
     </header>
 
     <!-- Page Content -->
-    <main>
+    <main class="bg-blue-lightest">
         {{ $slot }}
     </main>
 </div>
