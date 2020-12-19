@@ -6,8 +6,6 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" type="image/png" href="/favicon.png"/>
     <title>{{ config('app.name', 'm-store') }}</title>
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-
     <style>
         body {
             overflow-x: hidden;
@@ -537,6 +535,7 @@
             <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js"></script>
         @endif
     @endif
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
 
     {{--        <!-- Production -->--}}

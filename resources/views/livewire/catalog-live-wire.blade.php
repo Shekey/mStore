@@ -180,6 +180,7 @@
             padding: 20px;
             position: relative;
             text-align: center;
+            margin: 0;
         }
 
         .btn:hover {
@@ -290,7 +291,6 @@
                         </svg>
                     </a>
                     @foreach($categories as $cat)
-
                         <a class="btn mt-3 mx-3 uppercase {{ $filterCat === $cat->id ? 'filterActive' : ''}}" data-id="0" wire:click="$set('filterCat', {{ $cat->id}} )" data-id="{{ $cat->id }}" wire:click="$set('filterCat', {{ $cat->id }})" role="button">{{ $cat->name }}
                             <svg class="button-stroke" viewBox="0 0 154 13">
                                 <use href="#line"></use>

@@ -24,7 +24,6 @@ class MarketLiveWire extends Component
 
     public $name, $points = 0 ,$fileId = 1, $orderPaid = 0, $showOrderPaid = 0, $startTime, $endTime, $startTimeSunday, $endTimeSunday, $isClosed = null,  $image, $freeDelivery = 0, $modelId, $displayingToken = false, $modalConfirmDeleteVisible = false, $uploadedNewImage = false;
 
-
     public function uploadedNew()
     {
         $this->uploadedNewImage = true;
@@ -257,6 +256,7 @@ class MarketLiveWire extends Component
     public function read() {
         return Market::paginate(5);
     }
+
     public function render()
     {
         return view('livewire.market-live-wire',['data' => $this->read()]);
