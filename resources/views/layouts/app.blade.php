@@ -719,8 +719,12 @@
             $.notify("Uspjesno ste dodali artikal u korpu.", "success");
         });
 
+        window.addEventListener('repeatedOrder', event => {
+            $.notify("Uspjesno ste dodali artikle.", "success");
+        });
+
         window.addEventListener('articlesInActive', event => {
-            $.notify("Nažalost ne možemo vam isporučiti artikle označeni sam crvenom linijom", "error");
+            $.notify("Nažalost ne možemo vam isporučiti artikle označeni sa crvenom linijom", "error");
         });
 
         window.addEventListener('updatedArticleCart', event => {

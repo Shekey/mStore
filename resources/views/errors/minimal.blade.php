@@ -23,7 +23,7 @@
     <body class="antialiased">
         <div class="relative flex sm:items-center justify-center min-h-screen sm:pt-0" style="background-image: url('/assets/404.jpg'); background-repeat: no-repeat; background-position: center; background-size: cover;">
             <div class="max-w-xl mx-auto sm:px-6 lg:px-8">
-                <div class="flex items-center sm:justify-start sm:pt-0" style="flex-wrap: wrap">
+                <div class="flex items-center sm:justify-center sm:pt-0" style="flex-wrap: wrap">
                     <div class="px-4 text-lg font-semibold text-amber-600 border-r dark:border-gray-700 tracking-wider" style="border-right-color: black;">
                         <h2>
                         @yield('code')

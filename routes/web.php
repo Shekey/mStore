@@ -55,6 +55,10 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
         return view('admin.categories.index');
     })->name('kategorije');
 
+    Route::get('/tipMarketa', function () {
+        return view('admin.marketType.index');
+    })->name('tipMarketa');
+
     Route::get('/reklame', function () {
         return view('admin.reklame.index');
     })->name('reklame');

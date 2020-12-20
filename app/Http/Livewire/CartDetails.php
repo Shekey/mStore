@@ -30,7 +30,7 @@ class CartDetails extends Component
         $countInactive = 0;
         foreach($this->allCartItems as $cartItem) {
             $isMarketClosed = Market::find($cartItem['marketId'])->isClosed || Articles::find($cartItem['id'])->isActive === 0;
-            if($isMarketClosed) {
+            if($isMarketClosed || auth()->user()->superUser) {
                 ShoppingCart::update($cartItem['__raw_id'], ['isActive' => '0']);
                 $countInactive += 1;
             }
@@ -58,6 +58,7 @@ class CartDetails extends Component
                         'currentPrice' => $item['price'],
                         'shippingPrice' => $item['shipping'],
                         'marketName' => $item['market'],
+                        'marketId' => $item['marketId'],
                         'created_at' => now(),
                         'updated_at' => now()
                     ];

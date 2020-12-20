@@ -157,6 +157,12 @@
                             </x-jet-dropdown-link>
                         @endcan
                         @can('tasks_access')
+                            <x-jet-dropdown-link href="{{ route('tipMarketa') }}">
+                                {{ __('Tip prodavnice') }}
+                            </x-jet-dropdown-link>
+                        @endcan
+
+                        @can('tasks_access')
                             <x-jet-dropdown-link href="{{ route('kategorije') }}">
                                 {{ __('Kategorije') }}
                             </x-jet-dropdown-link>
@@ -212,6 +218,10 @@
 
                     <x-jet-responsive-nav-link href="{{ route('orders') }}" :active="request()->routeIs('profile.show')">
                         {{ __('Naruđžbe') }}
+                    </x-jet-responsive-nav-link>
+
+                    <x-jet-responsive-nav-link href="{{ route('tipMarketa') }}" :active="request()->routeIs('tipMarketa')">
+                        {{ __('Tip prodavnice') }}
                     </x-jet-responsive-nav-link>
 
                     <x-jet-responsive-nav-link href="{{ route('kategorije') }}" :active="request()->routeIs('kategorije')">

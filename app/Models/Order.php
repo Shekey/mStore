@@ -23,7 +23,7 @@ class Order extends Model
     public $timestamps =true;
 
     public function user(){
-        return $this->belongsTo('App\User');
+        return $this->belongsTo(User::class, 'customer_id', 'id');
     }
 
     public function __construct(array $attributes = [])

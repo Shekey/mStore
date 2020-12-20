@@ -457,7 +457,7 @@
         </style>
     </head>
     <body class="antialiased font-sans">
-        <div class="md:flex min-h-screen">
+        <div class="md:flex min-h-screen sm:pt-0">
             <div class="w-full md:w-1/2 bg-white flex items-center justify-center">
                 <div class="max-w-sm m-8">
                     <div class="text-black text-5xl md:text-15xl font-black">
@@ -472,13 +472,13 @@
 
                     <a href="{{ app('router')->has('home') ? route('home') : url('/') }}">
                         <button class="bg-transparent text-grey-darkest font-bold uppercase tracking-wide py-3 px-6 border-2 border-grey-light hover:border-grey rounded-lg">
-                            {{ __('Go Home') }}
+                            {{ __('Idi na početnu stranu') }}
                         </button>
                     </a>
                 </div>
             </div>
 
-            <div class="relative pb-full md:flex md:pb-0 md:min-h-screen w-full md:w-1/2">
+            <div class="relative pb-full md:flex md:pb-0 md:min-h-screen w-full md:w-1/2" style="background-image: url('/assets/404.jpg'); background-repeat: no-repeat; background-position: center; background-size: cover;">
                 @yield('image')
             </div>
         </div>

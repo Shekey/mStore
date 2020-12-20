@@ -233,7 +233,7 @@
                 </div>
                 @auth
 
-                    @if(!$market->isClosed)
+                    @if(!$market->isClosed || auth()->user()->superUser)
                         <div class="flex items-center sm:justify-end w-full">
                             <p class="mt-0 mr-4">Ukupno ( {{ number_format((float)$totalPrice, 2, '.', '') }} KM )</p>
                             <button wire:click="$set('cartOpen', true)" class="focus:outline-none mx-4 sm:mx-0">
@@ -250,7 +250,7 @@
             <h4 class="text-lg font-bold text-orange-400 px-2 py-2 mt-8 text-center">Odaberite kategoriju
                 kako bi ste filtrirali artikle.</h4>
             @guest
-                <div class="alert-toast fixed bottom-0 right-0 m-8 w-5/6 md:w-full max-w-sm">
+                <div class="alert-toast fixed bottom-0 right-0 m-8 w-5/6 md:w-full max-w-sm" style="z-index: 100;">
                     <input type="checkbox" class="hidden" id="not_registered">
 
                     <label class="close cursor-pointer flex items-start justify-between w-full p-2 bg-green-500 h-24 rounded shadow-lg text-white" title="close" for="not_registered">
@@ -376,7 +376,7 @@
                              class="w-full object-contain object-center rounded-lg shadow-md"
                              style="border: 2px solid #f58b1e; border-radius: 10px;">
                             @auth
-                               @if(!$market->isClosed)
+                               @if(!$market->isClosed || auth()->user()->superUser)
                                     <a role="button"
                                        class="add-to-cart p-2 flex rounded-full bg-orange-600 text-white ml-auto hover:text-white hover:bg-orange-500 focus:outline-none focus:bg-orange-500"
                                        style="width: 36px; margin-right: 30px; margin-top: -15px; z-index: 10" wire:click.stop="quickAddToCart({{ $article->id }})">
@@ -468,7 +468,7 @@
                                 <span class="ml-auto text-black">{{ $articleSize }}</span>
                             </div>
                             @auth
-                                @if(!$market->isClosed)
+                                @if(!$market->isClosed || auth()->user()->superUser)
                                     <div class="flex border-t border-b mb-6 border-gray-300 py-2">
                                 <span class="text-black flex-1">Količina</span>
                                 <div class="custom-number-input h-10 w-32">
@@ -494,7 +494,7 @@
                             <div class="flex">
                                 <span class="title-font font-medium text-2xl text-black">Ukupno: {{ $articleTotal }} KM {!! $calcTempPrice != 0 ? '<span class="text-orange-500"> ( '. number_format((float)$calcTempPrice  , 2, '.', '') . ' KM) </span>' : '' !!}</span>
                                 @auth
-                                    @if(!$market->isClosed)
+                                    @if(!$market->isClosed || auth()->user()->superUser)
                                         <button wire:click="addToCart({{ $this->articalId }}, {{ $qty }})"
                                             class="flex ml-auto text-white bg-orange-500 border-0 py-2 px-6 focus:outline-none hover:bg-orange-600 rounded">
                                             Kupi
