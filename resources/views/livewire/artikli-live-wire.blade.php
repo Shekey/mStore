@@ -61,6 +61,7 @@
                                             Cijena
                                         </th>
 
+
                                         <th scope="col"
                                             class="px-6 py-3 bg-gray-800 text-left text-xs font-medium text-white uppercase tracking-wider">
                                             Sniženje
@@ -106,6 +107,7 @@
                                         <td class="px-6 py-4 whitespace-nowrap capitalize">
                                             <div class="text-sm text-gray-500">{!! $d->isOnSale ? '<span class="uppercase px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Da</span>': '<span class="uppercase px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-300 text-green-800">Ne</span>' !!}</div>
                                         </td>
+
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 capitalize">
                                             {{ $d->category->name }}
                                         </td>
@@ -234,17 +236,6 @@
                                 </select>
                                 @error('isActive') <span class="text-red-500">{{ $message }}</span> @enderror
                             </div>
-
-                            <div class="mt-4">
-                                <x-jet-label for="isOnSale" value="{{ __('Snizenje') }}"/>
-                                <select wire:model="isOnSale"
-                                        class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                    <option value="0">Ne</option>
-                                    <option value="1">Da</option>
-                                </select>
-                                @error('isOnSale') <span class="text-red-500">{{ $message }}</span> @enderror
-                            </div>
-
                             <div class="mt-4">
                                 <x-jet-label for="profitMake" value="{{ __('Ima li zarade') }}"/>
                                 <select wire:model="profitMake"

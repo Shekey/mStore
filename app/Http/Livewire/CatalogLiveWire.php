@@ -6,6 +6,7 @@ use App\Models\Ads;
 use App\Models\Articles;
 use App\Models\Category;
 use App\Models\Market;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -16,7 +17,7 @@ class CatalogLiveWire extends Component
 {
     use WithPagination;
 
-    public $showArtikal = false, $marketId = null, $stepsCompleted = false, $marketName = '', $totalShipping = 0, $shippingPrice = 0, $cartTotalItems = 0, $showCart = false, $cartClass = '', $totalPrice = 0, $allCartItems = [], $search = '', $filterCat = '', $articalId = "", $maxWidth = "w-screen", $articleBrand = "", $articleName, $articleSize, $articleColor, $articleDesc, $articlePrice, $qty = 1, $articleTotal, $image = "https://dummyimage.com/400x400", $calcTempPrice = 0, $cartOpen = false;
+    public $showArtikal = false, $marketId = null, $stepsCompleted = false, $isOnSale = 0, $marketName = '', $totalShipping = 0, $shippingPrice = 0, $cartTotalItems = 0, $showCart = false, $cartClass = '', $totalPrice = 0, $allCartItems = [], $search = '', $filterCat = 'akcije', $articalId = "", $maxWidth = "w-screen", $articleBrand = "", $articleName, $articleSize, $articleColor, $articleDesc, $articlePrice, $articleOldPrice, $qty = 1, $articleTotal, $image = "https://dummyimage.com/400x400", $calcTempPrice = 0, $cartOpen = false;
 
     protected $queryString = [
         'page',
@@ -154,6 +155,8 @@ class CatalogLiveWire extends Component
         $this->articleSize = $article->size;
         $this->articleColor = $article->color;
         $this->articlePrice = $article->price;
+        $this->articleOldPrice = $article->oldPrice;
+        $this->isOnSale = $article->isOnSale;
         $this->articleDesc = $article->desc;
         $this->qty = count($articleInCart) > 0 ? $articleInCart->first()->qty : 0;
         $this->articleTotal = count($articleInCart) > 0 ? $articleInCart->first()->total : 0;
@@ -182,7 +185,7 @@ class CatalogLiveWire extends Component
 
     public function searchArticle($value) {
         $this->resetPage();
-        $this->filterCat = '';
+        $this->filterCat = 'akcije';
         $this->dispatchBrowserEvent('sent');
         $this->search =  $value;
     }
@@ -193,10 +196,16 @@ class CatalogLiveWire extends Component
         $categories = Category::all();
         $ads = Ads::all();
         $market = Market::where('id', $this->marketId)->first();
-        $articles = Articles::where([['market_id', $this->marketId], ['isActive', '1'] , ['isOnSale', 0]])->with('category');
+        $articles = Articles::where([['market_id', $this->marketId], ['isActive', '1']])->with('category');
 
         if ($this->filterCat != '') {
-            $articles = $articles->where([['category_id', $this->filterCat]])->with('category');
+            if($this->filterCat == 'novo') {
+                $articles = $articles->where('created_at', '<=', Carbon::now()->subDays(15))->with('category');
+            } else if ($this->filterCat == 'akcije') {
+                $articles = $articles->where('isOnSale', '1')->with('category');
+            } else {
+                $articles = $articles->where('category_id', $this->filterCat)->with('category');
+            }
         }
 
         if($this->search != '') {

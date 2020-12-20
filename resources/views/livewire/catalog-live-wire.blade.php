@@ -279,6 +279,24 @@
                             <use href="#line"></use>
                         </svg>
                     </a>
+                    <a class="btn mt-3 mx-3 uppercase {{ $filterCat === 'akcije' ? 'filterActive' : ''}}" data-id="0" wire:click="$set('filterCat', 'akcije')"role="button">Akcijski artikli
+                        <svg class="button-stroke" viewBox="0 0 154 13">
+                            <use href="#line"></use>
+                        </svg>
+                        <svg class="button-stroke" viewBox="0 0 154 13">
+                            <use href="#line"></use>
+                        </svg>
+                    </a>
+
+                    <a class="btn mt-3 mx-3 uppercase {{ $filterCat === 'novo' ? 'filterActive' : ''}}" data-id="0" wire:click="$set('filterCat', 'novo')"role="button">Novo u ponudi
+                        <svg class="button-stroke" viewBox="0 0 154 13">
+                            <use href="#line"></use>
+                        </svg>
+                        <svg class="button-stroke" viewBox="0 0 154 13">
+                            <use href="#line"></use>
+                        </svg>
+                    </a>
+
                     @foreach($categories as $cat)
                         <a class="btn mt-3 mx-3 uppercase {{ $filterCat === $cat->id ? 'filterActive' : ''}}" data-id="0" wire:click="$set('filterCat', {{ $cat->id}} )" data-id="{{ $cat->id }}" wire:click="$set('filterCat', {{ $cat->id }})" role="button">{{ $cat->name }}
                             <svg class="button-stroke" viewBox="0 0 154 13">
@@ -371,7 +389,10 @@
             <div class="flex flex-wrap mt-6 articles">
 
                 @foreach($articles as $article)
-                    <div class="flex flex-col lg:w-1/3 mb-8 sm:px-2 px-10"  wire:click.stop="showDetailsArticle({{ $article->id }})">
+                    <div class="flex flex-col lg:w-1/3 mb-8 sm:px-2 px-10 relative"  wire:click.stop="showDetailsArticle({{ $article->id }})">
+                        <span class="bg-orange-200 text-orange-900 text-xs px-2 inline-block rounded-full uppercase font-semibold tracking-wide" style="position: absolute; right: 2px; transform: rotateZ(40deg); top:20px;">
+                                       {{ $article->created_at->format('d-m-Y')}}
+                                     </span>
                         <img src="https://images.unsplash.com/photo-1495856458515-0637185db551?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80" alt="Logo image"
                              class="w-full object-contain object-center rounded-lg shadow-md"
                              style="border: 2px solid #f58b1e; border-radius: 10px;">
@@ -413,6 +434,13 @@
                                 <div class="mt-2">
                                     {{ $article->price }}
                                     <span class="text-gray-600 text-sm">KM</span>
+
+                                    @if ($article->isOnSale && $article->oldPrice)
+                                        <span class="text-orange-500 line-through inline-block ml-3">
+                                            {{ $article->oldPrice }}
+                                            <span  class="text-orange-500">KM</span>
+                                        </span>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -459,6 +487,12 @@
                                 <span class="text-black">Cijena</span>
                                 <span class="ml-auto text-black">{{ number_format((float)$articlePrice, 2, '.', '') }} KM</span>
                             </div>
+                            @if($isOnSale)
+                                <div class="flex border-t border-gray-300 py-2">
+                                    <span class="text-black">Stara cijena</span>
+                                    <span class="ml-auto text-black">{{ number_format((float)$articleOldPrice, 2, '.', '') }} KM</span>
+                                </div>
+                            @endif
                             <div class="flex border-t border-gray-300 py-2">
                                 <span class="text-black">Boja</span>
                                 <span class="ml-auto text-black">{{ $articleColor }}</span>

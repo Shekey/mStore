@@ -25,7 +25,7 @@ class ArtikliLiveWire extends Component
     public $messageText = "Uspješno ste dodali novi artikal.";
     protected $listeners = ['uploadedNew'];
     public $market, $images = [], $fileId = 1,  $artikalId, $isOpen = false, $showArtikal = false, $maxWidth = "w-screen" ,$displayingToken = false, $modalConfirmDeleteVisible = false, $uploadedNewImage = false;
-    public $name, $size, $brand, $color, $price, $desc, $isActive = 0, $marketType = null, $isOnSale = 0, $profitMake = 1, $category_id, $marketId;
+    public $name, $size, $brand, $color, $price, $desc, $isActive = 0, $marketType = null, $profitMake = 1, $category_id, $marketId;
 
     public function uploadedNew()
     {
@@ -34,7 +34,7 @@ class ArtikliLiveWire extends Component
 
     public function submit() {
 
-        if ($this->modelId === null ) {
+        if ($this->artikalId === null ) {
             $this->create();
         } else {
             $this->update();
@@ -192,7 +192,6 @@ class ArtikliLiveWire extends Component
       $this->color= null;
       $this->price= null;
       $this->isActive= null;
-      $this->isOnSale= null;
       $this->profitMake= null;
       $this->category_id= null;
       $this->marketType= null;
@@ -203,6 +202,14 @@ class ArtikliLiveWire extends Component
 
     public function createData() {
 
+        $isOnSale = 0;
+        $oldPrice = null;
+        if ($this->artikalId !== null) {
+            $article = Articles::find($this->artikalId);
+            $isOnSale =  $article->price > $this->price ? 1 : 0;
+            $oldPrice = $article->price;
+        }
+
         return [
             'name' => $this->name,
             'desc' => $this->desc,
@@ -211,7 +218,8 @@ class ArtikliLiveWire extends Component
             'color' => $this->color,
             'price' => $this->price,
             'isActive' => $this->isActive,
-            'isOnSale' => $this->isOnSale,
+            'isOnSale' => $isOnSale,
+            'oldPrice' => $oldPrice,
             'profitMake' => $this->profitMake,
             'category_id' => $this->category_id,
             'marketType' => $this->marketType,
@@ -245,7 +253,6 @@ class ArtikliLiveWire extends Component
         $this->color = $art->color;
         $this->price = $art->price;
         $this->isActive = $art->isActive;
-        $this->isOnSale = $art->isOnSale;
         $this->profitMake = $art->profitMake;
         $this->category_id = $art->category_id;
         $this->marketType = $art->marketType;
