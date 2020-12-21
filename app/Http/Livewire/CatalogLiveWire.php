@@ -7,6 +7,7 @@ use App\Models\Articles;
 use App\Models\Category;
 use App\Models\Market;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -200,11 +201,11 @@ class CatalogLiveWire extends Component
 
         if ($this->filterCat != '') {
             if($this->filterCat == 'novo') {
-                $articles = $articles->where('created_at', '<=', Carbon::now()->subDays(15))->with('category');
+                $articles = $articles->where('created_at', '>=', Carbon::now()->subDays(3));
             } else if ($this->filterCat == 'akcije') {
-                $articles = $articles->where('isOnSale', '1')->with('category');
+                $articles = $articles->where('isOnSale', '1');
             } else {
-                $articles = $articles->where('category_id', $this->filterCat)->with('category');
+                $articles = $articles->where('category_id', $this->filterCat);
             }
         }
 

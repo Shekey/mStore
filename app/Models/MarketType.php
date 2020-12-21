@@ -17,4 +17,9 @@ class MarketType extends Model
     {
         return $this->hasMany('App\Models\Articles');
     }
+
+    public function markets()
+    {
+        return $this->hasMany('App\Models\Market');
+    }
 }

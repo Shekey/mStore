@@ -247,18 +247,6 @@
                             </div>
 
                             <div class="mt-4">
-                                <x-jet-label for="marketType" value="{{ __('Tip prodavnice') }}"/>
-                                <select  wire:model="marketType"
-                                         class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                    <option value="0">Odaberite tip prodavnice</option>
-                                    @foreach($marketTypes as $marketType)
-                                        <option value="{{ $marketType->id }}">{{ $marketType->name }}</option>
-                                    @endforeach
-                                </select>
-                                @error('marketType') <span class="text-red-500">{{ $message }}</span> @enderror
-                            </div>
-
-                            <div class="mt-4">
                                 <x-jet-label for="size" value="{{ __('Veličina') }}"/>
                                 <x-jet-input id="size" class="block mt-1 w-full" type="text" name="size" wire:model="size"
                                              :value="old('size')"/>

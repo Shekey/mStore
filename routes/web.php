@@ -4,6 +4,7 @@ use App\Http\Controllers\StripePaymentController;
 use App\Http\Livewire\ArtikliLiveWire;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpFoundation\Response;
@@ -37,8 +38,8 @@ Route::post('/email/verification-notification', function (\Illuminate\Http\Reque
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
 Route::get('/', function () {
-    $market = \App\Models\Market::all();
-    return view('welcome', ['data' => $market]);
+    $markets = \App\Models\Market::with('type')->get()->groupBy('marketType');
+    return view('welcome', ['data' => $markets]);
 })->name('home');
 
 Route::post('image/upload/store','App\Http\Controllers\ImageUploadController@fileStore');

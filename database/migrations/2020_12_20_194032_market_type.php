@@ -13,12 +13,12 @@ class MarketType extends Migration
      */
     public function up()
     {
-        Schema::create('marketType', function (Blueprint $table) {
+        Schema::create('markettype', function (Blueprint $table) {
             $table->id();
             $table->string('name', 100);
         });
 
-        Schema::table('articles', function (Blueprint $table) {
+        Schema::table('markets', function (Blueprint $table) {
             $table->unsignedBigInteger('marketType')->nullable();
             $table->foreign('marketType')->references('id')->on('marketType')->onDelete('cascade');
         });
@@ -31,12 +31,10 @@ class MarketType extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('marketType');
-        Schema::table('articles', function (Blueprint $table) {
+        Schema::table('markets', function (Blueprint $table) {
             $table->dropForeign('marketType');
             $table->dropColumn('marketType');
-
         });
-
+        Schema::dropIfExists('marketType');
     }
 }

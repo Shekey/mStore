@@ -15,4 +15,8 @@ class Market extends Model
         return $this->hasMany('App\Models\Articles');
     }
 
+    public function type(){
+        return $this->belongsTo(MarketType::class, 'marketType', 'id');
+    }
+
 }

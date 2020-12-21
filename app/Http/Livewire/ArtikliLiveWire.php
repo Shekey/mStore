@@ -6,7 +6,6 @@ use App\Models\Articles;
 use App\Models\ArtikalImage;
 use App\Models\Category;
 use App\Models\Market;
-use App\Models\MarketType;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
@@ -25,7 +24,7 @@ class ArtikliLiveWire extends Component
     public $messageText = "Uspješno ste dodali novi artikal.";
     protected $listeners = ['uploadedNew'];
     public $market, $images = [], $fileId = 1,  $artikalId, $isOpen = false, $showArtikal = false, $maxWidth = "w-screen" ,$displayingToken = false, $modalConfirmDeleteVisible = false, $uploadedNewImage = false;
-    public $name, $size, $brand, $color, $price, $desc, $isActive = 0, $marketType = null, $profitMake = 1, $category_id, $marketId;
+    public $name, $size, $brand, $color, $price, $desc, $isActive = 0, $profitMake = 1, $category_id, $marketId;
 
     public function uploadedNew()
     {
@@ -122,7 +121,6 @@ class ArtikliLiveWire extends Component
             'color' => ['max:100'],
             'price' => ['numeric'],
             'category_id' => 'required',
-            'marketType' => 'required',
             'images.*' => 'image'
         ]);
         Articles::find($this->artikalId)->update($this->createData());
@@ -164,7 +162,6 @@ class ArtikliLiveWire extends Component
             'color' => ['max:100'],
             'price' => ['numeric'],
             'category_id' => 'required',
-            'marketType' => 'required',
             'images.*' => 'image'
         ];
     }
@@ -178,7 +175,6 @@ class ArtikliLiveWire extends Component
             'color.max:100' => 'Boja ne smije imati više od 100 karaktera.',
             'price.numeric' => 'Cijena smije biti samo brojevi.',
             'category_id.required' => 'Kategorija je obavezana.',
-            'marketType.required' => 'Tip prodavnice je obavezan.',
             'name.required' => 'Naziv je obavezan.',
             'name.unique' => 'Vec postoji artikal sa ovim imenom.',
         ];
@@ -194,7 +190,6 @@ class ArtikliLiveWire extends Component
       $this->isActive= null;
       $this->profitMake= null;
       $this->category_id= null;
-      $this->marketType= null;
       $this->artikalId = null;
       $this->images = null;
       $this->fileId = rand();
@@ -222,7 +217,6 @@ class ArtikliLiveWire extends Component
             'oldPrice' => $oldPrice,
             'profitMake' => $this->profitMake,
             'category_id' => $this->category_id,
-            'marketType' => $this->marketType,
             'market_id' => $this->marketId,
         ];
     }
@@ -255,7 +249,6 @@ class ArtikliLiveWire extends Component
         $this->isActive = $art->isActive;
         $this->profitMake = $art->profitMake;
         $this->category_id = $art->category_id;
-        $this->marketType = $art->marketType;
         $this->images = $art->images;
     }
 
@@ -263,11 +256,10 @@ class ArtikliLiveWire extends Component
     public function render()
     {
         $categories = Category::all();
-        $marketTypes = MarketType::all();
         $data = Articles::whereHas('market', function (Builder $query) {
             $query->where('market_id', '=', $this->marketId);
-        })->with('category', 'marketType')->simplePaginate(15);
+        })->with('category')->simplePaginate(15);
 
-        return view('livewire.artikli-live-wire', compact('categories','marketTypes', 'data'));
+        return view('livewire.artikli-live-wire', compact('categories', 'data'));
     }
 }

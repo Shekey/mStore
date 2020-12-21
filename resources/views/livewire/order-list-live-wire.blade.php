@@ -1,4 +1,109 @@
-<div class="bg-blue-lightest py-10 wrapper container mx-auto px-10 {{ !count($orders) ? 'flex items-center justify-center':'' }}" style="min-height: calc(100vh - 82px);">
+<div class="bg-blue-lightest py-10 wrapper container mx-auto px-10" style="min-height: calc(100vh - 82px);">
+    <style>
+        [type="date"] {
+            background:#fff url(https://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/calendar_2.png)  97% 50% no-repeat ;
+        }
+        [type="date"]::-webkit-inner-spin-button {
+            display: none;
+        }
+        [type="date"]::-webkit-calendar-picker-indicator {
+            opacity: 0;
+        }
+
+        label {
+            display: block;
+        }
+        input {
+            border: 1px solid #c4c4c4;
+            border-radius: 5px;
+            background-color: #fff;
+            padding: 3px 5px;
+            box-shadow: inset 0 3px 6px rgba(0,0,0,0.1);
+            width: 190px;
+        }
+    </style>
+    <div class="mb-10">
+        <div class="relative inline-block text-left">
+            <button class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-black text-sm font-medium text-white hover:bg-white-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500" wire:click="resetFilters">
+                Resetuj filtere
+            </button>
+
+            @if(auth()->user()->isAdmin)
+                <button class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-black text-sm font-medium text-white hover:bg-white-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500" wire:click="exportCSV">
+                    Export u Excel
+                </button>
+            @endif
+        </div>
+        @if(auth()->user()->isAdmin)
+        <div x-data="{ open: false }" @keydown.window.escape="open = false" @click.away="open = false" class="relative inline-block text-left mt-2">
+            <div>
+                <button @click="open = !open" type="button" class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500" id="options-menu" aria-haspopup="true" aria-expanded="true" x-bind:aria-expanded="open">
+                    Odaberi radnju
+                    <svg class="-mr-1 ml-2 h-5 w-5" x-description="Heroicon name: chevron-down" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <div x-show="open" x-description="Dropdown panel, show/hide based on dropdown state." x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+                <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+                    <a wire:click="$set('market', '')" @click="open = !open" role="button" class="block px-4 py-2 text-sm text-gray-400 {{ $market === '' ? 'text-gray-700' : '' }} hover:bg-gray-100 hover:text-gray-900" role="menuitem">Sve radnje</a>
+
+                    @foreach($markets as $market)
+                        <a wire:click="$set('market', '{{ $market->id }}')" @click="open = !open" role="button" class="block px-4 py-2 text-sm text-gray-400 {{ $market === $market->id ? 'text-gray-700' : '' }} hover:bg-gray-100 hover:text-gray-900" role="menuitem">{{ $market->name }}</a>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+        @endif
+
+        <div x-data="{ open: false }" @keydown.window.escape="open = false" @click.away="open = false" class="relative inline-block text-left mt-2">
+            <div>
+                <button @click="open = !open" type="button" class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500" id="options-menu" aria-haspopup="true" aria-expanded="true" x-bind:aria-expanded="open">
+                    Filtriraj narudžbe
+                    <svg class="-mr-1 ml-2 h-5 w-5" x-description="Heroicon name: chevron-down" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                    </svg>
+                </button>
+            </div>
+
+
+            <div x-show="open" x-description="Dropdown panel, show/hide based on dropdown state." x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+                <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+                    <a wire:click="$set('filter', '')" @click="open = !open" role="button" class="block px-4 py-2 text-sm text-gray-400 {{ $filter === '' ? 'text-gray-700' : '' }} hover:bg-gray-100 hover:text-gray-900" role="menuitem">Prikaži sve narudže</a>
+                    <a wire:click="$set('filter', 'active')" @click="open = !open" role="button" class="block px-4 py-2 text-sm text-gray-400 {{ $filter === 'active' ? 'text-gray-700' : '' }} hover:bg-gray-100 hover:text-gray-900" role="menuitem">Aktivne narudžbe</a>
+                    <a wire:click="$set('filter', 'inactive')" @click="open = !open" role="button" class="block px-4 py-2 text-sm text-gray-400 {{ $filter === 'inactive' ? 'text-gray-700' : '' }} hover:bg-gray-100 hover:text-gray-900" role="menuitem">Završene narudžbe</a>
+                </div>
+            </div>
+        </div>
+        <div x-data="{ open: false }" @keydown.window.escape="open = false" @click.away="open = false" class="relative inline-block text-left mt-2">
+            <div>
+                <button @click="open = !open" type="button" class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500" id="options-menu" aria-haspopup="true" aria-expanded="true" x-bind:aria-expanded="open">
+                    Sortiraj narudžbe
+                    <svg class="-mr-1 ml-2 h-5 w-5" x-description="Heroicon name: chevron-down" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <div x-show="open" x-description="Dropdown panel, show/hide based on dropdown state." x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+                <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+                    <a wire:click="$set('sort', '')" @click="open = !open" role="button" class="block px-4 py-2 text-sm text-gray-400 {{ $sort === '' ? 'text-gray-700' : '' }} hover:bg-gray-100 hover:text-gray-900" role="menuitem">Najnovije narudžbe</a>
+                    <a wire:click="$set('sort', 'asc')" @click="open = !open" role="button" class="block px-4 py-2 text-sm text-gray-400 {{ $sort === 'asc' ? 'text-gray-700' : '' }} hover:bg-gray-100 hover:text-gray-900" role="menuitem">Najstarije narudžbe</a>
+                </div>
+            </div>
+        </div>
+        @if(auth()->user()->isAdmin)
+            <div class="relative inline-block text-left mt-2">
+                <label for="startFrom">Filtriraj od</label>
+                <input type="date" wire:model.lazy="startFrom" name="startFrom" id="startFrom">
+            </div>
+            <div class="relative inline-block text-left mt-2">
+                <label for="startTo">Filtriraj do</label>
+                <input type="date" wire:model.lazy="startTo" name="startTo" id="startTo">
+            </div>
+        @endif
+    </div>
     <div class="flex flex-wrap">
         @foreach($orders as $key=>$order)
             <div class="flex flex-col lg:w-1/3 mb-8 sm:px-2 px-10">
@@ -53,7 +158,7 @@
         @endforeach
 
         @if(!count($orders))
-            <h2 class="text-3xl sm:text-5xl lg:text-6xl text-center leading-none font-extrabold text-gray-900 tracking-tight mb-8">Nema narudžbi</h2>
+            <h2 class="text-3xl sm:text-5xl lg:text-6xl text-center leading-none font-extrabold text-gray-900 tracking-tight mb-8 flex items-center justify-center" style="height: calc(100vh - 300px); flex: 1;">Nema narudžbi</h2>
         @endif
     </div>
 </div>
