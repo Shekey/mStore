@@ -2,10 +2,14 @@
 
 namespace App\Http\Livewire;
 
+use App\Exports\OrderExport;
+use App\Exports\OrdersExport;
 use App\Models\Market;
 use App\Models\Order;
 use Carbon\Carbon;
 use Livewire\Component;
+use Maatwebsite\Excel\Facades\Excel;
+
 
 class OrderListLiveWire extends Component
 {
@@ -33,36 +37,21 @@ class OrderListLiveWire extends Component
     public function exportCSV() {
         $orders = Order::with('orderproduct');
         $orders = $this->manageOrdersExport($orders);
-        $fileName = "export" . now()->format('m-d-Y') . ".xls";
-        $headers = array(
-            "Content-type"        => "application/xls",
-            "Content-Disposition" => "attachment; filename=$fileName",
-            "Pragma"              => "no-cache",
-            "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
-            "Expires"             => "0"
-        );
 
-        $columns = array('Naziv', 'Datum', 'Kolicina', 'Cijena', 'Zarada', 'Ukupno');
+        $array = [];
+        foreach ($orders as $order) {
+            array_push($array, (object)[
+                'Naziv' => $order->product->name,
+                'Datum' => $order->order->created_at->format('d-m-Y'),
+                'Kolicina' => $order->orderproduct->quantity,
+                'Cijena' => $order->orderproduct->currentPrice,
+                'Zarada' => $order->product->profitMake ? 'Da': 'Ne',
+                'Ukupno' => $order->orderproduct->quantity * $order->orderproduct->currentPrice * $order->product->profitMake,
+            ]);
+        }
 
-        $callback = function() use($orders, $columns) {
-            $file = fopen('php://output', 'w');
-            fputcsv($file, $columns);
-
-            foreach ($orders as $order) {
-                $row['Naziv']  = $order->product->name;
-                $row['Datum'] = $order->order->created_at->format('d-m-Y');
-                $row['Kolicina']    = $order->orderproduct->quantity;
-                $row['Cijena']  = $order->orderproduct->currentPrice;
-                $row['Zarada']  = $order->product->profitMake ? 'Da': 'Ne';
-                $row['Ukupno']  = $order->orderproduct->quantity * $order->orderproduct->currentPrice * $order->product->profitMake;
-
-                fputcsv($file, array($row['Naziv'], $row['Datum'], $row['Kolicina'], $row['Cijena'], $row['Zarada'], $row['Ukupno']));
-            }
-
-            fclose($file);
-        };
-
-        return response()->stream($callback, 200, $headers);
+        return Excel::download(new OrdersExport($array), 'users.xlsx');
+//        return response()->stream($callback, 200, $headers);
     }
 
     public function toggleOrderFinished($orderId, $status) {
@@ -74,6 +63,7 @@ class OrderListLiveWire extends Component
 
     public function manageOrdersExport($orders) {
         $orders = $this->manageOrders($orders)->get();
+
 
         $items = [];
         if($this->market !== '') {

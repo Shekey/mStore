@@ -162,6 +162,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Cartalyst\Stripe\Laravel\StripeServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
         /*
          * Package Service Providers...
          */
@@ -232,6 +233,7 @@ return [
     'Stripe' => Cartalyst\Stripe\Laravel\Facades\Stripe::class,
     'Image' => Intervention\Image\Facades\Image::class,
     'ShoppingCart' => Overtrue\LaravelShoppingCart\Facade::class,
+    'Excel' => Maatwebsite\Excel\Facades\Excel::class
 ],
 
 ];

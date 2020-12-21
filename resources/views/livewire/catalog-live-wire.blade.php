@@ -420,11 +420,11 @@
 
                                     @php
                                       $older = false;
-                                        if (10 - ((new \Carbon\Carbon($article->created_at, 'UTC'))->diffInDays()) < 0) {
+                                        if (3 - ((new \Carbon\Carbon($article->created_at, 'UTC'))->diffInDays()) < 0) {
                                             $older = true;
                                         }
                                     @endphp
-                                    @if($older)
+                                    @if(!$older)
                                         <span class="bg-green-200 text-green-800 text-xs px-2 inline-block rounded-full uppercase font-semibold tracking-wide ml-4">
                                             Novo
                                          </span>
