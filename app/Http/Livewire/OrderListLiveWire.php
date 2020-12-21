@@ -31,32 +31,32 @@ class OrderListLiveWire extends Component
     }
 
     public function exportCSV() {
-        $fileName = now();
         $orders = Order::with('orderproduct');
         $orders = $this->manageOrdersExport($orders);
-
+        $fileName = "export" . now()->format('m-d-Y') . ".xls";
         $headers = array(
-            "Content-type"        => "text/csv",
+            "Content-type"        => "application/xls",
             "Content-Disposition" => "attachment; filename=$fileName",
             "Pragma"              => "no-cache",
             "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
             "Expires"             => "0"
         );
 
-        $columns = array('Title', 'Assign', 'Description', 'Start Date', 'Due Date');
+        $columns = array('Naziv', 'Datum', 'Kolicina', 'Cijena', 'Zarada', 'Ukupno');
 
         $callback = function() use($orders, $columns) {
             $file = fopen('php://output', 'w');
             fputcsv($file, $columns);
 
             foreach ($orders as $order) {
-                $row['Title']  = $order->title;
-                $row['Assign']    = $order->assign->name;
-                $row['Description']    = $order->description;
-                $row['Start Date']  = $order->start_at;
-                $row['Due Date']  = $order->end_at;
+                $row['Naziv']  = $order->product->name;
+                $row['Datum'] = $order->order->created_at->format('d-m-Y');
+                $row['Kolicina']    = $order->orderproduct->quantity;
+                $row['Cijena']  = $order->orderproduct->currentPrice;
+                $row['Zarada']  = $order->product->profitMake ? 'Da': 'Ne';
+                $row['Ukupno']  = $order->orderproduct->quantity * $order->orderproduct->currentPrice * $order->product->profitMake;
 
-                fputcsv($file, array($row['Title'], $row['Assign'], $row['Description'], $row['Start Date'], $row['Due Date']));
+                fputcsv($file, array($row['Naziv'], $row['Datum'], $row['Kolicina'], $row['Cijena'], $row['Zarada'], $row['Ukupno']));
             }
 
             fclose($file);
@@ -73,13 +73,23 @@ class OrderListLiveWire extends Component
     }
 
     public function manageOrdersExport($orders) {
-        $orders = $this->manageOrders($orders);
+        $orders = $this->manageOrders($orders)->get();
 
+        $items = [];
         if($this->market !== '') {
-            dd('test');
+            foreach ($orders as $order) {
+                foreach ($order->orderproduct as $op) {
+                    if($op->marketId == $this->market) {
+                        array_push($items, (object) [
+                            'order' => $order,
+                            'orderproduct' => $op,
+                            'product' => $op->product->first(),
+                        ]);
+                    }
+                }
+            }
         }
-
-        return $orders;
+        return $items;
     }
 
     public function manageOrders($orders) {
