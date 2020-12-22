@@ -284,6 +284,7 @@
     </style>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.3/dist/alpine.js"></script>
     <!-- Styles -->
 
 @livewireStyles
@@ -647,7 +648,6 @@
         integrity="sha512-efUTj3HdSPwWJ9gjfGR71X9cvsrthIA78/Fvd/IN+fttQVy7XWkOAXb295j8B3cmm/kFKVxjiNYzKw9IQJHIuQ=="
         crossorigin="anonymous"></script>
 <!-- Scripts -->
-<script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.3/dist/alpine.js" defer></script>
 
 @if(count(\Overtrue\LaravelShoppingCart\Facade::all()) && request()->routeIs('cart'))
     <script type="module" src="/map/js/app.js"></script>

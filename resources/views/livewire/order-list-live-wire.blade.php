@@ -1,4 +1,4 @@
-<div class="bg-blue-lightest py-10 wrapper container mx-auto px-10" style="min-height: calc(100vh - 82px);">
+<div class="bg-blue-lightest py-10 wrapper container cart-list mx-auto px-10" style="min-height: calc(100vh - 82px);">
     <style>
         [type="date"] {
             background:#fff url(https://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/calendar_2.png)  97% 50% no-repeat ;
@@ -75,7 +75,6 @@
                 </button>
             </div>
 
-
             <div x-show="open" x-description="Dropdown panel, show/hide based on dropdown state." x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
                 <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                     <a wire:click="$set('filter', '')" @click="open = !open" role="button" class="block px-4 py-2 text-sm text-gray-400 {{ $filter === '' ? 'text-gray-700' : '' }} hover:bg-gray-100 hover:text-gray-900" role="menuitem">Prikaži sve narudže</a>
@@ -84,6 +83,7 @@
                 </div>
             </div>
         </div>
+
         <div x-data="{ open: false }" @keydown.window.escape="open = false" @click.away="open = false" class="relative inline-block text-left mt-2">
             <div>
                 <button @click="open = !open" type="button" class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500" id="options-menu" aria-haspopup="true" aria-expanded="true" x-bind:aria-expanded="open">
@@ -104,13 +104,15 @@
         @if(auth()->user()->isAdmin)
             <div class="relative inline-block text-left mt-2">
                 <label for="startFrom">Filtriraj od</label>
-                <input type="date" wire:model.lazy="startFrom" name="startFrom" id="startFrom">
+                <input type="date" wire:model="startFrom" name="startFrom" id="startFrom">
             </div>
             <div class="relative inline-block text-left mt-2">
                 <label for="startTo">Filtriraj do</label>
-                <input type="date" wire:model.lazy="startTo" name="startTo" id="startTo">
+                <input type="date" wire:model="startTo" name="startTo" id="startTo">
             </div>
         @endif
+        <input type="hidden" name="filters" id="filtersHidden" value="{{ $filter }}">
+        <input type="hidden" name="sort" id="sortHidden" value="{{ $sort }}">
     </div>
     <div class="flex flex-wrap">
         @foreach($orders as $key=>$order)
@@ -170,3 +172,18 @@
         @endif
     </div>
 </div>
+
+<script>
+    document.addEventListener("livewire:load", (component) => {
+        setTimeout(() => {
+            const value = document.getElementById('startFrom').value;
+            const valueTo = document.getElementById('startTo').value;
+            const filters = document.getElementById('filtersHidden').value;
+            const sort = document.getElementById('sortHidden').value;
+            @this.startFrom = value;
+            @this.startTo = valueTo;
+            @this.filter = filters;
+            @this.sort = value;
+        }, 1000)
+    });
+</script>

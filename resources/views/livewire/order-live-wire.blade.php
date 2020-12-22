@@ -104,6 +104,13 @@
                         <span>Ukupan iznos</span>
                         <span>{{ $allOrderItems->first()->order->total }} KM</span>
                     </div>
+
+                    @if(auth()->user()->isAdmin)
+                        <div class="flex font-semibold justify-between py-6 text-sm uppercase">
+                            <span>Link za dostavu</span>
+                            <span class="text-orange-600"><a class="text-orange-600" target="_blank" href="https://share.here.com/l/{{ $allOrderItems->first()->order->address }}">Link</a></span>
+                        </div>
+                @endif
                 </div>
             </div>
             @endif

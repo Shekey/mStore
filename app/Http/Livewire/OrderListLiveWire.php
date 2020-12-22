@@ -13,11 +13,10 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class OrderListLiveWire extends Component
 {
-    public $sort = "", $filter = "", $startFrom = null, $startTo = null, $market = '';
+    public $sort = "", $filter = "", $startFrom = "", $startTo = "", $market = '';
 
     public function mount() {
-        $this->startFrom = null;
-        $this->startTo = null;
+
     }
 
     public function hydrate()
@@ -29,8 +28,8 @@ class OrderListLiveWire extends Component
     public function resetFilters() {
         $this->filter = '';
         $this->sort = '';
-        $this->startTo = null;
-        $this->startFrom = null;
+        $this->startTo = "";
+        $this->startFrom = "";
         $this->market = '';
     }
 
@@ -50,7 +49,7 @@ class OrderListLiveWire extends Component
             ]);
         }
 
-        return Excel::download(new OrdersExport($array), 'users.xlsx');
+        return Excel::download(new OrdersExport($array), 'narudzbe.xlsx');
     }
 
     public function toggleOrderFinished($orderId, $status) {
@@ -83,12 +82,12 @@ class OrderListLiveWire extends Component
     public function manageOrders($orders) {
         \Carbon\Carbon::setLocale('bs');
 
-        if($this->startFrom !== null) {
-            $orders = $orders->where('created_at', '>=', Carbon::createFromFormat('Y-m-d', $this->startFrom));
+        if($this->startFrom !== "" ) {
+            $orders = $orders->where('created_at', '>=', Carbon::createFromFormat('Y-m-d', $this->startFrom)->startOfDay());
         }
 
-        if($this->startTo !== null) {
-            $orders = $orders->where('created_at', '<=', Carbon::createFromFormat('Y-m-d', $this->startTo));
+        if($this->startTo !== "" ) {
+            $orders = $orders->where('created_at', '<=', Carbon::createFromFormat('Y-m-d', $this->startTo)->startOfDay());
         }
 
 
