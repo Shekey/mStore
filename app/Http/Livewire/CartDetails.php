@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Events\CalculatePointsUser;
 use App\Models\Articles;
 use App\Models\Market;
 use App\Models\Order;
@@ -30,7 +31,7 @@ class CartDetails extends Component
         $countInactive = 0;
         foreach($this->allCartItems as $cartItem) {
             $isMarketClosed = Market::find($cartItem['marketId'])->isClosed || Articles::find($cartItem['id'])->isActive === 0;
-            if($isMarketClosed || auth()->user()->superUser) {
+            if($isMarketClosed) {
                 ShoppingCart::update($cartItem['__raw_id'], ['isActive' => '0']);
                 $countInactive += 1;
             }
@@ -49,6 +50,7 @@ class CartDetails extends Component
                 $order->save();
 
                 $orderProducts = [];
+                $calculatePoints = [];
 
                 foreach ($this->allCartItems as $item) {
                     $orderProducts[] = [
@@ -62,11 +64,21 @@ class CartDetails extends Component
                         'created_at' => now(),
                         'updated_at' => now()
                     ];
+
+                    $calculatePoints[] = [
+                        'order_id' => $order->id,
+                        'product_id' => $item['id'],
+                        'currentPrice' => $item['price'],
+                        'profitMake' => $item['profitMake'],
+                        'customer_id' => auth()->user()->id
+                    ];
+
                 }
 
                 OrderProduct::insert($orderProducts);
                 $this->orderFinished = true;
                 $this->clearCart();
+                CalculatePointsUser::dispatch($calculatePoints);
             });
         } else {
             $this->dispatchBrowserEvent('articlesInActive');
@@ -77,6 +89,8 @@ class CartDetails extends Component
     public function updateCartDetails() {
         $this->cartTotalItems = ShoppingCart::countRows();
         $this->allCartItems = ShoppingCart::all();
+
+        if(count($this->allCartItems) <= 0) $this->locationAddress = '';
 
         $collection = $this->allCartItems->map(function ($array) {
             return $array->all();

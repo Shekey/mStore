@@ -13,7 +13,7 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class OrderListLiveWire extends Component
 {
-    public $sort = "", $filter = "active", $startFrom = null, $startTo = null, $market = '';
+    public $sort = "", $filter = "", $startFrom = null, $startTo = null, $market = '';
 
     public function mount() {
         $this->startFrom = null;
@@ -51,7 +51,6 @@ class OrderListLiveWire extends Component
         }
 
         return Excel::download(new OrdersExport($array), 'users.xlsx');
-//        return response()->stream($callback, 200, $headers);
     }
 
     public function toggleOrderFinished($orderId, $status) {
@@ -63,7 +62,6 @@ class OrderListLiveWire extends Component
 
     public function manageOrdersExport($orders) {
         $orders = $this->manageOrders($orders)->get();
-
 
         $items = [];
         if($this->market !== '') {
@@ -85,9 +83,14 @@ class OrderListLiveWire extends Component
     public function manageOrders($orders) {
         \Carbon\Carbon::setLocale('bs');
 
-        if($this->sort === ''){
-            $orders = $orders->latest();
+        if($this->startFrom !== null) {
+            $orders = $orders->where('created_at', '>=', Carbon::createFromFormat('Y-m-d', $this->startFrom));
         }
+
+        if($this->startTo !== null) {
+            $orders = $orders->where('created_at', '<=', Carbon::createFromFormat('Y-m-d', $this->startTo));
+        }
+
 
         if($this->filter === ''){
             $orders = $orders->where('isOrdered', '1')->orWhere('isOrdered', '0');
@@ -97,12 +100,8 @@ class OrderListLiveWire extends Component
             $orders = $orders->where('isOrdered', '1');
         }
 
-        if($this->startFrom !== null) {
-            $orders = $orders->where('created_at', '>=', Carbon::parse($this->startFrom));
-        }
-
-        if($this->startTo !== null) {
-            $orders = $orders->where('created_at', '<=', Carbon::parse($this->startTo));
+        if($this->sort === ''){
+            $orders = $orders->latest();
         }
 
         return $orders;

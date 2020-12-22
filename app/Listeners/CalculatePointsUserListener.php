@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\CalculatePointsUser;
+use App\Models\OrderProduct;
 use App\Models\User;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -27,11 +28,17 @@ class CalculatePointsUserListener
      */
     public function handle(CalculatePointsUser $event)
     {
-        $user = User::find($event->order->customer_id);
-        $orderTotal = $event->order->total;
+        $user = User::find($event->orderProduct[0]['customer_id']);
+        $orderProduct = $event->orderProduct;
+        $orderTotal = 0;
+        foreach ($orderProduct as $op) {
+            if($op['profitMake']) {
+                $orderTotal += $op['currentPrice'];
+            }
+        }
         $user->moneySpent += $orderTotal;
-        $pointsExtra = round($user->moneySpent / 50);
-        $user->moneySpent = $user->moneySpent % 50;
+        $pointsExtra = floor($user->moneySpent / 50);
+        $user->moneySpent= fmod($user->moneySpent, 50);
         $user->points += $pointsExtra;
         $user->save();
     }

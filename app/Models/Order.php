@@ -36,7 +36,6 @@ class Order extends Model
 
             Notification::send($admins, new OrderCreatedNotification($order));
             Notification::send(auth()->user(), new OrderCreatedNotificationUser($order));
-            CalculatePointsUser::dispatch($order);
         });
     }
 
