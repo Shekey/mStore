@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'failed' => 'Nažalost ne postoji ovaj password i email.',
+    'failed' => 'Nažalost ne postoji ovaj password i email, ili vas administrator nije jos odobrio.',
     'password' => 'Unijeli ste netačan password',
     'throttle' => 'Pokušali ste previše puta. Molimo vas da sačekate :seconds sekundi.',
 

@@ -51,7 +51,7 @@ Route::get('/prodavnica/{id}',  function ($id) {
 
 Route::get('/korpa', \App\Http\Livewire\CartDetails::class)->name('cart');
 
-Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
+Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/kategorije', function () {
         return view('admin.categories.index');
     })->name('kategorije');

@@ -71,7 +71,6 @@ class User extends Authenticatable implements MustVerifyEmail
             if ($user->roles()->get()->contains(2)) {
                 $user->roles()->attach(2);
             }
-            Auth::loginUsingId($user->id);
         });
     }
 
