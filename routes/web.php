@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
 use Symfony\Component\HttpFoundation\Response;
 
 /*
@@ -38,6 +39,11 @@ Route::post('/email/verification-notification', function (\Illuminate\Http\Reque
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
 Route::get('/', function () {
+    if(\Illuminate\Support\Facades\Auth::user() && !\Illuminate\Support\Facades\Auth::user()->isActive) {
+        Session::put('needActivation', 'Sačekajte da administrator odobri vaš račun. Dobiti ćete obavještenje na mail. Inaće administratoru treba 1h maximalno!');
+        \Illuminate\Support\Facades\Auth::logout();
+
+    }
     $markets = \App\Models\Market::with('type')->get()->groupBy('marketType');
     return view('welcome', ['data' => $markets]);
 })->name('home');
