@@ -18,7 +18,7 @@ class CatalogLiveWire extends Component
 {
     use WithPagination;
 
-    public $showArtikal = false, $marketId = null, $stepsCompleted = false, $isOnSale = 0, $marketName = '', $totalShipping = 0, $shippingPrice = 0, $cartTotalItems = 0, $showCart = false, $cartClass = '', $totalPrice = 0, $allCartItems = [], $search = '', $filterCat = 'akcije', $articalId = "", $maxWidth = "w-screen", $articleBrand = "", $articleName, $articleSize, $articleColor, $articleDesc, $articlePrice, $articleOldPrice, $qty = 1, $articleTotal, $image = "https://dummyimage.com/400x400", $calcTempPrice = 0, $cartOpen = false;
+    public $showArtikal = false, $marketId = null, $stepsCompleted = false, $isOnSale = 0, $marketName = '', $totalShipping = 0, $shippingPrice = 0, $cartTotalItems = 0, $showCart = false, $cartClass = '', $totalPrice = 0, $allCartItems = [], $search = '', $filterCat = 'akcije', $articalId = "", $maxWidth = "w-screen", $articleBrand = "", $articleName, $articleSize, $articleColor, $articleDesc, $articlePrice, $articleOldPrice, $qty = 1, $articleTotal, $image = array(), $calcTempPrice = 0, $cartOpen = false;
 
     protected $queryString = [
         'page',
@@ -161,7 +161,7 @@ class CatalogLiveWire extends Component
         $this->articleDesc = $article->desc;
         $this->qty = count($articleInCart) > 0 ? $articleInCart->first()->qty : 0;
         $this->articleTotal = count($articleInCart) > 0 ? $articleInCart->first()->total : 0;
-        $this->image = count($article->images) > 0 ? $article->images[0]->url : 'https://dummyimage.com/400x400';
+        $this->image = $article->images;
     }
 
     public function updateCartQty($rowId, $qty) {
@@ -177,6 +177,7 @@ class CatalogLiveWire extends Component
         $this->calcTempPrice = 0;
         $this->shippingPrice = 0;
         $this->totalPrice = 0;
+        $this->image = array();
     }
 
     public function updatingFilterCat()
@@ -195,7 +196,6 @@ class CatalogLiveWire extends Component
     public function render()
     {
         $categories = Category::all();
-        $ads = Ads::all();
         $market = Market::where('id', $this->marketId)->first();
         $articles = Articles::where([['market_id', $this->marketId], ['isActive', '1']])->with('category', 'images');
 
@@ -216,6 +216,6 @@ class CatalogLiveWire extends Component
         $articles = $articles->paginate(24);
         $this->updateCartDetails();
         $this->dispatchBrowserEvent('processed');
-        return view('livewire.catalog-live-wire', compact('categories', 'market', 'articles', 'ads'));
+        return view('livewire.catalog-live-wire', compact('categories', 'market', 'articles'));
     }
 }

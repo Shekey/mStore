@@ -284,6 +284,7 @@
     </style>
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.3/dist/alpine.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+
     <!-- Styles -->
 
 @livewireStyles
@@ -499,23 +500,7 @@
     </style>
 
     @if(request()->routeIs('catalog'))
-        <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css?dp-version=1578490236" />
-        <!-- Style -->
-        <link rel="stylesheet" type="text/css" href="/map/css/index.css" />
-        <link rel="stylesheet" type="text/css" href="/map/css/sidebar.css" />
-        <link rel="stylesheet" type="text/css" href="/map/css/search.css" />
-
-        <!-- JS API -->
-        <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css" />
-        <!-- Turf for area calculations -->
-        <script src="https://npmcdn.com/@turf/turf/turf.min.js"></script>
-        <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-core.js"></script>
-        <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-service.js"></script>
-        <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-ui.js"></script>
-        <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js"></script>
-
-        <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
-        <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightslider/1.1.6/css/lightslider.css" integrity="sha512-+1GzNJIJQ0SwHimHEEDQ0jbyQuglxEdmQmKsu8KI7QkMPAnyDrL9TAnVyLPEttcTxlnLVzaQgxv2FpLCLtli0A==" crossorigin="anonymous" />
     @endif
 
     @if(request()->routeIs('cart'))
@@ -652,6 +637,116 @@
     <script type="module" src="/map/js/app.js"></script>
 @endif
 
+@if(request()->routeIs('catalog'))
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightslider/1.1.6/js/lightslider.min.js" integrity="sha512-Gfrxsz93rxFuB7KSYlln3wFqBaXUc1jtt3dGCp+2jTb563qYvnUBM/GP2ZUtRC27STN/zUamFtVFAIsRFoT6/w==" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $(".swiper-wrapper").lightSlider({
+                item: 1,
+                autoWidth: false,
+                slideMove: 1,
+                slideMargin: 10,
+
+                addClass: '',
+                mode: "slide",
+                useCSS: true,
+                cssEasing: 'ease', //'cubic-bezier(0.25, 0, 0.25, 1)',//
+                easing: 'linear', //'for jquery animation',////
+
+                speed: 400, //ms'
+                auto: true,
+                loop: true,
+                slideEndAnimation: true,
+                pause: 2000,
+
+                keyPress: false,
+                controls: false,
+                prevHtml: '',
+                nextHtml: '',
+
+                rtl:false,
+                adaptiveHeight:false,
+
+                vertical:false,
+                verticalHeight:500,
+                vThumbWidth:100,
+
+                thumbItem:10,
+                pager: false,
+                gallery: false,
+                galleryMargin: 5,
+                thumbMargin: 5,
+                currentPagerPosition: 'middle',
+
+                enableTouch:true,
+                enableDrag:true,
+                freeMove:true,
+                swipeThreshold: 40,
+
+                responsive : [],
+            });
+            $(".article-single").click(() => {
+                console.log("clicked");
+                setTimeout(() => {
+                    $("#images").lightSlider({
+                        item: 1,
+                        autoWidth: false,
+                        slideMove: 1,
+                        slideMargin: 10,
+                        pauseOnHover: true,
+                        adaptiveHeight: true,
+
+                        addClass: '',
+                        mode: "slide",
+                        useCSS: true,
+                        cssEasing: 'ease', //'cubic-bezier(0.25, 0, 0.25, 1)',//
+                        easing: 'linear', //'for jquery animation',////
+
+                        speed: 400, //ms'
+                        auto: false,
+                        loop: false,
+                        slideEndAnimation: true,
+                        pause: 2000,
+
+                        keyPress: false,
+                        controls: false,
+                        prevHtml: '',
+                        nextHtml: '',
+
+                        rtl:false,
+
+                        vertical:false,
+                        verticalHeight:500,
+                        vThumbWidth:100,
+
+                        thumbItem:10,
+                        pager: true,
+                        gallery: false,
+                        galleryMargin: 5,
+                        thumbMargin: 5,
+                        currentPagerPosition: 'middle',
+
+                        enableTouch:true,
+                        enableDrag:true,
+                        freeMove:true,
+                        swipeThreshold: 40,
+
+                        responsive : [],
+
+                        onBeforeStart: function (el) {},
+                        onSliderLoad: function (el) {},
+                        onBeforeSlide: function (el) {},
+                        onAfterSlide: function (el) {},
+                        onBeforeNextSlide: function (el) {},
+                        onBeforePrevSlide: function (el) {}
+                    });
+                }, 150)
+            });
+        });
+    </script>
+
+@endif
 <script>
     function sendMarkRequest(id = null) {
         return $.ajax("{{ route('markNotification') }}", {
