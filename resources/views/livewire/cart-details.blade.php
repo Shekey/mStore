@@ -61,7 +61,7 @@
                     <div class="flex items-center hover:bg-gray-100 px-6 py-5 mt-1 w-full mr-0 {{ $item->isActive ? '' : 'border-2 border-red-500' }}">
                         <div class="flex w-2/5"> <!-- product -->
                             <div class="w-20">
-                                <img class="h-24" src="{{ $item->image }}" alt="Cart item image">
+                                <img class="h-24 object-cover" src="/storage/{{ $item->image }}" alt="Cart item image">
                             </div>
                             <div class="flex flex-col justify-between ml-4 flex-grow">
                                 <span class="font-bold text-sm text-black">{{ $item->name }}</span>

@@ -24,11 +24,16 @@ class ArtikliLiveWire extends Component
     public $messageText = "Uspješno ste dodali novi artikal.";
     protected $listeners = ['uploadedNew'];
     public $market, $images = [], $fileId = 1,  $artikalId, $isOpen = false, $showArtikal = false, $maxWidth = "w-screen" ,$displayingToken = false, $modalConfirmDeleteVisible = false, $uploadedNewImage = false;
-    public $name, $size, $brand, $color, $price, $desc, $isActive = 0, $profitMake = 1, $category_id, $marketId;
+    public $name, $size, $brand, $color, $price, $desc, $isActive = 0, $profitMake = 1, $category_id, $marketId, $sort = "", $filter = "", $search = "", $marketFilter = '';
 
     public function uploadedNew()
     {
         $this->uploadedNewImage = true;
+    }
+
+    public function searchArticle($value) {
+        $this->resetPage();
+        $this->search =  $value;
     }
 
     public function submit() {
@@ -252,14 +257,56 @@ class ArtikliLiveWire extends Component
         $this->images = $art->images;
     }
 
+    public function resetFilters() {
+        $this->filter = '';
+        $this->sort = '';
+        $this->marketFilter = '';
+    }
+
+    public function manageArticles() {
+        $this->dispatchBrowserEvent('sent');
+
+        $parent = Articles::whereHas('market', function (Builder $query) {
+            $query->where('market_id', '=', $this->marketId);
+        })->with('category', 'images');
+
+        if($this->filter === ''){
+            $parent = $parent->where('isActive', 1)->orWhere('isActive', 0);
+        } else if ($this->filter === 'active'){
+            $parent = $parent->where('isActive', 1);
+        } else if ($this->filter === 'sale'){
+            $parent = $parent->where('isOnSale', 1);
+        } else if ($this->filter === 'profitMake'){
+            $parent = $parent->where('profitMake', 1);
+        } else if ($this->filter === 'notProfitMake'){
+            $parent = $parent->where('profitMake', 0);
+        } else {
+            $parent = $parent->where('isActive', 0);
+        }
+
+        if($this->sort === ''){
+            $parent = $parent->latest();
+        }
+
+        return $parent;
+    }
+
+
 
     public function render()
     {
         $categories = Category::all();
-        $data = Articles::whereHas('market', function (Builder $query) {
-            $query->where('market_id', '=', $this->marketId);
-        })->with('category', 'images')->simplePaginate(15);
+        $markets = Market::all();
+        $data = $this->manageArticles();
 
-        return view('livewire.artikli-live-wire', compact('categories', 'data'));
+        if($this->search != '') {
+            $this->resetFilters();
+            $data = Articles::where('name', 'like', '%'.$this->search.'%');
+        }
+
+        $this->dispatchBrowserEvent('processed');
+        $data = $data->simplePaginate(30);
+
+        return view('livewire.artikli-live-wire', compact('categories', 'data', 'markets'));
     }
 }

@@ -1,5 +1,4 @@
-<div class="w-full">
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+<div class="w-full admin-articles">
     <style>
         nav {
             margin-top: 15px;
@@ -39,7 +38,60 @@
             </div>
         </div>
     </div>
-    <div class="container my-12 mx-auto">
+    <div class="my-12 mx-auto">
+        <div class="mb-10 lg:w-1/2 w-full mx-auto">
+            <div class="search__container">
+                <input class="search__input" type="text" wire:model.lazy="search"
+                       wire:keydown.enter="searchArticle($event.target.value)"
+                       placeholder="Pretražite artikle (enter)">
+            </div>
+        </div>
+        <div class="px-3 sm:px-6 lg:px-8 flex justify-center items-center">
+            <div class="relative inline-block text-left">
+                <button class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-black text-sm font-medium text-white hover:bg-white-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500" wire:click="resetFilters">
+                    Resetuj filtere
+                </button>
+            </div>
+            <div x-data="{ open: false }" @keydown.window.escape="open = false" @click.away="open = false" class="relative inline-block text-left ml-2">
+                <div>
+                    <button @click="open = !open" type="button" class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500" id="options-menu" aria-haspopup="true" aria-expanded="true" x-bind:aria-expanded="open">
+                        Filtriraj artikle
+                        <svg class="-mr-1 ml-2 h-5 w-5" x-description="Heroicon name: chevron-down" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                        </svg>
+                    </button>
+                </div>
+
+                <div x-show="open" x-description="Dropdown panel, show/hide based on dropdown state." x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+                    <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+                        <a wire:click="$set('filter', '')" @click="open = !open" role="button" class="block px-4 py-2 text-sm text-gray-400 {{ $filter === '' ? 'text-gray-700' : '' }} hover:bg-gray-100 hover:text-gray-900" role="menuitem">Prikaži sve artikle</a>
+                        <a wire:click="$set('filter', 'active')" @click="open = !open" role="button" class="block px-4 py-2 text-sm text-gray-400 {{ $filter === 'active' ? 'text-gray-700' : '' }} hover:bg-gray-100 hover:text-gray-900" role="menuitem">Aktivni artikli</a>
+                        <a wire:click="$set('filter', 'inactive')" @click="open = !open" role="button" class="block px-4 py-2 text-sm text-gray-400 {{ $filter === 'inactive' ? 'text-gray-700' : '' }} hover:bg-gray-100 hover:text-gray-900" role="menuitem">Neaktivni artikli</a>
+                        <a wire:click="$set('filter', 'sale')" @click="open = !open" role="button" class="block px-4 py-2 text-sm text-gray-400 {{ $filter === 'sale' ? 'text-gray-700' : '' }} hover:bg-gray-100 hover:text-gray-900" role="menuitem">Akcijski artikli</a>
+                        <a wire:click="$set('filter', 'profitMake')" @click="open = !open" role="button" class="block px-4 py-2 text-sm text-gray-400 {{ $filter === 'profitMake' ? 'text-gray-700' : '' }} hover:bg-gray-100 hover:text-gray-900" role="menuitem">Artikli sa zaradom</a>
+                        <a wire:click="$set('filter', 'notProfitMake')" @click="open = !open" role="button" class="block px-4 py-2 text-sm text-gray-400 {{ $filter === 'notProfitMake' ? 'text-gray-700' : '' }} hover:bg-gray-100 hover:text-gray-900" role="menuitem">Artikli bez zarade</a>
+                    </div>
+                </div>
+            </div>
+
+            <div x-data="{ open: false }" @keydown.window.escape="open = false" @click.away="open = false" class="relative inline-block text-left ml-2">
+                <div>
+                    <button @click="open = !open" type="button" class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500" id="options-menu" aria-haspopup="true" aria-expanded="true" x-bind:aria-expanded="open">
+                        Sortiraj artikle
+                        <svg class="-mr-1 ml-2 h-5 w-5" x-description="Heroicon name: chevron-down" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                        </svg>
+                    </button>
+                </div>
+
+                <div x-show="open" x-description="Dropdown panel, show/hide based on dropdown state." x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+                    <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+                        <a wire:click="$set('sort', '')" @click="open = !open" role="button" class="block px-4 py-2 text-sm text-gray-400 {{ $sort === '' ? 'text-gray-700' : '' }} hover:bg-gray-100 hover:text-gray-900" role="menuitem">Najnoviji artikli</a>
+                        <a wire:click="$set('sort', 'asc')" @click="open = !open" role="button" class="block px-4 py-2 text-sm text-gray-400 {{ $sort === 'asc' ? 'text-gray-700' : '' }} hover:bg-gray-100 hover:text-gray-900" role="menuitem">Najstariji artikli</a>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="flex flex-wrap py-3 px-3 sm:px-6 lg:px-8">
             <x-jet-button wire:click="createShowModal">
                 {{ __('Kreiraj artikal') }}
@@ -49,7 +101,7 @@
                     <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                         <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
                             @if(count($data))
-                                <table class="min-w-full divide-y divide-gray-200">
+                                <table class="min-w-full divide-y divide-gray-200" style="overflow: auto; width: 100%;">
                                     <thead>
                                     <tr>
                                         <th scope="col"
