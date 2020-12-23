@@ -184,6 +184,6 @@
             @this.startTo = valueTo;
             @this.filter = filters;
             @this.sort = value;
-        }, 1000)
+        }, 20)
     });
 </script>

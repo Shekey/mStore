@@ -197,7 +197,7 @@ class CatalogLiveWire extends Component
         $categories = Category::all();
         $ads = Ads::all();
         $market = Market::where('id', $this->marketId)->first();
-        $articles = Articles::where([['market_id', $this->marketId], ['isActive', '1']])->with('category');
+        $articles = Articles::where([['market_id', $this->marketId], ['isActive', '1']])->with('category', 'images');
 
         if ($this->filterCat != '') {
             if($this->filterCat == 'novo') {

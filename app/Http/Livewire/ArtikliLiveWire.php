@@ -77,7 +77,7 @@ class ArtikliLiveWire extends Component
                 $imageNameWebp = $imageName.'.webp';
                 $imageUpload = \Intervention\Image\Facades\Image::make($image);
                 Storage::disk('public')->put("images/articles/".$imageName .'.jpg', (string) $imageUpload->encode('jpg', 80));
-                Storage::disk('public')->put("images/articles/".$imageNameWebp, (string) $imageUpload->encode('webp', 20));
+//                Storage::disk('public')->put("images/articles/".$imageNameWebp, (string) $imageUpload->encode('webp', 20));
                 $imageName = 'images/articles/' . $imageName;
                 ArtikalImage::create([
                     'url' => $imageName . '.jpg',
@@ -258,7 +258,7 @@ class ArtikliLiveWire extends Component
         $categories = Category::all();
         $data = Articles::whereHas('market', function (Builder $query) {
             $query->where('market_id', '=', $this->marketId);
-        })->with('category')->simplePaginate(15);
+        })->with('category', 'images')->simplePaginate(15);
 
         return view('livewire.artikli-live-wire', compact('categories', 'data'));
     }

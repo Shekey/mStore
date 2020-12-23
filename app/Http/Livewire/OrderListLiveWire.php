@@ -34,8 +34,7 @@ class OrderListLiveWire extends Component
     }
 
     public function exportCSV() {
-        $orders = Order::with('orderproduct');
-        $orders = $this->manageOrdersExport($orders);
+        $orders = $this->manageOrdersExport();
 
         $array = [];
         foreach ($orders as $order) {
@@ -59,8 +58,8 @@ class OrderListLiveWire extends Component
         $order->save();
     }
 
-    public function manageOrdersExport($orders) {
-        $orders = $this->manageOrders($orders)->get();
+    public function manageOrdersExport() {
+        $orders = $this->manageOrders()->get();
 
         $items = [];
         if($this->market !== '') {
@@ -79,41 +78,40 @@ class OrderListLiveWire extends Component
         return $items;
     }
 
-    public function manageOrders($orders) {
+    public function manageOrders() {
         \Carbon\Carbon::setLocale('bs');
+        $parent = Order::where('customer_id', auth()->user()->id)->with('orderproduct');
 
         if($this->startFrom !== "" ) {
-            $orders = $orders->where('created_at', '>=', Carbon::createFromFormat('Y-m-d', $this->startFrom)->startOfDay());
+            $parent = $parent->where('created_at', '>=', Carbon::createFromFormat('Y-m-d', $this->startFrom)->startOfDay());
         }
 
         if($this->startTo !== "" ) {
-            $orders = $orders->where('created_at', '<=', Carbon::createFromFormat('Y-m-d', $this->startTo)->startOfDay());
+            $parent = $parent->where('created_at', '<=', Carbon::createFromFormat('Y-m-d', $this->startTo)->startOfDay());
         }
 
 
         if($this->filter === ''){
-            $orders = $orders->where('isOrdered', '1')->orWhere('isOrdered', '0');
+            $parent = $parent->where('isOrdered', '1')->orWhere('isOrdered', '0');
         } else if ($this->filter === 'active'){
-            $orders = $orders->where('isOrdered', '0');
+            $parent = $parent->where('isOrdered', '0');
         } else {
-            $orders = $orders->where('isOrdered', '1');
+            $parent = $parent->where('isOrdered', '1');
         }
 
         if($this->sort === ''){
-            $orders = $orders->latest();
+            $parent = $parent->latest();
         }
 
-        return $orders;
+        if(!auth()->user()->isAdmin) {
+            $parent = $parent->where('customer_id', auth()->user()->id);
+        }
+        return $parent;
     }
 
     public function render()
     {
-        $orders = auth()->user()->order()->with('orderproduct');
-        if(auth()->user()->isAdmin) {
-            $orders = Order::with('orderproduct');
-        }
-
-        $orders = $this->manageOrders($orders);
+        $orders = $this->manageOrders();
         $orders = $orders->paginate(24);
         $markets = Market::all();
         return view('livewire.order-list-live-wire', compact('orders', 'markets'));

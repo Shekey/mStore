@@ -393,9 +393,9 @@
                         <span class="bg-orange-200 text-orange-900 text-xs px-2 inline-block rounded-full uppercase font-semibold tracking-wide" style="position: absolute; right: 2px; transform: rotateZ(40deg); top:20px;">
                                        {{ $article->created_at->format('d-m-Y')}}
                                      </span>
-                        <img src="https://images.unsplash.com/photo-1495856458515-0637185db551?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80" alt="Logo image"
+                        <img src="{{ count($article->images) > 0 ? "/storage/". $article->images[0]->url : '/assets/logo.png' }}  " alt="Logo image"
                              class="w-full object-contain object-center rounded-lg shadow-md"
-                             style="border: 2px solid #f58b1e; border-radius: 10px;">
+                             style="border: 2px solid #f58b1e; border-radius: 10px; height: 300px; object-fit: contain;">
                             @auth
                                @if(!$market->isClosed || auth()->user()->superUser)
                                     <a role="button"

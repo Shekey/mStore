@@ -3,9 +3,6 @@
 use App\Http\Controllers\StripePaymentController;
 use App\Http\Livewire\ArtikliLiveWire;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 use Symfony\Component\HttpFoundation\Response;
@@ -40,9 +37,8 @@ Route::post('/email/verification-notification', function (\Illuminate\Http\Reque
 
 Route::get('/', function () {
     if(\Illuminate\Support\Facades\Auth::user() && !\Illuminate\Support\Facades\Auth::user()->isActive) {
-        Session::put('needActivation', 'Sačekajte da administrator odobri vaš račun. Dobiti ćete obavještenje na mail. Inaće administratoru treba 1h maximalno!');
-        \Illuminate\Support\Facades\Auth::logout();
-
+        Session::put('error', 'Sačekajte da administrator odobri vaš račun. Dobiti ćete obavještenje na mail. Inaće administratoru treba 1h maximalno!');
+        return redirect('/')->with(\Illuminate\Support\Facades\Auth::logout());
     }
     $markets = \App\Models\Market::with('type')->get()->groupBy('marketType');
     return view('welcome', ['data' => $markets]);
@@ -70,7 +66,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         return view('admin.reklame.index');
     })->name('reklame');
 
-
     Route::get('/prodavnice', function () {
         return view('admin.prodavnice.index');
     })->name('prodavnice');
@@ -82,7 +77,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::resource('korisnici', \App\Http\Controllers\UsersController::class);
     Route::get('/narudzbe/{id}', \App\Http\Livewire\OrderLiveWire::class)->name('order-item');
     Route::get('/narudzbe', \App\Http\Livewire\OrderListLiveWire::class)->name('orders');
-
 });
 
 Route::group(['middleware' => ['auth']], function () {

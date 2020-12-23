@@ -87,8 +87,8 @@
                                         <td class="px-6 py-4 whitespace-nowrap capitalize">
                                             <div class="flex items-center">
                                                 <div class="flex-shrink-0 h-10 w-10">
-                                                    <img class="h-10 w-10 rounded-full"
-                                                         src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=4&amp;w=256&amp;h=256&amp;q=60"
+                                                    <img class="h-10 w-10 rounded-full object-cover"
+                                                         src="{{ count($d->images) > 0 ? "/storage/". $d->images[0]->url : 'https://dummyimage.com/400x400' }}"
                                                          alt="">
                                                 </div>
                                                 <div class="ml-4">
@@ -187,7 +187,7 @@
                                 x-on:livewire-upload-error="isUploading = false"
                                 x-on:livewire-upload-progress="progress = $event.detail.progress">
                                 <x-jet-label value="{{ __('Slike') }}"/>
-                                <input id="{{ $fileId }}" type="file" wire:change="$emit('uploadedNew')" multiple accept="image/x-png,image/gif,image/jpeg"
+                                <input id="{{ $fileId }}" type="file" wire:change="$emit('uploadedNew')" multiple accept="image/x-png,image/jpeg"
                                        wire:model="images" class=""/>
                                 <div>
                                     @error('images.*') <span class="text-red-500">{{ $message }}</span>@enderror
