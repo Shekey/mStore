@@ -6,6 +6,10 @@
         .lSSlideOuter img{
             width: 100% !important;
         }
+
+        .swiper-slide {
+            height: 100% !important;
+        }
         input[type="number"]::-webkit-inner-spin-button,
         input[type="number"]::-webkit-outer-spin-button {
             -webkit-appearance: none;
@@ -438,25 +442,25 @@
     @endif
 
     <div class="">
-        <div class="px-6">
+        <div class="px-6 pt-10">
             <div class="flex items-center justify-between flex-wrap sm:no-wrap">
                 <div class="w-full md:text-center text-3xl font-semibold capitalize order-1 sm:order-0">
                     {{ $market->name }}
                 </div>
                 @auth
 
-                    @if(!$market->isClosed || auth()->user()->superUser)
-                        <div class="flex items-center sm:justify-end w-full">
-                            <p class="mt-0 mr-4">Ukupno ( {{ number_format((float)$totalPrice, 2, '.', '') }} KM )</p>
-                            <button wire:click="$set('cartOpen', true)" class="focus:outline-none mx-4 sm:mx-0">
-                                <svg class="h-10 w-10" fill="none" stroke-linecap="round" stroke-linejoin="round"
-                                     stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path
-                                        d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
-                                </svg>
-                            </button>
-                        </div>
-                    @endif
+{{--                    @if(!$market->isClosed || auth()->user()->superUser)--}}
+{{--                        <div class="flex items-center sm:justify-end w-full">--}}
+{{--                            <p class="mt-0 mr-4">Ukupno ( {{ number_format((float)$totalPrice, 2, '.', '') }} KM )</p>--}}
+{{--                            <button wire:click="$set('cartOpen', true)" class="focus:outline-none mx-4 sm:mx-0">--}}
+{{--                                <svg class="h-10 w-10" fill="none" stroke-linecap="round" stroke-linejoin="round"--}}
+{{--                                     stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">--}}
+{{--                                    <path--}}
+{{--                                        d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>--}}
+{{--                                </svg>--}}
+{{--                            </button>--}}
+{{--                        </div>--}}
+{{--                    @endif--}}
                 @endauth
             </div>
             <h4 class="text-lg font-bold text-orange-400 px-2 py-2 mt-8 text-center">Odaberite kategoriju

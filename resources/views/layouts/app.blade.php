@@ -784,7 +784,7 @@
                         onBeforePrevSlide: function (el) {}
                     });
                     $(".w-full.text-black").attr("wire:ignore","");
-                }, 150);
+                }, 400);
 
             });
         });
