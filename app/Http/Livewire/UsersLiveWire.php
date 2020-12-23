@@ -12,6 +12,21 @@ class UsersLiveWire extends Component
 
     public $sort = "", $filter = "", $search = "";
 
+    public function manageUser($userId) {
+        $user = User::find($userId);
+
+        if(!$user->isActive && !$user->isBlocked) {
+            $user->isActive = 1;
+        } else if (!$user->isActive && $user->isBlocked) {
+            $user->isActive = 1;
+            $user->isBlocked = 0;
+        } else {
+            $user->isActive = 0;
+            $user->isBlocked = 1;
+        }
+        $user->save();
+    }
+
     public function resetFilters() {
         $this->filter = '';
         $this->sort = '';
@@ -33,6 +48,8 @@ class UsersLiveWire extends Component
             $parent = $parent->where('isActive', 1)->orWhere('isActive', 0);
         } else if ($this->filter === 'active'){
             $parent = $parent->where('isActive', 1);
+        } else if ($this->filter === 'blocked'){
+            $parent = $parent->where('isBlocked', 1);
         }  else {
             $parent = $parent->where('isActive', 0);
         }

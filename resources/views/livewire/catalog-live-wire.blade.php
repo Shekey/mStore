@@ -412,7 +412,7 @@
                                     @endauth
                                 </div>
                             </div>
-                            <div class="lg:w-1/2 w-full lg:h-auto text-black">
+                            <div class="lg:w-1/2 w-full lg:h-auto text-black" {{ count($image) > 1 ? 'wire:ignore' : '' }}>
                                 <div class="" id="images">
                                     @if(count($image) >= 1)
                                         @foreach($image as $i)

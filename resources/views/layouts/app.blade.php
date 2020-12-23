@@ -727,65 +727,60 @@
 
                 responsive : [],
             });
-            $(".article-single").click(() => {
-                console.log("clicked");
 
-                setTimeout(() => {
-                    $("#images").lightSlider({
-                        item: 1,
-                        autoWidth: false,
-                        slideMove: 1,
-                        slideMargin: 10,
-                        pauseOnHover: true,
-                        adaptiveHeight: true,
+            window.addEventListener('initSlider', event => {
+                $("#images").lightSlider({
+                    item: 1,
+                    autoWidth: false,
+                    slideMove: 1,
+                    slideMargin: 10,
+                    pauseOnHover: true,
+                    adaptiveHeight: true,
 
-                        addClass: '',
-                        mode: "slide",
-                        useCSS: true,
-                        cssEasing: 'ease', //'cubic-bezier(0.25, 0, 0.25, 1)',//
-                        easing: 'linear', //'for jquery animation',////
+                    addClass: '',
+                    mode: "slide",
+                    useCSS: true,
+                    cssEasing: 'ease', //'cubic-bezier(0.25, 0, 0.25, 1)',//
+                    easing: 'linear', //'for jquery animation',////
 
-                        speed: 400, //ms'
-                        auto: false,
-                        loop: false,
-                        slideEndAnimation: true,
-                        pause: 2000,
+                    speed: 400, //ms'
+                    auto: false,
+                    loop: false,
+                    slideEndAnimation: true,
+                    pause: 2000,
 
-                        keyPress: false,
-                        controls: false,
-                        prevHtml: '',
-                        nextHtml: '',
+                    keyPress: false,
+                    controls: false,
+                    prevHtml: '',
+                    nextHtml: '',
 
-                        rtl:false,
+                    rtl:false,
 
-                        vertical:false,
-                        verticalHeight:500,
-                        vThumbWidth:100,
+                    vertical:false,
+                    verticalHeight:500,
+                    vThumbWidth:100,
 
-                        thumbItem:10,
-                        pager: true,
-                        gallery: false,
-                        galleryMargin: 5,
-                        thumbMargin: 5,
-                        currentPagerPosition: 'middle',
+                    thumbItem:10,
+                    pager: true,
+                    gallery: false,
+                    galleryMargin: 5,
+                    thumbMargin: 5,
+                    currentPagerPosition: 'middle',
 
-                        enableTouch:true,
-                        enableDrag:true,
-                        freeMove:true,
-                        swipeThreshold: 40,
+                    enableTouch:true,
+                    enableDrag:true,
+                    freeMove:true,
+                    swipeThreshold: 40,
 
-                        responsive : [],
+                    responsive : [],
 
-                        onBeforeStart: function (el) {},
-                        onSliderLoad: function (el) {},
-                        onBeforeSlide: function (el) {},
-                        onAfterSlide: function (el) {},
-                        onBeforeNextSlide: function (el) {},
-                        onBeforePrevSlide: function (el) {}
-                    });
-                    $(".w-full.text-black").attr("wire:ignore","");
-                }, 400);
-
+                    onBeforeStart: function (el) {},
+                    onSliderLoad: function (el) {},
+                    onBeforeSlide: function (el) {},
+                    onAfterSlide: function (el) {},
+                    onBeforeNextSlide: function (el) {},
+                    onBeforePrevSlide: function (el) {}
+                });
             });
         });
     </script>

@@ -163,6 +163,9 @@ class CatalogLiveWire extends Component
         $this->qty = count($articleInCart) > 0 ? $articleInCart->first()->qty : 0;
         $this->articleTotal = count($articleInCart) > 0 ? $articleInCart->first()->total : 0;
         $this->image = $article->images;
+        if(count($this->image) > 1) {
+            $this->dispatchBrowserEvent('initSlider');
+        }
     }
 
     public function updateCartQty($rowId, $qty) {

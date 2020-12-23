@@ -47,7 +47,10 @@
                        role="menuitem">Aktivni korisnici</a>
                     <a wire:click="$set('filter', 'inactive')" @click="open = !open" role="button"
                        class="block px-4 py-2 text-sm text-gray-400 {{ $filter === 'inactive' ? 'text-gray-700' : '' }} hover:bg-gray-100 hover:text-gray-900"
-                       role="menuitem">Neaktivni korisnici</a>
+                       role="menuitem">Neprihaćeni zahtjevi</a>
+                    <a wire:click="$set('filter', 'blocked')" @click="open = !open" role="button"
+                       class="block px-4 py-2 text-sm text-gray-400 {{ $filter === 'blocked' ? 'text-gray-700' : '' }} hover:bg-gray-100 hover:text-gray-900"
+                       role="menuitem">Blokirani korisnici</a>
                 </div>
             </div>
         </div>
@@ -157,17 +160,10 @@
                                 </td>
 
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                    <a href="{{ route('korisnici.show', $user->id) }}"
-                                       class="text-blue-600 hover:text-blue-900 mb-2 mr-2">Pregled</a>
                                     <a href="{{ route('korisnici.edit', $user->id) }}"
                                        class="text-indigo-600 hover:text-indigo-900 mb-2 mr-2">Uredi</a>
-                                    <form class="inline-block" action="{{ route('korisnici.destroy', $user->id) }}"
-                                          method="POST" onsubmit="return confirm('Da li ste sigurni?');">
-                                        <input type="hidden" name="_method" value="DELETE">
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <input type="submit" class="text-red-600 hover:text-red-900 mb-2 mr-2"
-                                               value="Obriši">
-                                    </form>
+                                    <a role="button" wire:click="manageUser('{{  $user->id }}')"
+                                       class="text-blue-600 hover:text-blue-900 mb-2 mr-2">@if(!$user->isActive && !$user->isBlocked)Prihvati @elseif(!$user->isActive && $user->isBlocked) Odblokiraj @else Blokiraj @endif</a>
                                 </td>
                             </tr>
                         @endforeach
