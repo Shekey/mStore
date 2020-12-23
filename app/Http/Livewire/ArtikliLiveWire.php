@@ -291,8 +291,6 @@ class ArtikliLiveWire extends Component
         return $parent;
     }
 
-
-
     public function render()
     {
         $categories = Category::all();
