@@ -688,6 +688,7 @@
             });
             $(".article-single").click(() => {
                 console.log("clicked");
+
                 setTimeout(() => {
                     $("#images").lightSlider({
                         item: 1,
@@ -741,7 +742,9 @@
                         onBeforeNextSlide: function (el) {},
                         onBeforePrevSlide: function (el) {}
                     });
-                }, 150)
+                    $(".w-full.text-black").attr("wire:ignore","");
+                }, 150);
+
             });
         });
     </script>
@@ -812,6 +815,11 @@
         window.addEventListener('addedArticleCart', event => {
             $.notify("Uspjesno ste dodali artikal u korpu.", "success");
         });
+
+        window.addEventListener('removeIgnore', event => {
+            $(".w-full.text-black").removeAttr("wire:ignore","");
+        });
+
 
         window.addEventListener('repeatedOrder', event => {
             $.notify("Uspjesno ste dodali artikle.", "success");

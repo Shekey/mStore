@@ -117,6 +117,7 @@ class CatalogLiveWire extends Component
     public function updatedShowArtikal() {
         if(!$this->showArtikal) {
             $this->resetAllFields();
+            $this->dispatchBrowserEvent('removeIgnore');
         }
     }
     public function cartDetails() {
