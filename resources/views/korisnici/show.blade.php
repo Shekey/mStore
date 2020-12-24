@@ -56,9 +56,35 @@
                                         {{ $user->address }}
                                     </td>
                                 </tr>
+
                                 <tr class="border-b">
                                     <th scope="col" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Roles
+                                        Licna karta (prednja strana)
+                                    </th>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 bg-white divide-y divide-gray-200">
+                                        @if($user->front_ID !== null)
+                                            <img src="/storage/{{ $user->front_ID }}" alt="Licna karta prednja">
+                                            @else Nema slike
+                                        @endif
+                                    </td>
+                                </tr>
+
+                                <tr class="border-b">
+                                    <th scope="col" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Licna karta (zadnja strana)
+                                    </th>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 bg-white divide-y divide-gray-200">
+                                        @if($user->back_ID !== null)
+                                            <img src="/storage/{{ $user->back_ID }}" alt="Licna karta prednja">
+                                            @else Nema slike
+                                        @endif
+                                    </td>
+                                </tr>
+
+
+                                <tr class="border-b">
+                                    <th scope="col" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Uloge
                                     </th>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 bg-white divide-y divide-gray-200">
                                         @foreach ($user->roles as $role)
@@ -66,6 +92,18 @@
                                                     {{ $role->title }}
                                                 </span>
                                         @endforeach
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Da li želite prihvatiti korisnika
+                                    </th>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 bg-white divide-y divide-gray-200">
+                                        <label class="flex items-center">
+                                            <input type="checkbox" class="form-checkbox" value="true">
+                                            <span class="ml-2 text-sm text-gray-600">Da</span>
+                                        </label>
                                     </td>
                                 </tr>
                             </table>

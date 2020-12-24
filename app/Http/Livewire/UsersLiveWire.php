@@ -33,7 +33,7 @@ class UsersLiveWire extends Component
     public function resetFilters() {
         $this->filter = '';
         $this->sort = '';
-        $this->search = '';
+        $this->resetPage();
     }
 
     public function searchUser($value) {
@@ -41,10 +41,17 @@ class UsersLiveWire extends Component
         $this->search =  $value;
     }
 
+    public function updatedFilter() {
+        $this->resetPage();
+    }
+
+    public function updatedSort() {
+        $this->resetPage();
+    }
+
     public function render()
     {
         $this->dispatchBrowserEvent('sent');
-        $this->resetPage();
 
         $parent = User::with('roles');
 
@@ -63,8 +70,8 @@ class UsersLiveWire extends Component
         }
 
         if($this->search != '') {
-            $parent = User::where('name', 'like', '%'.$this->search.'%')->with('roles');
             $this->resetFilters();
+            $parent = User::where('name', 'like', '%'.$this->search.'%')->with('roles');
         }
 
         $this->dispatchBrowserEvent('processed');

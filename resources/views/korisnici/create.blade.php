@@ -8,7 +8,7 @@
     <div>
         <div class="max-w-4xl mx-auto py-10 sm:px-6 lg:px-8">
             <div class="mt-5 md:mt-0 md:col-span-2">
-                <form method="post" action="{{ route('korisnici.store') }}">
+                <form method="post" action="{{ route('korisnici.store') }}" enctype="multipart/form-data">
                     @csrf
                     <div class="shadow overflow-hidden sm:rounded-md">
                         <div class="px-4 py-5 bg-white sm:p-6">
@@ -49,6 +49,22 @@
                             <label for="address" class="block font-medium text-sm text-gray-700">Adresa</label>
                             <input type="text" name="address" value="{{ old('address', '') }}" id="address" class="form-input rounded-md shadow-sm mt-1 block w-full" />
                             @error('address')
+                            <p class="text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <div class="px-4 py-5 bg-white sm:p-6">
+                            <label for="front_ID" class="block font-medium text-sm text-gray-700">Licna karta(prednja strana)</label>
+                            <input type="file" name="front_ID" id="front_ID" value="{{ old('front_ID') }}" class="form-input rounded-md shadow-sm mt-1 block w-full" />
+                            @error('front_ID')
+                            <p class="text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <div class="px-4 py-5 bg-white sm:p-6">
+                            <label for="back_ID" class="block font-medium text-sm text-gray-700">Licna karta(zadnja strana)</label>
+                            <input type="file" name="back_ID" id="front_ID" value="{{ old('back_ID') }}" class="form-input rounded-md shadow-sm mt-1 block w-full" />
+                            @error('back_ID')
                             <p class="text-sm text-red-600">{{ $message }}</p>
                             @enderror
                         </div>

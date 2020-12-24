@@ -21,12 +21,12 @@ class StoreUserRequest extends FormRequest
             'password' => [
                 'required',
             ],
-            'phone' => [
-                'required',
-            ],
+            'phone' => ['required', 'numeric', 'min:9', 'min:10', 'unique:users'],
             'address' => [
                 'required',
             ],
+            'front_ID' => ['sometimes', 'nullable', 'image'],
+            'back_ID' => ['sometimes' , 'nullable','image'],
             'roles.*'  => [
                 'integer',
             ],

@@ -160,6 +160,8 @@
                                 </td>
 
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                    <a href="{{ route('korisnici.show', $user->id) }}"
+                                       class="text-indigo-600 hover:text-indigo-900 mb-2 mr-2">Pregled</a>
                                     <a href="{{ route('korisnici.edit', $user->id) }}"
                                        class="text-indigo-600 hover:text-indigo-900 mb-2 mr-2">Uredi</a>
                                     <a role="button" wire:click="manageUser('{{  $user->id }}')"
