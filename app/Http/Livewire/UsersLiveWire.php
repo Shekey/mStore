@@ -3,6 +3,8 @@
 namespace App\Http\Livewire;
 
 use App\Models\User;
+use App\Notifications\UserAccepted;
+use Illuminate\Support\Facades\Notification;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -17,6 +19,7 @@ class UsersLiveWire extends Component
 
         if(!$user->isActive && !$user->isBlocked) {
             $user->isActive = 1;
+            $user->notify(new UserAccepted());
         } else if (!$user->isActive && $user->isBlocked) {
             $user->isActive = 1;
             $user->isBlocked = 0;

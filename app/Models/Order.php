@@ -35,7 +35,7 @@ class Order extends Model
             })->get();
 
             Notification::send($admins, new OrderCreatedNotification($order));
-            Notification::send(auth()->user(), new OrderCreatedNotificationUser($order));
+//            Notification::send(auth()->user(), new OrderCreatedNotificationUser($order));
         });
     }
 

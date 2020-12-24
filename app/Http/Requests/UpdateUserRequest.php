@@ -19,7 +19,9 @@ class UpdateUserRequest extends FormRequest
                 'unique:users,email,' . request()->route('korisnici'),
             ],
             'password'  => [
-                'min:6',
+                'sometimes',
+                'nullable',
+                'min:6'
             ],
             'roles.*' => [
                 'integer',
