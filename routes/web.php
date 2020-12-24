@@ -38,7 +38,7 @@ Route::post('/email/verification-notification', function (\Illuminate\Http\Reque
 Route::get('/', function () {
     if(\Illuminate\Support\Facades\Auth::user() && !\Illuminate\Support\Facades\Auth::user()->isActive) {
         Session::put('error', 'Sačekajte da administrator odobri vaš račun. Dobiti ćete obavještenje na mail. Inaće administratoru treba 1h maximalno!');
-        return redirect('/')->with(\Illuminate\Support\Facades\Auth::logout());
+        \Illuminate\Support\Facades\Auth::logout();
     }
     $markets = \App\Models\Market::with('type')->get()->groupBy('marketType');
     return view('welcome', ['data' => $markets]);

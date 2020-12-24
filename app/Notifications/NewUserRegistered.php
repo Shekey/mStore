@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class OrderCreatedNotificationUser extends Notification implements ShouldQueue
+class NewUserRegistered extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -16,9 +16,9 @@ class OrderCreatedNotificationUser extends Notification implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($order)
+    public function __construct()
     {
-        $this->order = $order;
+        //
     }
 
     /**
@@ -41,23 +41,8 @@ class OrderCreatedNotificationUser extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('M-STORE narudžba')
-            ->line('Upravo ste kreirali novu narudžbu')
-            ->action('Link za pregled naruđžbe', url('/orders/'. $this->order->id))
+            ->subject('M-STORE novi korisnik')
+            ->line('Upravo ste dobili novog korisnika. Provjerite da li treba da odobrite novog korisnika.')
             ->line('Unaprijed hvala.');
-    }
-
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
-    public function toArray($notifiable)
-    {
-        return [
-            'id' => $this->order->id,
-            'date' => $this->order->order_date
-        ];
     }
 }

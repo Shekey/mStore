@@ -8,6 +8,7 @@ use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpFoundation\Response;
 
 class UsersController extends Controller
@@ -71,8 +72,13 @@ class UsersController extends Controller
     public function update(UpdateUserRequest $request, $id)
     {
         $user = User::find($id);
-        $user->update($request->validated());
-        $user->roles()->sync($request->input('roles', []));
+        $isValidated = $request->validated();
+        if ($isValidated) {
+            $isValidated['password'] = Hash::make($request->password);
+            $user->update($isValidated);
+            $user->roles()->sync($request->input('roles', []));
+        }
+
 
         return redirect()->route('korisnici.index');
     }

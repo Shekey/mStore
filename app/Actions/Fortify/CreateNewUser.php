@@ -3,7 +3,9 @@
 namespace App\Actions\Fortify;
 
 use App\Models\User;
+use App\Notifications\NewUserRegistered;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Intervention\Image\Facades\Image;
@@ -53,6 +55,12 @@ class CreateNewUser implements CreatesNewUsers
         ]);
 
         $user->roles()->attach(2);
+
+        $admins = User::whereHas('roles', function ($query) {
+            $query->where('id', 1);
+        })->get();
+
+        Notification::send($admins, new NewUserRegistered());
         return $user;
     }
 

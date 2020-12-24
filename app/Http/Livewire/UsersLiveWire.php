@@ -40,8 +40,9 @@ class UsersLiveWire extends Component
 
     public function render()
     {
-
         $this->dispatchBrowserEvent('sent');
+        $this->resetPage();
+
         $parent = User::with('roles');
 
         if($this->filter === ''){
