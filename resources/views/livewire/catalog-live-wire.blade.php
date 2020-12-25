@@ -632,11 +632,6 @@
                 @foreach($articles as $article)
                     <div class="flex flex-col lg:w-1/3 mb-8 sm:px-2 px-10 relative article-single"
                          wire:click.stop="showDetailsArticle({{ $article->id }})">
-                        <span
-                            class="bg-orange-200 text-orange-900 text-xs px-2 inline-block rounded-full uppercase font-semibold tracking-wide"
-                            style="position: absolute; right: 2px; transform: rotateZ(40deg); top:20px;">
-                                       {{ $article->created_at->format('d-m-Y')}}
-                                     </span>
                         <img
                             src="{{ count($article->images) > 0 ? "/storage/". $article->images[0]->url : '/assets/logo.png' }}  "
                             alt="Logo image"
