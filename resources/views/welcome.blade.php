@@ -46,10 +46,13 @@
             <div class="bg-green-200 text-green-dark p-4 text-center" role="alert">
                 <p>Ukoliko želite da pregledate ili kupite neki od artikala, potrebno je da odaberete jednu od radnji.</p>
             </div>
-            <div class="p-6 leading-normal container mx-auto">
+            <div class="p-6 leading-normal container mx-auto flex flex-wrap">
+                <div class="fixed-bg" style="position: fixed; opacity: 0.1; z-index: 1; top: 50px; left: 50%;transform: translateX(-50%)">
+                    <img src="/assets/logo2.png" alt="Logo image" style="width: 80vw;">
+                </div>
                 @if ($data->count())
                     @foreach ($data as $group => $row)
-                        <h3 class="text-gray-700 text-4xl font-medium gradient-text text-center font-bold mb-4 gradient"><span>{{ $row->first()->type->name }}</span></h3>
+                        <h3 class="text-gray-700 text-4xl font-medium gradient-text font-bold mb-4 gradient" style="flex-basis: 100%;"><span>{{ $row->first()->type->name }}</span></h3>
                         @foreach ($row as $group => $i)
                             @include('partials.list-markets')
                         @endforeach
