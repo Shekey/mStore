@@ -2,4 +2,4 @@
 deployment:
   tasks:
     - export DEPLOYPATH=/home/mstoreba/public_html/
-    - /bin/cp -R ./public/ $DEPLOYPATH
+    - /bin/cp -R * $DEPLOYPATH
