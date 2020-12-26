@@ -3,6 +3,12 @@
         Options -MultiViews -Indexes
     </IfModule>
 
+    <IfModule lsapi_module>
+      php_value date.timezone "Europe/Paris"
+      php_value memory_limit 2G
+      php_value upload_max_filesize 2M
+    </IfModule>
+
     RewriteEngine On
 
     # Handle Authorization Header
