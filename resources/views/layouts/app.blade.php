@@ -560,18 +560,20 @@
         @endif
     @endif
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ1CVL0JXX"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'G-FQ1CVL0JXX');
-    </script>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+                new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-MSZ4DBC');</script>
+    <!-- End Google Tag Manager -->
 
 </head>
 <body class="font-sans antialiased theme-dark preloader-active">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MSZ4DBC"
+                  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
 <div class="preloader">
     <div class='body'>
         <span>
@@ -596,7 +598,7 @@
 <div class="min-h-screen bg-gray-100">
 
     <!-- Page Heading -->
-    <header class="bg-white shadow" style="position: fixed; z-index: 10; height: 80px; top: 0;
+    <header class="bg-white shadow" style="position: fixed; z-index: 11; height: 80px; top: 0;
 width: 100vw;">
         @livewire('navigation-dropdown')
     </header>
