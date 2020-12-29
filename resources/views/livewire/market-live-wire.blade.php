@@ -35,7 +35,12 @@
                 @endif
 
                 @if($modelId != null && !strpos($image, 'Temp'))
-                    <img src="/storage/{{ $image }}" width="300" height="300">
+                        @if (env('APP_ENV')!='production')
+                            <img src="/storage/{{ $image }}" width="300" height="300">
+                        @else
+                            <img src="/public/storage/{{ $image }}" width="300" height="300">
+
+                        @endif
                 @endif
             </div>
 

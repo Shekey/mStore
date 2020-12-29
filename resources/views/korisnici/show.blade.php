@@ -63,7 +63,11 @@
                                     </th>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 bg-white divide-y divide-gray-200">
                                         @if($user->front_ID !== null)
-                                            <img src="/storage/{{ $user->front_ID }}" alt="Licna karta prednja">
+                                            @if (env('APP_ENV')!='production')
+                                                <img src="/storage/{{ $user->front_ID }}" alt="Licna karta prednja">
+                                            @else
+                                                <img src="/public/storage/{{ $user->front_ID }}" alt="Licna karta prednja">
+                                            @endif
                                             @else Nema slike
                                         @endif
                                     </td>
@@ -75,7 +79,12 @@
                                     </th>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 bg-white divide-y divide-gray-200">
                                         @if($user->back_ID !== null)
-                                            <img src="/storage/{{ $user->back_ID }}" alt="Licna karta prednja">
+                                            @if (env('APP_ENV')!='production')
+                                                <img src="/storage/{{ $user->back_ID }}" alt="Licna karta prednja">
+                                            @else
+                                                <img src="/public/storage/{{ $user->back_ID }}" alt="Licna karta prednja">
+
+                                            @endif
                                             @else Nema slike
                                         @endif
                                     </td>

@@ -416,11 +416,20 @@
                                 <div class="" id="images">
                                     @if(count($image) >= 1)
                                         @foreach($image as $i)
-                                            <div>
-                                                <img alt="Image for article"
-                                                     class="w-full object-cover object-center rounded"
-                                                     src="/storage/{{ $i->url }}">
-                                            </div>
+                                            @if (env('APP_ENV')!='production')
+
+                                                <div>
+                                                    <img alt="Image for article"
+                                                         class="w-full object-cover object-center rounded"
+                                                         src="/storage/{{ $i->url }}">
+                                                </div>
+                                            @else
+                                                <div>
+                                                    <img alt="Image for article"
+                                                         class="w-full object-cover object-center rounded"
+                                                         src="/public/storage/{{ $i->url }}">
+                                                </div>
+                                            @endif
                                         @endforeach
                                     @else
                                         <img alt="Image for article"
@@ -567,9 +576,15 @@
         <hr class="my-3">
         @foreach($allCartItems as $cartItem)
             <div class="flex mb-5">
-                <img class="h-20 w-20 object-cover rounded"
-                     src="/storage/{{ $cartItem->image }}"
-                     alt="">
+                @if (env('APP_ENV')!='production')
+                    <img class="h-20 w-20 object-cover rounded"
+                         src="/storage/{{ $cartItem->image }}"
+                         alt="">
+                @else
+                    <img class="h-20 w-20 object-cover rounded"
+                         src="/public/storage/{{ $cartItem->image }}"
+                         alt="">
+                @endif
                 <div class="mx-3">
                     <h3 class="text-sm text-black">{{ $cartItem->name }}</h3>
                     <div class="flex items-center mt-4">
@@ -632,11 +647,20 @@
                 @foreach($articles as $article)
                     <div class="flex flex-col lg:w-1/3 mb-8 sm:px-2 px-10 relative article-single"
                          wire:click.stop="showDetailsArticle({{ $article->id }})">
-                        <img
-                            src="{{ count($article->images) > 0 ? "/storage/". $article->images[0]->url : '/assets/logo.png' }}  "
-                            alt="Logo image"
-                            class="w-full object-contain object-center rounded-lg shadow-md"
-                            style="border: 2px solid #f58b1e; border-radius: 10px; height: 300px; object-fit: contain;">
+                        @if (env('APP_ENV')!='production')
+
+                            <img
+                                src="{{ count($article->images) > 0 ? "/storage/". $article->images[0]->url : '/assets/logo.png' }}  "
+                                alt="Logo image"
+                                class="w-full object-contain object-center rounded-lg shadow-md"
+                                style="border: 2px solid #f58b1e; border-radius: 10px; height: 300px; object-fit: contain;">
+                        @else
+                            <img
+                                src="{{ count($article->images) > 0 ? "/public/storage/". $article->images[0]->url : '/assets/logo.png' }}  "
+                                alt="Logo image"
+                                class="w-full object-contain object-center rounded-lg shadow-md"
+                                style="border: 2px solid #f58b1e; border-radius: 10px; height: 300px; object-fit: contain;">
+                        @endif
                         @auth
                             @if(!$market->isClosed || auth()->user()->superUser)
                                 <a role="button"

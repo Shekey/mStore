@@ -15,7 +15,12 @@
             </div>
         </div>
         <a href="/prodavnica/{{ $i->id }}" class="lg:max-w-xs lg:w-full md:w-1/2 w-5/6 mb-10 md:mb-0 order-first">
+            @if (env('APP_ENV')!='production')
             <img class="object-cover object-center rounded" alt="hero" src="/storage/{{ $i->image }}" style="position: relative; z-index: 10;">
+            @else
+                <img class="object-cover object-center rounded" alt="hero" src="/public/storage/{{ $i->image }}" style="position: relative; z-index: 10;">
+
+            @endif
         </a>
     </div>
 </section>
