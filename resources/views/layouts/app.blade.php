@@ -24,7 +24,11 @@
     </script>
     <style>
         a[target="top"] {
-            display: none;
+            display: none !important;
+        }
+
+        .waubutton {
+            display: none !important;
         }
         /*Banner open/load animation*/
         .alert-banner {
