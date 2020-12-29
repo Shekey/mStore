@@ -29,10 +29,10 @@ class JetstreamServiceProvider extends ServiceProvider
 
         Jetstream::deleteUsersUsing(DeleteUser::class);
 
-        $this->app->singleton(
-            \Laravel\Fortify\Contracts\LogoutResponse::class,
-            \App\Http\Responses\LogoutResponse::class
-        );
+//        $this->app->singleton(
+//            \Laravel\Fortify\Contracts\LogoutResponse::class,
+//            \App\Http\Responses\LogoutResponse::class
+//        );
     }
 
     /**
