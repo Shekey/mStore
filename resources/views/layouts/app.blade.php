@@ -7,6 +7,13 @@
     <meta name="description" content="m-store je stranica koja vam omogućuje da naručite artikle i dobijete ih na vašu adresu."/>
     <link rel="icon" type="image/png" href="/favicon.png"/>
     <title>{{ config('app.name', 'm-store') }}</title>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+                new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-MSZ4DBC');</script>
+    <!-- End Google Tag Manager -->
     <style>
         body {
             overflow-x: hidden;
@@ -560,13 +567,6 @@
         @endif
     @endif
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-                new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-        })(window,document,'script','dataLayer','GTM-MSZ4DBC');</script>
-    <!-- End Google Tag Manager -->
 
 </head>
 <body class="font-sans antialiased theme-dark preloader-active">
