@@ -23,6 +23,9 @@
         }
     </script>
     <style>
+        a[target="top"] {
+            display: none;
+        }
         /*Banner open/load animation*/
         .alert-banner {
             -webkit-animation: slide-in-top 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
@@ -245,7 +248,6 @@
 
 </head>
 <body class="font-sans antialiased theme-dark preloader-active">
-<script id="_waun4f">var _wau = _wau || []; _wau.push(["dynamic", "iyvz1vwz2w", "n4f", "c4302bffffff", "small"]);</script><script async src="//waust.at/d.js"></script>
 <div class="preloader">
     <div class='body'>
         <span>
@@ -624,5 +626,6 @@ width: 100vw;">
     });
 </script>
 
+<script id="_waun4f">var _wau = _wau || []; _wau.push(["dynamic", "iyvz1vwz2w", "n4f", "c4302bffffff", "small"]);</script><script async src="//waust.at/d.js"></script>
 </body>
 </html>
