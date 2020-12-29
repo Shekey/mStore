@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="bs">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="description" content="m-store je stranica koja vam omogućuje da naručite artikle i dobijete ih na vašu adresu."/>
     <link rel="icon" type="image/png" href="/favicon.png"/>
     <title>{{ config('app.name', 'm-store') }}</title>
     <style>
@@ -58,6 +59,7 @@
             height: 100vh;
             width: 100vw;
             z-index: -1;
+            top: 0;
         }
 
         body.preloader-active .preloader {
@@ -326,9 +328,7 @@
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.3/dist/alpine.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
 
-    <!-- Styles -->
-
-@livewireStyles
+    @livewireStyles
 
     <script>
         function initTippy() {
@@ -340,8 +340,6 @@
             }
         }
     </script>
-    <!-- Development -->
-
     <style>
         /*Banner open/load animation*/
         .alert-banner {
@@ -562,11 +560,16 @@
         @endif
     @endif
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ1CVL0JXX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
 
+        gtag('config', 'G-FQ1CVL0JXX');
+    </script>
 
-    {{--        <!-- Production -->--}}
-    {{--        <script src="https://unpkg.com/@popperjs/core@2"></script>--}}
-    {{--        <script src="https://unpkg.com/tippy.js@6"></script>--}}
 </head>
 <body class="font-sans antialiased theme-dark preloader-active">
 <div class="preloader">
@@ -593,12 +596,13 @@
 <div class="min-h-screen bg-gray-100">
 
     <!-- Page Heading -->
-    <header class="bg-white shadow">
+    <header class="bg-white shadow" style="position: fixed; z-index: 10; height: 80px; top: 0;
+width: 100vw;">
         @livewire('navigation-dropdown')
     </header>
 
     <!-- Page Content -->
-    <main class="bg-blue-lightest">
+    <main class="bg-blue-lightest" style="margin-top: 80px;">
         {{ $slot }}
     </main>
 </div>
@@ -667,8 +671,10 @@
 @livewireScripts
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-<script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js"></script>
-<script async src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.js" onload="initTippy()"></script>
+<script src="https://unpkg.com/@popperjs/core@2"></script>
+<script src="https://unpkg.com/tippy.js@6" onload="initTippy()"></script>
+{{--<script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js"></script>--}}
+{{--<script async src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.js" onload="initTippy()"></script>--}}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js"
         integrity="sha512-efUTj3HdSPwWJ9gjfGR71X9cvsrthIA78/Fvd/IN+fttQVy7XWkOAXb295j8B3cmm/kFKVxjiNYzKw9IQJHIuQ=="
         crossorigin="anonymous"></script>

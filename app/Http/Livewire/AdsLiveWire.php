@@ -123,7 +123,11 @@ class AdsLiveWire extends Component
         if($this->image && $this->uploadedNewImage) {
             $mime= $this->image->getClientOriginalExtension();
             $imageName = time().".".$mime;
-            $image = Image::make($this->image)->fit(1000);
+            $image = Image::make($this->image);
+            // resize the image to a width of 300 and constrain aspect ratio (auto height)
+            $image = $image->resize(1300, null, function ($constraint) {
+                $constraint->aspectRatio();
+            });
             Storage::disk('public')->put("images/rek/".$imageName, (string) $image->encode());
             $imageName = 'images/rek/' . $imageName;
             if($this->modelId) {

@@ -60,9 +60,6 @@ class ArtikliLiveWire extends Component
             $imageName = substr_replace($this->images[$index]->url ,"",-3);
             if(Storage::disk('public')->exists( $imageName . 'jpg')) {
                 Storage::disk('public')->delete($imageName . 'jpg');
-                if(Storage::disk('public')->exists($imageName . 'webp')) {
-                    Storage::disk('public')->delete($imageName . 'webp');
-                }
             }
 
             unset($this->images[$index]);
@@ -79,10 +76,11 @@ class ArtikliLiveWire extends Component
         if( !empty( $this->images ) ){
             foreach( $this->images as $image ){
                 $imageName = time() .'-'.pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
-                $imageNameWebp = $imageName.'.webp';
                 $imageUpload = \Intervention\Image\Facades\Image::make($image);
+                $imageUpload = $imageUpload->resize(800, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                });
                 Storage::disk('public')->put("images/articles/".$imageName .'.jpg', (string) $imageUpload->encode('jpg', 80));
-//                Storage::disk('public')->put("images/articles/".$imageNameWebp, (string) $imageUpload->encode('webp', 20));
                 $imageName = 'images/articles/' . $imageName;
                 ArtikalImage::create([
                     'url' => $imageName . '.jpg',
@@ -140,9 +138,6 @@ class ArtikliLiveWire extends Component
             $imageName = substr_replace($image->url ,"",-3);
             if(Storage::disk('public')->exists( $imageName . 'jpg')) {
                 Storage::disk('public')->delete($imageName . 'jpg');
-                if(Storage::disk('public')->exists($imageName . 'webp')) {
-                    Storage::disk('public')->delete($imageName . 'webp');
-                }
             }
 
             ArtikalImage::destroy($imageName->id);

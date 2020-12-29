@@ -117,7 +117,10 @@ class Categories extends Component
         if($this->image && $this->uploadedNewImage) {
             $mime= $this->image->getClientOriginalExtension();
             $imageName = time().".".$mime;
-            $image = Image::make($this->image)->fit(1500);
+            $image = Image::make($this->image);
+            $image = $image->resize(800, null, function ($constraint) {
+                $constraint->aspectRatio();
+            });
             Storage::disk('public')->put("images/categories/".$imageName, (string) $image->encode());
             $imageName = 'images/categories/' . $imageName;
             if($this->modelId) {

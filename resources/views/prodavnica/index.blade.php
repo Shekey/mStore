@@ -7,7 +7,7 @@
             <div class="swiper-wrapper">
                 @foreach($ads as $ad)
                     <div class="swiper-slide">
-                        <a href="{{ $ad->url }}">
+                        <a href="{{ $ad->url }}" target="_blank">
                             <img src="/storage/{{ $ad->image }}">
                         </a>
                     </div>

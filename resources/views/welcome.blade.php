@@ -1,17 +1,17 @@
 <x-app-layout>
     <style>
-        .gradient span{
+        .gradient span {
             position: relative;
+            display: block;
         }
 
         .gradient span:before {
             content: '';
             background: rgb(2,0,36);
             background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(255,90,31,1) 90%);
-            left: calc((100vw - 100% - 16px) / 2 * -1);
-            left: -10px;
-            width: calc(100% + 20px);
-            height: 6px;
+            left: 0;
+            width: calc(100% + (100vw - 100% - 16px) / 2);
+            height: 8px;
             bottom: -10px;
             position: absolute;
         }
@@ -42,7 +42,7 @@
                 </div>
             @endif
 
-            <img src="/assets/welcome.jpg" alt="Multi Store slika" style="width: 100vw; height: calc(100vh - 80px); object-fit: cover; position: relative; z-index: 10;">
+            <img src="/assets/welcome.jpg" alt="Multi Store slika" style="width: 100vw; position: relative; z-index: 10;">
             <div class="bg-green-200 text-green-dark p-4 text-center" role="alert">
                 <p>Ukoliko želite da pregledate ili kupite neki od artikala, potrebno je da odaberete jednu od radnji.</p>
             </div>
@@ -52,7 +52,7 @@
                 </div>
                 @if ($data->count())
                     @foreach ($data as $group => $row)
-                        <h3 class="text-gray-700 text-4xl font-medium gradient-text font-bold mb-4 gradient" style="flex-basis: 100%;"><span>{{ $row->first()->type->name }}</span></h3>
+                        <h3 class="text-gray-700 text-3xl sm:text-5xl font-bold gradient-text font-bold mb-6 gradient" style="flex-basis: 100%;"><span>{{ $row->first()->type->name }}</span></h3>
                         @foreach ($row as $group => $i)
                             @include('partials.list-markets')
                         @endforeach
