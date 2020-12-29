@@ -9,23 +9,23 @@ class UsersTableSeeder extends Seeder
 {
     public function run()
     {
-//        $korisnici = [
-//            [
-//                'id'             => 1,
-//                'name'           => 'Admin',
-//                'email'          => 'admin@admin.com',
-//                'password'       => bcrypt('password'),
-//                'remember_token' => null,
-//            ],
-//            [
-//                'id'             => 2,
-//                'name'           => 'User',
-//                'email'          => 'user@user.com',
-//                'password'       => bcrypt('password'),
-//                'remember_token' => null,
-//            ],
-//        ];
-//
-//        User::insert($korisnici);
+        $korisnici = [
+            [
+                'id'             => 1,
+                'name'           => 'Admin',
+                'email'          => 'admin@admin.com',
+                'password'       => bcrypt('password'),
+                'remember_token' => null,
+            ],
+            [
+                'id'             => 2,
+                'name'           => 'User',
+                'email'          => 'user@user.com',
+                'password'       => bcrypt('password'),
+                'remember_token' => null,
+            ],
+        ];
+
+        User::insert($korisnici);
     }
 }

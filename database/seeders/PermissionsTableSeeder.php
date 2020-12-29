@@ -18,6 +18,10 @@ class PermissionsTableSeeder extends Seeder
                 'id'    => 2,
                 'title' => 'tasks_access',
             ],
+            [
+                'id'    => 3,
+                'title' => 'get_notified',
+            ]
         ];
 
         Permission::insert($permissions);
