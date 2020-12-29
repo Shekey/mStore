@@ -7,6 +7,333 @@
     <meta name="description" content="m-store je stranica koja vam omogućuje da naručite artikle i dobijete ih na vašu adresu."/>
     <link rel="icon" type="image/png" href="/favicon.png"/>
     <title>{{ config('app.name', 'm-store') }}</title>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-83WC5E1FXR"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-83WC5E1FXR');
+    </script>
+
+    <style>
+        body {
+            overflow-x: hidden;
+        }
+
+        .search__container {
+            padding-top: 64px;
+        }
+
+        .search__input {
+            width: 100%;
+            padding: 12px 24px;
+            background-color: transparent;
+            transition: transform 250ms ease-in-out;
+            font-size: 14px;
+            line-height: 18px;
+            color: #000;
+            font-weight: 700;
+            background-color: transparent;
+            background-image: url("data:image/svg+xml; charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='%23000' viewBox='0 0 24 24'%3E%3Cpath d='M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z'/%3E%3Cpath d='M0 0h24v24H0z' fill='none'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-size: 18px 18px;
+            background-position: 95% center;
+            border-radius: 50px;
+            border: 2px solid #000;
+            transition: all 250ms ease-in-out;
+            backface-visibility: hidden;
+            transform-style: preserve-3d;
+        }
+
+        .search__input::placeholder {
+            color: #000;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .search__input:hover, .search__input:focus {
+            padding: 13px 0;
+            outline: 0;
+            border: 1px solid transparent;
+            border-bottom: 1px solid #000;
+            border-radius: 0;
+            background-position: 100% center;
+        }
+
+        .preloader {
+            background-color: #f58b1e;
+            position: fixed;
+            height: 100vh;
+            width: 100vw;
+            z-index: -1;
+            top: 0;
+        }
+
+        body.preloader-active .preloader {
+            display: block;
+            z-index: 999;
+        }
+
+        .preloader-active .body {
+            position: absolute;
+            top: 50%;
+            margin-left: -50px;
+            left: 50%;
+            animation: speeder .4s linear infinite;
+            z-index: 9999;
+        }
+
+        .preloader-active .body > span {
+            height: 5px;
+            width: 35px;
+            background: #000;
+            position: absolute;
+            top: -19px;
+            left: 60px;
+            border-radius: 2px 10px 1px 0;
+        }
+
+        .preloader-active .base span {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-top: 6px solid transparent;
+            border-right: 100px solid #000;
+            border-bottom: 6px solid transparent;
+        }
+
+        .preloader-active .base span:after {
+            content: "";
+            height: 22px;
+            width: 22px;
+            border-radius: 50%;
+            background: #000;
+            position: absolute;
+            right: -110px;
+            top: -16px;
+        }
+
+        .preloader-active .base span:before {
+            content: "";
+            position: fixed;
+            width: 0;
+            height: 0;
+            border-top: 0 solid transparent;
+            border-right: 55px solid #000;
+            border-bottom: 16px solid transparent;
+            top: -16px;
+            right: -98px;
+        }
+
+        .preloader-active .face {
+            position: fixed;
+            height: 12px;
+            width: 20px;
+            background: #000;
+            border-radius: 20px 20px 0 0;
+            transform: rotate(-40deg);
+            right: -125px;
+            top: -15px;
+            z-index: 9999;
+        }
+
+        .preloader-active .face:after {
+            content: "";
+            height: 12px;
+            width: 12px;
+            background: #000;
+            right: 4px;
+            top: 7px;
+            position: absolute;
+            transform: rotate(40deg);
+            transform-origin: 50% 50%;
+            border-radius: 0 0 0 2px;
+        }
+
+        .preloader-active .body > span > span:nth-child(1),
+        .preloader-active .body > span > span:nth-child(2),
+        .preloader-active.body > span > span:nth-child(3),
+        .preloader-active .body > span > span:nth-child(4) {
+            width: 30px;
+            height: 1px;
+            background: #000;
+            position: absolute;
+            animation: fazer1 .2s linear infinite;
+        }
+
+        .preloader-active .body > span > span:nth-child(2) {
+            top: 3px;
+            animation: fazer2 .4s linear infinite;
+        }
+
+        .preloader-active .body > span > span:nth-child(3) {
+            top: 1px;
+            animation: fazer3 .4s linear infinite;
+            animation-delay: -1s;
+        }
+
+        .preloader-active .body > span > span:nth-child(4) {
+            top: 4px;
+            animation: fazer4 1s linear infinite;
+            animation-delay: -1s;
+        }
+
+        @keyframes fazer1 {
+            0% {
+                left: 0;
+            }
+            100% {
+                left: -80px;
+                opacity: 0;
+            }
+        }
+
+        @keyframes fazer2 {
+            0% {
+                left: 0;
+            }
+            100% {
+                left: -100px;
+                opacity: 0;
+            }
+        }
+
+        @keyframes fazer3 {
+            0% {
+                left: 0;
+            }
+            100% {
+                left: -50px;
+                opacity: 0;
+            }
+        }
+
+        @keyframes fazer4 {
+            0% {
+                left: 0;
+            }
+            100% {
+                left: -150px;
+                opacity: 0;
+            }
+        }
+
+        @keyframes speeder {
+            0% {
+                transform: translate(2px, 1px) rotate(0deg);
+            }
+            10% {
+                transform: translate(-1px, -3px) rotate(-1deg);
+            }
+            20% {
+                transform: translate(-2px, 0px) rotate(1deg);
+            }
+            30% {
+                transform: translate(1px, 2px) rotate(0deg);
+            }
+            40% {
+                transform: translate(1px, -1px) rotate(1deg);
+            }
+            50% {
+                transform: translate(-1px, 3px) rotate(-1deg);
+            }
+            60% {
+                transform: translate(-1px, 1px) rotate(0deg);
+            }
+            70% {
+                transform: translate(3px, 1px) rotate(-1deg);
+            }
+            80% {
+                transform: translate(-2px, -1px) rotate(1deg);
+            }
+            90% {
+                transform: translate(2px, 1px) rotate(0deg);
+            }
+            100% {
+                transform: translate(1px, -2px) rotate(-1deg);
+            }
+        }
+
+        .longfazers {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: 9998;
+        }
+
+        .longfazers span {
+            position: fixed;
+            height: 2px;
+            width: 20%;
+            background: #000;
+        }
+
+        .longfazers span:nth-child(1) {
+            top: 20%;
+            animation: lf .6s linear infinite;
+            animation-delay: -5s;
+        }
+
+        .longfazers span:nth-child(2) {
+            top: 40%;
+            animation: lf2 .8s linear infinite;
+            animation-delay: -1s;
+        }
+
+        .longfazers span:nth-child(3) {
+            top: 60%;
+            animation: lf3 .6s linear infinite;
+        }
+
+        .longfazers span:nth-child(4) {
+            top: 80%;
+            animation: lf4 .5s linear infinite;
+            animation-delay: -3s;
+        }
+
+        @keyframes lf {
+            0% {
+                left: 200%;
+            }
+            100% {
+                left: -200%;
+                opacity: 0;
+            }
+        }
+
+        @keyframes lf2 {
+            0% {
+                left: 200%;
+            }
+            100% {
+                left: -200%;
+                opacity: 0;
+            }
+        }
+
+        @keyframes lf3 {
+            0% {
+                left: 200%;
+            }
+            100% {
+                left: -100%;
+                opacity: 0;
+            }
+        }
+
+        @keyframes lf4 {
+            0% {
+                left: 200%;
+            }
+            100% {
+                left: -100%;
+                opacity: 0;
+            }
+        }
+
+    </style>
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.3/dist/alpine.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
 
@@ -23,13 +350,6 @@
         }
     </script>
     <style>
-        a[target="top"] {
-            display: none !important;
-        }
-
-        .waubutton {
-            display: none !important;
-        }
         /*Banner open/load animation*/
         .alert-banner {
             -webkit-animation: slide-in-top 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
@@ -351,10 +671,10 @@ width: 100vw;">
 @livewireScripts
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-{{--<script src="https://unpkg.com/@popperjs/core@2"></script>--}}
-{{--<script src="https://unpkg.com/tippy.js@6" onload="initTippy()"></script>--}}
-<script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js"></script>
-<script async src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.js" onload="initTippy()"></script>
+<script src="https://unpkg.com/@popperjs/core@2"></script>
+<script src="https://unpkg.com/tippy.js@6" onload="initTippy()"></script>
+{{--<script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js"></script>--}}
+{{--<script async src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.js" onload="initTippy()"></script>--}}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js"
         integrity="sha512-efUTj3HdSPwWJ9gjfGR71X9cvsrthIA78/Fvd/IN+fttQVy7XWkOAXb295j8B3cmm/kFKVxjiNYzKw9IQJHIuQ=="
         crossorigin="anonymous"></script>
@@ -630,6 +950,5 @@ width: 100vw;">
     });
 </script>
 
-<script id="_waun4f">var _wau = _wau || []; _wau.push(["dynamic", "iyvz1vwz2w", "n4f", "c4302bffffff", "small"]);</script><script async src="//waust.at/d.js"></script>
 </body>
 </html>
