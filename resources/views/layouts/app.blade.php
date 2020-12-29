@@ -671,10 +671,10 @@ width: 100vw;">
 @livewireScripts
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-<script src="https://unpkg.com/@popperjs/core@2"></script>
-<script src="https://unpkg.com/tippy.js@6" onload="initTippy()"></script>
-{{--<script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js"></script>--}}
-{{--<script async src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.js" onload="initTippy()"></script>--}}
+{{--<script src="https://unpkg.com/@popperjs/core@2"></script>--}}
+{{--<script src="https://unpkg.com/tippy.js@6" onload="initTippy()"></script>--}}
+<script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js"></script>
+<script async src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.js" onload="initTippy()"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js"
         integrity="sha512-efUTj3HdSPwWJ9gjfGR71X9cvsrthIA78/Fvd/IN+fttQVy7XWkOAXb295j8B3cmm/kFKVxjiNYzKw9IQJHIuQ=="
         crossorigin="anonymous"></script>
