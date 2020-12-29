@@ -416,7 +416,7 @@
                                 <div class="" id="images">
                                     @if(count($image) >= 1)
                                         @foreach($image as $i)
-                                            @if (env('APP_ENV')!='production')
+                                            @if (!App::environment('production'))
 
                                                 <div>
                                                     <img alt="Image for article"
@@ -576,7 +576,7 @@
         <hr class="my-3">
         @foreach($allCartItems as $cartItem)
             <div class="flex mb-5">
-                @if (env('APP_ENV')!='production')
+                @if (!App::environment('production'))
                     <img class="h-20 w-20 object-cover rounded"
                          src="/storage/{{ $cartItem->image }}"
                          alt="">
@@ -647,7 +647,7 @@
                 @foreach($articles as $article)
                     <div class="flex flex-col lg:w-1/3 mb-8 sm:px-2 px-10 relative article-single"
                          wire:click.stop="showDetailsArticle({{ $article->id }})">
-                        @if (env('APP_ENV')!='production')
+                        @if (!App::environment('production'))
 
                             <img
                                 src="{{ count($article->images) > 0 ? "/storage/". $article->images[0]->url : '/assets/logo.png' }}  "

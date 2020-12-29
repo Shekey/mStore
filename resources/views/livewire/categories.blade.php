@@ -45,7 +45,7 @@
             @foreach($data as $i)
                 <tr class="flex flex-col flex-no wrap sm:table-row mb-2 sm:mb-0">
                     <td class="border-grey-light border hover:bg-gray-100 p-3">
-                        @if (env('APP_ENV')!='production')
+                        @if (!App::environment('production'))
                             {!! $i->image !== null ? "<img class='w-50 h-50 rounded-full' width='130' height='130' src='/storage/$i->image' />" : '<p class="text-gray-900 whitespace-no-wrap">Nema slike</p>'  !!}
                         @else
                             {!! $i->image !== null ? "<img class='w-50 h-50 rounded-full' width='130' height='130' src='/public/storage/$i->image' />" : '<p class="text-gray-900 whitespace-no-wrap">Nema slike</p>'  !!}
@@ -94,7 +94,7 @@
                 @endif
 
                 @if($modelId != null && !strpos($image, 'Temp'))
-                        @if (env('APP_ENV')!='production')
+                        @if (!App::environment('production'))
                             <img src="/storage/{{ $image }}" width="200" height="200">
                         @else
                             <img src="/public/storage/{{ $image }}" width="200" height="200">

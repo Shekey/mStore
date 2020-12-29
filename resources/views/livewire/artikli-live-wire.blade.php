@@ -139,7 +139,7 @@
                                         <td class="px-6 py-4 whitespace-nowrap capitalize">
                                             <div class="flex items-center">
                                                 <div class="flex-shrink-0 h-10 w-10">
-                                                    @if (env('APP_ENV')!='production')
+                                                    @if (!App::environment('production'))
                                                         <img class="h-10 w-10 rounded-full object-cover"
                                                              src="{{ count($d->images) > 0 ? "/storage/". $d->images[0]->url : 'https://dummyimage.com/400x400' }}"
                                                              alt="">
@@ -219,13 +219,13 @@
                                 <div class="mr-4 text-center">
                                     <div class="mb-4">
                                         @if(isset($image->url))
-                                            @if (env('APP_ENV')!='production')
+                                            @if (!App::environment('production'))
                                                 <img src="/storage/{{ $image->url }}" width="200" height="200">
                                             @else
                                                 <img src="/public/storage/{{ $image->url }}" width="200" height="200">
                                             @endif
                                         @else
-                                            @if (env('APP_ENV')!='production')
+                                            @if (!App::environment('production'))
                                                 <img src="{{ $image->temporaryUrl() }}" width="200" height="200">
                                             @else
                                                 <img src="/public/{{ $image->temporaryUrl() }}" width="200" height="200">

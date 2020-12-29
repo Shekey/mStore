@@ -8,7 +8,7 @@
                 @foreach($ads as $ad)
                     <div class="swiper-slide">
                         <a href="{{ $ad->url }}" target="_blank">
-                            @if (env('APP_ENV')!='production')
+                            @if (!App::environment('production'))
                             <img src="/storage/{{ $ad->image }}">
                             @else
                                 <img src="/public/storage/{{ $ad->image }}">
