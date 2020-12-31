@@ -65,7 +65,7 @@
         .preloader {
             background-color: #f58b1e;
             position: fixed;
-            height: 100vh;
+            height: 100%;
             width: 100vw;
             z-index: -1;
             top: 0;
@@ -350,6 +350,12 @@
         }
     </script>
     <style>
+
+        @media only screen and (max-width: 600px) {
+            .logo {
+                width: 130px !important;
+            }
+        }
         /*Banner open/load animation*/
         .alert-banner {
             -webkit-animation: slide-in-top 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;

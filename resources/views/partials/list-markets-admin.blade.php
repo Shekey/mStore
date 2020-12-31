@@ -10,14 +10,14 @@
                 $dayToday = $carbon->format('l');
             @endphp
             <div class="mb-8 leading-relaxed flex items-center justify-center" style="flex-wrap: wrap;">
-                <p class="flex-1" style="flex-basis: 100%;"><b class="mr-3">Radno vrijeme: </b> @if($dayToday !== 'Sunday')Pon - Pet: {{  substr($i->startTime, 0, -3) }} - {{  substr($i->endTime, 0, -3) }} @else Nedeljom:  {{  substr($i->startTimeSunday, 0, -3) }} - {{  substr($i->endTimeSunday, 0, -3) }} @endif </p>
+                <p class="flex-1" style="flex-basis: 100%;"><b class="mr-3" style="display: block;">Radno vrijeme</b> @if($dayToday !== 'Sunday')Pon - Pet: {{  substr($i->startTime, 0, -3) }} - {{  substr($i->endTime, 0, -3) }} @else Nedeljom:  {{  substr($i->startTimeSunday, 0, -3) }} - {{  substr($i->endTimeSunday, 0, -3) }} @endif </p>
                 {!! $i->isClosed == 1 ? '<span class="ml-4 mt-2 inline-block bg-red-300 text-teal-800 px-2 rounded-full uppercase font-semibold text-xl tracking-wide">Zatvoreno</span>' : '<span class="ml-4 mt-2 inline-block bg-green-300 text-teal-800 text-xl px-2 rounded-full uppercase font-semibold tracking-wide">Otvoreno</span>'  !!}
             </div>
             @auth
-                <div class="flex justify-center mb-5">
-                    <button class="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg" wire:click="updateShowModal({{ $i->id }})">{{ __('Uredi') }}</button>
-                    <button class="ml-4 inline-flex text-gray-700 bg-gray-200 border-0 py-2 px-6 focus:outline-none hover:bg-gray-300 rounded text-lg" wire:click="deleteShowModal({{ $i->id }})">{{ __('Izbriši') }}</button>
-                    <a href="/prodavnice/{{ $i->id }}/artikli" class="ml-4 inline-flex text-gray-700 bg-gray-200 border-0 py-2 px-6 focus:outline-none hover:bg-gray-300 rounded text-lg">{{ __('Artikli') }}</a>
+                <div class="flex justify-center flex-wrap mb-5">
+                    <button class="inline-flex text-white mt-2 bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg" wire:click="updateShowModal({{ $i->id }})">{{ __('Uredi') }}</button>
+                    <button class="ml-4 inline-flex mt-2 text-gray-700 bg-gray-200 border-0 py-2 px-6 focus:outline-none hover:bg-gray-300 rounded text-lg" wire:click="deleteShowModal({{ $i->id }})">{{ __('Izbriši') }}</button>
+                    <a href="/prodavnice/{{ $i->id }}/artikli" class="ml-4 mt-2 inline-flex text-gray-700 bg-gray-200 border-0 py-2 px-6 focus:outline-none hover:bg-gray-300 rounded text-lg">{{ __('Artikli') }}</a>
                 </div>
             @endauth
         </div>

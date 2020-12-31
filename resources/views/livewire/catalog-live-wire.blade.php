@@ -645,7 +645,7 @@
             <div class="flex flex-wrap mt-6 articles">
 
                 @foreach($articles as $article)
-                    <div class="flex flex-col lg:w-1/3 mb-8 sm:px-2 px-10 relative article-single"
+                    <div class="flex flex-col lg:w-1/3 mb-8 px-2 relative article-single"
                          wire:click.stop="showDetailsArticle({{ $article->id }})">
                         @if (!App::environment('production'))
 
