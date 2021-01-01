@@ -12,6 +12,7 @@
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
+            max-height: 100%;
         }
         .gradient span {
             position: relative;

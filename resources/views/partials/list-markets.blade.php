@@ -16,9 +16,9 @@
         </div>
         <a href="/prodavnica/{{ $i->id }}" class="w-full mb-5 text-center md:mb-0 order-first flex items-center market-item-img aspect-100">
             @if (!App::environment('production'))
-            <img class="object-cover object-center rounded inline-block mx-auto" alt="hero" src="/storage/{{ $i->image }}" style="z-index: 10;">
+                <img class="object-cover object-center rounded inline-block mx-auto" alt="hero" src="/storage/{{ $i->image }}" style="z-index: 10;">
             @else
-                <img class="object-cover object-center rounded inline-block mx-auto" alt="hero" src="/public/storage/{{ $i->image }}" style="position: relative; z-index: 10;">
+                <img class="object-cover object-center rounded inline-block mx-auto" alt="hero" src="/public/storage/{{ $i->image }}" style="z-index: 10;">
 
             @endif
         </a>
