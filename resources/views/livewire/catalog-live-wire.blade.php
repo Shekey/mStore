@@ -7,6 +7,10 @@
             width: 100% !important;
         }
 
+        .shadow-lg {
+            max-width: 78vw;
+        }
+
         .swiper-slide {
             height: 100% !important;
         }
@@ -294,6 +298,12 @@
             margin: 0;
         }
 
+        @media only screen and (max-width: 768px) {
+            .btn {
+                min-width: 104px;
+            }
+        }
+
         .btn:hover {
             transition: color 0.3s ease-in 0.4s;
             color: #ff5a1f;
@@ -342,7 +352,7 @@
 
             <x-slot name="content">
                 <section class="text-white body-font overflow-hidden">
-                    <div class="container px-5 py-24 mx-auto">
+                    <div class="container py-24 mx-auto">
                         <div class="lg:w-4/5 mx-auto flex flex-wrap">
                             <div class="lg:w-1/2 w-full lg:pr-10 lg:py-6 mb-6 lg:mb-0">
                                 <h2 class="text-sm title-font text-black tracking-widest">{{ $articleBrand }}</h2>
@@ -475,7 +485,7 @@
             <h4 class="text-lg font-bold text-orange-400 px-2 py-2 mt-8 text-center">Odaberite kategoriju
                 kako bi ste filtrirali artikle.</h4>
             @guest
-                <div class="alert-toast fixed bottom-0 right-0 m-8 w-5/6 md:w-full max-w-sm" style="z-index: 100;">
+                <div class="alert-toast fixed bottom-0 right-0 m-8 w-5/6 md:w-full max-w-sm" style="z-index: 1;">
                     <input type="checkbox" class="hidden" id="not_registered">
 
                     <label
@@ -507,7 +517,7 @@
                     </defs>
                 </svg>
                 <div class="flex flex-row flex-wrap justify-center mt-5 mb-4 filters">
-                    <a class="btn mt-3 mx-3 uppercase {{ $filterCat === '' ? 'filterActive' : ''}}" data-id="0"
+                    <a class="btn mt-3 mx-3 uppercase text-xs sm:text-l {{ $filterCat === '' ? 'filterActive' : ''}}" data-id="0"
                        wire:click="$set('filterCat', '')" role="button">Svi artikli
                         <svg class="button-stroke" viewBox="0 0 154 13">
                             <use href="#line"></use>
@@ -516,7 +526,7 @@
                             <use href="#line"></use>
                         </svg>
                     </a>
-                    <a class="btn mt-3 mx-3 uppercase {{ $filterCat === 'akcije' ? 'filterActive' : ''}}" data-id="0"
+                    <a class="btn mt-3 mx-3 uppercase text-xs sm:text-l {{ $filterCat === 'akcije' ? 'filterActive' : ''}}" data-id="0"
                        wire:click="$set('filterCat', 'akcije')" role="button">Akcijski artikli
                         <svg class="button-stroke" viewBox="0 0 154 13">
                             <use href="#line"></use>
@@ -526,7 +536,7 @@
                         </svg>
                     </a>
 
-                    <a class="btn mt-3 mx-3 uppercase {{ $filterCat === 'novo' ? 'filterActive' : ''}}" data-id="0"
+                    <a class="btn mt-3 mx-3 uppercase text-xs sm:text-l {{ $filterCat === 'novo' ? 'filterActive' : ''}}" data-id="0"
                        wire:click="$set('filterCat', 'novo')" role="button">Novo u ponudi
                         <svg class="button-stroke" viewBox="0 0 154 13">
                             <use href="#line"></use>
@@ -537,7 +547,7 @@
                     </a>
 
                     @foreach($categories as $cat)
-                        <a class="btn mt-3 mx-3 uppercase {{ $filterCat === $cat->id ? 'filterActive' : ''}}"
+                        <a class="btn mt-3 mx-3 uppercase text-xs sm:text-l {{ $filterCat === $cat->id ? 'filterActive' : ''}}"
                            data-id="0" wire:click="$set('filterCat', {{ $cat->id}} )" data-id="{{ $cat->id }}"
                            wire:click="$set('filterCat', {{ $cat->id }})" role="button">{{ $cat->name }}
                             <svg class="button-stroke" viewBox="0 0 154 13">

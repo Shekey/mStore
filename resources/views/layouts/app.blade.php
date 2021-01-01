@@ -356,6 +356,13 @@
                 width: 130px !important;
             }
         }
+
+        @media only screen and (min-width: 1000px) {
+            .market-item-img {
+                min-height: 320px;
+            }
+        }
+
         /*Banner open/load animation*/
         .alert-banner {
             -webkit-animation: slide-in-top 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
