@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\URL;
@@ -21,10 +22,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        if (App::environment('production')) {
+            $this->app->bind('path.public', function () {
+                return base_path() . '/';
+            });
+        }
     }
 
-    /**
+        /**
      * Bootstrap any application services.
      *
      * @return void

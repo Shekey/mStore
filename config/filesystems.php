@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\App;
+
 return [
 
     /*
@@ -48,9 +50,9 @@ return [
             'root' => public_path(),
         ],
 
-        'public' => [
+            'public' => [
             'driver' => 'local',
-            'root' => storage_path('app/public'),
+            'root' => !App::environment('production') ? storage_path('app/public') : storage_path('app'),
             'url' => env('APP_URL').'/storage',
             'visibility' => 'public',
         ],
@@ -67,7 +69,7 @@ return [
 
         'images' => [
             'driver' => 'local',
-            'root' => storage_path('app/public/images'),
+            'root' => !App::environment('production') ? storage_path('app/public/images') :  storage_path('app/images'),
             'visibility' => 'public',
         ],
 
@@ -85,7 +87,7 @@ return [
     */
 
     'links' => [
-        public_path('storage') => storage_path('app/public'),
+        public_path('storage') => !App::environment('production') ? storage_path('app/public') : storage_path('app'),
     ],
 
 ];
