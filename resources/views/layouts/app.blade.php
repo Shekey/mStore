@@ -572,13 +572,13 @@
             <link rel="stylesheet" type="text/css" href="/map/css/index.css" />
             <link rel="stylesheet" type="text/css" href="/map/css/sidebar.css" />
             <link rel="stylesheet" type="text/css" href="/map/css/search.css" />
-            <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css" />
+            <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css" crossorigin="anonymous"/>
 
             <!-- JS API -->
-            <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-core.js"></script>
-            <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-service.js"></script>
-            <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-ui.js"></script>
-            <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js"></script>
+            <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-core.js" crossorigin="anonymous"></script>
+            <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-service.js" crossorigin="anonymous"></script>
+            <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-ui.js" crossorigin="anonymous"></script>
+            <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js" crossorigin="anonymous"></script>
         @endif
     @endif
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
@@ -682,11 +682,11 @@ width: 100vw;">
 @stack('modals')
 
 @livewireScripts
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" crossorigin="anonymous"></script>
 
 {{--<script src="https://unpkg.com/@popperjs/core@2"></script>--}}
 {{--<script src="https://unpkg.com/tippy.js@6" onload="initTippy()"></script>--}}
-<script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js"></script>
+<script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js" crossorigin="anonymous"></script>
 <script async src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.js" onload="initTippy()"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js"
         integrity="sha512-efUTj3HdSPwWJ9gjfGR71X9cvsrthIA78/Fvd/IN+fttQVy7XWkOAXb295j8B3cmm/kFKVxjiNYzKw9IQJHIuQ=="
@@ -699,7 +699,7 @@ width: 100vw;">
 
 @if(request()->routeIs('catalog'))
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lightslider/1.1.6/js/lightslider.min.js" integrity="sha512-Gfrxsz93rxFuB7KSYlln3wFqBaXUc1jtt3dGCp+2jTb563qYvnUBM/GP2ZUtRC27STN/zUamFtVFAIsRFoT6/w==" crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js" crossorigin="anonymous"></script>
     <script>
         $(document).ready(function() {
             $(".swiper-wrapper").lightSlider({
@@ -821,18 +821,30 @@ width: 100vw;">
 
     function paginationEvents() {
         $('.pagination').click(function () {
-            $("header+div")[0].scrollIntoView({
-                behavior: "smooth", // or "auto" or "instant"
-                block: "start",
-            });
+            if($("header+div")) {
+                $("header+div")[0].scrollIntoView({
+                    behavior: "smooth", // or "auto" or "instant"
+                    block: "start",
+                });
+            }
         });
 
         $('.admin-articles nav').click(function () {
-            $(".admin-articles")[0].scrollIntoView({
-                behavior: "smooth", // or "auto" or "instant"
-                block: "start",
-            });
+            if ($(".admin-articles")) {
+                $(".admin-articles")[0].scrollIntoView({
+                    behavior: "smooth", // or "auto" or "instant"
+                    block: "start",
+                });
+            }
         });
+    }
+
+    function removePreloader(time, speed) {
+        setTimeout(() => {
+            $('.preloader').fadeOut(speed, () => {
+                $('body').removeClass('preloader-active');
+            });
+        }, time)
     }
 
     $(function () {
@@ -929,10 +941,12 @@ width: 100vw;">
             $('body').addClass('preloader-active');
             $('.preloader').css("display", "");
 
-            $("header+div")[0].scrollIntoView({
-                behavior: "instant", // or "auto" or "instant"
-                block: "start",
-            });
+            if($("header+div")) {
+                $("header+div")[0].scrollIntoView({
+                    behavior: "instant", // or "auto" or "instant"
+                    block: "start",
+                });
+            }
         });
 
         const btnFinishOrder = document.querySelector('.finishOrderBtn');
@@ -943,23 +957,14 @@ width: 100vw;">
                 document.dispatchEvent(eventSent);
             });
         }
+    });
 
-        function removePreloader(time, speed) {
-            setTimeout(() => {
-                $('.preloader').fadeOut(speed, () => {
-                    $('body').removeClass('preloader-active');
-                });
-            }, time)
-        }
-
-        $(window).bind("load", function() {
-            @if(request()->routeIs('cart'))
-                removePreloader(800, "slow");
-            @else
-                removePreloader(300, "slow");
-            @endif
-        });
-
+    $(window).bind("load", function() {
+        @if(request()->routeIs('cart'))
+            removePreloader(800, "slow");
+        @else
+            removePreloader(300, "slow");
+        @endif
     });
 </script>
 

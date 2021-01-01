@@ -31,7 +31,7 @@
           width: 100vw;
           height: calc(100vh - 80px);
           background: #fff;
-          z-index: 100;
+          z-index: 9;
 
       }
     .order-finished.hidden {
