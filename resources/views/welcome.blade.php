@@ -1,5 +1,18 @@
 <x-app-layout>
     <style>
+
+        .aspect-100 {
+            position: relative;
+            height: 0;
+            padding-bottom: 100%;
+            z-index: 1;
+        }
+
+        .aspect-100 > * {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+        }
         .gradient span {
             position: relative;
             display: block;
@@ -16,7 +29,15 @@
             position: absolute;
         }
 
+        .fade {
+            transition: opacity 0.6s ease-in;
+            z-index: 1;
+        }
+
+        .fadeOut { opacity: 0; }
+        .fadeIn { opacity: 1; }
     </style>
+
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight"></h2>
     </x-slot>
