@@ -11,6 +11,7 @@ class OrderCreatedNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
+    public $order;
     /**
      * Create a new notification instance.
      *
@@ -47,21 +48,5 @@ class OrderCreatedNotification extends Notification implements ShouldQueue
                     ->line('Telefonski broj ' . $this->order->phone)
                     ->action('Link za naruđžbu', url('/narudzbe/'. $this->order->id))
                     ->line('Unaprijed hvala.');
-    }
-
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
-    public function toArray($notifiable)
-    {
-        return [
-            'id' => $this->order->id,
-            'date' => $this->order->order_date,
-            'name' => $this->order->name,
-            'phone' => $this->order->phone,
-        ];
     }
 }

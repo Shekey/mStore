@@ -11,6 +11,7 @@ class notifyUserAds extends Notification
 {
     use Queueable;
 
+    public $ads;
     /**
      * Create a new notification instance.
      *

@@ -217,7 +217,7 @@
                     </x-jet-responsive-nav-link>
 
                     <x-jet-responsive-nav-link href="{{ route('orders') }}" :active="request()->routeIs('profile.show')">
-                        {{ __('Naruđžbe') }}
+                        {{ __('Narudžbe') }}
                     </x-jet-responsive-nav-link>
 
                     <x-jet-responsive-nav-link href="{{ route('tipMarketa') }}" :active="request()->routeIs('tipMarketa')">
@@ -267,7 +267,7 @@
 
                 @if(!auth()->user()->isAdmin)
                     <x-jet-responsive-nav-link href="{{ route('orders') }}" :active="request()->routeIs('profile.show')">
-                        {{ __('Naruđžbe') }}
+                        {{ __('Narudžbe') }}
                     </x-jet-responsive-nav-link>
                 @endif
 
