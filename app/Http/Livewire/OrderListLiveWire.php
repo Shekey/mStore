@@ -15,6 +15,10 @@ class OrderListLiveWire extends Component
 {
     public $sort = "", $filter = "", $startFrom = "", $startTo = "", $market = '';
 
+    protected $listeners = [
+        'orderNumber:update' => '$refresh',
+    ];
+
     public function mount() {
 
     }

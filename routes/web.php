@@ -1,8 +1,10 @@
 <?php
 
+use App\Events\NotifyOrderCreated;
 use App\Http\Controllers\StripePaymentController;
 use App\Http\Livewire\ArtikliLiveWire;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 use Symfony\Component\HttpFoundation\Response;

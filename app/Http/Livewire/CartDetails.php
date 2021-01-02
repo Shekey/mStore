@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Events\CalculatePointsUser;
+use App\Events\NotifyOrderCreated;
 use App\Models\Articles;
 use App\Models\Market;
 use App\Models\Order;
@@ -79,6 +80,7 @@ class CartDetails extends Component
                 $this->orderFinished = true;
                 $this->clearCart();
                 CalculatePointsUser::dispatch($calculatePoints);
+                NotifyOrderCreated::dispatch();
             });
         } else {
             $this->dispatchBrowserEvent('articlesInActive');

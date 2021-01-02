@@ -564,6 +564,11 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightslider/1.1.6/css/lightslider.css" integrity="sha512-+1GzNJIJQ0SwHimHEEDQ0jbyQuglxEdmQmKsu8KI7QkMPAnyDrL9TAnVyLPEttcTxlnLVzaQgxv2FpLCLtli0A==" crossorigin="anonymous" />
     @endif
 
+    @if(request()->routeIs('orders') || request()->routeIs('cart') && auth()->user()->isAdmin || auth()->user()->superUser)
+    <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
+    @endif
+
+
     @if(request()->routeIs('cart'))
         @php
             $allCartItems = \Overtrue\LaravelShoppingCart\Facade::all();
@@ -805,7 +810,27 @@ width: 100vw;">
     </script>
 
 @endif
+
+{{--@if(request()->routeIs('orders'))--}}
+{{--<script src="{{ asset('js/app.js') }}"></script>--}}
+{{--@endif--}}
 <script>
+
+    @if(request()->routeIs('orders') || request()->routeIs('cart') && auth()->user()->isAdmin || auth()->user()->superUser)
+
+        // Enable pusher logging - don't include this in production
+        Pusher.logToConsole = true;
+
+        var pusher = new Pusher('274c2b71295da741ec87', {
+            cluster: 'eu'
+        });
+
+        var channel = pusher.subscribe('orders');
+        channel.bind('orders', function(data) {
+            Livewire.emit('orderNumber:update')
+        });
+
+    @endif
 
     function sendMarkRequest(id = null) {
         return $.ajax("{{ route('markNotification') }}", {
@@ -822,7 +847,7 @@ width: 100vw;">
 
     function paginationEvents() {
         $('.pagination').click(function () {
-            if($("header+div")) {
+            if($("header+div")[0]) {
                 $("header+div")[0].scrollIntoView({
                     behavior: "smooth", // or "auto" or "instant"
                     block: "start",
@@ -966,7 +991,7 @@ width: 100vw;">
             $('body').addClass('preloader-active');
             $('.preloader').css("display", "");
 
-            if($("header+div")) {
+            if($("header+div")[0]) {
                 $("header+div")[0].scrollIntoView({
                     behavior: "instant", // or "auto" or "instant"
                     block: "start",

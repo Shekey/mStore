@@ -62,7 +62,7 @@
                         <div class="flex w-2/5"> <!-- product -->
                             <div class="w-20">
                                 @if (!App::environment('production'))
-                                    <img class="h-24 object-cover" src="/storage/{{ $item->image }}" alt="Cart item image">
+                                    <img class="h-24 object-cover" src="{{ $item->image }}" alt="Cart item image">
                                 @else
                                     <img class="h-24 object-cover" src="/public/storage/{{ $item->image }}" alt="Cart item image">
                                 @endif
