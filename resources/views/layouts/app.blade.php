@@ -564,9 +564,11 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightslider/1.1.6/css/lightslider.css" integrity="sha512-+1GzNJIJQ0SwHimHEEDQ0jbyQuglxEdmQmKsu8KI7QkMPAnyDrL9TAnVyLPEttcTxlnLVzaQgxv2FpLCLtli0A==" crossorigin="anonymous" />
     @endif
 
-    @if(request()->routeIs('orders') || request()->routeIs('cart') && auth()->user()->isAdmin || auth()->user()->superUser)
-    <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
-    @endif
+    @auth
+        @if(request()->routeIs('orders') || request()->routeIs('cart') && auth()->user()->isAdmin || auth()->user()->superUser)
+            <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
+        @endif
+    @endauth
 
 
     @if(request()->routeIs('cart'))
@@ -816,21 +818,23 @@ width: 100vw;">
 {{--@endif--}}
 <script>
 
-    @if(request()->routeIs('orders') || request()->routeIs('cart') && auth()->user()->isAdmin || auth()->user()->superUser)
+    @auth
+        @if(request()->routeIs('orders') || request()->routeIs('cart') && auth()->user()->isAdmin || auth()->user()->superUser)
 
-        // Enable pusher logging - don't include this in production
-        Pusher.logToConsole = true;
+            // Enable pusher logging - don't include this in production
+            Pusher.logToConsole = true;
 
-        var pusher = new Pusher('274c2b71295da741ec87', {
-            cluster: 'eu'
-        });
+            var pusher = new Pusher('274c2b71295da741ec87', {
+                cluster: 'eu'
+            });
 
-        var channel = pusher.subscribe('orders');
-        channel.bind('orders', function(data) {
-            Livewire.emit('orderNumber:update')
-        });
+            var channel = pusher.subscribe('orders');
+            channel.bind('orders', function(data) {
+                Livewire.emit('orderNumber:update')
+            });
 
-    @endif
+        @endif
+    @endauth
 
     function sendMarkRequest(id = null) {
         return $.ajax("{{ route('markNotification') }}", {
