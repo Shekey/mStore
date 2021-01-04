@@ -20,7 +20,7 @@
                 <button @click="open = !open" type="button"
                         class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500"
                         id="options-menu" aria-haspopup="true" aria-expanded="true" x-bind:aria-expanded="open">
-                    Filtriraj artikle
+                    Filtriraj korisnike
                     <svg class="-mr-1 ml-2 h-5 w-5" x-description="Heroicon name: chevron-down"
                          xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                         <path fill-rule="evenodd"

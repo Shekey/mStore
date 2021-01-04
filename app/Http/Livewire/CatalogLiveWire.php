@@ -191,7 +191,6 @@ class CatalogLiveWire extends Component
 
     public function searchArticle($value) {
         $this->resetPage();
-        $this->filterCat = 'akcije';
         $this->dispatchBrowserEvent('sent');
         $this->search =  $value;
     }

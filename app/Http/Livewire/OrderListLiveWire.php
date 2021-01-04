@@ -8,11 +8,14 @@ use App\Models\Market;
 use App\Models\Order;
 use Carbon\Carbon;
 use Livewire\Component;
+use Livewire\WithPagination;
 use Maatwebsite\Excel\Facades\Excel;
 
 
 class OrderListLiveWire extends Component
 {
+    use WithPagination;
+
     public $sort = "", $filter = "", $startFrom = "", $startTo = "", $market = '';
 
     protected $listeners = [
@@ -144,7 +147,7 @@ class OrderListLiveWire extends Component
     public function render()
     {
         $orders = $this->manageOrders();
-        $orders = $orders->paginate(24);
+        $orders = $orders->paginate(12);
         $markets = Market::all();
         return view('livewire.order-list-live-wire', compact('orders', 'markets'));
     }

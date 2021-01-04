@@ -65,7 +65,7 @@
         </div>
         @endif
 
-        <div x-data="{ open: false }" @keydown.window.escape="open = false" @click.away="open = false" class="relative inline-block text-left mt-2">
+        <div x-data="{ open: false }" @keydown.window.escape="open = false" @click.away="open = false" class="relative inline-block text-left mt-2" style="z-index: 1;">
             <div>
                 <button @click="open = !open" type="button" class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500" id="options-menu" aria-haspopup="true" aria-expanded="true" x-bind:aria-expanded="open">
                     Filtriraj narudžbe
@@ -84,7 +84,7 @@
             </div>
         </div>
 
-        <div x-data="{ open: false }" @keydown.window.escape="open = false" @click.away="open = false" class="relative inline-block text-left mt-2">
+        <div x-data="{ open: false }" @keydown.window.escape="open = false" @click.away="open = false" class="relative inline-block text-left mt-2" style="z-index: 1;">
             <div>
                 <button @click="open = !open" type="button" class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500" id="options-menu" aria-haspopup="true" aria-expanded="true" x-bind:aria-expanded="open">
                     Sortiraj narudžbe
@@ -122,7 +122,7 @@
                  class="w-full object-contain object-center rounded-lg shadow-md"
                  style="border: 2px solid #f58b1e; border-radius: 10px;">
 
-                @if(auth()->user()->isAdmin || auth()->user()->id != $order->customer_id && Carbon\Carbon::now()->diffInDays( $order->created_at ) < 2)
+                @if(auth()->user()->isAdmin && Carbon\Carbon::now()->diffInDays( $order->created_at ) < 2 || auth()->user()->id != $order->customer_id && Carbon\Carbon::now()->diffInDays( $order->created_at ) < 2)
                     <div
                        class="p-2 flex rounded-full {{ $order->isOrdered ? 'bg-green-600' : 'bg-orange-600' }} cursor-pointer text-white ml-auto hover:text-white hover:bg-orange-500 focus:outline-none focus:bg-orange-500"
                        style="width: 36px; margin-right: 30px; margin-top: -15px; z-index: 100" wire:click.stop="toggleOrderFinished({{ $order->id }}, {{ $order->isOrdered }})">
@@ -172,6 +172,9 @@
         @if(!count($orders))
             <h2 class="text-3xl sm:text-5xl lg:text-6xl text-center leading-none font-extrabold text-gray-900 tracking-tight mb-8 flex items-center justify-center" style="height: calc(100vh - 300px); flex: 1;">Nema narudžbi</h2>
         @endif
+    </div>
+    <div>
+        {{ $orders->links() }}
     </div>
 </div>
 

@@ -352,7 +352,7 @@
 
             <x-slot name="content">
                 <section class="text-white body-font overflow-hidden">
-                    <div class="container py-24 mx-auto">
+                    <div class="container py-10 sm:py-24 mx-auto">
                         <div class="lg:w-4/5 mx-auto flex flex-wrap">
                             <div class="lg:w-1/2 w-full lg:pr-10 lg:py-6 mb-6 lg:mb-0">
                                 <h2 class="text-sm title-font text-black tracking-widest">{{ $articleBrand }}</h2>
@@ -365,21 +365,25 @@
                                     <span class="text-black">Cijena</span>
                                     <span class="ml-auto text-black">{{ number_format((float)$articlePrice, 2, '.', '') }} KM</span>
                                 </div>
-                                @if($isOnSale)
+                                @if($isOnSale && $articleOldPrice > 0)
                                     <div class="flex border-t border-gray-300 py-2">
                                         <span class="text-black">Stara cijena</span>
                                         <span class="ml-auto text-black">{{ number_format((float)$articleOldPrice, 2, '.', '') }} KM</span>
                                     </div>
                                 @endif
-                                <div class="flex border-t border-gray-300 py-2">
-                                    <span class="text-black">Boja</span>
-                                    <span class="ml-auto text-black">{{ $articleColor }}</span>
-                                </div>
-                                <div class="flex border-t border-gray-300 py-2">
-                                    <span class="text-black">Veličina</span>
-                                    <span class="ml-auto text-black">{{ $articleSize }}</span>
-                                </div>
-                                @auth
+                                @if($articleColor)
+                                    <div class="flex border-t border-gray-300 py-2">
+                                        <span class="text-black">Boja</span>
+                                        <span class="ml-auto text-black">{{ $articleColor }}</span>
+                                    </div>
+                                @endif
+                                @if($articleSize)
+                                    <div class="flex border-t border-gray-300 py-2">
+                                        <span class="text-black">Veličina</span>
+                                        <span class="ml-auto text-black">{{ $articleSize }}</span>
+                                    </div>
+                                @endif
+                            @auth
                                     @if(!$market->isClosed || auth()->user()->superUser)
                                         <div class="flex border-t border-b mb-6 border-gray-300 py-2">
                                             <span class="text-black flex-1">Količina</span>
@@ -463,7 +467,7 @@
     <div class="">
         <div class="px-6 pt-10">
             <div class="flex items-center justify-between flex-wrap sm:no-wrap">
-                <div class="w-full md:text-center text-3xl font-semibold capitalize order-1 sm:order-0">
+                <div class="w-full md:text-center text-3xl font-semibold uppercase order-1 sm:order-0">
                     {{ $market->name }}
                 </div>
                 @auth
@@ -482,8 +486,6 @@
 {{--                    @endif--}}
                 @endauth
             </div>
-            <h4 class="text-lg font-bold text-orange-400 px-2 py-2 mt-8 text-center">Odaberite kategoriju
-                kako bi ste filtrirali artikle.</h4>
             @guest
                 <div class="alert-toast fixed bottom-0 right-0 m-8 w-5/6 md:w-full max-w-sm" style="z-index: 1;">
                     <input type="checkbox" class="hidden" id="not_registered">

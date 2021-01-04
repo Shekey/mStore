@@ -19,7 +19,7 @@ class UpdateUserRequest extends FormRequest
                 'required',
                 'unique:users,email,' . request()->route('korisnici'),
             ],
-            'phone' => ['required', 'numeric', 'min:9', 'min:10', 'unique:users'],
+            'phone' => ['required', 'numeric', 'min:9', 'min:10', 'unique:users,phone,' . request()->route('korisnici')],
             'password'  => [
                 'sometimes',
                 'nullable',
