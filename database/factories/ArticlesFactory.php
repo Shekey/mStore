@@ -24,8 +24,8 @@ class ArticlesFactory extends Factory
             'isActive' => 1,
             'isOnSale' => rand(0, 1),
             'profitMake' => rand(0, 1),
-            'category_id' => rand(1, 3),
-            'market_id' => 1,
+            'category_id' => rand(10, 13),
+            'market_id' => 9,
             'created_at' => now(),
             'updated_at' => now(),
         ];

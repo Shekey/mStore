@@ -259,7 +259,6 @@ class ArtikliLiveWire extends Component
     }
 
     public function manageArticles() {
-        $this->dispatchBrowserEvent('sent');
 
         $parent = Articles::whereHas('market', function (Builder $query) {
             $query->where('market_id', '=', $this->marketId);
@@ -296,8 +295,6 @@ class ArtikliLiveWire extends Component
             $this->resetFilters();
             $data = Articles::where('name', 'like', '%'.$this->search.'%');
         }
-
-        $this->dispatchBrowserEvent('processed');
         $data = $data->simplePaginate(30);
 
         return view('livewire.artikli-live-wire', compact('categories', 'data', 'markets'));

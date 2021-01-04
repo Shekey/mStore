@@ -49,15 +49,15 @@
                 <div class="flex flex-wrap sm:justify-between border-b pb-8">
                     <h1 class="font-semibold text-2xl f-100 mb-5 sm:mb-0">Detalji narudžbe za {{ $allOrderItems->first()->order->user->name }}</h1>
                     @if(auth()->user()->id === $allOrderItems->first()->order->customer_id)
-                    <div
-                        class="p-2 flex align-items rounded-full ml-0 bg-green-600 cursor-pointer text-white hover:text-white hover:bg-orange-500 focus:outline-none focus:bg-orange-500"
-                        style="" wire:click.stop="repeatOrder()">
-                        Ponovi narudžbu
+                        <div
+                            class="p-2 flex align-items rounded-full ml-0 bg-green-600 cursor-pointer text-white hover:text-white hover:bg-orange-500 focus:outline-none focus:bg-orange-500"
+                            style="" wire:click.stop="repeatOrder()">
+                            Ponovi narudžbu
                             <svg class="h-5 w-5 ml-4 mr-2" fill="none" stroke-linecap="round" stroke-linejoin="round"
                                  stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                             </svg>
-                    </div>
+                        </div>
                     @endif
                 </div>
                 <div class="flex mt-10 mb-5">
@@ -68,24 +68,27 @@
                 </div>
 
                 @foreach($allOrderItems as $item)
-                    <div class="flex items-center hover:bg-gray-100 px-6 py-5 mt-1 w-full mr-0">
+                    @php
+                        $isActive = $item->product->first()->isActive;
+                        $isMarketClosed = $item->product->first()->market->isClosed;
+                        $isSuperUser = auth()->user()->superUser;
+                        $showForOwner = $item->marketId == auth()->user()->isOwner;
+                    @endphp
+                    @if($showForOwner)
+                        <div class="flex items-center hover:bg-gray-100 px-6 py-5 mt-1 w-full mr-0">
                         <div class="flex w-2/5">
                             <div class="w-20">
                                 @if (!App::environment('production'))
-                                <img class="h-24 object-cover" src="{{ count($item->product->first()->images) ? "/storage/" . $item->product->first()->images->first()->url : 'https://dummyimage.com/400x400' }}" alt="Cart item image">
+                                    <img class="h-24 object-cover" src="{{ count($item->product->first()->images) ? "/storage/" . $item->product->first()->images->first()->url : 'https://dummyimage.com/400x400' }}" alt="Cart item image">
                                 @else
                                     <img class="h-24 object-cover" src="{{ count($item->product->first()->images) ? "/public/storage/" . $item->product->first()->images->first()->url : 'https://dummyimage.com/400x400' }}" alt="Cart item image">
-
                                 @endif
                             </div>
                             <div class="flex flex-col justify-between ml-4 flex-grow">
                                 <span class="font-bold text-sm text-black pt-5">{{ $item->product->first()->name }}</span>
-                                @php
-                                    $isActive = $item->product->first()->isActive;
-                                    $isMarketClosed = $item->product->first()->market->isClosed;
-                                    $isSuperUser = auth()->user()->superUser;
-                                @endphp
-                                @if($isActive && !$isMarketClosed || $isSuperUser && $isActive)<a role="button" class="font-semibold pb-5 hover:text-red-500 text-green-800 text-sm" wire:click.stop="addToCart('{{ $item->product->first()->id }}')">Dodaj u korpu</a> @else <p class="text-xs text-red-600 pb-5">Ne radi prodavnica, ili nema na stanju </p>@endif
+                                @if(!$showForOwner)
+                                    @if($isActive && !$isMarketClosed || $isSuperUser && $isActive)<a role="button" class="font-semibold pb-5 hover:text-red-500 text-green-800 text-sm" wire:click.stop="addToCart('{{ $item->product->first()->id }}')">Dodaj u korpu</a> @else <p class="text-xs text-red-600 pb-5">Ne radi prodavnica, ili nema na stanju </p>@endif
+                                @endif
                             </div>
                         </div>
                         <div class="flex justify-center w-1/5 decrease">
@@ -94,30 +97,31 @@
                         <span class="text-center w-1/5 font-semibold text-black text-sm">{{ $item->currentPrice }} KM</span>
                         <span class="text-center w-1/5 font-bold text-black text-sm">{{ $item->quantity * $item->currentPrice }} KM</span>
                     </div>
+                    @endif
                 @endforeach
             </div>
 
             @if(count($allOrderItems))
                 <div id="summary" class="f-100 lg:w-1/4 px-6 py-5">
-                <h2 class="font-semibold text-2xl border-b mb-0 pb-8">Detalji narudžbe</h2>
-                <div class="flex justify-between mt-10 mb-5">
-                    <span class="font-bold text-sm uppercase">Artikli ( {{ count($this->allOrderItems) }} )</span>
-                </div>
-
-                <div class="border-t mt-8">
-                    <div class="flex font-semibold justify-between py-6 text-sm uppercase">
-                        <span>Ukupan iznos</span>
-                        <span>{{ $allOrderItems->first()->order->total }} KM</span>
+                    <h2 class="font-semibold text-2xl border-b mb-0 pb-8">Detalji narudžbe</h2>
+                    <div class="flex justify-between mt-10 mb-5">
+                        <span class="font-bold text-sm uppercase">Artikli ( {{ count($this->allOrderItems) }} )</span>
                     </div>
 
-                    @if(auth()->user()->isAdmin)
+                    <div class="border-t mt-8">
                         <div class="flex font-semibold justify-between py-6 text-sm uppercase">
-                            <span>Link za dostavu</span>
-                            <span class="text-orange-600"><a class="text-orange-600" target="_blank" href="https://share.here.com/l/{{ $allOrderItems->first()->order->address }}">Link</a></span>
+                            <span>Ukupan iznos</span>
+                            <span>{{ $allOrderItems->first()->order->total }} KM</span>
                         </div>
-                @endif
+
+                        @if(auth()->user()->isAdmin || $isForAuthorOrder)
+                            <div class="flex font-semibold justify-between py-6 text-sm uppercase">
+                                <span>Link za dostavu</span>
+                                <span class="text-orange-600"><a class="text-orange-600" target="_blank" href="https://share.here.com/l/{{ $allOrderItems->first()->order->address }}">Link</a></span>
+                            </div>
+                        @endif
+                    </div>
                 </div>
-            </div>
             @endif
         </div>
     </div>

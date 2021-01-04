@@ -115,12 +115,14 @@
         <input type="hidden" name="sort" id="sortHidden" value="{{ $sort }}">
     </div>
     <div class="flex flex-wrap">
+
         @foreach($orders as $key=>$order)
             <div class="flex flex-col lg:w-1/3 mb-8 sm:px-2 px-10">
             <img src="/assets/logo.png" alt="Logo image"
                  class="w-full object-contain object-center rounded-lg shadow-md"
                  style="border: 2px solid #f58b1e; border-radius: 10px;">
-                @if(auth()->user()->isAdmin)
+
+                @if(auth()->user()->isAdmin || auth()->user()->id != $order->customer_id && Carbon\Carbon::now()->diffInDays( $order->created_at ) < 2)
                     <div
                        class="p-2 flex rounded-full {{ $order->isOrdered ? 'bg-green-600' : 'bg-orange-600' }} cursor-pointer text-white ml-auto hover:text-white hover:bg-orange-500 focus:outline-none focus:bg-orange-500"
                        style="width: 36px; margin-right: 30px; margin-top: -15px; z-index: 100" wire:click.stop="toggleOrderFinished({{ $order->id }}, {{ $order->isOrdered }})">
@@ -174,6 +176,7 @@
 </div>
 
 <script>
+@if(auth()->user()->isAdmin)
     document.addEventListener("livewire:load", (component) => {
         setTimeout(() => {
             const value = document.getElementById('startFrom').value;
@@ -186,4 +189,5 @@
             @this.sort = value;
         }, 20)
     });
+@endif
 </script>

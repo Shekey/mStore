@@ -80,7 +80,7 @@ class CartDetails extends Component
                 $this->orderFinished = true;
                 $this->clearCart();
                 CalculatePointsUser::dispatch($calculatePoints);
-                NotifyOrderCreated::dispatch();
+//                NotifyOrderCreated::dispatch();
             });
         } else {
             $this->dispatchBrowserEvent('articlesInActive');

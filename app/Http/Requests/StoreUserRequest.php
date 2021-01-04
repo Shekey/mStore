@@ -14,6 +14,7 @@ class StoreUserRequest extends FormRequest
                 'string',
                 'required',
             ],
+            'isOwner'     => ['sometimes', 'nullable', 'numeric'],
             'email'    => [
                 'required',
                 'unique:users',

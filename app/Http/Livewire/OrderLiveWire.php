@@ -13,12 +13,16 @@ use Symfony\Component\HttpFoundation\Response;
 class OrderLiveWire extends Component
 {
 
-    public $orderId = null, $allOrderItems = null;
+    public $orderId = null, $allOrderItems = null, $isForAuthorOrder = null;
 
     public function mount($id) {
         $this->orderId = $id;
-        $order = Order::find($id);
-        $isAuthor = $order->customer_id === Auth::user()->id;
+        $order = Order::where('id',$id)->with('orderproduct')->first();
+        $isForAuthor = Order::where('id',$id)->whereHas('orderproduct', function ($query) {
+            $query->where('marketId', auth()->user()->isOwner);
+        })->get();
+        $this->isForAuthorOrder = count($isForAuthor);
+        $isAuthor = $order->customer_id === Auth::user()->id || $this->isForAuthorOrder;
         abort_unless(Auth::user()->isAdmin || $isAuthor, 403);
         $this->allOrderItems = $order->orderproduct;
     }

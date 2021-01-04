@@ -84,7 +84,18 @@ class OrderListLiveWire extends Component
 
     public function manageOrders() {
         \Carbon\Carbon::setLocale('bs');
-        $parent = Order::where('customer_id', auth()->user()->id)->with('orderproduct');
+        $parent = Order::with('orderproduct');
+        $getNotified = false;
+
+        if(!auth()->user()->isAdmin) {
+            if(auth()->user()->isOwner !== null) {
+               $parent = Order::whereHas('orderproduct', function ($query) {
+                    $query->where('marketId', auth()->user()->isOwner);
+                })->orWhere('customer_id', auth()->user()->id)->with('orderproduct');
+                $getNotified = true;
+            }
+        }
+
 
         if($this->startFrom !== "" ) {
             $parent = $parent->where('created_at', '>=', Carbon::createFromFormat('Y-m-d', $this->startFrom)->startOfDay());
@@ -94,22 +105,39 @@ class OrderListLiveWire extends Component
             $parent = $parent->where('created_at', '<=', Carbon::createFromFormat('Y-m-d', $this->startTo)->startOfDay());
         }
 
-
         if($this->filter === ''){
-            $parent = $parent->where('isOrdered', '1')->orWhere('isOrdered', '0');
+            $parent = $parent;
         } else if ($this->filter === 'active'){
-            $parent = $parent->where('isOrdered', '0');
+
+            if($getNotified) {
+                $notifyOwner = Order::whereHas('orderproduct', function ($query) {
+                    $query->where('marketId', auth()->user()->isOwner);
+                })->where('isOrdered', 0);
+
+                $orderCreated = Order::where('customer_id', auth()->user()->id)->where('isOrdered', 0)->with('orderproduct');
+                $parent = $orderCreated->union($notifyOwner);
+
+            } else {
+                $parent = $parent->where('isOrdered', 0);
+            }
         } else {
-            $parent = $parent->where('isOrdered', '1');
+
+            if($getNotified) {
+                $notifyOwner = Order::whereHas('orderproduct', function ($query) {
+                    $query->where('marketId', auth()->user()->isOwner);
+                })->where('isOrdered', 1);
+
+                $orderCreated = Order::where('customer_id', auth()->user()->id)->where('isOrdered', 1)->with('orderproduct');
+                $parent = $orderCreated->union($notifyOwner);
+            } else {
+                $parent = $parent->where('isOrdered', 1);
+            }
         }
 
         if($this->sort === ''){
             $parent = $parent->latest();
         }
 
-        if(!auth()->user()->isAdmin) {
-            $parent = $parent->where('customer_id', auth()->user()->id);
-        }
         return $parent;
     }
 

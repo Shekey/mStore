@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Models\Market;
+use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -39,8 +41,8 @@ class UsersController extends Controller
         abort_if(Gate::denies('tasks_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $roles = Role::pluck('title', 'id');
-
-        return view('korisnici.create', compact('roles'));
+        $markets = Market::pluck('name', 'id');
+        return view('korisnici.create', compact('roles', 'markets'));
     }
 
     public function store(StoreUserRequest $request)
@@ -71,8 +73,9 @@ class UsersController extends Controller
 
         $user = User::find($id);
         $user->load('roles');
+        $markets = Market::pluck('name', 'id');
 
-        return view('korisnici.edit', compact('user', 'roles'));
+        return view('korisnici.edit', compact('user', 'roles', 'markets'));
     }
 
     public function update(UpdateUserRequest $request, $id)
