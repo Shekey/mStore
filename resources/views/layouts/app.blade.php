@@ -334,7 +334,9 @@
         }
 
     </style>
-    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.3/dist/alpine.js" defer></script>
+    @if(!request()->routeIs('home'))
+        <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.3/dist/alpine.js" defer></script>
+    @endif
     @livewireStyles
 
     <script>
@@ -622,7 +624,9 @@ width: 100vw;">
                 <div class="sm:flex sm:mt-8">
                     <div class="mt-8 sm:mt-0 sm:w-full sm:px-8 flex flex-col md:flex-row justify-between">
                         <div class="flex flex-col md:w-1/3 pb-6 md:pb-0">
-                            <img data-src="/assets/logo2.png" class="lozad" alt="Image logo" width="150" height="80">
+                            <a href="/">
+                                <img data-src="/assets/logo2.png" class="lozad" alt="Image logo" width="150" height="80">
+                            </a>
                             <p class="my-2 mt-4">Multi store je mjesto gdje možete naručivati online.</p>
                             <p>Za svakih potrošenih 50km dobijate bodove gratis, koje kasnije možete da potrošite. Sve što je potrebno jeste da se registrujete i krenete kupovati.</p>
                         </div>
@@ -643,9 +647,9 @@ width: 100vw;">
             <div class="container mx-auto px-6">
                 <div class="mt-16 border-t-2 border-gray-300 flex flex-col items-center">
                     <div class="sm:w-2/3 text-center py-6">
-                        <p class="text-sm text-orange-700 font-bold mb-2">
+                        <a href="/" class="text-sm text-orange-700 font-bold mb-2">
                             © 2021 MULTI STORE
-                        </p>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -709,7 +713,6 @@ width: 100vw;">
             </svg>
         </label>
     </div>
-
 @endauth
 
 @stack('modals')
@@ -717,14 +720,17 @@ width: 100vw;">
 @livewireScripts
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" crossorigin="anonymous"></script>
 
-{{--<script src="https://unpkg.com/@popperjs/core@2"></script>--}}
-{{--<script src="https://unpkg.com/tippy.js@6" onload="initTippy()"></script>--}}
+<script src="{{ asset('js/app.js') }}"></script>
 <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js" crossorigin="anonymous"></script>
 <script async src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.js" onload="initTippy()"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js"
-        integrity="sha512-efUTj3HdSPwWJ9gjfGR71X9cvsrthIA78/Fvd/IN+fttQVy7XWkOAXb295j8B3cmm/kFKVxjiNYzKw9IQJHIuQ=="
-        crossorigin="anonymous"></script>
+
 <!-- Scripts -->
+
+@if(!request()->routeIs('home'))
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js"
+            integrity="sha512-efUTj3HdSPwWJ9gjfGR71X9cvsrthIA78/Fvd/IN+fttQVy7XWkOAXb295j8B3cmm/kFKVxjiNYzKw9IQJHIuQ=="
+            crossorigin="anonymous"></script>
+@endif
 
 @if(count(\Overtrue\LaravelShoppingCart\Facade::all()) && request()->routeIs('cart'))
     <script type="module" src="/map/js/app.js"></script>
@@ -835,7 +841,6 @@ width: 100vw;">
             });
         });
     </script>
-
 @endif
 <script>
 
@@ -1032,6 +1037,5 @@ width: 100vw;">
         @endif
     });
 </script>
-
 </body>
 </html>
