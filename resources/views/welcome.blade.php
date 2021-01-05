@@ -25,7 +25,7 @@
             background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(255,90,31,1) 90%);
             left: 0;
             width: calc(100% + (100vw - 100% - 16px) / 2);
-            height: 8px;
+            height: 2px;
             bottom: -10px;
             position: absolute;
         }
@@ -42,7 +42,10 @@
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight"></h2>
     </x-slot>
-        <div class="relative">
+        <div class="fixed-bg" style="position: fixed; opacity: 0.1; z-index: 0; top: 50%; left: 50%;transform: translate(-50%, -50%)">
+            <img src="/assets/logo2.png" alt="Logo image" style="width: 80vw;">
+        </div>
+        <div class="relative" style="z-index: 1;">
             @if ($message = Session::get('error'))
                 <div
                     class="bg-orange-600 flash-message w-full absolute left-0 w-full visible"
@@ -64,15 +67,12 @@
                     </div>
                 </div>
             @endif
-
-            <img src="/assets/welcome.jpg" alt="Multi Store slika" style="width: 100vw; position: relative; z-index: 10;">
+            <img src="/assets/welcome.jpg" alt="Multi Store slika" style="width: 100vw; position: relative; z-index: 110;">
             <div class="bg-green-200 text-green-dark p-4 text-center" role="alert">
                 <p>Ukoliko želite da pregledate ili kupite neki od artikala, potrebno je da odaberete jednu od radnji.</p>
             </div>
+
             <div class="p-6 leading-normal container mx-auto flex flex-wrap">
-                <div class="fixed-bg" style="position: fixed; opacity: 0.1; z-index: 0; top: 50%; left: 50%;transform: translate(-50%, -50%)">
-                    <img src="/assets/logo2.png" alt="Logo image" style="width: 80vw;">
-                </div>
                 @if ($data->count())
                     @foreach ($data as $group => $row)
                         <h3 class="text-gray-700 text-3xl sm:text-5xl font-bold gradient-text font-bold mb-6 gradient" style="flex-basis: 100%;"><span>{{ $row->first()->type->name }}</span></h3>
@@ -84,5 +84,20 @@
                     <p class="mb-8 leading-relaxed">Nema dodanih prodavnica</p>
                 @endif
             </div>
+
+            <section style="background-color: #f88c20; position: relative; z-index: 100;">
+                    <div class="container mx-auto px-6 text-center py-20">
+                        <h2 class="mb-6 text-4xl font-bold text-center text-white">
+                            Želite povećati prodaju?
+                        </h2>
+                        <h3 class="my-4 text-2xl text-white">
+                            Kontaktirajte nas kako bi smo dodali radnju i povećajte zaradu.
+                        </h3>
+                        <button
+                            class="bg-white font-bold rounded-full mt-6 py-4 px-8 shadow-lg uppercase tracking-wider">
+                            Kontaktirajte nas!
+                        </button>
+                    </div>
+                </section>
         </div>
 </x-app-layout>

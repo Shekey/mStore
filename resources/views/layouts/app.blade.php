@@ -335,8 +335,6 @@
 
     </style>
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.3/dist/alpine.js" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
-
     @livewireStyles
 
     <script>
@@ -617,6 +615,41 @@ width: 100vw;">
     <!-- Page Content -->
     <main class="bg-blue-lightest" style="margin-top: 80px;">
         {{ $slot }}
+
+        <footer class="footer bg-white relative pt-1 border-b-2 border-blue-700">
+            <div class="container mx-auto px-6">
+
+                <div class="sm:flex sm:mt-8">
+                    <div class="mt-8 sm:mt-0 sm:w-full sm:px-8 flex flex-col md:flex-row justify-between">
+                        <div class="flex flex-col md:w-1/3 pb-6 md:pb-0">
+                            <img data-src="/assets/logo2.png" class="lozad" alt="Image logo" width="150" height="80">
+                            <p class="my-2 mt-4">Multi store je mjesto gdje možete naručivati online.</p>
+                            <p>Za svakih potrošenih 50km dobijate bodove gratis, koje kasnije možete da potrošite. Sve što je potrebno jeste da se registrujete i krenete kupovati.</p>
+                        </div>
+                        <div class="flex flex-col border-t-2 border-gray-300 md:border-0">
+                            <span class="font-bold text-gray-700 uppercase mt-4 md:mt-0 mb-6">Radnje</span>
+                            <span class="my-2"><a href="#" class="text-orange-700 text-md hover:text-blue-500">link 1</a></span>
+                            <span class="my-2"><a href="#" class="text-orange-700  text-md hover:text-blue-500">link 1</a></span>
+                            <span class="my-2"><a href="#" class="text-orange-700 text-md hover:text-blue-500">link 1</a></span>
+                        </div>
+                        <div class="flex flex-col border-t-2 border-gray-300 md:border-0">
+                            <span class="font-bold text-gray-700 uppercase mt-4 md:mt-0 mb-6">Brzi linkovi</span>
+                            <span class="my-2"><a href="/login" class="text-orange-700 text-md hover:text-blue-500">Logirajte se</a></span>
+                            <span class="my-2"><a href="/register" class="text-orange-700  text-md hover:text-blue-500">Registrujte se</a></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container mx-auto px-6">
+                <div class="mt-16 border-t-2 border-gray-300 flex flex-col items-center">
+                    <div class="sm:w-2/3 text-center py-6">
+                        <p class="text-sm text-orange-700 font-bold mb-2">
+                            © 2021 MULTI STORE
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </footer>
     </main>
 </div>
 
@@ -746,7 +779,6 @@ width: 100vw;">
 
                 responsive : [],
             });
-
             window.addEventListener('initSlider', event => {
                 $("#images").lightSlider({
                     item: 1,

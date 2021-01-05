@@ -85,7 +85,7 @@
 
         <x-slot name="content">
             <div class="flex flex-wrap -mx-2 justify-center">
-                @if ($image && strpos($image, 'Temp') && $uploadedNewImage)
+                @if ($image  && $uploadedNewImage)
                     <p style="flex-basis: 100%; text-align: center;">Pregled slike</p>
                     <div style="flex-basis: 100%; text-align: center">
                         <img src="{{ $image->temporaryUrl() }}" width="200" height="200"
@@ -93,7 +93,7 @@
                     </div>
                 @endif
 
-                @if($modelId != null && !strpos($image, 'Temp'))
+                @if($modelId != null)
                         @if (!App::environment('production'))
                             <img src="/storage/{{ $image }}" width="200" height="200">
                         @else

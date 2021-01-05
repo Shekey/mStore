@@ -25,5 +25,7 @@
         "tailwindcss": "^1.8.0",
         "vue-template-compiler": "^2.6.12"
     },
-    "dependencies": {}
+    "dependencies": {
+        "lozad": "^1.16.0"
+    }
 }
