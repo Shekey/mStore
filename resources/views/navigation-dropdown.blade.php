@@ -1,10 +1,10 @@
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
     <!-- Primary Navigation Menu -->
-    <div class="container mx-auto bg-white pr-5">
+    <div class="container mx-auto bg-whitepr-5">
         <div class="flex justify-between h-20">
             <div class="flex">
                 <!-- Logo -->
-                <div class="flex-shrink-0 flex items-center overflow-hidden">
+                <div class="flex-shrink-0 flex items-center overflow-hidden ml-2">
                     <a href="{{ route('home') }}">
                         <x-jet-application-mark class="block h-9 w-auto" />
                     </a>

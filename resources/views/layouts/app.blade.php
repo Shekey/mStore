@@ -622,11 +622,11 @@ width: 100vw;">
                 <div class="sm:flex sm:mt-8">
                     <div class="mt-8 sm:mt-0 sm:w-full sm:px-6 flex flex-col md:flex-row justify-between">
                         <div class="flex flex-col md:w-1/3 px-5 sm:px-0 pb-6 md:pb-0">
-                            <a href="/">
-                                <img data-src="/assets/logo2.png" class="lozad" alt="Image logo" width="150" height="80">
+                            <a href="/" class="md:flex justify-center">
+                                <img data-src="/assets/logo2.png" class="lozad" alt="Image logo" width="110" height="80">
                             </a>
-                            <p class="my-2 mt-4">Multi store je mjesto gdje možete naručivati online.</p>
-                            <p>Za svakih potrošenih 50km dobijate bodove gratis, koje kasnije možete da potrošite. Sve što je potrebno jeste da se registrujete i krenete kupovati.</p>
+                            <p class="my-2 mt-4 md:text-center">Multi store je mjesto gdje možete naručivati online.</p>
+                            <p class="md:text-center">Za svakih potrošenih 50km dobijate bodove gratis, koje kasnije možete da potrošite. Sve što je potrebno jeste da se registrujete i krenete kupovati.</p>
                         </div>
                         <div class="flex flex-col border-t-2 px-5 sm:px-0 border-gray-300 md:border-0">
                             <span class="font-bold text-gray-700 uppercase mt-4 md:mt-0 mb-6">Radnje</span>
@@ -644,7 +644,7 @@ width: 100vw;">
                 </div>
             </div>
             <div class="container mx-auto">
-                <div class="mt-16 border-t-2 border-gray-300 flex flex-col items-center">
+                <div class="mt-10 border-t-2 border-gray-300 flex flex-col items-center">
                     <div class="sm:w-2/3 text-center py-6">
                         <a href="/" class="text-sm text-orange-700 font-bold mb-2">
                             © 2021 MULTI STORE
