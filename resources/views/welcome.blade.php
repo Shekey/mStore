@@ -87,16 +87,16 @@
 
             <section style="background-color: #f88c20; position: relative; z-index: 100;">
                     <div class="container mx-auto px-6 text-center py-20">
-                        <h2 class="mb-6 text-4xl font-bold text-center text-white">
+                        <h2 class="mb-1 text-4xl font-bold text-center text-white">
                             Želite povećati prodaju?
                         </h2>
-                        <h3 class="my-4 text-2xl text-white">
+                        <h3 class="my-1 text-2xl text-white mb-10">
                             Kontaktirajte nas kako bi smo dodali radnju i povećajte zaradu.
                         </h3>
-                        <button
+                        <a href="/kontakt"
                             class="bg-white font-bold rounded-full mt-6 py-4 px-8 shadow-lg uppercase tracking-wider">
                             Kontaktirajte nas!
-                        </button>
+                        </a>
                     </div>
                 </section>
         </div>

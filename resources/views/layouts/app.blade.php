@@ -334,9 +334,7 @@
         }
 
     </style>
-    @if(!request()->routeIs('home'))
         <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.3/dist/alpine.js" defer></script>
-    @endif
     @livewireStyles
 
     <script>
@@ -606,7 +604,7 @@
     </div>
 </div>
 
-<div class="min-h-screen bg-gray-100">
+<div class="bg-gray-100">
 
     <!-- Page Heading -->
     <header class="bg-white shadow" style="position: fixed; z-index: 11; height: 80px; top: 0;
@@ -615,11 +613,11 @@ width: 100vw;">
     </header>
 
     <!-- Page Content -->
-    <main class="bg-blue-lightest" style="margin-top: 80px;">
+    <main class="bg-blue-lightest" style="margin-top: 80px; min-height: calc(100vh - 80px); {{ request()->routeIs('catalog') ? '': 'display: flex;flex-direction: column; justify-content: space-between;' }}">
         {{ $slot }}
 
-        <footer class="footer bg-white relative pt-1 border-b-2 border-blue-700">
-            <div class="container mx-auto px-6">
+        <footer class="footer bg-white relative pt-1">
+            <div class="container mx-auto">
 
                 <div class="sm:flex sm:mt-8">
                     <div class="mt-8 sm:mt-0 sm:w-full sm:px-8 flex flex-col md:flex-row justify-between">
@@ -640,11 +638,12 @@ width: 100vw;">
                             <span class="font-bold text-gray-700 uppercase mt-4 md:mt-0 mb-6">Brzi linkovi</span>
                             <span class="my-2"><a href="/login" class="text-orange-700 text-md hover:text-blue-500">Logirajte se</a></span>
                             <span class="my-2"><a href="/register" class="text-orange-700  text-md hover:text-blue-500">Registrujte se</a></span>
+                            <span class="my-2"><a href="/kontakt" class="text-orange-700  text-md hover:text-blue-500">Kontaktirajte nas</a></span>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="container mx-auto px-6">
+            <div class="container mx-auto">
                 <div class="mt-16 border-t-2 border-gray-300 flex flex-col items-center">
                     <div class="sm:w-2/3 text-center py-6">
                         <a href="/" class="text-sm text-orange-700 font-bold mb-2">

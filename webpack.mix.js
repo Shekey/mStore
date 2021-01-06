@@ -22,7 +22,6 @@ mix.sass('resources/scss/app.scss', 'public/css')
     })
     .purgeCss({
         enabled: mix.inProduction(),
-        folders: ['src', 'templates'],
         extensions: ['html', 'js', 'php', 'vue', 'blade'],
         whitelist: ['flex', 'flex-col', 'md:flex-row', 'items-center', 'justify-center'],
     });

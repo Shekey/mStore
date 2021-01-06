@@ -25,10 +25,10 @@ body, html {
 }
 
 #map {
-   width: calc(100% - 335px);
+   width: calc(100% - 375px);
    height: 100%;
    position: absolute;
-    right: 0;
+    right: 20px;
     top: 0;
 }
 

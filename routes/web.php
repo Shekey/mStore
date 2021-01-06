@@ -23,6 +23,12 @@ Route::get('artisan-optimize', function () {
     Artisan::call('optimize');
 });
 
+Route::get('/kontakt', function () {
+    return view('contact');
+});
+
+Route::post('/kontakt', '\App\Http\Controllers\ContactForm@mailContactForm');
+
 Route::get('/email/verify', function () {
     return view('auth.verify-email');
 })->middleware('auth')->name('verification.notice');
