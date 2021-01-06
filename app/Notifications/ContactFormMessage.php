@@ -4,23 +4,30 @@ namespace App\Notifications;
 
 use App\Http\Requests\ContactFormRequest;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class ContactFormMessage extends Notification
+class ContactFormMessage extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    protected $message;
+    protected $poruka;
+    protected $prezime;
+    protected $ime;
+    protected $telefon;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(ContactFormRequest $message)
+    public function __construct(ContactFormRequest $request)
     {
-        $this->message = $message;
+        $this->ime = $request->ime;
+        $this->prezime = $request->prezime;
+        $this->telefon = $request->telefon;
+        $this->poruka = $request->poruka;
     }
 
     /**
@@ -44,9 +51,9 @@ class ContactFormMessage extends Notification
     {
         return (new MailMessage)
             ->subject("Nova poruka od korisnika - MSTORE")
-            ->greeting("Pozdrav, ovu poruku vam šalje " . $this->message->ime . " " . $this->message->prezime)
-            ->salutation("Broj telefona korisnika: " . $this->message->telefon)
-            ->line($this->message->poruka);
+            ->greeting("Pozdrav, ovu poruku vam šalje " . $this->ime . " " . $this->prezime)
+            ->salutation("Broj telefona korisnika: " . $this->telefon)
+            ->line($this->poruka);
     }
 
     /**
