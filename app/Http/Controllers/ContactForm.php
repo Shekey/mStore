@@ -12,11 +12,8 @@ class ContactForm extends Controller
 {
     public function mailContactForm(ContactFormRequest $message)
     {
-        $admin = User::whereHas('roles', function ($query) {
-            $query->where('id', 1);
-        })->first();
 
-        Notification::send($admin, new ContactFormMessage($message));
+        Notification::send("podrska@m-store.ba", new ContactFormMessage($message));
         return redirect()->back()->with('message', 'Hvala što ste nam se obratili, uskoro ćemo vam se javiti!');
     }
 
