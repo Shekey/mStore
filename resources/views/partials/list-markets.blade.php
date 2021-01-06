@@ -1,4 +1,4 @@
-<section class="text-black body-font flex flex-col w-full sm:w-1/2 lg:w-1/3 mb-8 px-4 sm:px-0 relative fade fadeOut">
+<section class="text-black body-font flex flex-col w-full sm:w-1/2 lg:w-1/3 mb-8 sm:px-0 relative fade fadeOut">
     <div class="container mx-auto flex flex-wrap px-0 py-4 sm:pr-8 flex-col justify-center ">
         <div class="lg:flex-grow pl-0 items-center flex flex-col items-center text-center">
             @if($i->points > 1)<h1 class="title-font text-3xl mb-2 font-medium text-gray-900" style="flex-basis: 100%;"><a href="/prodavnica/{{ $i->id }}" class="capitalize flex items-center">{{ $i->name }}<span class="ml-4 inline-block bg-gray-900 text-white px-2 rounded-full uppercase font-semibold text-sm tracking-wide">{{ $i->points }} @if($i->points > 1) BODA @else BOD @endif GRATIS</span></a></h1>@endif
