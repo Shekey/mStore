@@ -16,6 +16,12 @@ class Kernel extends ConsoleKernel
         'App\Console\Commands\CheckIsMarketClosed'
     ];
 
+    // define your queues here in order of priority
+    protected $queues = [
+        'notifications',
+        'default',
+    ];
+
     /**
      * Define the application's command schedule.
      *
@@ -31,6 +37,29 @@ class Kernel extends ConsoleKernel
             ->dailyAt('23:00');
         $schedule->command('reset:points')
             ->dailyAt('23:00');
+
+        // run the queue worker "without overlapping"
+        // this will only start a new worker if the previous one has died
+        $schedule->command($this->getQueueCommand())
+            ->everyMinute()
+            ->withoutOverlapping();
+
+        // restart the queue worker periodically to prevent memory issues
+        $schedule->command('queue:restart')
+            ->hourly();
+    }
+
+    protected function getQueueCommand()
+    {
+        // build the queue command
+        $params = implode(' ',[
+            '--daemon',
+            '--tries=3',
+            '--sleep=3',
+            '--queue='.implode(',',$this->queues),
+        ]);
+
+        return sprintf('queue:work %s', $params);
     }
 
     /**
