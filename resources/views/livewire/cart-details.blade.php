@@ -116,7 +116,7 @@
                         <span>Ukupan iznos</span>
                         <span>{{ $totalPrice }} KM</span>
                     </div>
-                    <button wire:click="finishOrder"
+                    <button wire:click="$set('clickedFinish', true)"
                             class="bg-orange-500 font-semibold py-3 text-sm text-white uppercase w-full finishOrderBtn {{ $locationAddress === '' ? 'disabled:opacity-50' : '' }}" {{ $locationAddress === '' ? 'disabled' : '' }}>
                         Završi
                     </button>
@@ -226,7 +226,43 @@
         </div>
     </div>
 
-    @if(count($allCartItems))
+    @if($clickedFinish)
+        <x-jet-dialog-modal wire:model="clickedFinish">
+            <x-slot name="title">
+                Dodatne infromacije o adresi
+                <button wire:click="$set('clickedFinish', false)" wire:loading.attr="disabled" class="float-right w-5 h-5">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </x-slot>
+
+            <x-slot name="content">
+                <section class="text-white body-font overflow-hidden">
+                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
+                        Poruka
+                    </label>
+                    <textarea rows="10" class="appearance-none block w-full text-black rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                              placeholder="Ukoliko naručujete na adresu zgrade, potrebno je da napišete 3. sprat ili nešto što će olakšati dostavu, a ako živite u kući upišite boju kuće, ograde ili nešto specifićno. Sve ove informacije su nam jako korisne. Unaprijed vam hvala " name="poruka" wire:model="poruka"></textarea>
+                    <p class="text-red-500 text-sm mb-4 {{ $errorClass ? 'block' : 'hidden' }}" >Poruka polje ne smje biti prazno</p>
+                </section>
+            </x-slot>
+
+            <x-slot name="footer">
+                <div class="flex justify-between">
+                    <button wire:click="finishOrder"
+                            class="bg-orange-500 font-semibold py-3 inline-block px-5 text-sm text-white uppercase finishOrderBtn {{ $locationAddress === '' ? 'disabled:opacity-50' : '' }}" {{ $locationAddress === '' ? 'disabled' : '' }}>
+                        Završi
+                    </button>
+                    <x-jet-secondary-button wire:click="$set('clickedFinish', false)" wire:loading.attr="disabled">
+                        {{ __('Zatvori') }}
+                    </x-jet-secondary-button>
+                </div>
+            </x-slot>
+        </x-jet-dialog-modal>
+    @endif
+
+@if(count($allCartItems))
         <script>
             document.addEventListener("DOMContentLoaded", () => {
                 Livewire.hook('component.initialized', (component) => {

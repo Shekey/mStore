@@ -72,7 +72,7 @@
                         $isActive = $item->product->first()->isActive;
                         $isMarketClosed = $item->product->first()->market->isClosed;
                         $isSuperUser = auth()->user()->superUser;
-                        $showForOwner = $item->marketId == auth()->user()->isOwner;
+                        $showForOwner = $item->marketId == auth()->user()->isOwner || auth()->user()->isAdmin;
                     @endphp
                     @if($showForOwner)
                         <div class="flex items-center hover:bg-gray-100 px-6 py-5 mt-1 w-full mr-0">

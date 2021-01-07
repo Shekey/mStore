@@ -15,7 +15,7 @@ use Overtrue\LaravelShoppingCart\Facade as ShoppingCart;
 
 class CartDetails extends Component
 {
-    public $showArtikal = false, $marketId = null, $orderFinished = false, $locationAddress = '', $marketName = '', $totalShipping = 0, $shippingPrice = 0, $cartTotalItems = 0, $showCart = false, $cartClass = '', $totalPrice = 0, $allCartItems = [], $search = '', $filterCat = '', $articalId = "", $maxWidth = "w-screen", $articleBrand = "", $articleName, $articleSize, $articleColor, $articleDesc, $articlePrice, $qty = 0, $articleTotal, $image = "https://dummyimage.com/400x400", $calcTempPrice = 0, $cartOpen = false;
+    public $showArtikal = false, $clickedFinish = false, $poruka = '', $errorClass = false, $marketId = null, $orderFinished = false, $locationAddress = '', $marketName = '', $totalShipping = 0, $shippingPrice = 0, $cartTotalItems = 0, $showCart = false, $cartClass = '', $totalPrice = 0, $allCartItems = [], $search = '', $filterCat = '', $articalId = "", $maxWidth = "w-screen", $articleBrand = "", $articleName, $articleSize, $articleColor, $articleDesc, $articlePrice, $qty = 0, $articleTotal, $image = "https://dummyimage.com/400x400", $calcTempPrice = 0, $cartOpen = false;
 
     public function mount() {
         $this->locationAddress = '';
@@ -26,10 +26,18 @@ class CartDetails extends Component
         $this->cartOpen = false;
         $this->cartClass = '';
         $this->locationAddress = '';
+        $this->clickedFinish = false;
+        $this->poruka = '';
     }
 
     public function finishOrder() {
+        if(strlen($this->poruka) < 3) {
+            $this->errorClass = true;
+            return;
+        }
+        $this->errorClass = false;
         $countInactive = 0;
+        $this->dispatchBrowserEvent('sent');
         foreach($this->allCartItems as $cartItem) {
             $isMarketClosed = Market::find($cartItem['marketId'])->isClosed || Articles::find($cartItem['id'])->isActive === 0;
             if($isMarketClosed) {

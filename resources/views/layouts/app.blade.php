@@ -1069,15 +1069,6 @@ width: 100%;">
                 });
             }
         });
-
-        const btnFinishOrder = document.querySelector('.finishOrderBtn');
-
-        if (btnFinishOrder) {
-            btnFinishOrder.addEventListener('click', event => {
-                const eventSent = new CustomEvent("sent");
-                document.dispatchEvent(eventSent);
-            });
-        }
     });
 
     $(window).bind("load", function () {
