@@ -4,14 +4,21 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="description" content="m-store je stranica koja vam omogućuje da naručite artikle i dobijete ih na vašu adresu."/>
-    <link rel="icon" type="image/png" href="/favicon.png"/>
+    <meta name="description"
+          content="m-store je stranica koja vam omogućuje da naručite artikle i dobijete ih na vašu adresu."/>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <meta name="keywords" content="online, bugojno, kupovina, mstore, besplatan dostava">
     <title>{{ config('app.name', 'm-store') }}</title>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-83WC5E1FXR"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
         gtag('js', new Date());
 
         gtag('config', 'G-83WC5E1FXR');
@@ -334,7 +341,7 @@
         }
 
     </style>
-        <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.3/dist/alpine.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.3/dist/alpine.js" defer></script>
     @livewireStyles
 
     <script>
@@ -559,7 +566,9 @@
     </style>
 
     @if(request()->routeIs('catalog'))
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightslider/1.1.6/css/lightslider.css" integrity="sha512-+1GzNJIJQ0SwHimHEEDQ0jbyQuglxEdmQmKsu8KI7QkMPAnyDrL9TAnVyLPEttcTxlnLVzaQgxv2FpLCLtli0A==" crossorigin="anonymous" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightslider/1.1.6/css/lightslider.css"
+              integrity="sha512-+1GzNJIJQ0SwHimHEEDQ0jbyQuglxEdmQmKsu8KI7QkMPAnyDrL9TAnVyLPEttcTxlnLVzaQgxv2FpLCLtli0A=="
+              crossorigin="anonymous"/>
     @endif
 
     @if(request()->routeIs('cart'))
@@ -567,16 +576,21 @@
             $allCartItems = \Overtrue\LaravelShoppingCart\Facade::all();
         @endphp
         @if(count($allCartItems))
-            <link rel="stylesheet" type="text/css" href="/map/css/index.css" />
-            <link rel="stylesheet" type="text/css" href="/map/css/sidebar.css" />
-            <link rel="stylesheet" type="text/css" href="/map/css/search.css" />
-            <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css" crossorigin="anonymous"/>
+            <link rel="stylesheet" type="text/css" href="/map/css/index.css"/>
+            <link rel="stylesheet" type="text/css" href="/map/css/sidebar.css"/>
+            <link rel="stylesheet" type="text/css" href="/map/css/search.css"/>
+            <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css"
+                  crossorigin="anonymous"/>
 
             <!-- JS API -->
-            <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-core.js" crossorigin="anonymous"></script>
-            <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-service.js" crossorigin="anonymous"></script>
-            <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-ui.js" crossorigin="anonymous"></script>
-            <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js" crossorigin="anonymous"></script>
+            <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-core.js"
+                    crossorigin="anonymous"></script>
+            <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-service.js"
+                    crossorigin="anonymous"></script>
+            <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-ui.js"
+                    crossorigin="anonymous"></script>
+            <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js"
+                    crossorigin="anonymous"></script>
         @endif
     @endif
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
@@ -613,47 +627,70 @@ width: 100vw;">
     </header>
 
     <!-- Page Content -->
-    <main class="bg-blue-lightest" style="margin-top: 80px; min-height: calc(100vh - 80px); {{ request()->routeIs('catalog') ? '': 'display: flex;flex-direction: column; justify-content: space-between;' }}">
+    <main class="bg-blue-lightest"
+          style="margin-top: 80px; min-height: calc(100vh - 80px); {{ request()->routeIs('catalog') ? '': 'display: flex;flex-direction: column; justify-content: space-between;' }}">
         {{ $slot }}
-
-        <footer class="footer bg-white relative pt-1">
-            <div class="container mx-auto">
-
-                <div class="sm:flex sm:mt-8">
-                    <div class="mt-8 sm:mt-0 sm:w-full sm:px-6 flex flex-col md:flex-row justify-between">
-                        <div class="flex flex-col md:w-1/3 px-5 sm:px-0 pb-6 md:pb-0">
-                            <a href="/" class="md:flex justify-center">
-                                <img data-src="/assets/logo2.png" class="lozad" alt="Image logo" width="130" height="80">
-                            </a>
-                            <p class="my-2 mt-4 md:text-center">Multi store je mjesto gdje možete naručivati online.</p>
-                            <p class="md:text-center">Za svakih potrošenih 50km dobijate bodove gratis, koje kasnije možete da potrošite. Sve što je potrebno jeste da se registrujete i krenete kupovati.</p>
-                        </div>
-                        <div class="flex flex-col border-t-2 px-5 sm:px-0 border-gray-300 md:border-0">
-                            <span class="font-bold text-gray-700 uppercase mt-4 md:mt-0 mb-6">Radnje</span>
-                            <span class="my-2"><a href="#" class="text-orange-700 text-md hover:text-blue-500">link 1</a></span>
-                            <span class="my-2"><a href="#" class="text-orange-700  text-md hover:text-blue-500">link 1</a></span>
-                            <span class="my-2"><a href="#" class="text-orange-700 text-md hover:text-blue-500">link 1</a></span>
-                        </div>
-                        <div class="flex flex-col border-t-2 px-5 sm:px-0 border-gray-300 md:border-0">
-                            <span class="font-bold text-gray-700 uppercase mt-4 md:mt-0 mb-6">Brzi linkovi</span>
-                            <span class="my-2"><a href="/login" class="text-orange-700 text-md hover:text-blue-500">Logirajte se</a></span>
-                            <span class="my-2"><a href="/register" class="text-orange-700  text-md hover:text-blue-500">Registrujte se</a></span>
-                            <span class="my-2"><a href="/kontakt" class="text-orange-700  text-md hover:text-blue-500">Kontaktirajte nas</a></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="container mx-auto">
-                <div class="mt-10 border-t-2 border-gray-300 flex flex-col items-center">
-                    <div class="sm:w-2/3 text-center py-6">
-                        <a href="/" class="text-sm text-orange-700 font-bold mb-2">
-                            © 2021 MULTI STORE
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </footer>
     </main>
+    <footer class="relative bg-white pt-8 pb-6">
+        <div class="bottom-auto top-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden -mt-20"
+             style="height:80px;transform:translateZ(0)">
+        </div>
+        <div class="container mx-auto px-4">
+            <div class="flex flex-wrap">
+                <div class="w-full md:w-6/12 px-4"><h4 class="text-3xl font-semibold">
+                        <a href="/" class="mb-1 inline-block">
+                            <img data-src="/assets/logo2.png" class="lozad" alt="Image logo" width="130"
+                                 height="80">
+                        </a>
+                    </h4>
+                    <h5 class="text-sm mt-0 mb-2 text-gray-700">Multi store je mjesto gdje možete naručivati online.</h5>
+                    <h5 class="text-sm mt-0 mb-2 text-gray-700">Za svakih potrošenih 50km dobijate bodove gratis, koje kasnije
+                        možete da potrošite. Sve što je potrebno jeste da se registrujete i krenete
+                        kupovati.</h5>
+                </div>
+                <div class="w-full md:w-6/12 px-4">
+                    <div class="flex flex-wrap items-top mb-6">
+                        <div class="w-full md:w-6/12 xl:w-4/12 pt-6 md:pt-0 md:px-4 ml-auto"><span
+                                class="block uppercase text-gray-600 text-sm font-semibold mb-2">Radnje</span>
+                            <ul class="list-unstyled">
+                                <li><a class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                                       href="https://www.creative-tim.com/presentation" target="_blank">Radnja xx</a>
+                                </li>
+                                <li><a class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                                       href="https://www.creative-tim.com/presentation" target="_blank">Radnja xx</a>
+                                </li>
+                                <li><a class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                                       href="https://www.creative-tim.com/presentation" target="_blank">Radnja xx</a>
+                                </li>
+                                <li><a class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                                       href="https://www.creative-tim.com/presentation" target="_blank">Radnja xx</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="w-full md:w-6/12 xl:w-4/12 pt-6 md:pt-0 md:px-4 ml-auto"><span
+                                class="block uppercase text-gray-600 text-sm font-semibold mb-2">Brzi linkovi</span>
+                            <ul class="list-unstyled">
+                                <li><a class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                                       href="/login">Logirajte se</a>
+                                </li>
+                                <li><a class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                                       href="/register">Registracija</a></li>
+                                <li><a class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                                       href="/kontakt" target="_blank">Kontaktirajte nas</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-6 border-gray-400">
+            <div class="flex flex-wrap items-center md:justify-between justify-center">
+                <div class="w-full md:w-4/12 px-4 mx-auto text-center">
+                    <div class="text-sm text-gray-600 font-semibold py-1">© 2021 MULTI STORE
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
 </div>
 
 @auth
@@ -661,7 +698,8 @@ width: 100vw;">
         $notifications = auth()->user()->unreadNotifications;
     @endphp
     <div
-        class="alert-toast alert-toast-ads fixed bottom-0 right-0 m-8 w-4/6 md:w-full max-w-sm {{ count($notifications) ? '' : 'hidden' }}" style="z-index: 101;">
+        class="alert-toast alert-toast-ads fixed bottom-0 right-0 m-8 w-4/6 md:w-full max-w-sm {{ count($notifications) ? '' : 'hidden' }}"
+        style="z-index: 101;">
         <input type="checkbox" class="hidden" id="ads_created">
 
         <label
@@ -691,7 +729,8 @@ width: 100vw;">
         </label>
     </div>
     <div
-        class="alert-toast alert-toast-location fixed bottom-0 right-0 m-8 w-4/6 md:w-full max-w-sm hidden" style="z-index: 101;">
+        class="alert-toast alert-toast-location fixed bottom-0 right-0 m-8 w-4/6 md:w-full max-w-sm hidden"
+        style="z-index: 101;">
         <input type="checkbox" class="hidden" id="ads_created">
 
         <label
@@ -736,10 +775,12 @@ width: 100vw;">
 @endif
 
 @if(request()->routeIs('catalog'))
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightslider/1.1.6/js/lightslider.min.js" integrity="sha512-Gfrxsz93rxFuB7KSYlln3wFqBaXUc1jtt3dGCp+2jTb563qYvnUBM/GP2ZUtRC27STN/zUamFtVFAIsRFoT6/w==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightslider/1.1.6/js/lightslider.min.js"
+            integrity="sha512-Gfrxsz93rxFuB7KSYlln3wFqBaXUc1jtt3dGCp+2jTb563qYvnUBM/GP2ZUtRC27STN/zUamFtVFAIsRFoT6/w=="
+            crossorigin="anonymous"></script>
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js" crossorigin="anonymous"></script>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             $(".swiper-wrapper").lightSlider({
                 item: 1,
                 autoWidth: false,
@@ -763,26 +804,26 @@ width: 100vw;">
                 prevHtml: '',
                 nextHtml: '',
 
-                rtl:false,
-                adaptiveHeight:false,
+                rtl: false,
+                adaptiveHeight: false,
 
-                vertical:false,
-                verticalHeight:500,
-                vThumbWidth:100,
+                vertical: false,
+                verticalHeight: 500,
+                vThumbWidth: 100,
 
-                thumbItem:10,
+                thumbItem: 10,
                 pager: false,
                 gallery: false,
                 galleryMargin: 5,
                 thumbMargin: 5,
                 currentPagerPosition: 'middle',
 
-                enableTouch:true,
-                enableDrag:true,
-                freeMove:true,
+                enableTouch: true,
+                enableDrag: true,
+                freeMove: true,
                 swipeThreshold: 40,
 
-                responsive : [],
+                responsive: [],
             });
             window.addEventListener('initSlider', event => {
                 $("#images").lightSlider({
@@ -810,32 +851,38 @@ width: 100vw;">
                     prevHtml: '',
                     nextHtml: '',
 
-                    rtl:false,
+                    rtl: false,
 
-                    vertical:false,
-                    verticalHeight:500,
-                    vThumbWidth:100,
+                    vertical: false,
+                    verticalHeight: 500,
+                    vThumbWidth: 100,
 
-                    thumbItem:10,
+                    thumbItem: 10,
                     pager: true,
                     gallery: false,
                     galleryMargin: 5,
                     thumbMargin: 5,
                     currentPagerPosition: 'middle',
 
-                    enableTouch:true,
-                    enableDrag:true,
-                    freeMove:true,
+                    enableTouch: true,
+                    enableDrag: true,
+                    freeMove: true,
                     swipeThreshold: 40,
 
-                    responsive : [],
+                    responsive: [],
 
-                    onBeforeStart: function (el) {},
-                    onSliderLoad: function (el) {},
-                    onBeforeSlide: function (el) {},
-                    onAfterSlide: function (el) {},
-                    onBeforeNextSlide: function (el) {},
-                    onBeforePrevSlide: function (el) {}
+                    onBeforeStart: function (el) {
+                    },
+                    onSliderLoad: function (el) {
+                    },
+                    onBeforeSlide: function (el) {
+                    },
+                    onAfterSlide: function (el) {
+                    },
+                    onBeforeNextSlide: function (el) {
+                    },
+                    onBeforePrevSlide: function (el) {
+                    }
                 });
             });
         });
@@ -844,11 +891,12 @@ width: 100vw;">
 <script>
 
     @auth
-        @if(request()->routeIs('orders'))
-            setTimeout(() => {
-                Livewire.emit('orderNumber:update')
-            },60000);
-        @endif
+    @if(request()->routeIs('orders'))
+    setTimeout(() => {
+        Livewire.emit('orderNumber:update')
+    }, 60000);
+
+    @endif
     @endauth
 
     function sendMarkRequest(id = null) {
@@ -866,7 +914,7 @@ width: 100vw;">
 
     function paginationEvents() {
         $('.pagination').click(function () {
-            if($("header+div")[0]) {
+            if ($("header+div")[0]) {
                 $("header+div")[0].scrollIntoView({
                     behavior: "smooth", // or "auto" or "instant"
                     block: "start",
@@ -901,28 +949,28 @@ width: 100vw;">
             let request = sendMarkRequest();
         });
 
-        @if(request()->routeIs('home'))
+            @if(request()->routeIs('home'))
 
-            var wasAbove = false;
-            const observerOptions = {
-                    root: null,
-                    rootMargin: "0px",
-                    threshold: 0.6
-                };
+        var wasAbove = false;
+        const observerOptions = {
+            root: null,
+            rootMargin: "0px",
+            threshold: 0.6
+        };
 
-            function observerCallback(entries, observer) {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        // fade in observed elements that are in view
-                        entry.target.classList.replace('fadeOut', 'fadeIn');
-                    }
-                });
-            }
+        function observerCallback(entries, observer) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // fade in observed elements that are in view
+                    entry.target.classList.replace('fadeOut', 'fadeIn');
+                }
+            });
+        }
 
-            const fadeElms = document.querySelectorAll('.fade');
+        const fadeElms = document.querySelectorAll('.fade');
 
-            const observer = new IntersectionObserver(observerCallback, observerOptions);
-            fadeElms.forEach(el => observer.observe(el))
+        const observer = new IntersectionObserver(observerCallback, observerOptions);
+        fadeElms.forEach(el => observer.observe(el))
         @endif
 
         paginationEvents();
@@ -960,7 +1008,7 @@ width: 100vw;">
         });
 
         window.addEventListener('removeIgnore', event => {
-            $(".w-full.text-black").removeAttr("wire:ignore","");
+            $(".w-full.text-black").removeAttr("wire:ignore", "");
         });
 
 
@@ -1010,7 +1058,7 @@ width: 100vw;">
             $('body').addClass('preloader-active');
             $('.preloader').css("display", "");
 
-            if($("header+div")[0]) {
+            if ($("header+div")[0]) {
                 $("header+div")[0].scrollIntoView({
                     behavior: "instant", // or "auto" or "instant"
                     block: "start",
@@ -1020,7 +1068,7 @@ width: 100vw;">
 
         const btnFinishOrder = document.querySelector('.finishOrderBtn');
 
-        if(btnFinishOrder) {
+        if (btnFinishOrder) {
             btnFinishOrder.addEventListener('click', event => {
                 const eventSent = new CustomEvent("sent");
                 document.dispatchEvent(eventSent);
@@ -1028,11 +1076,11 @@ width: 100vw;">
         }
     });
 
-    $(window).bind("load", function() {
+    $(window).bind("load", function () {
         @if(request()->routeIs('cart'))
-            removePreloader(800, "slow");
+        removePreloader(800, "slow");
         @else
-            removePreloader(300, "slow");
+        removePreloader(300, "slow");
         @endif
     });
 </script>
