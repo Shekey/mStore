@@ -621,7 +621,7 @@
         @endforeach
         @if (count($allCartItems) > 0)
             <a href="/korpa"
-               class="flex items-center justify-center mt-4 px-3 py-2 bg-blue-600 text-white text-sm uppercase font-medium rounded hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
+               class="flex items-center justify-center mt-4 px-3 py-2 bg-orange-500 text-white text-sm uppercase font-medium rounded hover:text-white hover:bg-orange-600 focus:outline-none focus:bg-orange-600">
                 Završi narudzbu
                 <svg class="h-5 w-5 mx-2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                      viewBox="0 0 24 24" stroke="currentColor">
@@ -633,7 +633,7 @@
         @endif
 
         <button
-            class="flex items-center justify-center block w-full mt-4 px-3 py-2 bg-blue-600 text-white text-sm uppercase font-medium rounded hover:bg-blue-500 focus:outline-none focus:bg-blue-500 clear-cart {{ count($allCartItems) ? '' : 'invisible' }}"
+            class="flex items-center justify-center block w-full mt-4 px-3 py-2 bg-orange-500 text-white text-sm uppercase font-medium rounded hover:text-white hover:bg-orange-600 focus:outline-none focus:bg-orange-600 clear-cart {{ count($allCartItems) ? '' : 'invisible' }}"
             wire:click="clearCart">
             <svg class="h-5 w-5 mx-2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                  viewBox="0 0 24 24" stroke="currentColor">
