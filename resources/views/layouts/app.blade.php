@@ -621,8 +621,8 @@
 <div class="bg-gray-100">
 
     <!-- Page Heading -->
-    <header class="bg-white shadow" style="position: fixed; z-index: 11; height: 80px; top: 0;
-width: 100vw;">
+    <header class="bg-white shadow" style="position: fixed; z-index: 1110; height: 80px; top: 0;
+width: 100%;">
         @livewire('navigation-dropdown')
     </header>
 
