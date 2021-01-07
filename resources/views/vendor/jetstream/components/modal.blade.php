@@ -48,9 +48,9 @@ switch ($maxWidth ?? '2xl') {
     x-show="show"
     id="{{ $id }}"
     class="fixed top-0 inset-x-0 px-4 pt-6 z-50 sm:px-0 sm:flex sm:items-top sm:justify-center modal-scrollable"
-    style="display: none;"
+    style="display: none; z-index: 1299;"
 >
-    <div style="overflow-y: auto; display: block; position: relative; z-index: 100; width: 100%; justify-content: center; margin: 0 auto;">
+    <div style="overflow-y: auto; display: flex; flex-direction: column; position: relative; z-index: 1299; width: 100%; justify-content: center; margin: 0 auto;">
         <div x-show="show" class="fixed inset-0 transform transition-all" x-on:click="show = false" x-transition:enter="ease-out duration-300" style="margin: 0 auto; width: 100%;"
                         x-transition:enter-start="opacity-0"
                         x-transition:enter-end="opacity-100"

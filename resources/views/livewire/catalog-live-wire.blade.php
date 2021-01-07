@@ -7,7 +7,7 @@
             width: 100% !important;
         }
 
-        .shadow-lg {
+        .shadow-lg truncate {
             max-width: 78vw;
         }
 
@@ -284,7 +284,7 @@
 
 
         .cart {
-            z-index: 1000;
+            z-index: 1299;
         }
 
         .btn {
@@ -573,7 +573,7 @@
     </div>
     <div
         class="cart fixed right-0 top-0 max-w-sm transition duration-300 ease-out transform overflow-y-auto bg-white border-l-2 border-gray-300 w-full h-full {{ $cartClass }}">
-        <div class="flex items-center justify-between">
+        <div class="flex items-center justify-between" >
             <h3 class="text-2xl font-medium text-black">Korpa
                 ( {{ number_format((float)$totalPrice - $totalShipping, 2, '.', '') }} KM)
                 <p class="text-sm text-orange-500">Sa dostavom ( {{ $totalShipping }} KM)</p>
@@ -588,15 +588,9 @@
         <hr class="my-3">
         @foreach($allCartItems as $cartItem)
             <div class="flex mb-5">
-                @if (!App::environment('production'))
                     <img class="h-20 w-20 object-cover rounded"
-                         src="/storage/{{ $cartItem->image }}"
+                         src="{{ $cartItem->image }}"
                          alt="">
-                @else
-                    <img class="h-20 w-20 object-cover rounded"
-                         src="/public/storage/{{ $cartItem->image }}"
-                         alt="">
-                @endif
                 <div class="mx-3">
                     <h3 class="text-sm text-black">{{ $cartItem->name }}</h3>
                     <div class="flex items-center mt-4">
@@ -649,7 +643,6 @@
             Očisti korpu
         </button>
     </div>
-
     <div class="px-4">
         <div class="container py-4">
             <h3 class="text-3xl font-bold text-uppercase mt-4 text-center md:text-left">Katalog artikala</h3>
@@ -739,7 +732,6 @@
             </div>
         </div>
     </div>
-
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const navigateToCart = document.querySelector('.navigateToCart');

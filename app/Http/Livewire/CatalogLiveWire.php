@@ -7,6 +7,7 @@ use App\Models\Articles;
 use App\Models\Category;
 use App\Models\Market;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
@@ -120,6 +121,7 @@ class CatalogLiveWire extends Component
             $this->dispatchBrowserEvent('removeIgnore');
         }
     }
+
     public function cartDetails() {
         $this->cartOpen = false;
         $this->cartClass = '';

@@ -78,6 +78,10 @@
             top: 0;
         }
 
+        .notifyjs-corner {
+            z-index: 1300 !important;
+        }
+
         body.preloader-active .preloader {
             display: block;
             z-index: 1111;
