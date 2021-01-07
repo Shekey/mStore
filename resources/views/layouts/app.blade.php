@@ -80,7 +80,7 @@
 
         body.preloader-active .preloader {
             display: block;
-            z-index: 999;
+            z-index: 1111;
         }
 
         .preloader-active .body {
