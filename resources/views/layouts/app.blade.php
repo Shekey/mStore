@@ -627,7 +627,7 @@ width: 100vw;">
     </header>
 
     <!-- Page Content -->
-    <main class="bg-blue-lightest"
+    <main class="bg-blue-lightest main-logo"
           style="margin-top: 80px; min-height: calc(100vh - 80px); {{ request()->routeIs('catalog') ? '': 'display: flex;flex-direction: column; justify-content: space-between;' }}">
         {{ $slot }}
     </main>

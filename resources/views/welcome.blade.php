@@ -1,5 +1,16 @@
 <x-app-layout>
     <style>
+
+        .content > section > * {
+            z-index: 12;
+            position: relative;
+        }
+
+        .content > div {
+            z-index: 12;
+            position: relative;
+        }
+
         .gradient-bg {
             background: linear-gradient(90deg, #d53369 0%, #f88c20 100%);
         }
@@ -52,10 +63,10 @@
         <h2 class="font-semibold text-xl text-gray-800 leading-tight"></h2>
     </x-slot>
     <div class="fixed-bg"
-         style="position: fixed; opacity: 0.1; z-index: 0; top: 50%; left: 50%;transform: translate(-50%, -50%)">
-        <img src="/assets/logo2.png" alt="Logo image" style="width: 80vw;">
+         style="position: fixed; opacity: 0.1; z-index: 4; top: 50%; left: 50%;transform: translate(-50%, -50%)">
+        <img data-src="/assets/logo2.png" class="lozad" alt="Logo image" style="width: 80vw;">
     </div>
-    <div class="relative" style="z-index: 1;">
+    <div class="relative content">
         @if ($message = Session::get('error'))
             <div
                 class="bg-orange-600 flash-message w-full absolute left-0 w-full visible"
@@ -82,30 +93,30 @@
         <img src="/assets/welcome.jpg" alt="Multi Store slika" style="width: 100vw; position: relative; z-index: 110;">
         <section class="relative bg-gray-100 px-4 sm:px-8 lg:px-16 xl:px-40 2xl:px-64 py-20 text-center">
                 <div>
-                    <h2 class="text-3xl leading-tight font-bold">How FairRate works you ask?</h2>
+                    <h2 class="text-3xl leading-tight font-bold">Pitate se kako MSTORE funkcionira?</h2>
                 </div>
 
                 <div class="flex flex-col md:flex-row items-start justify-between mt-12">
                     <div class="w-full bg-white shadow-lg rounded-lg px-4 py-6 lg:p-8 md:mx-2 lg:mx-4">
-                        <img data-src="/assets/icon-home-1.svg" alt="" class="mx-auto h-32 lozad">
-                        <h4 class="text-xl font-bold leading-tight mt-8">Apply with your home</h4>
-                        <p class="text-gray-700 mt-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                    </div>
-
-                    <div class="w-full bg-white shadow-lg rounded-lg px-4 py-6 lg:p-8 md:mx-2 lg:mx-4 mt-4 md:mt-0">
                         <img data-src="/assets/icon-home-2.svg" alt="" class="mx-auto h-32 lozad">
-                        <h4 class="text-xl font-bold leading-tight mt-8">Complete the form</h4>
-                        <p class="text-gray-700 mt-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        <h4 class="text-xl font-bold leading-tight mt-8">Registracija</h4>
+                        <p class="text-gray-700 mt-2">Ispunite formu i registrujte se, a admin će pregledati podatke.</p>
                     </div>
 
                     <div class="w-full bg-white shadow-lg rounded-lg px-4 py-6 lg:p-8 md:mx-2 lg:mx-4 mt-4 md:mt-0">
                         <img data-src="/assets/icon-home-3.svg" alt="" class="mx-auto h-32 lozad">
-                        <h4 class="text-xl font-bold leading-tight mt-8">Choose the fair rate</h4>
-                        <p class="text-gray-700 mt-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        <h4 class="text-xl font-bold leading-tight mt-8">Narudžba</h4>
+                        <p class="text-gray-700 mt-2">Logirajte se, odaberite radnju, pregledajte artikle i naručite.</p>
+                    </div>
+
+                    <div class="w-full bg-white shadow-lg rounded-lg px-4 py-6 lg:p-8 md:mx-2 lg:mx-4 mt-4 md:mt-0">
+                        <img data-src="/assets/icon-home-1.svg" alt="" class="mx-auto h-32 lozad">
+                        <h4 class="text-xl font-bold leading-tight mt-8">Adresa za dostavu</h4>
+                        <p class="text-gray-700 mt-2">Unesite adresu za dostavu, i završite narudžbu. Lako zar ne?</p>
                     </div>
                 </div>
             </section>
-        <div class="p-6 leading-normal relative bg-gray-100 px-4 sm:px-8 lg:px-16 xl:px-40 2xl:px-64 flex flex-wrap">
+        <section class="p-6 leading-normal relative bg-gray-100 px-4 sm:px-8 lg:px-16 xl:px-40 2xl:px-64 flex flex-wrap">
             @if ($data->count())
                 @foreach ($data as $group => $row)
                     <h3 class="text-gray-700 text-3xl sm:text-5xl font-bold gradient-text font-bold mb-6 gradient"
@@ -117,13 +128,13 @@
             @else
                 <p class="mb-8 leading-relaxed">Nema dodanih prodavnica</p>
             @endif
-        </div>
+        </section>
         <div class="gradient-bg pb-4 md:pb-8">
             <svg class="wave-top" viewBox="0 0 1439 147" version="1.1" xmlns="http://www.w3.org/2000/svg"
                  xmlns:xlink="http://www.w3.org/1999/xlink">
                 <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                     <g transform="translate(-1.000000, -14.000000)" fill-rule="nonzero">
-                        <g class="wave" fill="#f8fafc">
+                        <g class="wave" fill="#f4f5f7">
                             <path
                                 d="M1440,84 C1383.555,64.3 1342.555,51.3 1317,45 C1259.5,30.824 1206.707,25.526 1169,22 C1129.711,18.326 1044.426,18.475 980,22 C954.25,23.409 922.25,26.742 884,32 C845.122,37.787 818.455,42.121 804,45 C776.833,50.41 728.136,61.77 713,65 C660.023,76.309 621.544,87.729 584,94 C517.525,105.104 484.525,106.438 429,108 C379.49,106.484 342.823,104.484 319,102 C278.571,97.783 231.737,88.736 205,84 C154.629,75.076 86.296,57.743 0,32 L0,0 L1440,0 L1440,84 Z"></path>
                         </g>
@@ -143,15 +154,14 @@
                     </g>
                 </g>
             </svg>
-            <section class="container mx-auto text-center py-6 mb-12">
-
-                <h1 class="w-full my-2 text-2xl md:text-5xl font-bold leading-tight text-center text-white">Želite povećati
+            <section class="container mx-auto text-center px-6 mb-12">
+                <h1 class="w-full my-2 text-2xl md:text-5xl py-5 font-bold leading-tight text-center text-white">Želite povećati
                     prodaju?</h1>
                 <div class="w-full mb-4">
                     <div class="h-1 mx-auto bg-white w-1/6 opacity-25 my-0 py-0 rounded-t"></div>
                 </div>
 
-                <h3 class="my-4 text-xl md:text-3xl leading-tight">Kontaktirajte nas kako bi smo dodali radnju i povećajte
+                <h3 class="my-4 text-xl md:text-3xl px-5 leading-tight">Kontaktirajte nas kako bi smo dodali radnju i povećajte
                     zaradu.</h3>
 
                 <a href="/kontakt" target="_blank"
