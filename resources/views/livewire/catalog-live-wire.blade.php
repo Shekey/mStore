@@ -3,7 +3,7 @@
         .lSSlideOuter {
         }
 
-        .lSSlideOuter img{
+        .lSSlideOuter img {
             width: 100% !important;
         }
 
@@ -14,6 +14,7 @@
         .swiper-slide {
             height: 100% !important;
         }
+
         input[type="number"]::-webkit-inner-spin-button,
         input[type="number"]::-webkit-outer-spin-button {
             -webkit-appearance: none;
@@ -343,7 +344,8 @@
         <x-jet-dialog-modal wire:model="showArtikal" :maxWidth="'modal-full'">
             <x-slot name="title">
                 Detalji artikla
-                <button wire:click="$set('showArtikal', false)" wire:loading.attr="disabled" class="float-right w-5 h-5">
+                <button wire:click="$set('showArtikal', false)" wire:loading.attr="disabled"
+                        class="float-right w-5 h-5">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                     </svg>
@@ -383,7 +385,7 @@
                                         <span class="ml-auto text-black">{{ $articleSize }}</span>
                                     </div>
                                 @endif
-                            @auth
+                                @auth
                                     @if(!$market->isClosed || auth()->user()->superUser)
                                         <div class="flex border-t border-b mb-6 border-gray-300 py-2">
                                             <span class="text-black flex-1">Količina</span>
@@ -426,7 +428,8 @@
                                     @endauth
                                 </div>
                             </div>
-                            <div class="lg:w-1/2 w-full lg:h-auto text-black" {{ count($image) > 1 ? 'wire:ignore' : '' }}>
+                            <div
+                                class="lg:w-1/2 w-full lg:h-auto text-black" {{ count($image) > 1 ? 'wire:ignore' : '' }}>
                                 <div class="" id="images">
                                     @if(count($image) >= 1)
                                         @foreach($image as $i)
@@ -451,6 +454,7 @@
                                              src="/assets/logo.png">
                                     @endif
                                 </div>
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -472,18 +476,18 @@
                 </div>
                 @auth
 
-{{--                    @if(!$market->isClosed || auth()->user()->superUser)--}}
-{{--                        <div class="flex items-center sm:justify-end w-full">--}}
-{{--                            <p class="mt-0 mr-4">Ukupno ( {{ number_format((float)$totalPrice, 2, '.', '') }} KM )</p>--}}
-{{--                            <button wire:click="$set('cartOpen', true)" class="focus:outline-none mx-4 sm:mx-0">--}}
-{{--                                <svg class="h-10 w-10" fill="none" stroke-linecap="round" stroke-linejoin="round"--}}
-{{--                                     stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">--}}
-{{--                                    <path--}}
-{{--                                        d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>--}}
-{{--                                </svg>--}}
-{{--                            </button>--}}
-{{--                        </div>--}}
-{{--                    @endif--}}
+                    {{--                    @if(!$market->isClosed || auth()->user()->superUser)--}}
+                    {{--                        <div class="flex items-center sm:justify-end w-full">--}}
+                    {{--                            <p class="mt-0 mr-4">Ukupno ( {{ number_format((float)$totalPrice, 2, '.', '') }} KM )</p>--}}
+                    {{--                            <button wire:click="$set('cartOpen', true)" class="focus:outline-none mx-4 sm:mx-0">--}}
+                    {{--                                <svg class="h-10 w-10" fill="none" stroke-linecap="round" stroke-linejoin="round"--}}
+                    {{--                                     stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">--}}
+                    {{--                                    <path--}}
+                    {{--                                        d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>--}}
+                    {{--                                </svg>--}}
+                    {{--                            </button>--}}
+                    {{--                        </div>--}}
+                    {{--                    @endif--}}
                 @endauth
             </div>
             @guest
@@ -519,7 +523,8 @@
                     </defs>
                 </svg>
                 <div class="flex flex-row flex-wrap justify-center mt-5 mb-4 filters">
-                    <a class="btn mt-3 mx-3 uppercase text-xs sm:text-l {{ $filterCat === '' ? 'filterActive' : ''}}" data-id="0"
+                    <a class="btn mt-3 mx-3 uppercase text-xs sm:text-l {{ $filterCat === '' ? 'filterActive' : ''}}"
+                       data-id="0"
                        wire:click="$set('filterCat', '')" role="button">Svi artikli
                         <svg class="button-stroke" viewBox="0 0 154 13">
                             <use href="#line"></use>
@@ -528,7 +533,8 @@
                             <use href="#line"></use>
                         </svg>
                     </a>
-                    <a class="btn mt-3 mx-3 uppercase text-xs sm:text-l {{ $filterCat === 'akcije' ? 'filterActive' : ''}}" data-id="0"
+                    <a class="btn mt-3 mx-3 uppercase text-xs sm:text-l {{ $filterCat === 'akcije' ? 'filterActive' : ''}}"
+                       data-id="0"
                        wire:click="$set('filterCat', 'akcije')" role="button">Akcijski artikli
                         <svg class="button-stroke" viewBox="0 0 154 13">
                             <use href="#line"></use>
@@ -538,7 +544,8 @@
                         </svg>
                     </a>
 
-                    <a class="btn mt-3 mx-3 uppercase text-xs sm:text-l {{ $filterCat === 'novo' ? 'filterActive' : ''}}" data-id="0"
+                    <a class="btn mt-3 mx-3 uppercase text-xs sm:text-l {{ $filterCat === 'novo' ? 'filterActive' : ''}}"
+                       data-id="0"
                        wire:click="$set('filterCat', 'novo')" role="button">Novo u ponudi
                         <svg class="button-stroke" viewBox="0 0 154 13">
                             <use href="#line"></use>
@@ -573,7 +580,7 @@
     </div>
     <div
         class="cart fixed right-0 top-0 max-w-sm transition duration-300 ease-out transform overflow-y-auto bg-white border-l-2 border-gray-300 w-full h-full {{ $cartClass }}">
-        <div class="flex items-center justify-between" >
+        <div class="flex items-center justify-between">
             <h3 class="text-2xl font-medium text-black">Korpa
                 ( {{ number_format((float)$totalPrice - $totalShipping, 2, '.', '') }} KM)
                 <p class="text-sm text-orange-500">Sa dostavom ( {{ $totalShipping }} KM)</p>
@@ -588,9 +595,9 @@
         <hr class="my-3">
         @foreach($allCartItems as $cartItem)
             <div class="flex mb-5">
-                    <img class="h-20 w-20 object-cover rounded"
-                         src="{{ $cartItem->image }}"
-                         alt="">
+                <img class="h-20 w-20 object-cover rounded"
+                     src="{{ $cartItem->image }}"
+                     alt="">
                 <div class="mx-3">
                     <h3 class="text-sm text-black">{{ $cartItem->name }}</h3>
                     <div class="flex items-center mt-4">
