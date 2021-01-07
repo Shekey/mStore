@@ -26,8 +26,8 @@ class StoreUserRequest extends FormRequest
             'address' => [
                 'required',
             ],
-            'front_ID' => ['sometimes', 'nullable', 'image'],
-            'back_ID' => ['sometimes' , 'nullable','image'],
+            'idFront' => ['required'],
+            'idBack' => ['required'],
             'roles.*'  => [
                 'integer',
             ],

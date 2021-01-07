@@ -76,7 +76,7 @@ class UsersLiveWire extends Component
 
         $this->dispatchBrowserEvent('processed');
 
-        $users = $parent->paginate(5);
+        $users = $parent->paginate(30);
         return view('livewire.users-live-wire', compact('users'));
     }
 }

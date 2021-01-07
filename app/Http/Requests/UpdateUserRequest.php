@@ -25,8 +25,8 @@ class UpdateUserRequest extends FormRequest
                 'nullable',
                 'min:6'
             ],
-            'front_ID' => ['sometimes', 'nullable', 'image'],
-            'back_ID' => ['sometimes' , 'nullable','image'],
+            'idFront' => ['sometimes', 'nullable', 'image'],
+            'idBack' => ['sometimes' , 'nullable','image'],
             'roles.*' => [
                 'integer',
             ],

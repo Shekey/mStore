@@ -1,4 +1,8 @@
 <div>
+    <div class="block">
+        <a href="{{ route('korisnici.create') }}" class="bg-black hover:text-white hover:bg-black-600 text-white font-bold py-2 px-4 rounded">Dodaj korisnika</a>
+    </div>
+
     <div class="mb-10 lg:w-1/2 w-full mx-auto">
         <div class="search__container">
             <input class="search__input" type="text" wire:model.lazy="search"
@@ -98,10 +102,6 @@
                     <table class="min-w-full divide-y divide-gray-200 w-full">
                         <thead>
                         <tr>
-                            <th scope="col" width="50"
-                                class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                ID
-                            </th>
                             <th scope="col"
                                 class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Ime i prezime
@@ -119,10 +119,10 @@
                                 Adresa
                             </th>
                             <th scope="col"
-                                class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase">
                                 Uloge
                             </th>
-                            <th scope="col" width="200" class="px-6 py-3 bg-gray-50">
+                            <th scope="col" width="300" class="px-6 py-3 bg-gray-50">
 
                             </th>
                         </tr>
@@ -130,10 +130,6 @@
                         <tbody class="bg-white divide-y divide-gray-200">
                         @foreach ($users as $user)
                             <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                    {{ $user->id }}
-                                </td>
-
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                     {{ $user->name }}
                                 </td>

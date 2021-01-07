@@ -53,7 +53,25 @@ class UsersController extends Controller
     {
         $isValidated = $request->validated();
         if ($isValidated) {
+            $mime= $request->idFront->getClientOriginalExtension();
+            $imageName = time().".".$mime;
+            $image = Image::make($request->file('idFront')->getRealPath());
+            $image = $image->resize(1300, null, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+
+            Storage::disk('public')->put("images/".$imageName, (string) $image->encode());
+            $mime= $request->idBack->getClientOriginalExtension();
+            $imageNameBack = "z-".time().".".$mime;
+            $imageBack = Image::make($request->file('idBack')->getRealPath());
+            $imageBack = $imageBack->resize(1300, null, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+            Storage::disk('public')->put("images/".$imageNameBack, (string) $imageBack->encode());
+
             $isValidated['password'] = Hash::make($request->password);
+            $isValidated['idFront'] =  '/images/'.$imageName;
+            $isValidated['idBack'] ='/images/'. $imageNameBack;
             $user = User::create($isValidated);
             $user->roles()->sync($request->input('roles', []));
         }
@@ -82,12 +100,64 @@ class UsersController extends Controller
         return view('korisnici.edit', compact('user', 'roles', 'markets'));
     }
 
+    public function manageUser(Request $request) {
+        $user = User::find($request->id);
+
+        if($request->userStatus == "active") {
+            $user->isActive = 1;
+        } else if($request->userStatus == "inactive") {
+            $user->isActive = 0;
+        } else if ($request->userStatus == "blocked") {
+            $user->isActive = 0;
+            $user->isBlocked = 1;
+        }
+
+        $user->save();
+        return redirect()->route('korisnici.index');
+    }
+
     public function update(UpdateUserRequest $request, $id)
     {
         $user = User::find($id);
         $isValidated = $request->validated();
         if ($isValidated) {
             $isValidated['password'] = Hash::make($request->password);
+
+            if (array_key_exists("idFront", $isValidated)) {
+
+                if (Storage::disk('public')->exists("images/".$user->idFront)) {
+                    Storage::delete("images/".$user->idFront);
+                }
+
+                $mime= $request->idFront->getClientOriginalExtension();
+                $imageName = time().".".$mime;
+                $image = Image::make($request->file('idFront')->getRealPath());
+                $image = $image->resize(1300, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                });
+
+                Storage::disk('public')->put("images/".$imageName, (string) $image->encode());
+                $isValidated['idFront'] = "images/".$imageName;
+
+            }
+
+            if (array_key_exists("idBack", $isValidated)) {
+
+                if (Storage::disk('public')->exists("images/".$user->idBack)) {
+                    Storage::delete("images/".$user->idBack);
+                }
+
+                $mime= $request->idBack->getClientOriginalExtension();
+                $imageNameBack = "z-".time().".".$mime;
+                $imageBack = Image::make($request->file('idBack')->getRealPath());
+                $imageBack = $imageBack->resize(1300, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                });
+
+                Storage::disk('public')->put("images/".$imageNameBack, (string) $imageBack->encode());
+                $isValidated['idBack'] = "images/".$imageNameBack;
+
+            }
             $user->update($isValidated);
             $user->roles()->sync($request->input('roles', []));
         }

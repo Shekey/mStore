@@ -55,17 +55,17 @@
                         </div>
 
                         <div class="px-4 py-5 bg-white sm:p-6">
-                            <label for="front_ID" class="block font-medium text-sm text-gray-700">Licna karta(prednja strana)</label>
-                            <input type="file" name="front_ID" id="front_ID" value="{{ old('front_ID', $user->front_ID) }}" class="form-input rounded-md shadow-sm mt-1 block w-full" />
-                            @error('front_ID')
+                            <label for="idFront" class="block font-medium text-sm text-gray-700">Licna karta(prednja strana)</label>
+                            <input type="file" name="idFront" id="idFront" value="{{ old('idFront', $user->front_ID) }}" class="form-input rounded-md shadow-sm mt-1 block w-full" />
+                            @error('idFront')
                             <p class="text-sm text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
 
                         <div class="px-4 py-5 bg-white sm:p-6">
-                            <label for="back_ID" class="block font-medium text-sm text-gray-700">Licna karta(zadnja strana)</label>
-                            <input type="file" name="back_ID" id="front_ID" value="{{ old('back_ID', $user->back_ID) }}" class="form-input rounded-md shadow-sm mt-1 block w-full" />
-                            @error('back_ID')
+                            <label for="idBack" class="block font-medium text-sm text-gray-700">Licna karta(zadnja strana)</label>
+                            <input type="file" name="idBack" id="idBack" value="{{ old('idBack', $user->back_ID) }}" class="form-input rounded-md shadow-sm mt-1 block w-full" />
+                            @error('idBack')
                             <p class="text-sm text-red-600">{{ $message }}</p>
                             @enderror
                         </div>

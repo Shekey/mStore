@@ -13,16 +13,29 @@
             <div class="flex flex-col">
                 <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                        <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                        <form method="post" action="{{ route('korisnici.updateStatus') }}">
+                            @csrf
+                            <input type="hidden" name="id" value="{{ $user->id }}">
+                            <label class="inline-flex items-center mt-3">
+                                <input type="radio" name="userStatus" value="inactive" class="form-radio h-5 w-5 text-gray-600" {{ $user->isActive == 0 ? 'checked' : '' }}><span class="ml-2 text-gray-700">Neaktivan</span>
+                            </label>
+
+                            <label class="inline-flex items-center mt-3">
+                                <input type="radio" name="userStatus" value="blocked" class="form-radio h-5 w-5 text-red-600" {{ $user->isActive == 0 && $user->isBlocked ? 'checked' : '' }}><span class="ml-2 text-gray-700">Blokiran</span>
+                            </label>
+
+                            <label class="inline-flex items-center mt-3">
+                                <input type="radio" name="userStatus" value="active" class="form-radio h-5 w-5 text-orange-600" {{ $user->isActive == 1 ? 'checked' : '' }}><span class="ml-2 text-gray-700">Aktivan</span>
+                            </label>
+
+                            <br>
+                            <button class="inline-flex items-center mt-3 mb-3 px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150" @click="submit">
+                                Uredi status
+                            </button>
+                        </form>
+
+                        <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg mt-6">
                             <table class="min-w-full divide-y divide-gray-200 w-full">
-                                <tr class="border-b">
-                                    <th scope="col" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        ID
-                                    </th>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 bg-white divide-y divide-gray-200">
-                                        {{ $user->id }}
-                                    </td>
-                                </tr>
                                 <tr class="border-b">
                                     <th scope="col" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         Ime i prezime
@@ -62,11 +75,11 @@
                                         Licna karta (prednja strana)
                                     </th>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 bg-white divide-y divide-gray-200">
-                                        @if($user->front_ID !== null)
+                                        @if($user->idFront !== null)
                                             @if (!App::environment('production'))
-                                                <img src="/storage/{{ $user->front_ID }}" alt="Licna karta prednja">
+                                                <img src="/storage/{{ $user->idFront }}" alt="Licna karta prednja" width="300">
                                             @else
-                                                <img src="/public/storage/{{ $user->front_ID }}" alt="Licna karta prednja">
+                                                <img src="/public/storage/{{ $user->idFront }}" alt="Licna karta prednja" width="300">
                                             @endif
                                             @else Nema slike
                                         @endif
@@ -78,11 +91,11 @@
                                         Licna karta (zadnja strana)
                                     </th>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 bg-white divide-y divide-gray-200">
-                                        @if($user->back_ID !== null)
+                                        @if($user->idBack !== null)
                                             @if (!App::environment('production'))
-                                                <img src="/storage/{{ $user->back_ID }}" alt="Licna karta prednja">
+                                                <img src="/storage/{{ $user->idBack }}" alt="Licna karta zadnja" width="300">
                                             @else
-                                                <img src="/public/storage/{{ $user->back_ID }}" alt="Licna karta prednja">
+                                                <img src="/public/storage/{{ $user->idBack }}" alt="Licna karta zadnja" width="300">
 
                                             @endif
                                             @else Nema slike

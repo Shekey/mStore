@@ -83,6 +83,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     });
 
     Route::resource('korisnici', \App\Http\Controllers\UsersController::class);
+    Route::post('/korisnici/updateStatus', '\App\Http\Controllers\UsersController@manageUser')->name('korisnici.updateStatus');
     Route::get('/narudzbe/{id}', \App\Http\Livewire\OrderLiveWire::class)->name('order-item');
     Route::get('/narudzbe', \App\Http\Livewire\OrderListLiveWire::class)->name('orders');
 });

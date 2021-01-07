@@ -23,7 +23,7 @@
         }
 
         .search__container {
-            padding-top: 64px;
+            padding-top: 32px;
         }
 
         .search__input {
@@ -623,7 +623,7 @@ width: 100vw;">
                     <div class="mt-8 sm:mt-0 sm:w-full sm:px-6 flex flex-col md:flex-row justify-between">
                         <div class="flex flex-col md:w-1/3 px-5 sm:px-0 pb-6 md:pb-0">
                             <a href="/" class="md:flex justify-center">
-                                <img data-src="/assets/logo2.png" class="lozad" alt="Image logo" width="110" height="80">
+                                <img data-src="/assets/logo2.png" class="lozad" alt="Image logo" width="130" height="80">
                             </a>
                             <p class="my-2 mt-4 md:text-center">Multi store je mjesto gdje možete naručivati online.</p>
                             <p class="md:text-center">Za svakih potrošenih 50km dobijate bodove gratis, koje kasnije možete da potrošite. Sve što je potrebno jeste da se registrujete i krenete kupovati.</p>

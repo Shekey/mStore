@@ -35,14 +35,20 @@ class CreateNewUser implements CreatesNewUsers
 
         $mime= $input['front_ID']->getClientOriginalExtension();
         $imageName = time().".".$mime;
-        $image = Image::make($input['front_ID'])->fit(800);
+        $image = Image::make($input['front_ID']);
+        $image = $image->resize(1300, null, function ($constraint) {
+            $constraint->aspectRatio();
+        });
+
         Storage::disk('public')->put("images/".$imageName, (string) $image->encode());
 
         $mime= $input['back_ID']->getClientOriginalExtension();
         $imageNameBack = time().".".$mime;
-        $imageBack = Image::make($input['back_ID'])->fit(800);
+        $imageBack = Image::make($input['back_ID']);
+        $imageBack = $imageBack->resize(1300, null, function ($constraint) {
+            $constraint->aspectRatio();
+        });
         Storage::disk('public')->put("images/".$imageNameBack, (string) $imageBack->encode());
-
 
         $user = User::create([
             'name' => $input['name'],
