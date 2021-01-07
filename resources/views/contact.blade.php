@@ -1,6 +1,6 @@
 
 <x-app-layout>
-    <div class="grid container mx-auto grid-flow-col grid-rows-2 sm:grid-rows-1 sm:grid-cols-2 gap-4" style="padding: 60px 0;">
+    <div class="grid container mx-auto grid-flow-col" style="padding: 60px 0;">
         @if(session('message'))
             <div class="bg-green-200 text-green-dark p-4 text-center" role="alert">
                 {{ session('message') }}
@@ -15,8 +15,8 @@
                 </ul>
             </div>
         @endif
-    <h1 class="text-center md:text-3xl text-xl font-bold mb-10">Kontaktirajte nas</h1>
     <form class="p-10" method="POST" action="/kontakt" x-data="{ime: '',prezime: '', telefon: '', poruka: '', enabled : false }" x-on:submit="if(ime == '' || prezime == '' || telefon.length <= 9 || poruka.length <= 10) { event.preventDefault(); }">
+        <h1 class="text-center md:text-3xl text-xl font-bold mb-10">Kontaktirajte nas</h1>
         {{ csrf_field() }}
         <div class="flex flex-wrap -mx-3 mb-6">
             <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
