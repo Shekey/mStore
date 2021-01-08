@@ -23,5 +23,5 @@ mix.sass('resources/scss/app.scss', 'public/css')
     .purgeCss({
         enabled: mix.inProduction(),
         extensions: ['html', 'js', 'php', 'vue', 'blade'],
-        whitelist: ['flex', 'flex-col', 'md:flex-row', 'items-center', 'justify-center'],
+        whitelist: ['flex', 'flex-col', 'md:flex-row', 'items-center', 'justify-center', 'blog-slider__pagination', 'blog-slider__pagination', 'blog-slider__pagination swiper-pagination-clickable', 'swiper-pagination-bullets', 'swiper-pagination-bullet', 'swiper-pagination-bullet-active'],
     });
