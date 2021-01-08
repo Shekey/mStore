@@ -29,17 +29,17 @@
             max-height: 100%;
         }
 
-        .gradient span {
+        .gradient {
             position: relative;
             display: block;
         }
 
-        .gradient span:before {
+        .gradient:before {
             content: '';
             background: rgb(2, 0, 36);
             background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(255, 90, 31, 1) 90%);
             left: 0;
-            width: calc(100% + (100vw - 100% - 16px) / 2);
+            width: 100%;
             height: 2px;
             bottom: -10px;
             position: absolute;
@@ -62,10 +62,10 @@
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight"></h2>
     </x-slot>
-    <div class="fixed-bg"
-         style="position: fixed; opacity: 0.1; z-index: 4; top: 50%; left: 50%;transform: translate(-50%, -50%)">
-        <img data-src="/assets/logo2.png" class="lozad" alt="Logo image" style="width: 80vw;">
-    </div>
+{{--    <div class="fixed-bg"--}}
+{{--         style="position: fixed; opacity: 0.1; z-index: 4; top: 50%; left: 50%;transform: translate(-50%, -50%)">--}}
+{{--        <img data-src="/assets/logo2.png" class="lozad" alt="Logo image" style="width: 80vw;">--}}
+{{--    </div>--}}
     <div class="relative content">
         @if ($message = Session::get('error'))
             <div
@@ -91,9 +91,9 @@
             </div>
         @endif
         <img src="/assets/welcome.jpg" alt="Multi Store slika" style="width: 100vw; position: relative; z-index: 110;">
-        <section class="relative bg-gray-100 px-4 sm:px-8 lg:px-16 xl:px-40 2xl:px-64 py-20 text-center">
+        <section class="relative bg-gray-100 how-works px-4 sm:px-8 lg:px-16 xl:px-40 2xl:px-64 py-20 text-center">
                 <div>
-                    <h2 class="text-3xl leading-tight font-bold">Pitate se kako MSTORE funkcionira?</h2>
+                    <h2 class="text-xl sm:text-3xl leading-tight font-bold">Kako MSTORE funkcionira?</h2>
                 </div>
 
                 <div class="flex flex-col md:flex-row items-start justify-between mt-12">
@@ -119,9 +119,14 @@
         <section class="p-6 leading-normal relative bg-gray-100 px-4 sm:px-8 lg:px-16 xl:px-40 2xl:px-64 flex flex-wrap">
             @if ($data->count())
                 @foreach ($data as $group => $row)
-                    <div class="blog-slider">
-                        <div class="blog-slider__wrp swiper-wrapper">
+                    <div class="blog-slider relative">
+                        <div class="title-market-small font-bold text-3xl text-black z-50 ">
                             {{ $row->first()->type->name }}
+                        </div>
+                        <div class="absolute top-3 left-5 text-xl font-bold capitalize">
+                            {{ $row->first()->type->name }}
+                        </div>
+                        <div class="blog-slider__wrp swiper-wrapper">
                                 @foreach ($row as $group => $i)
                                     @include('partials.list-markets-slider')
                                 @endforeach

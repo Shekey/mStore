@@ -771,10 +771,7 @@ width: 100%;">
             crossorigin="anonymous"></script>
 @endif
 
-@if(request()->routeIs('catalog') || request()->routeIs('home'))
-    <script src="https://unpkg.com/swiper/swiper-bundle.min.js" crossorigin="anonymous"></script>
-@endif
-
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js" crossorigin="anonymous"></script>
 @if(count(\Overtrue\LaravelShoppingCart\Facade::all()) && request()->routeIs('cart'))
     <script type="module" src="/map/js/app.js"></script>
 @endif
@@ -796,10 +793,20 @@ width: 100%;">
                 },
             });
             window.addEventListener('initSlider', event => {
-                new Swiper('#images', {
-                    spaceBetween: 10,
-                    effect: 'cube'
-                });
+                setTimeout(() => {
+                    new Swiper('#images', {
+                        spaceBetween: 10,
+                        effect: 'cube',
+                        pagination: {
+                            el: '.swiper-pagination',
+                            type: 'bullets',
+                        },
+                        navigation: {
+                            nextEl: '.swiper-button-next',
+                            prevEl: '.swiper-button-prev',
+                        },
+                    });
+                }, 10);
             });
         });
     </script>

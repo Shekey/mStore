@@ -7,8 +7,16 @@
             width: 100% !important;
         }
 
-        .shadow-lg truncate {
+        .shadow-lg .truncate {
             max-width: 78vw;
+        }
+
+        .swiper-pagination-bullet {
+            background: #000 !important;
+        }
+
+        .swiper-button-next:after, .swiper-button-prev:after {
+            font-size: 35px !important;
         }
 
         .swiper-slide {
@@ -431,6 +439,11 @@
                             <div
                                 class="lg:w-1/2 w-full lg:h-auto text-black" {{ count($image) > 1 ? 'wire:ignore' : '' }}>
                                 <div class="swiper-cont" id="images">
+                                    @if(count($image) > 1)
+                                        <div class="swiper-pagination" style="bottom: -90px;"></div>
+                                        <div class="swiper-button-next" style="color: #000;"></div>
+                                        <div class="swiper-button-prev" style="color: #000;"></div>
+                                    @endif
                                     <div class="swiper-wrapper">
                                         @if(count($image) >= 1)
                                             @foreach($image as $i)
