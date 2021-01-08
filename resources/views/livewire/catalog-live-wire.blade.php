@@ -430,29 +430,35 @@
                             </div>
                             <div
                                 class="lg:w-1/2 w-full lg:h-auto text-black" {{ count($image) > 1 ? 'wire:ignore' : '' }}>
-                                <div class="" id="images">
-                                    @if(count($image) >= 1)
-                                        @foreach($image as $i)
-                                            @if (!App::environment('production'))
+                                <div class="swiper-cont" id="images">
+                                    <div class="swiper-wrapper">
+                                        @if(count($image) >= 1)
+                                            @foreach($image as $i)
+                                                <div class="swiper-slide">
+                                                    @if (!App::environment('production'))
 
-                                                <div>
-                                                    <img alt="Image for article"
-                                                         class="w-full object-cover object-center rounded"
-                                                         src="/storage/{{ $i->url }}">
+                                                        <div>
+                                                            <img alt="Image for article"
+                                                                 class="w-full object-cover object-center rounded"
+                                                                 src="/storage/{{ $i->url }}">
+                                                        </div>
+                                                    @else
+                                                        <div>
+                                                            <img alt="Image for article"
+                                                                 class="w-full object-cover object-center rounded"
+                                                                 src="/public/storage/{{ $i->url }}">
+                                                        </div>
+                                                    @endif
                                                 </div>
-                                            @else
-                                                <div>
-                                                    <img alt="Image for article"
-                                                         class="w-full object-cover object-center rounded"
-                                                         src="/public/storage/{{ $i->url }}">
-                                                </div>
-                                            @endif
-                                        @endforeach
-                                    @else
-                                        <img alt="Image for article"
-                                             class="w-full object-cover object-center rounded"
-                                             src="/assets/logo.png">
-                                    @endif
+                                            @endforeach
+                                        @else
+                                            <div class="swiper-slide">
+                                                <img alt="Image for article"
+                                                     class="w-full object-cover object-center rounded"
+                                                     src="/assets/logo.png">
+                                            </div>
+                                        @endif
+                                    </div>
                                 </div>
                             </div>
                         </div>

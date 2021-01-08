@@ -569,10 +569,9 @@
         }
     </style>
 
-    @if(request()->routeIs('catalog'))
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightslider/1.1.6/css/lightslider.css"
-              integrity="sha512-+1GzNJIJQ0SwHimHEEDQ0jbyQuglxEdmQmKsu8KI7QkMPAnyDrL9TAnVyLPEttcTxlnLVzaQgxv2FpLCLtli0A=="
-              crossorigin="anonymous"/>
+    @if(request()->routeIs('catalog') || request()->routeIs('home'))
+
+        <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
     @endif
 
     @if(request()->routeIs('cart'))
@@ -766,12 +765,14 @@ width: 100%;">
 <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js" crossorigin="anonymous"></script>
 <script async src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.js" onload="initTippy()"></script>
 
-<!-- Scripts -->
-
 @if(!request()->routeIs('home'))
     <script src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js"
             integrity="sha512-efUTj3HdSPwWJ9gjfGR71X9cvsrthIA78/Fvd/IN+fttQVy7XWkOAXb295j8B3cmm/kFKVxjiNYzKw9IQJHIuQ=="
             crossorigin="anonymous"></script>
+@endif
+
+@if(request()->routeIs('catalog') || request()->routeIs('home'))
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js" crossorigin="anonymous"></script>
 @endif
 
 @if(count(\Overtrue\LaravelShoppingCart\Facade::all()) && request()->routeIs('cart'))
@@ -779,114 +780,25 @@ width: 100%;">
 @endif
 
 @if(request()->routeIs('catalog'))
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightslider/1.1.6/js/lightslider.min.js"
-            integrity="sha512-Gfrxsz93rxFuB7KSYlln3wFqBaXUc1jtt3dGCp+2jTb563qYvnUBM/GP2ZUtRC27STN/zUamFtVFAIsRFoT6/w=="
-            crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/swiper/swiper-bundle.min.js" crossorigin="anonymous"></script>
     <script>
         $(document).ready(function () {
-            $(".swiper-wrapper").lightSlider({
-                item: 1,
-                autoWidth: false,
-                slideMove: 1,
-                slideMargin: 10,
-
-                addClass: '',
-                mode: "slide",
-                useCSS: true,
-                cssEasing: 'ease', //'cubic-bezier(0.25, 0, 0.25, 1)',//
-                easing: 'linear', //'for jquery animation',////
-
-                speed: 400, //ms'
-                auto: true,
+            new Swiper('.swiper-container', {
+                spaceBetween: 30,
                 loop: true,
-                slideEndAnimation: true,
-                pause: 2000,
-
-                keyPress: false,
-                controls: false,
-                prevHtml: '',
-                nextHtml: '',
-
-                rtl: false,
-                adaptiveHeight: false,
-
-                vertical: false,
-                verticalHeight: 500,
-                vThumbWidth: 100,
-
-                thumbItem: 10,
-                pager: false,
-                gallery: false,
-                galleryMargin: 5,
-                thumbMargin: 5,
-                currentPagerPosition: 'middle',
-
-                enableTouch: true,
-                enableDrag: true,
-                freeMove: true,
-                swipeThreshold: 40,
-
-                responsive: [],
+                // Disable preloading of all images
+                preloadImages: false,
+                // autoHeight: true,
+                lazy: {
+                    loadPrevNext: true,
+                },
+                autoplay: {
+                    delay: 5000,
+                },
             });
             window.addEventListener('initSlider', event => {
-                $("#images").lightSlider({
-                    item: 1,
-                    autoWidth: false,
-                    slideMove: 1,
-                    slideMargin: 10,
-                    pauseOnHover: true,
-                    adaptiveHeight: true,
-
-                    addClass: '',
-                    mode: "slide",
-                    useCSS: true,
-                    cssEasing: 'ease', //'cubic-bezier(0.25, 0, 0.25, 1)',//
-                    easing: 'linear', //'for jquery animation',////
-
-                    speed: 400, //ms'
-                    auto: false,
-                    loop: false,
-                    slideEndAnimation: true,
-                    pause: 2000,
-
-                    keyPress: false,
-                    controls: false,
-                    prevHtml: '',
-                    nextHtml: '',
-
-                    rtl: false,
-
-                    vertical: false,
-                    verticalHeight: 500,
-                    vThumbWidth: 100,
-
-                    thumbItem: 10,
-                    pager: true,
-                    gallery: false,
-                    galleryMargin: 5,
-                    thumbMargin: 5,
-                    currentPagerPosition: 'middle',
-
-                    enableTouch: true,
-                    enableDrag: true,
-                    freeMove: true,
-                    swipeThreshold: 40,
-
-                    responsive: [],
-
-                    onBeforeStart: function (el) {
-                    },
-                    onSliderLoad: function (el) {
-                    },
-                    onBeforeSlide: function (el) {
-                    },
-                    onAfterSlide: function (el) {
-                    },
-                    onBeforeNextSlide: function (el) {
-                    },
-                    onBeforePrevSlide: function (el) {
-                    }
+                new Swiper('#images', {
+                    spaceBetween: 10,
+                    effect: 'cube'
                 });
             });
         });
@@ -979,32 +891,24 @@ width: 100%;">
 
         paginationEvents();
 
-        const swiper = document.querySelector('.swiper-container');
+        const swiper = document.querySelector('.blog-slider');
         if (swiper) {
-            var mySwiper = new Swiper(swiper, {
-                // Optional parameters
-                direction: 'horizontal',
+            new Swiper('.blog-slider', {
+                spaceBetween: 30,
+                effect: 'fade',
                 loop: true,
-                autoplay: {
-                    delay: 5000,
+                mousewheel: {
+                    invert: false,
                 },
-
-                // If we need pagination
+                // autoHeight: true,
+                lazy: {
+                    loadPrevNext: true,
+                },
                 pagination: {
-                    el: '.swiper-pagination',
-                },
-
-                // Navigation arrows
-                navigation: {
-                    nextEl: '.swiper-button-next',
-                    prevEl: '.swiper-button-prev',
-                },
-
-                // And if we need scrollbar
-                scrollbar: {
-                    el: '.swiper-scrollbar',
-                },
-            })
+                    el: '.blog-slider__pagination',
+                    clickable: true,
+                }
+            });
         }
 
         window.addEventListener('addedArticleCart', event => {

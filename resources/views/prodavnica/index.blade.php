@@ -4,18 +4,21 @@
             @php
                 $ads = App\Models\Ads::all();
             @endphp
-            <div class="swiper-wrapper">
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
                 @foreach($ads as $ad)
                     <div class="swiper-slide">
                         <a href="{{ $ad->url }}" target="_blank">
                             @if (!App::environment('production'))
-                            <img src="/storage/{{ $ad->image }}">
+                            <img data-src="/storage/{{ $ad->image }}" class="swiper-lazy">
                             @else
-                                <img src="/public/storage/{{ $ad->image }}">
+                                <img data-src="/public/storage/{{ $ad->image }}" class="swiper-lazy">
                             @endif
                         </a>
+                        <div class="swiper-lazy-preloader"></div>
                     </div>
                 @endforeach
+                </div>
             </div>
         </header>
 

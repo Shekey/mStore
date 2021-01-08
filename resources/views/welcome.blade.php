@@ -119,15 +119,20 @@
         <section class="p-6 leading-normal relative bg-gray-100 px-4 sm:px-8 lg:px-16 xl:px-40 2xl:px-64 flex flex-wrap">
             @if ($data->count())
                 @foreach ($data as $group => $row)
-                    <h3 class="text-gray-700 text-3xl sm:text-5xl font-bold gradient-text font-bold mb-6 gradient"
-                        style="flex-basis: 100%;"><span>{{ $row->first()->type->name }}</span></h3>
-                    @foreach ($row as $group => $i)
-                        @include('partials.list-markets')
-                    @endforeach
+                    <div class="blog-slider">
+                        <div class="blog-slider__wrp swiper-wrapper">
+                            {{ $row->first()->type->name }}
+                                @foreach ($row as $group => $i)
+                                    @include('partials.list-markets-slider')
+                                @endforeach
+                        </div>
+                        <div class="blog-slider__pagination"></div>
+                    </div>
                 @endforeach
             @else
                 <p class="mb-8 leading-relaxed">Nema dodanih prodavnica</p>
             @endif
+
         </section>
         <div class="gradient-bg pb-4 md:pb-8">
             <svg class="wave-top" viewBox="0 0 1439 147" version="1.1" xmlns="http://www.w3.org/2000/svg"
