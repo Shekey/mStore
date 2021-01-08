@@ -120,14 +120,11 @@
             @if ($data->count())
                 @foreach ($data as $group => $row)
                     <div class="blog-slider relative">
-                        <div class="title-market-small font-bold text-3xl text-black z-50 ">
-                            {{ $row->first()->type->name }}
-                        </div>
-                        <div class="absolute top-3 left-5 text-xl font-bold capitalize">
-                            {{ $row->first()->type->name }}
-                        </div>
                         <div class="blog-slider__wrp swiper-wrapper">
                                 @foreach ($row as $group => $i)
+                                    @if ($loop->index == 0)
+                                        @include('partials.list-markets-slider-start')
+                                    @endif
                                     @include('partials.list-markets-slider')
                                 @endforeach
                         </div>
