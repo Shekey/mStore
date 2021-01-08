@@ -51,7 +51,8 @@ class Search {
          this.active = match.locationId;
          $('.city-field-suggestion').innerHTML = this.matches.map((element) => {
             if (element.address.street !== undefined ){
-               return '<p>' +  element.address.street + '</p>';
+                console.log(element);
+               return '<p data-id=' + element.locationId + '>' +  element.address.street + '</p>';
             }
          }).join('');
       }

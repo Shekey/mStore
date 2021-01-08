@@ -135,12 +135,13 @@
                     <div class="gradient-line"></div>
 
                     <div class="header">
-                        <h1>Odaberite lokaciju za dostavu</h1>
+                        <h1 class="mb-3">Odaberite lokaciju za dostavu</h1>
 
-                        <label for="current" class="block" wire:click.stop>
+                        <label for="current" class="block mb-3" wire:click.stop>
                             Trenutna lokacija
-                            <input type="checkbox" name="address" id="current" value="current">
+                            <input type="checkbox" class="inline-block ml-2" name="address" id="current" value="current">
                         </label>
+                        <p>ili</p>
                         <div class="search-container">
                             <h2 class="city-label">Unesite vašu adresu</h2>
                             <div class="outer-city-field-container">
