@@ -872,28 +872,32 @@ width: 100%;">
             let request = sendMarkRequest();
         });
 
-            @if(request()->routeIs('home'))
+        @if(request()->routeIs('home'))
 
-        var wasAbove = false;
-        const observerOptions = {
-            root: null,
-            rootMargin: "0px",
-            threshold: 0.6
-        };
+            const observerOptions = {
+                root: null,
+                rootMargin: "0px",
+                threshold: 0.7
+            };
 
-        function observerCallback(entries, observer) {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    // fade in observed elements that are in view
-                    entry.target.classList.replace('fadeOut', 'fadeIn');
-                }
-            });
-        }
-
-        const fadeElms = document.querySelectorAll('.fade');
-
-        const observer = new IntersectionObserver(observerCallback, observerOptions);
-        fadeElms.forEach(el => observer.observe(el))
+            function observerCallback(entries, observer) {
+                entries.forEach(entry => {
+                    console.log(entry);
+                    if (entry.isIntersecting) {
+                        console.log(entry.target.classList);
+                        if(entry.target.classList.contains('fadeLeftOut')) {
+                            entry.target.classList.replace('fadeLeftOut', 'fadeLeft');
+                        } else if (entry.target.classList.contains('fadeRightOut')) {
+                            entry.target.classList.replace('fadeRightOut', 'fadeRight');
+                        } else {
+                            entry.target.classList.replace('fadeOut', 'fadeIn');
+                        }
+                    }
+                });
+            }
+            const fadeElms = document.querySelectorAll('.fade');
+            const observer = new IntersectionObserver(observerCallback, observerOptions);
+            fadeElms.forEach(el => observer.observe(el));
         @endif
 
         paginationEvents();

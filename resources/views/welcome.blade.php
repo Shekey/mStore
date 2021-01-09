@@ -46,7 +46,7 @@
         }
 
         .fade {
-            transition: opacity 0.6s ease-in;
+            transition: opacity 0.5s ease-in, transform 0.7s ease-in-out;
             z-index: 1;
         }
 
@@ -54,7 +54,27 @@
             opacity: 0;
         }
 
+        .fadeRightOut {
+            opacity: 0;
+            transform: translateX(-200px);
+        }
+
+        .fadeLeftOut {
+            opacity: 0;
+            transform: translateX(200px);
+        }
+
         .fadeIn {
+            opacity: 1;
+        }
+
+        .fadeLeft {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .fadeRight {
+            transform: translateX(0);
             opacity: 1;
         }
     </style>
@@ -93,33 +113,33 @@
         <img src="/assets/welcome.jpg" alt="Multi Store slika" style="width: 100vw; position: relative; z-index: 110;">
         <section class="relative bg-gray-100 how-works px-4 sm:px-8 lg:px-16 xl:px-40 2xl:px-64 py-20 text-center">
                 <div>
-                    <h2 class="text-xl sm:text-3xl leading-tight font-bold">Kako MSTORE funkcionira?</h2>
+                    <h2 class="text-xl sm:text-3xl leading-tight font-bold fade fadeOut">Kako MSTORE funkcionira?</h2>
                 </div>
 
                 <div class="flex flex-col md:flex-row items-start justify-between mt-12">
-                    <div class="w-full bg-white shadow-lg rounded-lg px-4 py-6 lg:p-8 md:mx-2 lg:mx-4">
+                    <div class="w-full bg-white shadow-lg rounded-lg px-4 py-6 lg:p-8 md:mx-2 lg:mx-4 fadeRightOut fade ">
                         <img data-src="/assets/icon-home-2.svg" alt="" class="mx-auto h-32 lozad">
                         <h4 class="text-xl font-bold leading-tight mt-8">Registracija</h4>
                         <p class="text-gray-700 mt-2">Ispunite formu i registrujte se, a admin će pregledati podatke.</p>
                     </div>
 
-                    <div class="w-full bg-white shadow-lg rounded-lg px-4 py-6 lg:p-8 md:mx-2 lg:mx-4 mt-4 md:mt-0">
+                    <div class="w-full bg-white shadow-lg rounded-lg px-4 py-6 lg:p-8 md:mx-2 lg:mx-4 mt-4 md:mt-0 fadeOut fade">
                         <img data-src="/assets/icon-home-3.svg" alt="" class="mx-auto h-32 lozad">
                         <h4 class="text-xl font-bold leading-tight mt-8">Narudžba</h4>
                         <p class="text-gray-700 mt-2">Logirajte se, odaberite radnju, pregledajte artikle i naručite.</p>
                     </div>
 
-                    <div class="w-full bg-white shadow-lg rounded-lg px-4 py-6 lg:p-8 md:mx-2 lg:mx-4 mt-4 md:mt-0">
+                    <div class="w-full bg-white shadow-lg rounded-lg px-4 py-6 lg:p-8 md:mx-2 lg:mx-4 mt-4 md:mt-0 fadeLeftOut fade ">
                         <img data-src="/assets/icon-home-1.svg" alt="" class="mx-auto h-32 lozad">
                         <h4 class="text-xl font-bold leading-tight mt-8">Adresa za dostavu</h4>
                         <p class="text-gray-700 mt-2">Unesite adresu za dostavu, i završite narudžbu. Lako zar ne?</p>
                     </div>
                 </div>
             </section>
-        <section class="p-6 leading-normal relative bg-gray-100 px-4 sm:px-8 lg:px-16 xl:px-40 2xl:px-64 flex flex-wrap">
+        <section class="p-6 leading-normal relative bg-gray-100 px-4 sm:px-8 lg:px-16 xl:px-40 2xl:px-64 flex flex-wrap ">
             @if ($data->count())
                 @foreach ($data as $group => $row)
-                    <div class="blog-slider relative">
+                    <div class="blog-slider relative fade {{  $loop->iteration % 2 == 0 ? 'fadeLeftOut' : 'fadeRightOut' }}">
                         <div class="blog-slider__wrp swiper-wrapper">
                                 @foreach ($row as $group => $i)
                                     @if ($loop->index == 0)
@@ -136,7 +156,7 @@
             @endif
 
         </section>
-        <div class="gradient-bg pb-4 md:pb-8">
+        <div class="gradient-bg pb-4 md:pb-8 fade fadeOut">
             <svg class="wave-top" viewBox="0 0 1439 147" version="1.1" xmlns="http://www.w3.org/2000/svg"
                  xmlns:xlink="http://www.w3.org/1999/xlink">
                 <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
