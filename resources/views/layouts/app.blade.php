@@ -683,18 +683,14 @@ width: 100%;">
                         <div class="w-full md:w-6/12 xl:w-4/12 pt-6 md:pt-0 md:px-4 ml-auto"><span
                                 class="block uppercase text-gray-600 text-sm font-semibold mb-2">Radnje</span>
                             <ul class="list-unstyled">
-                                <li><a class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
-                                       href="https://www.creative-tim.com/presentation" target="_blank">Radnja xx</a>
-                                </li>
-                                <li><a class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
-                                       href="https://www.creative-tim.com/presentation" target="_blank">Radnja xx</a>
-                                </li>
-                                <li><a class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
-                                       href="https://www.creative-tim.com/presentation" target="_blank">Radnja xx</a>
-                                </li>
-                                <li><a class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
-                                       href="https://www.creative-tim.com/presentation" target="_blank">Radnja xx</a>
-                                </li>
+                                @php
+                                    $markets = \App\Models\Market::all();
+                                @endphp
+                                @foreach($markets as $market)
+                                    <li><a class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm capitalize"
+                                           href="/prodavnice/{{ $market->id }}" target="_blank">{{ $market->name }}</a>
+                                    </li>
+                                @endforeach
                             </ul>
                         </div>
                         <div class="w-full md:w-6/12 xl:w-4/12 pt-6 md:pt-0 md:px-4 ml-auto"><span
