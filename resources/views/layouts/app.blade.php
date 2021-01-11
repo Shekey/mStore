@@ -697,12 +697,12 @@ width: 100%;">
                                 class="block uppercase text-gray-600 text-sm font-semibold mb-2">Brzi linkovi</span>
                             <ul class="list-unstyled">
                                 <li><a class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
-                                       href="/login">Logirajte se</a>
+                                       href="/login">Prijavite se</a>
                                 </li>
                                 <li><a class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
-                                       href="/register">Registracija</a></li>
+                                       href="/register">Registrujte se</a></li>
                                 <li><a class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
-                                       href="/kontakt" target="_blank">Kontaktirajte nas</a></li>
+                                       href="/kontakt">Kontaktirajte nas</a></li>
                             </ul>
                         </div>
                     </div>

@@ -237,11 +237,11 @@
 
             @guest
                 <x-jet-responsive-nav-link href="{{ route('login') }}" :active="request()->routeIs('prodavnice')">
-                    {{ __('Login') }}
+                    {{ __('Prijavite se') }}
                 </x-jet-responsive-nav-link>
 
                 <x-jet-responsive-nav-link href="{{ route('register') }}" :active="request()->routeIs('prodavnice')">
-                    {{ __('Register') }}
+                    {{ __('Registrujte se') }}
                 </x-jet-responsive-nav-link>
              @endguest
 

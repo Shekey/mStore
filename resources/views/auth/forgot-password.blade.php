@@ -35,7 +35,7 @@
 
         <div class="flex items-center justify-end mt-4">
             <a class="underline text-sm text-gray600 hover:text-gray-900" href="{{ route('login') }}">
-                {{ __('Logirajte se') }}
+                {{ __('Prijavite se') }}
             </a>
         </div>
 
