@@ -8,7 +8,7 @@
           content="m-store je stranica koja vam omogućuje da naručite artikle i dobijete ih na vašu adresu."/>
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
-    <meta name="keywords" content="online, bugojno, kupovina, mstore, besplatan dostava">
+    <meta name="keywords" content="online, bugojno, kupovina, mstore, mstoreba, m store, multistore, multi store, besplatan dostava">
     <title>{{ config('app.name', 'm-store') }}</title>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-83WC5E1FXR"></script>
@@ -623,7 +623,7 @@
                     crossorigin="anonymous"></script>
         @endif
     @endif
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}?ver=1.33">
 
 </head>
 <body class="font-sans antialiased theme-dark preloader-active">
