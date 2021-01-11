@@ -14,14 +14,14 @@
             z-index: 11;
         }
     </style>
-    <div class="grid container mx-auto grid-flow-col" style="padding: 60px 0;">
+    <div class="container mx-auto" style="padding: 60px 0;">
         @if(session('message'))
-            <div class="bg-green-200 text-green-dark p-4 text-center" role="alert">
+            <div class="bg-green-200 text-green-dark p-10 text-center" role="alert">
                 {{ session('message') }}
             </div>
         @endif
         @if($errors->any())
-                <div class="bg-red-200 text-red-dark p-4 text-center" role="alert">
+                <div class="bg-red-200 text-red-dark p-10 text-center" role="alert">
                 <ul>
                     @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>
