@@ -25,37 +25,54 @@ class Search {
    checkState() {
       const that = this;
       $$('input[type=checkbox][name=address]').forEach(c => c.onchange = (e) => {
-         if (e.target.value == 'current') {
+         if (e.target.checked) {
+             $('.city-field-suggestion').innerText = '';
+             $('.city-field').innerText = '';
              var event = new CustomEvent("startLocation");
              document.dispatchEvent(event);
             that.selectCurrent();
+         } else {
+             var eventClear = new CustomEvent("removedMarkers");
+             document.dispatchEvent(eventClear);
+             this.map.removeObjects(this.searchMarkers);
          }
       });
    }
 
    async updateField(evt) {
-      const value = evt.target.innerText;
-      if (value.length === 0) {
-         return;
-      }
+       const isCurrentChecked = document.querySelector('input[type=checkbox][name=address]');
+        if (isCurrentChecked.checked) {
+            isCurrentChecked.checked = false;
+        }
 
-      this.matches = await fetch( autocompleteGeocodeUrl(value) ).then(res => res.json());
-      this.matches = this.matches.suggestions.reverse().filter(x => x.countryCode === 'BIH' && x.address.city === 'Bugojno');
-      const match = this.matches[this.currentIndex];
+        const value = evt.target.innerText;
+          if (value.length === 0) {
+             return;
+          }
 
-      if (match === undefined) {
-         $('.city-field-suggestion').innerText = '';
-      } else {
-         const textLabel = match.address.houseNumber != undefined ? ' , ' + match.address.houseNumber : '';
-         this.label = `${match.address.street}  ${textLabel}`;
-         this.active = match.locationId;
-         $('.city-field-suggestion').innerHTML = this.matches.map((element) => {
-            if (element.address.street !== undefined ){
-                console.log(element);
-               return '<p data-id=' + element.locationId + '>' +  element.address.street + '</p>';
-            }
-         }).join('');
-      }
+          this.matches = await fetch( autocompleteGeocodeUrl(value) ).then(res => res.json());
+          this.matches = this.matches.suggestions.filter((x, i, arr) => x.countryCode === 'BIH' && x.address.city === 'Bugojno' && arr.some(el => el.locationId !== x.locationId));
+          let bestMatch = this.matches.findIndex(element => element.address.street.substr(element.address.street - 3).includes(value.substr(value.length - 3)));
+          if(bestMatch == -1) bestMatch = 0;
+          const match = this.matches[bestMatch];
+          if (match === undefined) {
+             $('.city-field-suggestion').innerText = '';
+          } else {
+             const textLabel = match.address.houseNumber != undefined ? ' , ' + match.address.houseNumber : '';
+             this.label = `${match.address.street}  ${textLabel}`;
+             this.active = match.locationId;
+             $('.city-field-suggestion').innerHTML = this.matches.map((element) => {
+                if (element.address.street !== undefined ){
+                    if(element.address.houseNumber !== undefined) {
+                        return '<p data-id=' + element.locationId + '>' +  element.address.street + ', ' + element.address.houseNumber + '</p>';
+
+                    } else {
+                        return '<p data-id=' + element.locationId + '>' +  element.address.street + '</p>';
+                    }
+                }
+             }).join('');
+
+          }
    }
 
    onkeyinput(evt) {
@@ -63,8 +80,8 @@ class Search {
       const that = this;
       if (code === 13 || code === 9) {
          $('.city-field').innerText = this.label;
-         $('.city-field-suggestion').innerText = '';
-         evt.preventDefault();
+          $('.city-field-suggestion').innerText = '';
+          evt.preventDefault();
          this.selectMatch();
       }
 
@@ -147,6 +164,20 @@ class Search {
           });
           document.dispatchEvent(eventAddress);
       });
+
+       $('.city-field-suggestion').addEventListener('click', (evt) => {
+           const locationId = evt.target.dataset.id;
+           if(locationId) {
+               const matchClicked = this.matches.filter(x => x.locationId === locationId)[0];
+               console.log(matchClicked);
+               const textLabel = matchClicked.address.houseNumber != undefined ? ' , ' + matchClicked.address.houseNumber : '';
+               this.label = `${matchClicked.address.street}  ${textLabel}`;
+               this.input.innerText = this.label;
+               this.active = matchClicked.locationId;
+               $('.city-field-suggestion').innerText = '';
+               this.selectMatch();
+           }
+       });
    }
 
    selectCurrent() {

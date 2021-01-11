@@ -16,6 +16,14 @@
         <div class="blog-slider__title">
             {{ $row->first()->type->name }}
         </div>
+
+        <p class="show-desktop">
+            Skrolajte preko ove kartice, na taj način možete da pregledate dostupne radnje.
+        </p>
+
+        <p class="show-mobile">
+            Pređite prstom preko kartice na lijevo, na taj način možete da pregledate dostupne radnje.
+        </p>
     </div>
     <div class="swiper-lazy-preloader"></div>
 </div>

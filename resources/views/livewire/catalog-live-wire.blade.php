@@ -8,7 +8,7 @@
         }
 
         .shadow-lg .truncate {
-            max-width: 78vw;
+            max-width: 60vw;
         }
 
         .swiper-pagination-bullet {
@@ -510,9 +510,8 @@
                 @endauth
             </div>
             @guest
-                <div class="alert-toast fixed bottom-0 right-0 m-8 w-5/6 md:w-full max-w-sm" style="z-index: 1;">
+                <div class="alert-toast fixed bottom-0 right-0 m-8 w-5/6 md:w-full max-w-sm" style="z-index: 102;">
                     <input type="checkbox" class="hidden" id="not_registered">
-
                     <label
                         class="close cursor-pointer flex items-start justify-between w-full p-2 bg-green-500 h-24 rounded shadow-lg text-white"
                         title="close" for="not_registered">

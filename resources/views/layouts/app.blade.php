@@ -54,6 +54,33 @@
             transform-style: preserve-3d;
         }
 
+        .show-desktop,
+        .show-mobile {
+            display: none;
+        }
+
+        @media (hover: none) {
+            .show-mobile {
+                display: block;
+            }
+        }
+
+
+        @media (hover: hover) {
+            .show-desktop {
+                display: block;
+            }
+        }
+
+
+        footer h4,
+        footer h5,
+        footer span {
+            position: relative;
+            z-index: 13;
+
+        }
+
         .search__input::placeholder {
             color: #000;
             text-transform: uppercase;
@@ -877,14 +904,12 @@ width: 100%;">
             const observerOptions = {
                 root: null,
                 rootMargin: "0px",
-                threshold: 0.7
+                threshold: 0.4
             };
 
             function observerCallback(entries, observer) {
                 entries.forEach(entry => {
-                    console.log(entry);
                     if (entry.isIntersecting) {
-                        console.log(entry.target.classList);
                         if(entry.target.classList.contains('fadeLeftOut')) {
                             entry.target.classList.replace('fadeLeftOut', 'fadeLeft');
                         } else if (entry.target.classList.contains('fadeRightOut')) {
@@ -898,6 +923,49 @@ width: 100%;">
             const fadeElms = document.querySelectorAll('.fade');
             const observer = new IntersectionObserver(observerCallback, observerOptions);
             fadeElms.forEach(el => observer.observe(el));
+
+                // Some random colors
+                const colors = ["#fd3838", "#fe8a39", "#1B1B1B", "#FCBC0F", "#F85F36"];
+
+                const numBalls = 50;
+                const balls = [];
+
+                for (let i = 0; i < numBalls; i++) {
+                    let ball = document.createElement("div");
+                    ball.classList.add("ball");
+                    ball.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    ball.style.left = `${Math.floor(Math.random() * 100)}vw`;
+                    ball.style.top = `${Math.floor(Math.random() * 100)}vh`;
+                    ball.style.transform = `scale(${Math.random()})`;
+                    ball.style.width = `${Math.random()}em`;
+                    ball.style.height = ball.style.width;
+
+                    balls.push(ball);
+                    document.body.append(ball);
+                }
+
+        // Keyframes
+                balls.forEach((el, i, ra) => {
+                    let to = {
+                        x: Math.random() * (i % 2 === 0 ? -11 : 11),
+                        y: Math.random() * 12
+                    };
+
+                    let anim = el.animate(
+                        [
+                            { transform: "translate(0, 0)" },
+                            { transform: `translate(${to.x}rem, ${to.y}rem)` }
+                        ],
+                        {
+                            duration: (Math.random() + 1) * 2000, // random duration
+                            direction: "alternate",
+                            fill: "both",
+                            iterations: Infinity,
+                            easing: "ease-in-out"
+                        }
+                    );
+                });
+
         @endif
 
         paginationEvents();

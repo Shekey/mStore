@@ -56,12 +56,12 @@
 
         .fadeRightOut {
             opacity: 0;
-            transform: translateX(-200px);
+            transform: translateX(-50px);
         }
 
         .fadeLeftOut {
             opacity: 0;
-            transform: translateX(200px);
+            transform: translateX(50px);
         }
 
         .fadeIn {
@@ -77,6 +77,13 @@
             transform: translateX(0);
             opacity: 1;
         }
+
+        .ball {
+            position: fixed;
+            border-radius: 100%;
+            opacity: 0.7;
+            z-index: 10;
+        }
     </style>
 
     <x-slot name="header">
@@ -86,7 +93,7 @@
 {{--         style="position: fixed; opacity: 0.1; z-index: 4; top: 50%; left: 50%;transform: translate(-50%, -50%)">--}}
 {{--        <img data-src="/assets/logo2.png" class="lozad" alt="Logo image" style="width: 80vw;">--}}
 {{--    </div>--}}
-    <div class="relative content">
+    <div class="relative content overflow-x-hidden">
         @if ($message = Session::get('error'))
             <div
                 class="bg-orange-600 flash-message w-full absolute left-0 w-full visible"
@@ -111,7 +118,7 @@
             </div>
         @endif
         <img src="/assets/welcome.jpg" alt="Multi Store slika" style="width: 100vw; position: relative; z-index: 110;">
-        <section class="relative bg-gray-100 how-works px-4 sm:px-8 lg:px-16 xl:px-40 2xl:px-64 py-20 text-center">
+        <section class="relative bg-gray-100 how-works px-4 sm:px-8 lg:px-16 xl:px-40 2xl:px-64 py-20 text-center overflow-x-hidden">
                 <div>
                     <h2 class="text-xl sm:text-3xl leading-tight font-bold fade fadeOut">Kako MSTORE funkcionira?</h2>
                 </div>
@@ -136,7 +143,7 @@
                     </div>
                 </div>
             </section>
-        <section class="p-6 leading-normal relative bg-gray-100 px-4 sm:px-8 lg:px-16 xl:px-40 2xl:px-64 flex flex-wrap ">
+        <section class="p-6 leading-normal relative bg-gray-100 px-4 sm:px-8 lg:px-16 xl:px-40 2xl:px-64 flex flex-wrap overflow-x-hidden">
             @if ($data->count())
                 @foreach ($data as $group => $row)
                     <div class="blog-slider relative fade {{  $loop->iteration % 2 == 0 ? 'fadeLeftOut' : 'fadeRightOut' }}">

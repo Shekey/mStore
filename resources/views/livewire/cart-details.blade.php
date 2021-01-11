@@ -142,7 +142,7 @@
                             <input type="checkbox" class="inline-block ml-2" name="address" id="current" value="current">
                         </label>
                         <p>ili</p>
-                        <div class="search-container">
+                        <div class="search-container" wire:ignore>
                             <h2 class="city-label">Unesite vašu adresu</h2>
                             <div class="outer-city-field-container">
                                 <img src="/map/resources/outline-search-24px.svg">
@@ -158,7 +158,7 @@
                         <div class="gradient-line"></div>
                         <p class="py-4">
                             Ukoliko niste pronašli vašu tačnu adresu, možete nam pomoći tako što ćete kliknuti na kuću,
-                            zgradu ili površinu. Na taj način ste 100% sigruni da je to adersa gdje želite da dostavimo.
+                            zgradu ili površinu. Na taj način ste 100% sigruni da je to adresa gdje želite da dostavimo.
                         </p>
                         <div class="gradient-line"></div>
 
