@@ -25,7 +25,7 @@ Route::get('artisan-optimize', function () {
 
 Route::get('/kontakt', function () {
     return view('contact');
-});
+})->name('contact');
 
 Route::post('/kontakt', '\App\Http\Controllers\ContactForm@mailContactForm');
 

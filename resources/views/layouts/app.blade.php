@@ -899,7 +899,7 @@ width: 100%;">
             let request = sendMarkRequest();
         });
 
-        @if(request()->routeIs('home'))
+        @if(request()->routeIs('home') || request()->routeIs('contact'))
 
             const observerOptions = {
                 root: null,
