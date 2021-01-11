@@ -688,7 +688,7 @@ width: 100%;">
                                 @endphp
                                 @foreach($markets as $market)
                                     <li><a class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm capitalize"
-                                           href="/prodavnice/{{ $market->id }}" target="_blank">{{ $market->name }}</a>
+                                           href="/prodavnica/{{ $market->id }}">{{ $market->name }}</a>
                                     </li>
                                 @endforeach
                             </ul>
