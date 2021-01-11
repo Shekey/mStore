@@ -15,6 +15,13 @@
             background: linear-gradient(90deg, #d53369 0%, #f88c20 100%);
         }
 
+        .ball {
+            position: fixed;
+            border-radius: 100%;
+            opacity: 0.7;
+            z-index: 10;
+        }
+
         .aspect-100 {
             position: relative;
             height: 0;
@@ -76,13 +83,6 @@
         .fadeRight {
             transform: translateX(0);
             opacity: 1;
-        }
-
-        .ball {
-            position: fixed;
-            border-radius: 100%;
-            opacity: 0.7;
-            z-index: 10;
         }
     </style>
 

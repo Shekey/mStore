@@ -623,7 +623,7 @@
                     crossorigin="anonymous"></script>
         @endif
     @endif
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}?ver=1.33">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}?ver=1.4">
 
 </head>
 <body class="font-sans antialiased theme-dark preloader-active">
@@ -807,7 +807,7 @@ width: 100%;">
                 loop: true,
                 // Disable preloading of all images
                 preloadImages: false,
-                // autoHeight: true,
+                effect: 'coverflow',
                 lazy: {
                     loadPrevNext: true,
                 },
