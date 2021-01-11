@@ -1,5 +1,19 @@
 
 <x-app-layout>
+    <style>
+        .ball {
+            position: fixed;
+            border-radius: 100%;
+            opacity: 0.7;
+            z-index: 10;
+        }
+
+        label,
+        input {
+            position: relative;
+            z-index: 11;
+        }
+    </style>
     <div class="grid container mx-auto grid-flow-col" style="padding: 60px 0;">
         @if(session('message'))
             <div class="bg-green-200 text-green-dark p-4 text-center" role="alert">
