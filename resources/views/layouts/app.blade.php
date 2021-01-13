@@ -56,7 +56,7 @@
 
         .show-desktop,
         .show-mobile {
-            display: none;
+            display: none
         }
 
         @media (hover: none) {

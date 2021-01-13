@@ -53,7 +53,7 @@
         }
 
         .fade {
-            transition: opacity 0.5s ease-in, transform 0.7s ease-in-out;
+            transition: opacity 0.2s ease-in, transform 0.3s ease-in-out;
             z-index: 1;
         }
 
@@ -83,6 +83,51 @@
         .fadeRight {
             transform: translateX(0);
             opacity: 1;
+        }
+
+        @keyframes swipe-x {
+            0% {
+                transform: translateX(0px);
+            }
+            25% {
+                transform: translateX(50px);
+            }
+            50% {
+                transform: translateX(0px);
+            }
+            75% {
+                transform: translateX(-50px);
+            }
+        }
+
+        .hand-x {
+            animation: swipe-x 1.25s ease-in-out backwards;
+            animation-iteration-count:infinite;
+        }
+
+        /* SVG RULES */
+
+        .hand,
+        .hand-double,
+        .hand-flick,
+        .hand-hold,
+        .hand-rock,
+        .hand-tap,
+        .hand-x,
+        .hand-y {
+            fill: #fff;
+            stroke: #000;
+            stroke-width: 3px;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+
+
+        @media (max-width: 768px) {
+            .how-works img {
+                max-width: 100px;
+            }
         }
     </style>
 
@@ -126,19 +171,19 @@
                 <div class="flex flex-col md:flex-row items-start justify-between mt-12">
                     <div class="w-full bg-white shadow-lg rounded-lg px-4 py-6 lg:p-8 md:mx-2 lg:mx-4 fadeRightOut fade ">
                         <img data-src="/assets/icon-home-2.svg" alt="" class="mx-auto h-32 lozad">
-                        <h4 class="text-xl font-bold leading-tight mt-8">Registracija</h4>
+                        <h4 class="text-xl font-bold leading-tight mt-4 md:mt-8">Registracija</h4>
                         <p class="text-gray-700 mt-2">Ispunite formu i registrujte se, a admin će pregledati podatke.</p>
                     </div>
 
                     <div class="w-full bg-white shadow-lg rounded-lg px-4 py-6 lg:p-8 md:mx-2 lg:mx-4 mt-4 md:mt-0 fadeOut fade">
                         <img data-src="/assets/icon-home-3.svg" alt="" class="mx-auto h-32 lozad">
-                        <h4 class="text-xl font-bold leading-tight mt-8">Narudžba</h4>
+                        <h4 class="text-xl font-bold leading-tight mt-4 md:mt-8">Narudžba</h4>
                         <p class="text-gray-700 mt-2">Logirajte se, odaberite radnju, pregledajte artikle i naručite.</p>
                     </div>
 
                     <div class="w-full bg-white shadow-lg rounded-lg px-4 py-6 lg:p-8 md:mx-2 lg:mx-4 mt-4 md:mt-0 fadeLeftOut fade ">
                         <img data-src="/assets/icon-home-1.svg" alt="" class="mx-auto h-32 lozad">
-                        <h4 class="text-xl font-bold leading-tight mt-8">Adresa za dostavu</h4>
+                        <h4 class="text-xl font-bold leading-tight mt-4 md:mt-8">Adresa za dostavu</h4>
                         <p class="text-gray-700 mt-2">Unesite adresu za dostavu, i završite narudžbu. Lako zar ne?</p>
                     </div>
                 </div>

@@ -34,7 +34,7 @@ class CreateNewUser implements CreatesNewUsers
         ], $this->messages())->validate();
 
         $mime= $input['front_ID']->getClientOriginalExtension();
-        $imageName = time().".".$mime;
+        $imageName = "f-". time().".".$mime;
         $image = Image::make($input['front_ID']);
         $image = $image->resize(1300, null, function ($constraint) {
             $constraint->aspectRatio();
@@ -43,7 +43,7 @@ class CreateNewUser implements CreatesNewUsers
         Storage::disk('public')->put("images/".$imageName, (string) $image->encode());
 
         $mime= $input['back_ID']->getClientOriginalExtension();
-        $imageNameBack = time().".".$mime;
+        $imageNameBack = "z-".time().".".$mime;
         $imageBack = Image::make($input['back_ID']);
         $imageBack = $imageBack->resize(1300, null, function ($constraint) {
             $constraint->aspectRatio();
