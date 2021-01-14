@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Ads;
 use App\Models\User;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
@@ -42,6 +43,15 @@ class ResetUsersPoints extends Command
         $users = User::whereHas('roles', function ($query) {
             $query->where('id', 2);
         })->with('order')->get();
+
+        $ads = Ads::all();
+
+        foreach ($ads as $ad) {
+            $lastOrderDate = $ad->created_at;
+                if (30 - ((new \Carbon\Carbon($lastOrderDate, 'UTC'))->diffInDays()) < 0) {
+                    $ad->delete();
+                }
+            }
 
         foreach ($users as $user) {
             $lastOrderDate = count($user->order) ? $user->order->first()->created_at : $user->created_at;

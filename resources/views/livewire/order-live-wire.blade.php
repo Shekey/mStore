@@ -86,6 +86,8 @@
                             </div>
                             <div class="flex flex-col justify-between ml-4 flex-grow">
                                 <span class="font-bold text-sm text-black pt-5">{{ $item->product->first()->name }}</span>
+                                <a href="/prodavnica/{{ $item->marketId }}"
+                                   class="text-red-500 text-lg text-underline capitalize inline-block">{{ $item->marketName }}</a>
                                 @if(!$showForOwner)
                                     @if($isActive && !$isMarketClosed || $isSuperUser && $isActive)<a role="button" class="font-semibold pb-5 hover:text-red-500 text-green-800 text-sm" wire:click.stop="addToCart('{{ $item->product->first()->id }}')">Dodaj u korpu</a> @else <p class="text-xs text-red-600 pb-5">Ne radi prodavnica, ili nema na stanju </p>@endif
                                 @endif

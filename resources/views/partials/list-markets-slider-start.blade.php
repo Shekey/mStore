@@ -22,7 +22,7 @@
         </p>
 
         <p class="show-mobile">
-            Pređite prstom preko kartice na lijevo, na taj način možete da pregledate dostupne radnje.
+            Pređite preko kartice na lijevo, na taj način možete da pregledate dostupne radnje.
         </p>
 
         <div class="show-mobile">
