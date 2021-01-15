@@ -67,14 +67,22 @@
                     <h3 class="font-semibold text-center text-gray-600 text-xs uppercase w-1/5 text-center">Iznos</h3>
                 </div>
 
+                @php
+                    $count = 0;
+                @endphp
+
                 @foreach($allOrderItems as $item)
                     @php
                         $isActive = $item->product->first()->isActive;
                         $isMarketClosed = $item->product->first()->market->isClosed;
                         $isSuperUser = auth()->user()->superUser;
-                        $showForOwner = $item->marketId == auth()->user()->isOwner || auth()->user()->isAdmin;
+                        $isCreator = auth()->user()->id === $allOrderItems->first()->order->customer_id;
+                        $showForOwner = $item->marketId == auth()->user()->isOwner || auth()->user()->isAdmin || $isCreator;
                     @endphp
                     @if($showForOwner)
+                        @php
+                            $count += 1;
+                        @endphp
                         <div class="flex items-center hover:bg-gray-100 px-6 py-5 mt-1 w-full mr-0">
                         <div class="flex w-2/5">
                             <div class="w-20">
@@ -103,11 +111,11 @@
                 @endforeach
             </div>
 
-            @if(count($allOrderItems))
+            @if($count > 0)
                 <div id="summary" class="f-100 lg:w-1/4 px-6 py-5">
                     <h2 class="font-semibold text-2xl border-b mb-0 pb-8">Detalji narudžbe</h2>
                     <div class="flex justify-between mt-10 mb-5">
-                        <span class="font-bold text-sm uppercase">Artikli ( {{ count($this->allOrderItems) }} )</span>
+                        <span class="font-bold text-sm uppercase">Artikli ( {{ $count }} )</span>
                     </div>
 
                     <div class="border-t mt-8">

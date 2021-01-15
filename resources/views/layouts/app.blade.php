@@ -793,6 +793,9 @@ width: 100%;">
             integrity="sha512-efUTj3HdSPwWJ9gjfGR71X9cvsrthIA78/Fvd/IN+fttQVy7XWkOAXb295j8B3cmm/kFKVxjiNYzKw9IQJHIuQ=="
             crossorigin="anonymous"></script>
 @endif
+@if(request()->routeIs('home'))
+    <script src="https://cdn.jsdelivr.net/parallax.js/1.4.2/parallax.min.js"></script>
+@endif
 
 <script src="https://unpkg.com/swiper/swiper-bundle.min.js" crossorigin="anonymous"></script>
 @if(count(\Overtrue\LaravelShoppingCart\Facade::all()) && request()->routeIs('cart'))
@@ -896,6 +899,7 @@ width: 100%;">
         });
 
         @if(request()->routeIs('home') || request()->routeIs('contact'))
+        $('.parallax-window').parallax({imageSrc: '/assets/welcome.jpg'});
 
             const observerOptions = {
                 root: null,

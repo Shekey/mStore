@@ -1,6 +1,17 @@
 <x-app-layout>
     <style>
 
+        .parallax-window {
+            min-height: 100vh;
+            position: relative;
+            background: transparent;
+            z-index: 110 !important;
+        }
+
+        .parallax-mirror {
+            z-index: 110 !important;
+        }
+
         .content > section > * {
             z-index: 12;
             position: relative;
@@ -162,7 +173,8 @@
                 </div>
             </div>
         @endif
-        <img src="/assets/welcome.jpg" alt="Multi Store slika" style="width: 100vw; position: relative; z-index: 110;">
+        <div class="parallax-window" data-parallax="scroll" data-image-src="/assets/welcome.jpg"></div>
+{{--        <img src="" alt="Multi Store slika" style="width: 100vw; position: relative; z-index: 110;">--}}
         <section class="relative bg-gray-100 how-works px-4 sm:px-8 lg:px-16 xl:px-40 2xl:px-64 py-20 text-center overflow-x-hidden">
                 <div>
                     <h2 class="text-xl sm:text-3xl leading-tight font-bold fade fadeOut">Kako MSTORE funkcionira?</h2>

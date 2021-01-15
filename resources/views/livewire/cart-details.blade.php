@@ -138,10 +138,15 @@
                         <h1 class="mb-3">Odaberite lokaciju za dostavu</h1>
 
                         <label for="current" class="block mb-3" wire:click.stop>
-                            Trenutna lokacija
                             <input type="checkbox" class="inline-block ml-2" name="address" id="current" value="current">
+                            Trenutna lokacija
                         </label>
-                        <p>ili</p>
+                        <div class="gradient-line"></div>
+                        <label for="current" class="block mb-3 mt-3" wire:click.stop>
+                            <input type="checkbox" class="inline-block ml-2" name="address" id="registred" value="registred">
+                            Registrovanu adresu ({{ auth()->user()->address }})
+                        </label>
+                        <div class="gradient-line"></div>
                         <div class="search-container" wire:ignore>
                             <h2 class="city-label">Unesite vašu adresu</h2>
                             <div class="outer-city-field-container">
@@ -152,6 +157,9 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="gradient-line"></div>
+
                         <p class="py-4">
                             Ukoliko želite da dostavite na trenutnu adresu, odaberite "trenutna adresa"
                         </p>

@@ -96,6 +96,8 @@ class OrderListLiveWire extends Component
                     $query->where('marketId', auth()->user()->isOwner);
                 })->orWhere('customer_id', auth()->user()->id)->with('orderproduct');
                 $getNotified = true;
+            } else {
+                $parent = Order::where('customer_id', auth()->user()->id)->with('orderproduct');
             }
         }
 
@@ -124,7 +126,6 @@ class OrderListLiveWire extends Component
                 $parent = $parent->where('isOrdered', 0);
             }
         } else {
-
             if($getNotified) {
                 $notifyOwner = Order::whereHas('orderproduct', function ($query) {
                     $query->where('marketId', auth()->user()->isOwner);
