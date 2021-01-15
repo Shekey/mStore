@@ -794,7 +794,7 @@ width: 100%;">
             crossorigin="anonymous"></script>
 @endif
 @if(request()->routeIs('home'))
-    <script src="https://cdn.jsdelivr.net/parallax.js/1.4.2/parallax.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/parallax.js/1.5.0/parallax.min.js" integrity="sha512-Blu6KWaTqestULmtJUTB2mwDFTB/FDRuTHV52Uu5dTFVQZ8YWUq2LuxN/brNEjWAqlHr50oAbxrydsuxoK/mqQ==" crossorigin="anonymous"></script>
 @endif
 
 <script src="https://unpkg.com/swiper/swiper-bundle.min.js" crossorigin="anonymous"></script>

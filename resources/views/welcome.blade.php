@@ -12,7 +12,15 @@
             z-index: 110 !important;
         }
 
-        .content > section > * {
+        @media (hover: none) {
+            .parallax-mirror {
+                display: none !important;
+            }
+        }
+
+
+
+            .content > section > * {
             z-index: 12;
             position: relative;
         }
@@ -166,15 +174,16 @@
                                   d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/>
                           </svg>
                         </span>
-                            <p class="ml-3 font-medium text-white truncate"><span
-                                    class="hidden md:inline">{{ $message }}</span></p>
+                            <p class="ml-3 font-medium text-white"><span
+                                    class="inline">{{ $message }}</span></p>
                         </div>
                     </div>
                 </div>
             </div>
         @endif
-        <div class="parallax-window" data-parallax="scroll" data-image-src="/assets/welcome.jpg"></div>
-{{--        <img src="" alt="Multi Store slika" style="width: 100vw; position: relative; z-index: 110;">--}}
+        <div class="parallax-window show-desktop" data-parallax="scroll" data-image-src="/assets/welcome.jpg">
+        </div>
+        <img src="/assets/welcome.jpg" alt="Multi Store slika" class="show-mobile" style="width: 100vw; position: relative; z-index: 110;">
         <section class="relative bg-gray-100 how-works px-4 sm:px-8 lg:px-16 xl:px-40 2xl:px-64 py-20 text-center overflow-x-hidden">
                 <div>
                     <h2 class="text-xl sm:text-3xl leading-tight font-bold fade fadeOut">Kako MSTORE funkcionira?</h2>
