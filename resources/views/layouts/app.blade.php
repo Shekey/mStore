@@ -73,12 +73,9 @@
         }
 
 
-        footer h4,
-        footer h5,
-        footer span {
+        footer {
             position: relative;
             z-index: 13;
-
         }
 
         .search__input::placeholder {
@@ -601,7 +598,7 @@
         <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
     @endif
 
-    @if(request()->routeIs('cart'))
+    @if(request()->routeIs('cart') || request()->routeIs('korisnici.edit'))
         @php
             $allCartItems = \Overtrue\LaravelShoppingCart\Facade::all();
         @endphp
@@ -794,11 +791,11 @@ width: 100%;">
             crossorigin="anonymous"></script>
 @endif
 @if(request()->routeIs('home'))
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/parallax.js/1.5.0/parallax.min.js" integrity="sha512-Blu6KWaTqestULmtJUTB2mwDFTB/FDRuTHV52Uu5dTFVQZ8YWUq2LuxN/brNEjWAqlHr50oAbxrydsuxoK/mqQ==" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/universal-parallax@1.3.2/dist/universal-parallax.min.js" crossorigin="anonymous"></script>
 @endif
 
 <script src="https://unpkg.com/swiper/swiper-bundle.min.js" crossorigin="anonymous"></script>
-@if(count(\Overtrue\LaravelShoppingCart\Facade::all()) && request()->routeIs('cart'))
+@if(count(\Overtrue\LaravelShoppingCart\Facade::all()) && request()->routeIs('cart') || request()->routeIs('korisnici.edit'))
     <script type="module" src="/map/js/app.js"></script>
 @endif
 
@@ -899,8 +896,9 @@ width: 100%;">
         });
 
         @if(request()->routeIs('home') || request()->routeIs('contact'))
-        $('.parallax-window').parallax({imageSrc: '/assets/welcome.jpg'});
-
+            new universalParallax().init({
+            speed: 10.0
+        });
             const observerOptions = {
                 root: null,
                 rootMargin: "0px",
@@ -927,7 +925,7 @@ width: 100%;">
                 // Some random colors
                 const colors = ["#fd3838", "#fe8a39", "#1B1B1B", "#FCBC0F", "#F85F36"];
 
-                const numBalls = 50;
+                const numBalls = 30;
                 const balls = [];
 
                 for (let i = 0; i < numBalls; i++) {

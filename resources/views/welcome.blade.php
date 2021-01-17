@@ -1,26 +1,32 @@
 <x-app-layout>
     <style>
-
-        .parallax-window {
-            min-height: 100vh;
-            position: relative;
-            background: transparent;
-            z-index: 110 !important;
+        .parallax__container {
+            clip: rect(0, auto, auto, 0);
+            height: 100%;
+            left: 0;
+            overflow: hidden;
+            position: absolute;
+            top: 0;
+            width: 100%;
+            z-index: -100;
         }
 
-        .parallax-mirror {
-            z-index: 110 !important;
+        .parallax {
+            position: fixed;
+            top: 0;
+            -webkit-transform: translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
+            -webkit-transform-style: preserve-3d;
+            transform-style: preserve-3d;
+            width: 100%;
+
+            /* BG behaviour */
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
         }
 
-        @media (hover: none) {
-            .parallax-mirror {
-                display: none !important;
-            }
-        }
-
-
-
-            .content > section > * {
+        .content > section > * {
             z-index: 12;
             position: relative;
         }
@@ -73,7 +79,7 @@
 
         .fade {
             transition: opacity 0.2s ease-in, transform 0.3s ease-in-out;
-            z-index: 1;
+            z-index: 20;
         }
 
         .fadeOut {
@@ -153,44 +159,43 @@
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight"></h2>
     </x-slot>
-{{--    <div class="fixed-bg"--}}
-{{--         style="position: fixed; opacity: 0.1; z-index: 4; top: 50%; left: 50%;transform: translate(-50%, -50%)">--}}
-{{--        <img data-src="/assets/logo2.png" class="lozad" alt="Logo image" style="width: 80vw;">--}}
-{{--    </div>--}}
     <div class="relative content overflow-x-hidden">
-        @if ($message = Session::get('error'))
-            <div
-                class="bg-orange-600 flash-message w-full absolute left-0 w-full visible"
-                style="top: 0;z-index: 100">
-                <div class="container mx-auto py-3 px-3 sm:px-6 lg:px-8">
-                    <div class="flex items-center justify-between flex-wrap">
-                        <div class="w-0 flex-1 flex items-center">
-                        <span class="flex p-2 rounded-lg bg-orange-800">
-                          <!-- Heroicon name: speakerphone -->
-                          <svg class="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
-                               viewBox="0 0 24 24"
-                               stroke="currentColor" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/>
-                          </svg>
-                        </span>
-                            <p class="ml-3 font-medium text-white"><span
-                                    class="inline">{{ $message }}</span></p>
+        @guest
+            @if ($message = Session::get('error'))
+                <div
+                    class="bg-orange-600 flash-message w-full absolute left-0 w-full visible"
+                    style="top: 0;z-index: 100">
+                    <div class="container mx-auto py-3 px-3 sm:px-6 lg:px-8">
+                        <div class="flex items-center justify-between flex-wrap">
+                            <div class="w-0 flex-1 flex items-center">
+                            <span class="flex p-2 rounded-lg bg-orange-800">
+                              <!-- Heroicon name: speakerphone -->
+                              <svg class="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                   viewBox="0 0 24 24"
+                                   stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/>
+                              </svg>
+                            </span>
+                                <p class="ml-3 font-medium text-white"><span
+                                        class="inline">{{ $message }}</span></p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        @endif
-        <div class="parallax-window show-desktop" data-parallax="scroll" data-image-src="/assets/welcome.jpg">
+            @endif
+        @endguest
+        <div style="height: 0; padding-bottom: calc(70.6% + 80px); width: 100%;">
+            <div class="parallax" data-parallax-image="/assets/welcome.jpg"></div>
         </div>
-        <img src="/assets/welcome.jpg" alt="Multi Store slika" class="show-mobile" style="width: 100vw; position: relative; z-index: 110;">
+        </div>
         <section class="relative bg-gray-100 how-works px-4 sm:px-8 lg:px-16 xl:px-40 2xl:px-64 py-20 text-center overflow-x-hidden">
                 <div>
                     <h2 class="text-xl sm:text-3xl leading-tight font-bold fade fadeOut">Kako MSTORE funkcionira?</h2>
                 </div>
 
                 <div class="flex flex-col md:flex-row items-start justify-between mt-12">
-                    <div class="w-full bg-white shadow-lg rounded-lg px-4 py-6 lg:p-8 md:mx-2 lg:mx-4 fadeRightOut fade ">
+                    <div class="w-full bg-white shadow-lg rounded-lg px-4 py-6 lg:p-8 md:mx-2 lg:mx-4 fadeRightOut fade">
                         <img data-src="/assets/icon-home-2.svg" alt="" class="mx-auto h-32 lozad">
                         <h4 class="text-xl font-bold leading-tight mt-4 md:mt-8">Registracija</h4>
                         <p class="text-gray-700 mt-2">Ispunite formu i registrujte se, a admin će pregledati podatke.</p>
@@ -202,7 +207,7 @@
                         <p class="text-gray-700 mt-2">Logirajte se, odaberite radnju, pregledajte artikle i naručite.</p>
                     </div>
 
-                    <div class="w-full bg-white shadow-lg rounded-lg px-4 py-6 lg:p-8 md:mx-2 lg:mx-4 mt-4 md:mt-0 fadeLeftOut fade ">
+                    <div class="w-full bg-white shadow-lg rounded-lg px-4 py-6 lg:p-8 md:mx-2 lg:mx-4 mt-4 md:mt-0 fadeLeftOut fade">
                         <img data-src="/assets/icon-home-1.svg" alt="" class="mx-auto h-32 lozad">
                         <h4 class="text-xl font-bold leading-tight mt-4 md:mt-8">Adresa za dostavu</h4>
                         <p class="text-gray-700 mt-2">Unesite adresu za dostavu, i završite narudžbu. Lako zar ne?</p>
@@ -212,7 +217,7 @@
         <section class="p-6 leading-normal relative bg-gray-100 px-4 sm:px-8 lg:px-16 xl:px-40 2xl:px-64 flex flex-wrap overflow-x-hidden">
             @if ($data->count())
                 @foreach ($data as $group => $row)
-                    <div class="blog-slider relative fade {{  $loop->iteration % 2 == 0 ? 'fadeLeftOut' : 'fadeRightOut' }}">
+                    <div class="blog-slider relative fade {{  $loop->iteration % 2 == 0 ? 'fadeLeftOut' : 'fadeRightOut' }}" >
                         <div class="blog-slider__wrp swiper-wrapper">
                                 @foreach ($row as $group => $i)
                                     @if ($loop->index == 0)
@@ -254,7 +259,7 @@
                     </g>
                 </g>
             </svg>
-            <section class="container mx-auto text-center px-6 mb-12">
+            <section class="container mx-auto text-center px-6 mb-12 relative">
                 <h1 class="w-full my-2 text-2xl md:text-5xl py-5 font-bold leading-tight text-center text-white">Želite povećati
                     prodaju?</h1>
                 <div class="w-full mb-4">

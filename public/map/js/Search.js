@@ -24,13 +24,15 @@ class Search {
 
    checkState() {
       const that = this;
-      $$('input[type=checkbox][name=address]').forEach(c => c.onchange = (e) => {
-         if (e.target.checked) {
+      $$('input[type=radio][name=address]').forEach(c => c.onchange = (e) => {
+         if (e.target.value == "current") {
              $('.city-field-suggestion').innerText = '';
              $('.city-field').innerText = '';
              var event = new CustomEvent("startLocation");
              document.dispatchEvent(event);
             that.selectCurrent();
+         } else if (e.target.value == "registred") {
+
          } else {
              var eventClear = new CustomEvent("removedMarkers");
              document.dispatchEvent(eventClear);
@@ -40,8 +42,8 @@ class Search {
    }
 
    async updateField(evt) {
-       const isCurrentChecked = document.querySelector('input[type=checkbox][name=address]');
-        if (isCurrentChecked.checked) {
+       const isCurrentChecked = document.querySelector('input[type=radio][name=address]');
+        if (isCurrentChecked.value !== null) {
             isCurrentChecked.checked = false;
         }
 
