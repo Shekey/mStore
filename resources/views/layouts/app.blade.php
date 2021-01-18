@@ -887,87 +887,6 @@ width: 100%;">
     }
 
     $(function () {
-        $('.mark-as-read').click(function () {
-            let request = sendMarkRequest($(this).data('id'));
-        });
-
-        $('.alert-toast-ads').click(function () {
-            let request = sendMarkRequest();
-        });
-
-        @if(request()->routeIs('home') || request()->routeIs('contact'))
-            new universalParallax().init({
-            speed: 10.0
-        });
-            const observerOptions = {
-                root: null,
-                rootMargin: "0px",
-                threshold: 0.4
-            };
-
-            function observerCallback(entries, observer) {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        if(entry.target.classList.contains('fadeLeftOut')) {
-                            entry.target.classList.replace('fadeLeftOut', 'fadeLeft');
-                        } else if (entry.target.classList.contains('fadeRightOut')) {
-                            entry.target.classList.replace('fadeRightOut', 'fadeRight');
-                        } else {
-                            entry.target.classList.replace('fadeOut', 'fadeIn');
-                        }
-                    }
-                });
-            }
-            const fadeElms = document.querySelectorAll('.fade');
-            const observer = new IntersectionObserver(observerCallback, observerOptions);
-            fadeElms.forEach(el => observer.observe(el));
-
-                // Some random colors
-                const colors = ["#fd3838", "#fe8a39", "#1B1B1B", "#FCBC0F", "#F85F36"];
-
-                const numBalls = 30;
-                const balls = [];
-
-                for (let i = 0; i < numBalls; i++) {
-                    let ball = document.createElement("div");
-                    ball.classList.add("ball");
-                    ball.style.background = colors[Math.floor(Math.random() * colors.length)];
-                    ball.style.left = `${Math.floor(Math.random() * 100)}vw`;
-                    ball.style.top = `${Math.floor(Math.random() * 100)}vh`;
-                    ball.style.transform = `scale(${Math.random()})`;
-                    ball.style.width = `${Math.random()}em`;
-                    ball.style.height = ball.style.width;
-
-                    balls.push(ball);
-                    document.body.append(ball);
-                }
-
-        // Keyframes
-                balls.forEach((el, i, ra) => {
-                    let to = {
-                        x: Math.random() * (i % 2 === 0 ? -11 : 11),
-                        y: Math.random() * 12
-                    };
-
-                    let anim = el.animate(
-                        [
-                            { transform: "translate(0, 0)" },
-                            { transform: `translate(${to.x}rem, ${to.y}rem)` }
-                        ],
-                        {
-                            duration: (Math.random() + 1) * 2000, // random duration
-                            direction: "alternate",
-                            fill: "both",
-                            iterations: Infinity,
-                            easing: "ease-in-out"
-                        }
-                    );
-                });
-
-        @endif
-
-        paginationEvents();
-
         const swiper = document.querySelector('.blog-slider');
         if (swiper) {
             new Swiper('.blog-slider', {
@@ -980,6 +899,8 @@ width: 100%;">
                 // autoHeight: true,
                 lazy: {
                     loadPrevNext: true,
+                    // amount of images to load
+                    loadPrevNextAmount: 2,
                 },
                 pagination: {
                     el: '.blog-slider__pagination',
@@ -987,6 +908,88 @@ width: 100%;">
                 }
             });
         }
+
+        $('.mark-as-read').click(function () {
+            let request = sendMarkRequest($(this).data('id'));
+        });
+
+        $('.alert-toast-ads').click(function () {
+            let request = sendMarkRequest();
+        });
+
+        @if(request()->routeIs('home') || request()->routeIs('contact'))
+        new universalParallax().init({
+            speed: 35.0
+        });
+        const observerOptions = {
+            root: null,
+            rootMargin: "0px",
+            threshold: 0.4
+        };
+
+        function observerCallback(entries, observer) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    if(entry.target.classList.contains('fadeLeftOut')) {
+                        entry.target.classList.replace('fadeLeftOut', 'fadeLeft');
+                    } else if (entry.target.classList.contains('fadeRightOut')) {
+                        entry.target.classList.replace('fadeRightOut', 'fadeRight');
+                    } else {
+                        entry.target.classList.replace('fadeOut', 'fadeIn');
+                    }
+                }
+            });
+        }
+        const fadeElms = document.querySelectorAll('.fade');
+        const observer = new IntersectionObserver(observerCallback, observerOptions);
+        fadeElms.forEach(el => observer.observe(el));
+
+        // Some random colors
+        const colors = ["#fd3838", "#fe8a39", "#1B1B1B", "#FCBC0F", "#F85F36"];
+
+        const numBalls = 30;
+        const balls = [];
+
+        for (let i = 0; i < numBalls; i++) {
+            let ball = document.createElement("div");
+            ball.classList.add("ball");
+            ball.style.background = colors[Math.floor(Math.random() * colors.length)];
+            ball.style.left = `${Math.floor(Math.random() * 100)}vw`;
+            ball.style.top = `${Math.floor(Math.random() * 100)}vh`;
+            ball.style.transform = `scale(${Math.random()})`;
+            ball.style.width = `${Math.random()}em`;
+            ball.style.height = ball.style.width;
+
+            balls.push(ball);
+            document.body.append(ball);
+        }
+
+        // Keyframes
+        balls.forEach((el, i, ra) => {
+            let to = {
+                x: Math.random() * (i % 2 === 0 ? -11 : 11),
+                y: Math.random() * 12
+            };
+
+            let anim = el.animate(
+                [
+                    { transform: "translate(0, 0)" },
+                    { transform: `translate(${to.x}rem, ${to.y}rem)` }
+                ],
+                {
+                    duration: (Math.random() + 1) * 2000, // random duration
+                    direction: "alternate",
+                    fill: "both",
+                    iterations: Infinity,
+                    easing: "ease-in-out"
+                }
+            );
+        });
+
+        @endif
+
+        paginationEvents();
+
 
         window.addEventListener('addedArticleCart', event => {
             $.notify("Uspjesno ste dodali artikal u korpu.", "success");
