@@ -104,7 +104,7 @@
                             @error('newAddress')
                                 <p class="text-sm text-red-600">{{ $message }}</p>
                             @enderror
-                            @include("partials.map")
+                            @include("partials.map-admin")
                         </div>
 
                         <div class="flex items-center justify-end px-4 py-3 bg-gray-50 text-right sm:px-6">
@@ -119,7 +119,14 @@
     </div>
     <script>
         document.addEventListener('addedMarkers', function (e) {
-            alert(e.detail);
+            const hiddenValue = document.querySelector('input[name=newAddress]');
+            if(e.detail !== null) {
+                if(hiddenValue) {
+                    hiddenValue.value = e.detail.lat + ',' + e.detail.lng;
+                }
+            } else {
+                hiddenValue.value = '';
+            }
         });
     </script>
 </x-app-layout>
