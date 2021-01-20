@@ -982,9 +982,11 @@ width: 100%;">
             );
         });
 
-        new universalParallax().init({
-            speed: 20.0
-        });
+        setTimeout(() => {
+            new universalParallax().init({
+                speed: 35.0
+            });
+        }, 100)
         @endif
 
         paginationEvents();
