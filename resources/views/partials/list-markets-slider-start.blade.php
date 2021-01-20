@@ -18,11 +18,11 @@
         </div>
 
         <p class="show-desktop">
-            Skrolajte preko ove kartice, na taj način možete da pregledate dostupne radnje.
+            Skrolajte preko kartice, na taj način možete da pregledate dostupne radnje.
         </p>
 
         <p class="show-mobile">
-            Pređite preko kartice na lijevo, na taj način možete da pregledate dostupne radnje.
+            Pređite preko kartice, na taj način možete da pregledate dostupne radnje.
         </p>
 
         <div class="show-mobile">

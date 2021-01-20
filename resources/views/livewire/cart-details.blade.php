@@ -26,7 +26,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            position: fixed;
+            position: absolute;
             top: 80px;
             width: 100vw;
             height: calc(100vh - 80px);

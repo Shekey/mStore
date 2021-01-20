@@ -56,6 +56,7 @@ class CartDetails extends Component
                 $order->order_date = $date;
                 $order->customer_id = auth()->user()->id;
                 $order->total = $this->totalPrice;
+                $order->message = $this->poruka;
                 $order->save();
 
                 $orderProducts = [];

@@ -24,6 +24,7 @@
             background-position: center;
             background-repeat: no-repeat;
             background-size: cover;
+            z-index: 12;
         }
 
         .content > section > * {
@@ -204,7 +205,7 @@
                     <div class="w-full bg-white shadow-lg rounded-lg px-4 py-6 lg:p-8 md:mx-2 lg:mx-4 mt-4 md:mt-0 fadeOut fade">
                         <img data-src="/assets/icon-home-3.svg" alt="" class="mx-auto h-32 lozad">
                         <h4 class="text-xl font-bold leading-tight mt-4 md:mt-8">Narudžba</h4>
-                        <p class="text-gray-700 mt-2">Logirajte se, odaberite radnju, pregledajte artikle i naručite.</p>
+                        <p class="text-gray-700 mt-2">Prijavite se, odaberite radnju, pregledajte artikle i naručite.</p>
                     </div>
 
                     <div class="w-full bg-white shadow-lg rounded-lg px-4 py-6 lg:p-8 md:mx-2 lg:mx-4 mt-4 md:mt-0 fadeLeftOut fade">
@@ -217,7 +218,7 @@
         <section class="p-6 leading-normal relative bg-gray-100 px-4 sm:px-8 lg:px-16 xl:px-40 2xl:px-64 flex flex-wrap overflow-x-hidden">
             @if ($data->count())
                 @foreach ($data as $group => $row)
-                    <div class="blog-slider relative fade {{  $loop->iteration % 2 == 0 ? 'fadeLeftOut' : 'fadeRightOut' }}" >
+                    <div class="blog-slider relative">
                         <div class="blog-slider__wrp swiper-wrapper">
                                 @foreach ($row as $group => $i)
                                     @if ($loop->index == 0)
@@ -234,7 +235,7 @@
             @endif
 
         </section>
-        <div class="gradient-bg pb-4 md:pb-8 fade fadeOut">
+        <div class="gradient-bg pb-4 md:pb-8">
             <svg class="wave-top" viewBox="0 0 1439 147" version="1.1" xmlns="http://www.w3.org/2000/svg"
                  xmlns:xlink="http://www.w3.org/1999/xlink">
                 <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -266,7 +267,7 @@
                     <div class="h-1 mx-auto bg-white w-1/6 opacity-25 my-0 py-0 rounded-t"></div>
                 </div>
 
-                <h3 class="my-4 text-xl md:text-3xl px-5 leading-tight">Kontaktirajte nas kako bi smo dodali radnju i povećajte
+                <h3 class="my-4 text-xl md:text-3xl px-5 leading-tight">Kontaktirajte nas kako bismo dodali radnju i povećajte
                     zaradu.</h3>
 
                 <a href="/kontakt" target="_blank"

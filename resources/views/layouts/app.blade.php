@@ -59,7 +59,7 @@
             display: none
         }
 
-        @media (hover: none) {
+        @media (pointer:none), (pointer:coarse) {
             .show-mobile {
                 display: block;
             }
@@ -670,10 +670,8 @@ width: 100%;">
                                  height="80">
                         </a>
                     </h4>
-                    <h5 class="text-sm mt-0 mb-2 text-gray-700">Multi store je mjesto gdje možete naručivati online.</h5>
-                    <h5 class="text-sm mt-0 mb-2 text-gray-700">Za svakih potrošenih 50km dobijate bodove gratis, koje kasnije
-                        možete da potrošite. Sve što je potrebno jeste da se registrujete i krenete
-                        kupovati.</h5>
+                    <h5 class="text-sm mt-0 mb-2 text-gray-700">Multi store je online usluga čiji je primarni cilj povećati vidljivost i dostupnost određenih radnji te proizvoda koje te radnje nude a samim tim i kupcima olakšati kupovinu uslugom "dostava na kućnu adresu".</h5>
+                    <h5 class="text-sm mt-0 mb-2 text-gray-700">Ukoliko imate prijedloge ili savjete koji bi unaprijedili našu uslugu slobodno nas <a class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm" href="/kontakt">kontaktirajte.</a></h5>
                 </div>
                 <div class="w-full md:w-6/12 px-4">
                     <div class="flex flex-wrap items-top mb-6">
@@ -698,8 +696,9 @@ width: 100%;">
                                 </li>
                                 <li><a class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
                                        href="/register">Registrujte se</a></li>
-                                <li><a class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
-                                       href="/kontakt">Kontaktirajte nas</a></li>
+                                <li>
+                                    <a class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm" href="/kontakt">Kontaktirajte nas.</a>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -992,7 +991,7 @@ width: 100%;">
 
 
         window.addEventListener('addedArticleCart', event => {
-            $.notify("Uspjesno ste dodali artikal u korpu.", "success");
+            $.notify("Uspješno ste dodali artikal u korpu.", "success");
         });
 
         window.addEventListener('removeIgnore', event => {
@@ -1001,7 +1000,7 @@ width: 100%;">
 
 
         window.addEventListener('repeatedOrder', event => {
-            $.notify("Uspjesno ste dodali artikle.", "success");
+            $.notify("Uspješno ste dodali artikle.", "success");
         });
 
         window.addEventListener('articlesInActive', event => {
@@ -1009,7 +1008,7 @@ width: 100%;">
         });
 
         window.addEventListener('updatedArticleCart', event => {
-            $.notify("Uspjesno ste ažurirali količinu artikla.", "success");
+            $.notify("Uspješno ste ažurirali količinu artikla.", "success");
         })
 
         window.addEventListener('removedArticleCart', event => {

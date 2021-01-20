@@ -129,11 +129,48 @@
                                 <span>Link za dostavu</span>
                                 <span class="text-orange-600"><a class="text-orange-600" target="_blank" href="https://share.here.com/l/{{ $allOrderItems->first()->order->address }}">Link</a></span>
                             </div>
+
+                            @if($order->message !== null)
+                                <div class="flex font-semibold justify-between py-6 text-sm uppercase">
+                                    <span>Dodatna poruka</span>
+                                    <span class="text-orange-600"><a role="button" wire:click="$set('clickedFinish', true)" class="text-orange-600">Otvori</a></span>
+                                </div>
+                            @endif
                         @endif
                     </div>
                 </div>
             @endif
         </div>
     </div>
+    @if($clickedFinish && $order->message !== null)
+        <x-jet-dialog-modal wire:model="clickedFinish">
+            <x-slot name="title">
+                Dodatne infromacije o adresi
+                <button wire:click="$set('clickedFinish', false)" wire:loading.attr="disabled" class="float-right w-5 h-5">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </x-slot>
+
+            <x-slot name="content">
+                <section class="text-white body-font overflow-hidden">
+                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
+                        Poruka
+                    </label>
+                    <textarea rows="10" class="appearance-none block w-full text-black rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                              placeholder="Ukoliko naručujete na adresu zgrade, potrebno je da napišete 3. sprat ili nešto što će olakšati dostavu, a ako živite u kući upišite boju kuće, ograde ili nešto specifićno. Sve ove informacije su nam jako korisne. Unaprijed vam hvala" readonly>{{ $order->message }}</textarea>
+                </section>
+            </x-slot>
+
+            <x-slot name="footer">
+                <div class="flex justify-between">
+                    <x-jet-secondary-button wire:click="$set('clickedFinish', false)" wire:loading.attr="disabled">
+                        {{ __('Zatvori') }}
+                    </x-jet-secondary-button>
+                </div>
+            </x-slot>
+        </x-jet-dialog-modal>
+    @endif
 </div>
 
