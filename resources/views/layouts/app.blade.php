@@ -381,6 +381,11 @@
                 });
             }
         }
+        function initUnivesal() {
+            new universalParallax().init({
+                speed: 35.0
+            });
+        }
     </script>
     <style>
 
@@ -790,7 +795,7 @@ width: 100%;">
             crossorigin="anonymous"></script>
 @endif
 @if(request()->routeIs('home'))
-    <script src="https://cdn.jsdelivr.net/npm/universal-parallax@1.3.2/dist/universal-parallax.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/universal-parallax@1.3.2/dist/universal-parallax.min.js" onload="initUnivesal()" crossorigin="anonymous" async></script>
 @endif
 
 <script src="https://unpkg.com/swiper/swiper-bundle.min.js" crossorigin="anonymous"></script>
@@ -916,12 +921,12 @@ width: 100%;">
             let request = sendMarkRequest();
         });
 
-        @if(request()->routeIs('home') || request()->routeIs('contact'))
+            @if(request()->routeIs('home') || request()->routeIs('contact'))
         const observerOptions = {
-            root: null,
-            rootMargin: "0px",
-            threshold: 0.4
-        };
+                root: null,
+                rootMargin: "0px",
+                threshold: 0.4
+            };
 
         function observerCallback(entries, observer) {
             entries.forEach(entry => {
@@ -982,11 +987,7 @@ width: 100%;">
             );
         });
 
-        setTimeout(() => {
-            new universalParallax().init({
-                speed: 35.0
-            });
-        }, 100)
+
         @endif
 
         paginationEvents();
