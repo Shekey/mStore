@@ -66,7 +66,7 @@
         }
 
 
-        @media (hover: hover) {
+        @media (pointer:fine) {
             .show-desktop {
                 display: block;
             }
@@ -882,7 +882,7 @@ width: 100%;">
             $('.preloader').fadeOut(speed, () => {
                 $('body').removeClass('preloader-active');
             });
-        }, time)
+        }, time);
     }
 
     $(function () {
@@ -917,9 +917,6 @@ width: 100%;">
         });
 
         @if(request()->routeIs('home') || request()->routeIs('contact'))
-        new universalParallax().init({
-            speed: 35.0
-        });
         const observerOptions = {
             root: null,
             rootMargin: "0px",
@@ -985,6 +982,9 @@ width: 100%;">
             );
         });
 
+        new universalParallax().init({
+            speed: 20.0
+        });
         @endif
 
         paginationEvents();
