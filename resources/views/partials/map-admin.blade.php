@@ -1,6 +1,10 @@
 <div class="relative px-5" style="overflow: hidden; width: 100%; height: 600px;">
     <div id="sidebar">
         <div class="header">
+            <a role="button" class="inline-flex items-center mb-16 px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:text-white hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150">
+                Ukloni sve markere
+            </a>
+
             <label for="current" class="block mb-3" wire:click.stop>
                 <input type="radio" class="inline-block ml-2" name="address" id="current" value="current">
                 Trenutna lokacija

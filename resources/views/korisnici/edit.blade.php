@@ -118,8 +118,9 @@
         </div>
     </div>
     <script>
+        const hiddenValue = document.querySelector('input[name=newAddress]');
+
         document.addEventListener('addedMarkers', function (e) {
-            const hiddenValue = document.querySelector('input[name=newAddress]');
             if(e.detail !== null) {
                 if(hiddenValue) {
                     hiddenValue.value = e.detail.lat + ',' + e.detail.lng;
@@ -127,6 +128,10 @@
             } else {
                 hiddenValue.value = '';
             }
+        });
+
+        document.addEventListener('removedMarkers', function (e) {
+            hiddenValue.value = '';
         });
     </script>
 </x-app-layout>

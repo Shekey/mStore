@@ -36,10 +36,27 @@ class Search {
          } else {
              var eventClear = new CustomEvent("removedMarkers");
              document.dispatchEvent(eventClear);
-             this.map.removeObjects(this.searchMarkers);
+             if(this.searchMarkers.length) {
+                 this.map.removeObjects(this.searchMarkers);
+                 this.searchMarkers = [];
+             }
          }
       });
-   }
+
+       $$('#sidebar a').forEach(c => c.onclick = (e) => {
+           var eventClear = new CustomEvent("removedMarkers");
+           document.dispatchEvent(eventClear);
+           if(this.searchMarkers.length) {
+               this.map.removeObjects(this.searchMarkers);
+               this.searchMarkers = [];
+           }
+           const isCurrentChecked = document.querySelector('input[type=radio][name=address]');
+           if (isCurrentChecked.value !== null) {
+               isCurrentChecked.checked = false;
+           }
+       });
+
+       }
 
    async updateField(evt) {
        const isCurrentChecked = document.querySelector('input[type=radio][name=address]');
@@ -132,6 +149,7 @@ class Search {
           var event = new CustomEvent("removedMarkers");
           document.dispatchEvent(event);
           this.map.removeObjects(this.searchMarkers);
+          this.searchMarkers = [];
       }
       this.searchMarkers.length = 0;
        // create and dispatch the event
@@ -152,7 +170,10 @@ class Search {
          if (that.searchMarkers.length) {
              var event = new CustomEvent("removedMarkers");
              document.dispatchEvent(event);
-             that.map.removeObjects(that.searchMarkers);
+             if(this.searchMarkers.length) {
+                 that.map.removeObjects(that.searchMarkers);
+                 this.searchMarkers = [];
+             }
          }
          that.searchMarkers = [];
          var coord = map.screenToGeo(evt.currentPointer.viewportX,evt.currentPointer.viewportY);

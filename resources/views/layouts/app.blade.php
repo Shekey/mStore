@@ -607,7 +607,7 @@
         @php
             $allCartItems = \Overtrue\LaravelShoppingCart\Facade::all();
         @endphp
-        @if(count($allCartItems))
+        @if(count($allCartItems) || request()->routeIs('korisnici.edit'))
             <link rel="stylesheet" type="text/css" href="/map/css/index.css"/>
             <link rel="stylesheet" type="text/css" href="/map/css/sidebar.css"/>
             <link rel="stylesheet" type="text/css" href="/map/css/search.css"/>
