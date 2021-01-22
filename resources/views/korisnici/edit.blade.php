@@ -98,9 +98,17 @@
                             @enderror
                         </div>
 
+                        @if($user->newAddress)
+                        <div class="px-4 py-5 sm:p-6 bg-white">
+                            <div class="flex font-semibold justify-between py-6 text-sm uppercase">
+                                <span>Link za dostavu</span>
+                                <span class="text-orange-600"><a class="text-orange-600" target="_blank" href="https://share.here.com/l/{{ $user->newAddress }}">Adresa korisnika</a></span>
+                            </div>
+                        </div>
+                        @endif
                         <div class="px-4 py-5 bg-white sm:p-6">
                             <label for="newAddress" class="block font-medium text-sm text-gray-700 mb-4 inline-block">Nova adresa korisnika</label>
-                            <input type="hidden" value="" name="newAddress">
+                            <input type="hidden" value="{{ $user->newAddress }}" name="newAddress">
                             @error('newAddress')
                                 <p class="text-sm text-red-600">{{ $message }}</p>
                             @enderror

@@ -159,6 +159,8 @@ class UsersController extends Controller
 
             }
             $user->update($isValidated);
+            $user->newAddress = $isValidated['newAddress'];
+            $user->save();
             $user->roles()->sync($request->input('roles', []));
         }
 

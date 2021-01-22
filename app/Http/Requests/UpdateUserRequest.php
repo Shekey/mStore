@@ -25,6 +25,7 @@ class UpdateUserRequest extends FormRequest
                 'nullable',
                 'min:6'
             ],
+            'newAddress' => ['sometimes', 'nullable', 'string'],
             'idFront' => ['sometimes', 'nullable', 'image'],
             'idBack' => ['sometimes' , 'nullable','image'],
             'roles.*' => [
