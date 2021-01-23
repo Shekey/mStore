@@ -593,7 +593,7 @@
                 <div class="search__container">
                     <input class="search__input" type="text" wire:model.lazy="search"
                            wire:keydown.enter="searchArticle($event.target.value)"
-                           placeholder="Pretražite artikle (enter)">
+                           placeholder="Pretražite... (enter)">
                 </div>
             </div>
         </div>
