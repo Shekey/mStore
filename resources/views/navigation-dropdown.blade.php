@@ -37,7 +37,7 @@
                         <div id="one">
                             <div class="bg-white">
                                 <div class="px-3 py-2 font-bold text-gray-500">Bodovi: {{ auth()->user()->points }}</div>
-                                <div class="px-3 py-3 text-gray-500">.Zadnja transakcija je obavljenja {{ $lastTransaction->format('d-m-Y')}} i ukoliko ne kupite nešto do {{ \Carbon\Carbon::parse($lastTransaction)->addMonth()->format('d-m-Y')}} vaši bodovi će biti izbrisani.</div>
+                                <div class="px-3 py-3 text-gray-500">Zadnja transakcija je obavljenja {{ $lastTransaction->format('d-m-Y')}} i ukoliko ne kupite nešto do {{ \Carbon\Carbon::parse($lastTransaction)->addMonth()->format('d-m-Y')}} vaši bodovi će biti izbrisani.</div>
                             </div>
                         </div>
                     </div>

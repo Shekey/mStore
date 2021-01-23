@@ -90,7 +90,7 @@ class CatalogLiveWire extends Component
             ShoppingCart::update($articleInCart->first()->__raw_id, $articleInCart->first()->qty + 1);
             $this->dispatchBrowserEvent('updatedArticleCart');
         } else {
-            $image = count($article->images) > 0 ? $article->images[0]->url : 'https://dummyimage.com/400x400';
+            $image = count($article->images) > 0 ? $article->images[0]->url : '/assets/logo.pmg';
             ShoppingCart::add($article->id, $article->name, $qty, $article->price, ['color' => $article->color,  'profitMake' => $article->profitMake, 'image' => $image, 'isActive' => '1', 'marketId' => $this->marketId, 'market' => $this->marketName, 'shipping' => $this->shippingPrice]);
         }
 
@@ -108,7 +108,7 @@ class CatalogLiveWire extends Component
 
         } else {
             $this->dispatchBrowserEvent('addedArticleCart');
-            $image = count($article->images) > 0 ? $article->images[0]->url : 'https://dummyimage.com/400x400';
+            $image = count($article->images) > 0 ? $article->images[0]->url : '/assets/logo.png';
             ShoppingCart::add($productId, $article->name, $qty, $article->price, ['color' => $article->color, 'profitMake' => $article->profitMake, 'image' => $image, 'isActive' => '1', 'marketId' => $this->marketId, 'market' => $this->marketName, 'shipping' => $this->shippingPrice]);
         }
         $this->updateCartDetails();

@@ -620,9 +620,16 @@
                      src="{{ $cartItem->image }}"
                      alt="">
                 @else
-                    <img class="h-20 w-20 object-cover rounded"
-                         src="/public/storage/{{ $cartItem->image }}"
-                         alt="">
+                    @if (strpos($cartItem->image, "/assets/logo.png"))
+                        <img class="h-20 w-20 object-cover rounded"
+                             src="{{ $cartItem->image }}"
+                             alt="">
+                    @else
+                        <img class="h-20 w-20 object-cover rounded"
+                             src="/public/storage/{{ $cartItem->image }}"
+                             alt="">
+                    @endif
+
                 @endif
                 <div class="mx-3">
                     <h3 class="text-sm text-black">{{ $cartItem->name }}</h3>
