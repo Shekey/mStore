@@ -185,10 +185,8 @@ class Search {
          if (that.searchMarkers.length) {
              var event = new CustomEvent("removedMarkers");
              document.dispatchEvent(event);
-             if(this.searchMarkers.length) {
-                 that.map.removeObjects(that.searchMarkers);
-                 this.searchMarkers = [];
-             }
+             that.map.removeObjects(that.searchMarkers);
+             this.searchMarkers = [];
          }
          that.searchMarkers = [];
          var coord = map.screenToGeo(evt.currentPointer.viewportX,evt.currentPointer.viewportY);

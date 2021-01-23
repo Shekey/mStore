@@ -670,7 +670,13 @@
     </div>
     <div class="px-4">
         <div class="container py-4">
-            <h3 class="text-3xl font-bold text-uppercase mt-4 text-center md:text-left">Katalog artikala</h3>
+            <h3 class="text-3xl font-bold text-uppercase mt-4 text-center md:text-left">
+                @if(strpos ($market->type->name, "Restoran") === 0)
+                    Jelovnik
+                @else
+                    Katalog artikala
+                @endif
+            </h3>
             <span class="mt-3 text-sm text-white"></span>
             <div class="flex flex-wrap mt-6 articles">
 

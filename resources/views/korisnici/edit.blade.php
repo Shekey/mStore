@@ -53,23 +53,6 @@
                             <p class="text-sm text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
-
-                        <div class="px-4 py-5 bg-white sm:p-6">
-                            <label for="idFront" class="block font-medium text-sm text-gray-700">Licna karta(prednja strana)</label>
-                            <input type="file" name="idFront" id="idFront" value="{{ old('idFront', $user->front_ID) }}" class="form-input rounded-md shadow-sm mt-1 block w-full" />
-                            @error('idFront')
-                            <p class="text-sm text-red-600">{{ $message }}</p>
-                            @enderror
-                        </div>
-
-                        <div class="px-4 py-5 bg-white sm:p-6">
-                            <label for="idBack" class="block font-medium text-sm text-gray-700">Licna karta(zadnja strana)</label>
-                            <input type="file" name="idBack" id="idBack" value="{{ old('idBack', $user->back_ID) }}" class="form-input rounded-md shadow-sm mt-1 block w-full" />
-                            @error('idBack')
-                            <p class="text-sm text-red-600">{{ $message }}</p>
-                            @enderror
-                        </div>
-
                         <div class="px-4 py-5 bg-white sm:p-6">
                             <label for="roles" class="block font-medium text-sm text-gray-700">Uloge</label>
                             <select name="roles[]" id="roles" class="form-multiselect block rounded-md shadow-sm mt-1 block w-full" multiple="multiple">

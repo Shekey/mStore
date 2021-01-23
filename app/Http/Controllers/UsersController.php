@@ -53,25 +53,7 @@ class UsersController extends Controller
     {
         $isValidated = $request->validated();
         if ($isValidated) {
-            $mime= $request->idFront->getClientOriginalExtension();
-            $imageName = time().".".$mime;
-            $image = Image::make($request->file('idFront')->getRealPath());
-            $image = $image->resize(1300, null, function ($constraint) {
-                $constraint->aspectRatio();
-            });
-
-            Storage::disk('public')->put("images/".$imageName, (string) $image->encode());
-            $mime= $request->idBack->getClientOriginalExtension();
-            $imageNameBack = "z-".time().".".$mime;
-            $imageBack = Image::make($request->file('idBack')->getRealPath());
-            $imageBack = $imageBack->resize(1300, null, function ($constraint) {
-                $constraint->aspectRatio();
-            });
-            Storage::disk('public')->put("images/".$imageNameBack, (string) $imageBack->encode());
-
             $isValidated['password'] = Hash::make($request->password);
-            $isValidated['idFront'] =  '/images/'.$imageName;
-            $isValidated['idBack'] ='/images/'. $imageNameBack;
             $user = User::create($isValidated);
             $user->roles()->sync($request->input('roles', []));
         }
@@ -121,42 +103,10 @@ class UsersController extends Controller
         $user = User::find($id);
         $isValidated = $request->validated();
         if ($isValidated) {
-            $isValidated['password'] = Hash::make($request->password);
-
-            if (array_key_exists("idFront", $isValidated)) {
-
-                if (Storage::disk('public')->exists("images/".$user->idFront)) {
-                    Storage::delete("images/".$user->idFront);
-                }
-
-                $mime= $request->idFront->getClientOriginalExtension();
-                $imageName = time().".".$mime;
-                $image = Image::make($request->file('idFront')->getRealPath());
-                $image = $image->resize(1300, null, function ($constraint) {
-                    $constraint->aspectRatio();
-                });
-
-                Storage::disk('public')->put("images/".$imageName, (string) $image->encode());
-                $isValidated['idFront'] = "images/".$imageName;
-
-            }
-
-            if (array_key_exists("idBack", $isValidated)) {
-
-                if (Storage::disk('public')->exists("images/".$user->idBack)) {
-                    Storage::delete("images/".$user->idBack);
-                }
-
-                $mime= $request->idBack->getClientOriginalExtension();
-                $imageNameBack = "z-".time().".".$mime;
-                $imageBack = Image::make($request->file('idBack')->getRealPath());
-                $imageBack = $imageBack->resize(1300, null, function ($constraint) {
-                    $constraint->aspectRatio();
-                });
-
-                Storage::disk('public')->put("images/".$imageNameBack, (string) $imageBack->encode());
-                $isValidated['idBack'] = "images/".$imageNameBack;
-
+            if($isValidated['password'] !== null) {
+                $isValidated['password'] = Hash::make($request->password);
+            } else {
+                unset($isValidated["password"]);
             }
             $user->update($isValidated);
             $user->newAddress = $isValidated['newAddress'];

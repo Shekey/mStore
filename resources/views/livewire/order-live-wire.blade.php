@@ -164,7 +164,7 @@
 
             @if($count > 0)
                 <div id="summary" class="f-100 lg:w-1/4 px-6 py-5">
-                    <h2 class="font-semibold text-2xl border-b mb-0 pb-8">Detalji narudžbe</h2>
+                    <h2 class="font-semibold text-2xl border-b mb-0 pb-10">Detalji narudžbe</h2>
                     <div class="flex justify-between mt-10 mb-5">
                         <span class="font-bold text-sm uppercase">Artikli ( {{ $count }} )</span>
                     </div>
@@ -175,11 +175,17 @@
                             <span>{{ $allOrderItems->first()->order->total }} KM</span>
                         </div>
 
-                        @if(auth()->user()->isAdmin || $isForAuthorOrder)
+                        @if(auth()->user()->isAdmin)
                             <div class="flex font-semibold justify-between py-6 text-sm uppercase">
                                 <span>Link za dostavu</span>
 
                                 <span class="text-orange-600"><a class="text-orange-600" target="_blank" href="https://share.here.com/l/{{ $allOrderItems->first()->order->address }}">Link</a></span>
+                            </div>
+
+                            <div class="flex font-semibold justify-between py-6 text-sm uppercase">
+                                <span>Telefon</span>
+
+                                <span class="text-orange-600"><a class="text-orange-600" target="_blank" href="tel:{{ trim($allOrderItems->first()->order->user->phone) }}">{{ $allOrderItems->first()->order->user->phone }}</a></span>
                             </div>
 
                             @if($order->message !== null)

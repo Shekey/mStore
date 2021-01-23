@@ -45,7 +45,7 @@ Route::post('/email/verification-notification', function (\Illuminate\Http\Reque
 
 Route::get('/', function () {
     if(\Illuminate\Support\Facades\Auth::user() && !\Illuminate\Support\Facades\Auth::user()->isActive) {
-        Session::put('error', 'Sačekajte da administrator odobri vaš račun. Dobiti ćete obavještenje na mail. Inaće administratoru treba 1h maximalno!');
+        Session::put('error', 'Uskoro očekujte poziv na telefonski broj od administratora, kako bi smo potvrdili i aktivirali ovaj račun.');
         \Illuminate\Support\Facades\Auth::logout();
     }
     $markets = \App\Models\Market::with('type')->get()->groupBy('marketType');
@@ -60,7 +60,7 @@ Route::get('/prodavnica/{id}',  function ($id) {
 })->name('catalog');
 Route::get('/korpa', \App\Http\Livewire\CartDetails::class)->name('cart');
 
-Route::group(['middleware' => ['auth:sanctum']], function () {
+Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/kategorije', function () {
         return view('admin.categories.index');

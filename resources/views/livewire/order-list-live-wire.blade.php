@@ -122,7 +122,7 @@
                  class="w-full object-contain object-center rounded-lg shadow-md"
                  style="border: 2px solid #f58b1e; border-radius: 10px;">
 
-                @if(auth()->user()->isAdmin && Carbon\Carbon::now()->diffInDays( $order->created_at ) < 2 || auth()->user()->id != $order->customer_id && Carbon\Carbon::now()->diffInDays( $order->created_at ) < 2)
+                @if(auth()->user()->isAdmin && Carbon\Carbon::now()->diffInDays( $order->created_at ) < 2 )
                     <div
                        class="p-2 flex rounded-full {{ $order->isOrdered ? 'bg-green-600' : 'bg-orange-600' }} cursor-pointer text-white ml-auto hover:text-white hover:bg-orange-500 focus:outline-none focus:bg-orange-500"
                        style="width: 36px; margin-right: 30px; margin-top: -15px; z-index: 100" wire:click.stop="toggleOrderFinished({{ $order->id }}, {{ $order->isOrdered }})">
@@ -152,7 +152,7 @@
                         {{ $order->isOrdered ? 'Završeno' : 'Aktivna' }}
                       </span>
                     </div>
-                    <h4 class="mt-1 text-xl font-semibold uppercase leading-tight truncate">Narudžba # {{ $key + 1 }}</h4>
+                    <h4 class="mt-1 text-xl font-semibold uppercase leading-tight truncate">Narudžba # {{ $order->id }}</h4>
 
                     <div class="mt-1">
                         {{ $order->total }}

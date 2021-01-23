@@ -72,40 +72,6 @@
 
                                 <tr class="border-b">
                                     <th scope="col" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Licna karta (prednja strana)
-                                    </th>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 bg-white divide-y divide-gray-200">
-                                        @if($user->idFront !== null)
-                                            @if (!App::environment('production'))
-                                                <img src="/storage/{{ $user->idFront }}" alt="Licna karta prednja" width="300">
-                                            @else
-                                                <img src="/public/storage/{{ $user->idFront }}" alt="Licna karta prednja" width="300">
-                                            @endif
-                                            @else Nema slike
-                                        @endif
-                                    </td>
-                                </tr>
-
-                                <tr class="border-b">
-                                    <th scope="col" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Licna karta (zadnja strana)
-                                    </th>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 bg-white divide-y divide-gray-200">
-                                        @if($user->idBack !== null)
-                                            @if (!App::environment('production'))
-                                                <img src="/storage/{{ $user->idBack }}" alt="Licna karta zadnja" width="300">
-                                            @else
-                                                <img src="/public/storage/{{ $user->idBack }}" alt="Licna karta zadnja" width="300">
-
-                                            @endif
-                                            @else Nema slike
-                                        @endif
-                                    </td>
-                                </tr>
-
-
-                                <tr class="border-b">
-                                    <th scope="col" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         Uloge
                                     </th>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 bg-white divide-y divide-gray-200">

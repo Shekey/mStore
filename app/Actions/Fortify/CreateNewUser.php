@@ -25,38 +25,18 @@ class CreateNewUser implements CreatesNewUsers
     {
         Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'email' => ['sometimes', 'nullable', 'string', 'email', 'max:255', 'unique:users'],
             'address' => ['required', 'string', 'max:255'],
-            'front_ID' => ['required', 'image'],
-            'back_ID' => ['required', 'image'],
             'phone' => ['required', 'numeric', 'min:9', 'min:10', 'unique:users'],
             'password' => $this->passwordRules(),
         ], $this->messages())->validate();
 
-        $mime= $input['front_ID']->getClientOriginalExtension();
-        $imageName = "f-". time().".".$mime;
-        $image = Image::make($input['front_ID']);
-        $image = $image->resize(1300, null, function ($constraint) {
-            $constraint->aspectRatio();
-        });
-
-        Storage::disk('public')->put("images/".$imageName, (string) $image->encode());
-
-        $mime= $input['back_ID']->getClientOriginalExtension();
-        $imageNameBack = "z-".time().".".$mime;
-        $imageBack = Image::make($input['back_ID']);
-        $imageBack = $imageBack->resize(1300, null, function ($constraint) {
-            $constraint->aspectRatio();
-        });
-        Storage::disk('public')->put("images/".$imageNameBack, (string) $imageBack->encode());
 
         $user = User::create([
             'name' => $input['name'],
             'email' => $input['email'],
             'phone' => $input['phone'],
             'address' => $input['address'],
-            'idFront' => '/images/'.$imageName,
-            'idBack' => '/images/'. $imageNameBack,
             'password' => Hash::make($input['password']),
         ]);
 
@@ -76,10 +56,6 @@ class CreateNewUser implements CreatesNewUsers
             'email.required' => 'Email je obavezan.',
             'email.unique' => 'Ovaj email već neko koristi.',
             'address.required' => 'Adresa je obavezan.',
-            'front_ID.required' => 'Slika licne karte(prednja) je obavezna.',
-            'back_ID.required' => 'Slika licne karte(zadnja) je obavezna.',
-            'front_ID.image' => 'Slika licne karte(prednja) mora biti .jpg ili .png formata.',
-            'back_ID.image' => 'Slika licne karte(zadnja) mora biti .jpg ili .png formata.',
             'phone.required' => 'Telefonski broj je obavezan',
             'phone.numeric' => 'Telefonski broj mogu biti samo brojevi',
             'phone.unique' => 'Ovaj telefonski broj već neko koristi.',
