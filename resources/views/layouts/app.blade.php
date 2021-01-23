@@ -836,7 +836,7 @@ width: 100%;">
                     loadPrevNext: true,
                 },
                 autoplay: {
-                    delay: 5000,
+                    delay: 2000,
                 },
             });
             window.addEventListener('initSlider', event => {
