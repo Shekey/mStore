@@ -119,7 +119,7 @@
                                 @if (!App::environment('production'))
                                     <img class="h-24 object-cover" src="{{ $item->image }}" alt="Cart item image">
                                 @else
-                                    @if (strpos($cartItem->image, "/assets/logo.png") === 0)
+                                    @if (strpos($item->image, "/assets/logo.png") === 0)
                                         <img class="h-24 object-cover" src="{{ $item->image }}"
                                              alt="Cart item image">
                                     @else
