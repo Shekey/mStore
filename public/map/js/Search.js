@@ -32,6 +32,19 @@ class Search {
              document.dispatchEvent(event);
             that.selectCurrent();
          } else if (e.target.value == "registred") {
+             if(this.searchMarkers.length) {
+                 this.map.removeObjects(this.searchMarkers);
+                 this.searchMarkers = [];
+             }
+
+             const value = e.target.parentNode.querySelector("input[type='hidden']").value;
+             var event = new CustomEvent("addedMarkers", {
+                 detail: {
+                     registred: true,
+                     value
+                 }
+             });
+             document.dispatchEvent(event);
 
          } else {
              var eventClear = new CustomEvent("removedMarkers");
@@ -162,6 +175,8 @@ class Search {
        document.dispatchEvent(eventSelect);
       this.checkMarker(marker, lat, lng);
       // calculateIsoline(center);
+
+       document.getElementById("map").scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
    }
 
    setUpClickListener(map) {
@@ -221,6 +236,7 @@ class Search {
              var eventProcessed = new CustomEvent("foundLocation");
              document.dispatchEvent(eventProcessed);
             that.checkMarker(marker, latitude, longitude);
+             document.getElementById("map").scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
          },
          function error(msg) {
              var event = new CustomEvent("locationEnable");

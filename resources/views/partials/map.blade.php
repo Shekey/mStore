@@ -13,6 +13,7 @@
             <div class="gradient-line"></div>
             <label for="registred" class="block mb-3 mt-3" wire:click.stop>
                 <input type="radio" class="inline-block ml-2" name="address" id="registred" value="registred">
+                <input type="hidden" name="registered" value="{{ auth()->user()->address }}">
                 Registrovanu adresu ({{ auth()->user()->address }})
             </label>
             {{--                        @endif--}}

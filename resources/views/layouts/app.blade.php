@@ -30,11 +30,11 @@
         }
 
         @media (max-width: 390px) {
-            .cart p {
+            .carticon p {
                 display: none;
             }
 
-            .cart svg {
+            .carticon svg {
                 width: 1.5rem;
                 height: 1.5rem;
             }

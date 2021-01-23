@@ -19,6 +19,7 @@ class CartDetails extends Component
 
     public function mount() {
         $this->locationAddress = '';
+        $this->poruka = auth()->user()->order()->first()->message;
     }
 
     public function clearCart() {
@@ -51,7 +52,7 @@ class CartDetails extends Component
                 $order = new Order;
                 $date = date('Y-m-d H:i');
                 $order->name = auth()->user()->name;
-                $order->address = implode(",", $this->locationAddress);
+                $order->address = gettype($this->locationAddress) == "string" ? $this->locationAddress : implode(",", $this->locationAddress);
                 $order->phone = auth()->user()->phone;
                 $order->order_date = $date;
                 $order->customer_id = auth()->user()->id;

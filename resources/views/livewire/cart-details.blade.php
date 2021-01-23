@@ -1,5 +1,43 @@
 <div class="bg-white pt-4 py-10 cart-details">
     <style>
+        @keyframes swipe-x {
+            0% {
+                transform: translateX(0px);
+            }
+            25% {
+                transform: translateX(50px);
+            }
+            50% {
+                transform: translateX(0px);
+            }
+            75% {
+                transform: translateX(-50px);
+            }
+        }
+
+        .hand-x {
+            animation: swipe-x 1.25s ease-in-out backwards;
+            animation-iteration-count:infinite;
+        }
+
+        /* SVG RULES */
+
+        .hand,
+        .hand-double,
+        .hand-flick,
+        .hand-hold,
+        .hand-rock,
+        .hand-tap,
+        .hand-x,
+        .hand-y {
+            fill: #fff;
+            stroke: #000;
+            stroke-width: 3px;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+
         button[disabled]:hover {
             cursor: not-allowed;
         }
@@ -46,9 +84,22 @@
     </style>
     <div class="container mx-auto mt-10">
         <div class="flex flex-wrap z-index-large">
-            <div class="lg:w-3/4 px-5 py-5" style="overflow-x: auto;">
+            <div class="w-full lg:w-3/4 px-5 py-5" style="overflow-x: auto;">
                 <div class="flex justify-between">
-                    <h1 class="font-semibold text-2xl mb-0">Korpa</h1>
+                    <h1 class="font-semibold text-2xl mb-0 flex">Korpa
+                        <div class="show-mobile ml-2">
+                            <div class="flex justify-center">
+                                <svg id="Swipe-horizontal_1" width="50" height="50" data-name="Swipe horizontal 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+                                    <path class="hand-x" d="M139.93,113.56l-41.12-6.93V76.08a9.25,9.25,0,0,0-9.25-9.25h0a9.25,9.25,0,0,0-9.25,9.25v57.36L71,122.65c-3.61-3.61-8.44-3.89-13.08,0,0,0-7.24,5.84-3.83,9.25l34,34h42.63a9.25,9.25,0,0,0,9.07-7.43l6.82-34.09A9.28,9.28,0,0,0,139.93,113.56Z"/>
+                                    <g class="swipe-horizontal">
+                                        <path class="line-horizontal" d="M70.85,42c19.69-12.46,37,0,37,0"/>
+                                        <polyline class="arrow-left" points="76.6 46.01 68.37 43.43 68.38 43.41 70.96 35.18"/>
+                                        <polyline class="arrow-right" points="100.21 44.66 108.43 42.08 108.43 42.06 105.85 33.84"/>
+                                    </g>
+                                </svg>
+                            </div>
+                        </div>
+                    </h1>
                     @if($cartTotalItems !== 0)<h2
                         class="font-semibold text-2xl mb-0">{{ $cartTotalItems }} {{ $cartTotalItems === 1 ? 'Artikal' : 'Artikla' }}</h2>@endif
                 </div>
@@ -62,7 +113,7 @@
 
                 @foreach($allCartItems as $item)
                     <div
-                        class="flex items-center hover:bg-gray-100 sm:px-6 py-5 mt-1 w-full mr-0 {{ $item->isActive ? '' : 'border-2 border-red-500' }}" style="min-width: 500px;">
+                        class="flex items-center hover:bg-gray-100 md:px-6 py-5 mt-1 w-full mr-0 {{ $item->isActive ? '' : 'border-2 border-red-500' }}" style="min-width: 500px;">
                         <div class="flex w-2/5"> <!-- product -->
                             <div class="w-20 hidden sm:block">
                                 @if (!App::environment('production'))
@@ -73,10 +124,10 @@
                                 @endif
                             </div>
                             <div class="flex flex-col justify-between ml-4 flex-grow">
-                                <span class="font-bold text-sm text-black">{{ $item->name }}</span>
+                                <span class="font-bold text-xs md:text-sm text-black">{{ $item->name }}</span>
                                 <a href="/prodavnica/{{ $item->marketId }}"
-                                   class="text-red-500 text-lg text-underline capitalize inline-block">{{ $item->market }}</a>
-                                <a role="button" class="font-semibold hover:text-red-500 text-black text-sm capitalize"
+                                   class="text-red-500 text-lg text-underline capitalize my-2 inline-block">{{ $item->market }}</a>
+                                <a role="button" class="font-semibold hover:text-red-500 text-black text-xs md:text-sm capitalize"
                                    wire:click.stop="removeFromCart('{{ $item->__raw_id }}')">Izbriši</a>
                             </div>
                         </div>
@@ -142,7 +193,7 @@
                       d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
             </svg>
             <h3 class="text-3xl">Uspješno ste obavili narudžbu.</h3>
-            <p class="text-xl mt-1">Oćekujte naruđžbu u roku od 1h.</p>
+            <p class="text-xl mt-1">Očekujte narudžbu u roku od 1h.</p>
             <a href="/"
                class="border border-orange-500 mt-4 inline-block text-orange-500 rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:text-white hover:bg-orange-500 focus:outline-none focus:shadow-outline"
             >Povratak na početnu stranu.</a>
@@ -191,7 +242,13 @@
                 Livewire.hook('component.initialized', (component) => {
                     if (component.el.classList.contains('cart-details')) {
                         document.addEventListener('addedMarkers', function (e) {
-                            component.set('locationAddress', e.detail);
+                            if(e.detail.registred) {
+                                console.log("event");
+                                component.set('locationAddress', e.detail.value);
+                            } else  {
+                                component.set('locationAddress', e.detail);                                console.log("event");
+                                console.log("event");
+                            }
                         });
 
                         document.addEventListener('removedMarkers', function (e) {

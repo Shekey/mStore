@@ -1,5 +1,5 @@
 <div class="blog-slider__item swiper-slide">
-    <div class="blog-slider__img relative">
+    <a href="/prodavnica/{{ $i->id }}" class="blog-slider__img relative">
         @if (!App::environment('production'))
             <img class="object-cover object-center rounded inline-block mx-auto h-full swiper-lazy w-full" alt="hero"
                  data-src="/storage/{{ $i->image }}" style="z-index: 10;">
@@ -7,12 +7,12 @@
             <img class="object-cover object-center rounded inline-block mx-auto h-full swiper-lazy w-full" alt="hero"
                  data-src="/public/storage/{{ $i->image }}" style="z-index: 10;">
         @endif
-    </div>
+    </a>
     @php
         $carbon=Carbon\Carbon::now();
         $dayToday = $carbon->format('l');
     @endphp
-    <div class="blog-slider__content">
+    <div class="blog-slider__content" >
         <span class="text-white rounded-full p-2 mb-2 inline-block @if(!$i->isClosed) bg-red-600 @else bg-orange-400 @endif">@if(!$i->isClosed) Zatvoreno @else Otvoreno @endif<br />
         </span>
         <span class="blog-slider__code">Radno vrijeme<br />
@@ -20,7 +20,7 @@
             - {{  substr($i->endTime, 0, -3) }}h @else Nedeljom:  {{  substr($i->startTimeSunday, 0, -3) }}h
             - {{  substr($i->endTimeSunday, 0, -3) }}h @endif
         </span>
-        <div class="blog-slider__title">{{ $i->name }}</div>
+        <a href="/prodavnica/{{ $i->id }}" class="blog-slider__title">{{ $i->name }}</a>
         @if($i->points > 1)
             <div class="blog-slider__text flex">
                 {{ $i->points }} @if($i->points > 1) BODA @else BOD @endif GRATIS za kupovinu preko 50 KM
@@ -34,7 +34,7 @@
         <div class="flex gradient text-black font-bold mb-10">
             {!! $i->freeDelivery == 0 ? 'Dostava se plaća (' . $i->orderPaid . 'KM )' : 'Besplatna dostava'  !!}
         </div>
-        <a href="/prodavnica/{{ $i->id }}" class="blog-slider__button">POSJETI RADNJU</a>
+        <a href="/prodavnica/{{ $i->id }}" class="blog-slider__button">POSJETI RADNJU</a href="/prodavnica/{{ $i->id }}">
     </div>
     <div class="swiper-lazy-preloader"></div>
 </div>

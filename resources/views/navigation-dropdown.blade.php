@@ -14,7 +14,7 @@
 
             <div class="flex sm:hidden items-center">
                 @auth
-                    <a href="/korpa" class="text-white focus:outline-none text-gray-600 mr-4 flex items-center cart">
+                    <a href="/korpa" class="text-white focus:outline-none text-gray-600 mr-4 flex items-center carticon">
                         <svg class="h-4 w-4" fill="none" stroke-linecap="round" stroke-linejoin="round"
                              stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
                             <path
