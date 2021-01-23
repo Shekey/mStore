@@ -540,6 +540,7 @@
                               vector-effect="non-scaling-stroke"/>
                     </defs>
                 </svg>
+                @if(strpos ($market->type->name, "Restoran") !== 0)
                 <div class="flex flex-row flex-wrap justify-center mt-5 mb-4 filters">
                     <a class="btn mt-3 mx-3 uppercase text-xs sm:text-l {{ $filterCat === '' ? 'filterActive' : ''}}"
                        data-id="0"
@@ -586,6 +587,7 @@
                         </a>
                     @endforeach
                 </div>
+                @endif
             </nav>
             <div class="relative max-w-lg mx-auto">
                 <div class="search__container">
