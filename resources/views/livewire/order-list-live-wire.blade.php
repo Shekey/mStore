@@ -117,7 +117,7 @@
     <div class="flex flex-wrap">
 
         @foreach($orders as $key=>$order)
-            <div class="flex flex-col lg:w-1/3 mb-8 sm:px-2 px-10">
+            <div class="flex flex-col lg:w-1/3 mb-8 px-2">
             <img src="/assets/logo.png" alt="Logo image"
                  class="w-full object-contain object-center rounded-lg shadow-md"
                  style="border: 2px solid #f58b1e; border-radius: 10px;">

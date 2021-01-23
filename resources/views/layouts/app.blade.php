@@ -29,6 +29,26 @@
             overflow-x: hidden;
         }
 
+        @media (max-width: 390px) {
+            .cart p {
+                display: none;
+            }
+
+            .cart svg {
+                width: 1.5rem;
+                height: 1.5rem;
+            }
+
+            .points p {
+                display: none;
+            }
+
+            .points svg {
+                width: 1.5rem;
+                height: 1.5rem;
+            }
+        }
+
         .search__container {
             padding-top: 32px;
         }

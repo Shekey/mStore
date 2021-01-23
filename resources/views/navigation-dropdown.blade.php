@@ -14,7 +14,7 @@
 
             <div class="flex sm:hidden items-center">
                 @auth
-                    <a href="/korpa" class="text-white focus:outline-none text-gray-600 mr-4 flex items-center">
+                    <a href="/korpa" class="text-white focus:outline-none text-gray-600 mr-4 flex items-center cart">
                         <svg class="h-4 w-4" fill="none" stroke-linecap="round" stroke-linejoin="round"
                              stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
                             <path
@@ -22,7 +22,7 @@
                         </svg>
                         <p class="text:xs ml-1 font-light">Korpa</p>
                     </a>
-                <div class="tooltip flex items-center text-gray-600">
+                <div class="tooltip flex items-center text-gray-600 points">
                     <span>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-4 w-4">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
@@ -36,8 +36,8 @@
                     <div style="display: none;">
                         <div id="one">
                             <div class="bg-white">
-                                <div class="px-3 py-2 font-bold text-gray-500 ">Datum zadnje transakcije</div>
-                                <div class="px-3 py-3 text-gray-500">Zadnja transakcija je obavljenja {{ $lastTransaction->format('d-m-Y')}} i ukoliko ne kupite nešto do {{ \Carbon\Carbon::parse($lastTransaction)->addMonth()->format('d-m-Y')}} vaši bodovi će biti izbrisani.</div>
+                                <div class="px-3 py-2 font-bold text-gray-500">Bodovi: {{ auth()->user()->points }}</div>
+                                <div class="px-3 py-3 text-gray-500">.Zadnja transakcija je obavljenja {{ $lastTransaction->format('d-m-Y')}} i ukoliko ne kupite nešto do {{ \Carbon\Carbon::parse($lastTransaction)->addMonth()->format('d-m-Y')}} vaši bodovi će biti izbrisani.</div>
                             </div>
                         </div>
                     </div>

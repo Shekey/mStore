@@ -46,13 +46,13 @@
     </style>
     <div class="container mx-auto mt-10">
         <div class="flex flex-wrap z-index-large">
-            <div class="f-100 lg:w-3/4 px-5 py-5">
-                <div class="flex justify-between border-b pb-8">
+            <div class="lg:w-3/4 px-5 py-5" style="overflow-x: auto;">
+                <div class="flex justify-between">
                     <h1 class="font-semibold text-2xl mb-0">Korpa</h1>
                     @if($cartTotalItems !== 0)<h2
                         class="font-semibold text-2xl mb-0">{{ $cartTotalItems }} {{ $cartTotalItems === 1 ? 'Artikal' : 'Artikla' }}</h2>@endif
                 </div>
-                <div class="flex mt-10 mb-5">
+                <div class="flex mt-10 mb-5 border-t pt-8" style="min-width: 500px;">
                     <h3 class="font-semibold text-gray-600 text-xs uppercase w-2/5">Detaljnije</h3>
                     <h3 class="font-semibold text-center text-gray-600 text-xs uppercase w-1/5 text-center">
                         Količina</h3>
@@ -62,9 +62,9 @@
 
                 @foreach($allCartItems as $item)
                     <div
-                        class="flex items-center hover:bg-gray-100 px-6 py-5 mt-1 w-full mr-0 {{ $item->isActive ? '' : 'border-2 border-red-500' }}">
+                        class="flex items-center hover:bg-gray-100 sm:px-6 py-5 mt-1 w-full mr-0 {{ $item->isActive ? '' : 'border-2 border-red-500' }}" style="min-width: 500px;">
                         <div class="flex w-2/5"> <!-- product -->
-                            <div class="w-20">
+                            <div class="w-20 hidden sm:block">
                                 @if (!App::environment('production'))
                                     <img class="h-24 object-cover" src="{{ $item->image }}" alt="Cart item image">
                                 @else
