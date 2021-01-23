@@ -615,9 +615,15 @@
         <hr class="my-3">
         @foreach($allCartItems as $cartItem)
             <div class="flex mb-5">
+                @if (!App::environment('production'))
                 <img class="h-20 w-20 object-cover rounded"
                      src="{{ $cartItem->image }}"
                      alt="">
+                @else
+                    <img class="h-20 w-20 object-cover rounded"
+                         src="/public/storage/{{ $cartItem->image }}"
+                         alt="">
+                @endif
                 <div class="mx-3">
                     <h3 class="text-sm text-black">{{ $cartItem->name }}</h3>
                     <div class="flex items-center mt-4">
