@@ -111,7 +111,7 @@
                         </div>
                     @endif
                 </div>
-                <div class="flex mt-10 mb-5 border-t pt-8" style="min-width: 500px;">
+                <div class="flex mt-10 mb-5 border-t pt-8" style="min-width: 540px;">
                     <h3 class="font-semibold text-gray-600 text-xs uppercase w-2/5 ml-6">Detaljnije</h3>
                     <h3 class="font-semibold text-center text-gray-600 text-xs uppercase w-1/5 text-center">Količina</h3>
                     <h3 class="font-semibold text-center text-gray-600 text-xs uppercase w-1/5 text-center">Cijena</h3>
@@ -134,9 +134,9 @@
                         @php
                             $count += 1;
                         @endphp
-                        <div class="flex items-center hover:bg-gray-100 px-6 py-5 mt-1 w-full mr-0" style="min-width: 500px;">
+                        <div class="flex items-center hover:bg-gray-100 px-6 py-5 mt-1 w-full mr-0" style="min-width: 540px;">
                         <div class="flex w-2/5">
-                            <div class="w-20 hidden sm:block">
+                            <div class="w-20">
                                 @if (!App::environment('production'))
                                     <img class="h-24 object-cover" src="{{ count($item->product->first()->images) ? "/storage/" . $item->product->first()->images->first()->url : 'https://dummyimage.com/400x400' }}" alt="Cart item image">
                                 @else
