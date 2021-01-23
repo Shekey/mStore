@@ -216,8 +216,12 @@
                         {{ __('Prodavnice') }}
                     </x-jet-responsive-nav-link>
 
-                    <x-jet-responsive-nav-link href="{{ route('orders') }}" :active="request()->routeIs('profile.show')">
+                    <x-jet-responsive-nav-link href="{{ route('orders') }}" :active="request()->routeIs('orders')">
                         {{ __('Narudžbe') }}
+                    </x-jet-responsive-nav-link>
+
+                    <x-jet-responsive-nav-link href="{{ route('korisnici.index') }}" :active="request()->routeIs('korisnici.index')">
+                        {{ __('Korisnici') }}
                     </x-jet-responsive-nav-link>
 
                     <x-jet-responsive-nav-link href="{{ route('tipMarketa') }}" :active="request()->routeIs('tipMarketa')">

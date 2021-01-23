@@ -418,10 +418,10 @@
                                         </div>
                                     @endif
                                 @endauth
-                                <div class="flex">
+                                <div class="sm:flex">
                                     <span class="title-font font-medium text-2xl text-black">Ukupno: {{ $articleTotal }} KM {!! $calcTempPrice != 0 ? '<span class="text-orange-500"> ( '. number_format((float)$calcTempPrice  , 2, '.', '') . ' KM) </span>' : '' !!}</span>
                                     @auth
-                                        @if(!$market->isClosed || auth()->user()->superUser)
+                                        @if(!$market->isClosed && $qty > 0 || auth()->user()->superUser && $qty > 0)
                                             <button wire:click="addToCart({{ $this->articalId }}, {{ $qty }})"
                                                     class="flex ml-auto text-white bg-orange-500 border-0 py-2 px-6 focus:outline-none hover:bg-orange-600 rounded">
                                                 Kupi

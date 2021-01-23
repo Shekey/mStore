@@ -19,7 +19,9 @@ class CartDetails extends Component
 
     public function mount() {
         $this->locationAddress = '';
-        $this->poruka = auth()->user()->order()->first()->message;
+        if(auth()->user()) {
+            $this->poruka = auth()->user()->order()->first()->message;
+        }
     }
 
     public function clearCart() {

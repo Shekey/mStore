@@ -58,10 +58,10 @@ Route::post('image/delete','App\Http\Controllers\ImageUploadController@fileDestr
 Route::get('/prodavnica/{id}',  function ($id) {
     return view('prodavnica.index', compact('id'));
 })->name('catalog');
-
 Route::get('/korpa', \App\Http\Livewire\CartDetails::class)->name('cart');
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
+
     Route::get('/kategorije', function () {
         return view('admin.categories.index');
     })->name('kategorije');

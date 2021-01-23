@@ -67,7 +67,7 @@
             position: absolute;
             top: 80px;
             width: 100vw;
-            height: calc(100vh - 80px);
+            height: calc(100% - 80px);
             background: #fff;
             z-index: 9;
 
@@ -192,8 +192,8 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                       d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
             </svg>
-            <h3 class="text-3xl">Uspješno ste obavili narudžbu.</h3>
-            <p class="text-xl mt-1">Očekujte narudžbu u roku od 1h.</p>
+            <h3 class="text-3xl px-2">Uspješno ste obavili narudžbu.</h3>
+            <p class="text-xl mt-1 px-2">Očekujte narudžbu u roku od 1h.</p>
             <a href="/"
                class="border border-orange-500 mt-4 inline-block text-orange-500 rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:text-white hover:bg-orange-500 focus:outline-none focus:shadow-outline"
             >Povratak na početnu stranu.</a>
@@ -244,9 +244,13 @@
                         document.addEventListener('addedMarkers', function (e) {
                             if(e.detail.registred) {
                                 console.log("event");
-                                component.set('locationAddress', e.detail.value);
+                                @if(auth()->user()->newAddress == null || auth()->user()->newAddress == "")
+                                    component.set('locationAddress', e.detail.value);
+                                @else
+                                    component.set('locationAddress', {{ auth()->user()->newAddress }});
+                                @endif
                             } else  {
-                                component.set('locationAddress', e.detail);                                console.log("event");
+                                component.set('locationAddress', e.detail);
                                 console.log("event");
                             }
                         });

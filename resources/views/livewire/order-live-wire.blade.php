@@ -4,6 +4,43 @@
             cursor: not-allowed;
         }
 
+        @keyframes swipe-x {
+            0% {
+                transform: translateX(0px);
+            }
+            25% {
+                transform: translateX(50px);
+            }
+            50% {
+                transform: translateX(0px);
+            }
+            75% {
+                transform: translateX(-50px);
+            }
+        }
+
+        .hand-x {
+            animation: swipe-x 1.25s ease-in-out backwards;
+            animation-iteration-count:infinite;
+        }
+
+        /* SVG RULES */
+
+        .hand,
+        .hand-double,
+        .hand-flick,
+        .hand-hold,
+        .hand-rock,
+        .hand-tap,
+        .hand-x,
+        .hand-y {
+            fill: #fff;
+            stroke: #000;
+            stroke-width: 3px;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
         .f-100 {
             overflow-x: hidden;
         }
@@ -45,9 +82,23 @@
     </style>
     <div class="container mx-auto mt-10">
         <div class="flex flex-wrap z-index-large">
-            <div class="f-100 lg:w-3/4 px-5 py-5">
-                <div class="flex flex-wrap sm:justify-between border-b pb-8">
-                    <h1 class="font-semibold text-2xl f-100 mb-5 sm:mb-0">Detalji narudžbe za {{ $allOrderItems->first()->order->user->name }}</h1>
+            <div class="w-full lg:w-3/4 px-5 py-5" style="overflow-x: auto;">
+                <div class="flex flex-wrap sm:justify-between">
+                    <h1 class="font-semibold text-2xl f-100 mb-5 sm:mb-0 flex">Detalji narudžbe za {{ $allOrderItems->first()->order->user->name }}
+
+                        <div class="show-mobile ml-2">
+                        <div class="flex justify-center">
+                            <svg id="Swipe-horizontal_1" width="50" height="50" data-name="Swipe horizontal 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+                                <path class="hand-x" d="M139.93,113.56l-41.12-6.93V76.08a9.25,9.25,0,0,0-9.25-9.25h0a9.25,9.25,0,0,0-9.25,9.25v57.36L71,122.65c-3.61-3.61-8.44-3.89-13.08,0,0,0-7.24,5.84-3.83,9.25l34,34h42.63a9.25,9.25,0,0,0,9.07-7.43l6.82-34.09A9.28,9.28,0,0,0,139.93,113.56Z"/>
+                                <g class="swipe-horizontal">
+                                    <path class="line-horizontal" d="M70.85,42c19.69-12.46,37,0,37,0"/>
+                                    <polyline class="arrow-left" points="76.6 46.01 68.37 43.43 68.38 43.41 70.96 35.18"/>
+                                    <polyline class="arrow-right" points="100.21 44.66 108.43 42.08 108.43 42.06 105.85 33.84"/>
+                                </g>
+                            </svg>
+                        </div>
+                </div>
+                    </h1>
                     @if(auth()->user()->id === $allOrderItems->first()->order->customer_id)
                         <div
                             class="p-2 flex align-items rounded-full ml-0 bg-green-600 cursor-pointer text-white hover:text-white hover:bg-orange-500 focus:outline-none focus:bg-orange-500"
@@ -60,7 +111,7 @@
                         </div>
                     @endif
                 </div>
-                <div class="flex mt-10 mb-5">
+                <div class="flex mt-10 mb-5 border-t pt-8" style="min-width: 500px;">
                     <h3 class="font-semibold text-gray-600 text-xs uppercase w-2/5 ml-6">Detaljnije</h3>
                     <h3 class="font-semibold text-center text-gray-600 text-xs uppercase w-1/5 text-center">Količina</h3>
                     <h3 class="font-semibold text-center text-gray-600 text-xs uppercase w-1/5 text-center">Cijena</h3>
@@ -83,9 +134,9 @@
                         @php
                             $count += 1;
                         @endphp
-                        <div class="flex items-center hover:bg-gray-100 px-6 py-5 mt-1 w-full mr-0">
+                        <div class="flex items-center hover:bg-gray-100 px-6 py-5 mt-1 w-full mr-0" style="min-width: 500px;">
                         <div class="flex w-2/5">
-                            <div class="w-20">
+                            <div class="w-20 hidden sm:block">
                                 @if (!App::environment('production'))
                                     <img class="h-24 object-cover" src="{{ count($item->product->first()->images) ? "/storage/" . $item->product->first()->images->first()->url : 'https://dummyimage.com/400x400' }}" alt="Cart item image">
                                 @else
@@ -127,6 +178,7 @@
                         @if(auth()->user()->isAdmin || $isForAuthorOrder)
                             <div class="flex font-semibold justify-between py-6 text-sm uppercase">
                                 <span>Link za dostavu</span>
+
                                 <span class="text-orange-600"><a class="text-orange-600" target="_blank" href="https://share.here.com/l/{{ $allOrderItems->first()->order->address }}">Link</a></span>
                             </div>
 
