@@ -620,7 +620,7 @@
                      src="{{ $cartItem->image }}"
                      alt="">
                 @else
-                    @if (strpos($cartItem->image, "/assets/logo.png"))
+                    @if (strpos($cartItem->image, "/assets/logo.png") === 0)
                         <img class="h-20 w-20 object-cover rounded"
                              src="{{ $cartItem->image }}"
                              alt="">
