@@ -228,7 +228,7 @@
                                             @if (!App::environment('production'))
                                                 <img src="{{ $image->temporaryUrl() }}" width="200" height="200">
                                             @else
-                                                <img src="/public/{{ $image->temporaryUrl() }}" width="200" height="200">
+                                                <img src="{{ $image->temporaryUrl() }}" width="200" height="200">
                                             @endif
 
                                             @endif
