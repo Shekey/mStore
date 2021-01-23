@@ -119,8 +119,14 @@
                                 @if (!App::environment('production'))
                                     <img class="h-24 object-cover" src="{{ $item->image }}" alt="Cart item image">
                                 @else
-                                    <img class="h-24 object-cover" src="/public/storage/{{ $item->image }}"
-                                         alt="Cart item image">
+                                    @if (strpos($cartItem->image, "/assets/logo.png") === 0)
+                                        <img class="h-24 object-cover" src="{{ $item->image }}"
+                                             alt="Cart item image">
+                                    @else
+                                        <img class="h-24 object-cover" src="/public/storage/{{ $item->image }}"
+                                             alt="Cart item image">
+                                    @endif
+
                                 @endif
                             </div>
                             <div class="flex flex-col justify-between ml-4 flex-grow">
