@@ -21,7 +21,7 @@
             - {{  substr($i->endTimeSunday, 0, -3) }}h @endif
         </span>
         <a href="/prodavnica/{{ $i->id }}" class="blog-slider__title">{{ $i->name }}</a>
-        @if($i->points > 1 && $i->hasDelivery)
+        @if($i->points >= 1 && $i->hasDelivery)
             <div class="blog-slider__text flex">
                 {{ $i->points }} @if($i->points > 1) BODA @else BOD @endif GRATIS za kupovinu preko 50 KM
             </div>
