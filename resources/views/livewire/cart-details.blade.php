@@ -250,7 +250,7 @@
                             if(e.detail.registred) {
                                 console.log("event reg" + "eeee" + e.detail.value);
                                 @if(auth()->user()->newAddress == null || auth()->user()->newAddress == "")
-                                    component.set('locationAddress', {{ auth()->user()->address }});
+                                    component.set('locationAddress', "{{ auth()->user()->address }}");
                                 @else
                                     component.set('locationAddress', e.detail.value);
                                 console.log("event reg" + "e" + e.detail.value);
