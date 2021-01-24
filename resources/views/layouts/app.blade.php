@@ -722,7 +722,7 @@ width: 100%;">
                                 <li><a class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
                                        href="/register">Registrujte se</a></li>
                                 <li>
-                                    <a class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm" href="/kontakt">Kontaktirajte nas.</a>
+                                    <a class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm" href="/kontakt">Kontaktirajte nas</a>
                                 </li>
                             </ul>
                         </div>

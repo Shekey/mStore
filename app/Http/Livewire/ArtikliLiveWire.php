@@ -124,7 +124,6 @@ class ArtikliLiveWire extends Component
             'color' => ['max:100'],
             'price' => ['numeric'],
             'category_id' => 'required',
-            'images.*' => 'image'
         ]);
         Articles::find($this->artikalId)->update($this->createData());
         $this->insertImages($this->artikalId);

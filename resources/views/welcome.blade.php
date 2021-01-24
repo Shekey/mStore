@@ -199,7 +199,7 @@
                     <h2 class="text-xl sm:text-3xl leading-tight font-bold fade fadeOut">Kako MSTORE funkcionira?</h2>
                 </div>
 
-                <div class="flex flex-col md:flex-row items-start justify-between mt-12">
+                <div class="flex flex-col md:flex-row justify-between mt-12">
                     <div class="w-full bg-white shadow-lg rounded-lg px-4 py-6 lg:p-8 md:mx-2 lg:mx-4 fadeRightOut fade">
                         <img data-src="/assets/icon-home-2.svg" alt="" class="mx-auto h-32 lozad">
                         <h4 class="text-xl font-bold leading-tight mt-4 md:mt-8">Registracija</h4>

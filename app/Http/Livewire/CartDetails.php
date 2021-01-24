@@ -126,9 +126,11 @@ class CartDetails extends Component
 
     public function updateCartQty($rowId, $qty) {
         if($qty < 0) $qty = 0;
-        ShoppingCart::update($rowId, $qty);
-        $this->dispatchBrowserEvent('updatedArticleCart');
-        $this->updateCartDetails();
+        if(ShoppingCart::get($rowId)) {
+            ShoppingCart::update($rowId, $qty);
+            $this->dispatchBrowserEvent('updatedArticleCart');
+            $this->updateCartDetails();
+        }
     }
 
 
