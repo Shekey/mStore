@@ -19,13 +19,13 @@ class ArticlesFactory extends Factory
     {
         return [
             'name' => $this->faker->name,
-            'brand' => $this->faker->unique()->lastName,
-            'price' => 11.33,
+            'brand' => $this->faker->unique()->firstName,
+            'price' => 10.5,
             'isActive' => 1,
             'isOnSale' => rand(0, 1),
             'profitMake' => rand(0, 1),
-            'category_id' => rand(10, 13),
-            'market_id' => 9,
+            'category_id' => rand(1, 3),
+            'market_id' => 2,
             'created_at' => now(),
             'updated_at' => now(),
         ];

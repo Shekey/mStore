@@ -81,6 +81,13 @@
 
                 <div class="mt-4 mb-4">
                     <label class="inline-flex items-center">
+                        <input type="checkbox" {{ $hasDelivery == 0 ? '': 'checked' }} wire:click="$toggle('hasDelivery')"  wire.model="hasDelivery"  class="form-checkbox h-6 w-6 text-green-500">
+                        <span class="ml-3 text-sm">Online kupovina?</span>
+                    </label>
+                </div>
+
+                <div class="mt-4 mb-4">
+                    <label class="inline-flex items-center">
                         <input type="checkbox" {{ $freeDelivery == 0 ? '': 'checked' }} wire:click="$toggle('freeDelivery')"  wire.model="freeDelivery"  class="form-checkbox h-6 w-6 text-green-500">
                         <span class="ml-3 text-sm">Besplatna dostava?</span>
                     </label>

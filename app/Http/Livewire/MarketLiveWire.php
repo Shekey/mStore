@@ -23,7 +23,7 @@ class MarketLiveWire extends Component
     use WithPagination;
     protected $listeners = ['uploadedNew'];
 
-    public $name, $points = 0 ,$fileId = 1, $orderPaid = 0, $marketType = null, $showOrderPaid = 0, $startTime, $endTime, $startTimeSunday, $endTimeSunday, $isClosed = null,  $image, $freeDelivery = 0, $modelId, $displayingToken = false, $modalConfirmDeleteVisible = false, $uploadedNewImage = false;
+    public $name, $points = 0 ,$fileId = 1, $orderPaid = 0, $hasDelivery = 1, $marketType = null, $showOrderPaid = 0, $startTime, $endTime, $startTimeSunday, $endTimeSunday, $isClosed = null,  $image, $freeDelivery = 0, $modelId, $displayingToken = false, $modalConfirmDeleteVisible = false, $uploadedNewImage = false;
 
     public function uploadedNew()
     {
@@ -40,6 +40,7 @@ class MarketLiveWire extends Component
             $this->points = 0;
             $this->name = null;
             $this->freeDelivery = false;
+            $this->hasDelivery = 1;
             $this->uploadedNewImage = false;
             $this->startTime = null;
             $this->endTime = null;
@@ -162,6 +163,7 @@ class MarketLiveWire extends Component
         $this->points = 0;
         $this->name = null;
         $this->freeDelivery = false;
+        $this->hasDelivery = 1;
         $this->uploadedNewImage = false;
         $this->fileId = rand();
         $this->startTime = null;
@@ -219,6 +221,7 @@ class MarketLiveWire extends Component
         return [
             'name' => $this->name,
             'freeDelivery' => $this->freeDelivery,
+            'hasDelivery' => $this->hasDelivery,
             'points' => $this->points,
             'image' => $imageName,
             'startTime' => $this->startTime,
@@ -258,6 +261,7 @@ class MarketLiveWire extends Component
         $this->startTime = $market->startTime;
         $this->startTimeSunday = $market->startTimeSunday;
         $this->endTime = $market->endTime;
+        $this->hasDelivery = $market->hasDelivery;
         $this->marketType = $market->marketType;
         $this->endTimeSunday = $market->endTimeSunday;
         $this->isClosed = $market->isClosed;

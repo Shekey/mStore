@@ -421,7 +421,7 @@
                                 <div class="sm:flex">
                                     <span class="title-font font-medium text-2xl text-black">Ukupno: {{ $articleTotal }} KM {!! $calcTempPrice != 0 ? '<span class="text-orange-500"> ( '. number_format((float)$calcTempPrice  , 2, '.', '') . ' KM) </span>' : '' !!}</span>
                                     @auth
-                                        @if(!$market->isClosed && $qty > 0 || auth()->user()->superUser && $qty > 0)
+                                        @if($market->hasDelivery && (!$market->isClosed && $qty > 0 || auth()->user()->superUser && $qty > 0))
                                             <button wire:click="addToCart({{ $this->articalId }}, {{ $qty }})"
                                                     class="flex ml-auto text-white bg-orange-500 border-0 py-2 px-6 focus:outline-none hover:bg-orange-600 rounded">
                                                 Kupi
@@ -440,7 +440,7 @@
                                 class="lg:w-1/2 w-full lg:h-auto text-black" {{ count($image) > 1 ? 'wire:ignore' : '' }}>
                                 <div class="swiper-cont" id="images">
                                     @if(count($image) > 1)
-                                        <div class="swiper-pagination" style="bottom: -90px;"></div>
+                                        <div class="swiper-pagination" style="bottom: -20px;"></div>
                                         <div class="swiper-button-next" style="color: #000;"></div>
                                         <div class="swiper-button-prev" style="color: #000;"></div>
                                     @endif
@@ -450,13 +450,13 @@
                                                 <div class="swiper-slide">
                                                     @if (!App::environment('production'))
 
-                                                        <div>
+                                                        <div style="height: 100%;">
                                                             <img alt="Image for article"
                                                                  class="w-full object-cover object-center rounded"
                                                                  src="/storage/{{ $i->url }}">
                                                         </div>
                                                     @else
-                                                        <div>
+                                                        <div style="height: 100%;">
                                                             <img alt="Image for article"
                                                                  class="w-full object-cover object-center rounded"
                                                                  src="/public/storage/{{ $i->url }}">
@@ -713,7 +713,7 @@
                                 style="border: 2px solid #f58b1e; border-radius: 10px; height: 300px; object-fit: contain;">
                         @endif
                         @auth
-                            @if(!$market->isClosed || auth()->user()->superUser)
+                            @if($market->hasDelivery && (!$market->isClosed || auth()->user()->superUser))
                                 <a role="button"
                                    class="add-to-cart p-2 flex rounded-full bg-orange-600 text-white ml-auto hover:text-white hover:bg-orange-500 focus:outline-none focus:bg-orange-500"
                                    style="width: 36px; margin-right: 30px; margin-top: -15px; z-index: 10"
