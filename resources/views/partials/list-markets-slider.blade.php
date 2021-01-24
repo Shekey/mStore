@@ -13,7 +13,7 @@
         $dayToday = $carbon->format('l');
     @endphp
     <div class="blog-slider__content" >
-        <span class="text-black rounded-full p-2 mb-2 inline-block @if(!$i->isClosed) open @else bg-orange-400 @endif">@if($i->isClosed) Zatvoreno @else Otvoreno @endif<br />
+        <span class="text-black font-black rounded-full p-2 mb-2 inline-block @if(!$i->isClosed) open @else bg-orange-400 @endif">@if($i->isClosed) Zatvoreno @else Otvoreno @endif<br />
         </span>
         <span class="blog-slider__code">Radno vrijeme<br />
             @if($dayToday !== 'Sunday')Pon - Pet: {{  substr($i->startTime, 0, -3) }}h
