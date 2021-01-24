@@ -175,7 +175,7 @@
                             <span>{{ $allOrderItems->first()->order->total }} KM</span>
                         </div>
 
-                        @if(auth()->user()->isAdmin)
+                        @if(auth()->user()->isAdmin || $allOrderItems->first()->marketId == auth()->user()->isOwner)
                             <div class="flex font-semibold justify-between py-6 text-sm uppercase">
                                 <span>Link za dostavu</span>
 
