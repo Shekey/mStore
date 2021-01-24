@@ -540,7 +540,6 @@
                               vector-effect="non-scaling-stroke"/>
                     </defs>
                 </svg>
-                @if(strpos ($market->type->name, "Restoran") !== 0)
                 <div class="flex flex-row flex-wrap justify-center mt-5 mb-4 filters">
                     <a class="btn mt-3 mx-3 uppercase text-xs sm:text-l {{ $filterCat === '' ? 'filterActive' : ''}}"
                        data-id="0"
@@ -554,7 +553,7 @@
                     </a>
                     <a class="btn mt-3 mx-3 uppercase text-xs sm:text-l {{ $filterCat === 'akcije' ? 'filterActive' : ''}}"
                        data-id="0"
-                       wire:click="$set('filterCat', 'akcije')" role="button">Akcijski artikli
+                       wire:click="$set('filterCat', 'akcije')" role="button">Akcija
                         <svg class="button-stroke" viewBox="0 0 154 13">
                             <use href="#line"></use>
                         </svg>
@@ -587,7 +586,6 @@
                         </a>
                     @endforeach
                 </div>
-                @endif
             </nav>
             <div class="relative max-w-lg mx-auto">
                 <div class="search__container">
@@ -767,7 +765,7 @@
 
             </div>
             @if(count($articles) == 0)
-                <h3 class="text-white text-xl font-bold text-uppercase mt-4 text-center">Nažalost ne postoji ovakav
+                <h3 class="text-black text-xl font-bold text-uppercase mt-4 text-center">Nažalost ne postoji ovakav
                     artikal.</h3>
             @endif
             <div class="flex justify-center">

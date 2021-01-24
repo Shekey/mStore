@@ -37,14 +37,14 @@
                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
                    Ime
                 </label>
-                <input class="appearance-none block w-full bg-gray-200 text-gray-700 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" name="ime" type="text" placeholder="Jane" x-model="ime">
+                <input class="appearance-none block w-full bg-gray-200 text-gray-700 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" name="ime" type="text" placeholder="Ime" x-model="ime">
                 <p class="text-red-500 text-sm" x-show="ime == '' && enabled">Molim vas unesite ime</p>
             </div>
             <div class="w-full md:w-1/2 px-3">
                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
                     Prezime
                 </label>
-                <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded mb-3 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="prezime" type="text" placeholder="Doe" x-model="prezime">
+                <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded mb-3 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="prezime" type="text" placeholder="Prezime" x-model="prezime">
                 <p class="text-red-500 text-sm" x-show="prezime == '' && enabled">Molim vas unesite prezime</p>
             </div>
         </div>

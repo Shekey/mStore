@@ -21,20 +21,27 @@
             - {{  substr($i->endTimeSunday, 0, -3) }}h @endif
         </span>
         <a href="/prodavnica/{{ $i->id }}" class="blog-slider__title">{{ $i->name }}</a>
-        @if($i->points > 1)
+        @if($i->points > 1 && $i->hasDelivery)
             <div class="blog-slider__text flex">
                 {{ $i->points }} @if($i->points > 1) BODA @else BOD @endif GRATIS za kupovinu preko 50 KM
             </div>
-        @else
+        @elseif($i->points < 1 && $i->hasDelivery)
             <div class="blog-slider__text flex">
                 U ovoj radnji ne ostvarujete gratis bodove za kupovinu preko 50 KM.
             </div>
+        @else
+            <div class="blog-slider__text flex">
+                Za ovu radnju nije omogućena online kupovina.
+            </div>
         @endif
 
+        @if($i->hasDelivery)
         <div class="flex gradient text-black font-bold mb-10">
             {!! $i->freeDelivery == 0 ? 'Dostava se plaća (' . $i->orderPaid . 'KM )' : 'Besplatna dostava'  !!}
         </div>
-        <a href="/prodavnica/{{ $i->id }}" class="blog-slider__button">POSJETI RADNJU</a href="/prodavnica/{{ $i->id }}">
+        @endif
+
+        <a href="/prodavnica/{{ $i->id }}" class="blog-slider__button">POSJETI RADNJU</a>
     </div>
     <div class="swiper-lazy-preloader"></div>
 </div>

@@ -201,7 +201,9 @@ class CatalogLiveWire extends Component
 
     public function render()
     {
-        $categories = Category::all();
+        $categories = Category::whereHas('articles', function($query) {
+            $query->where([['market_id', $this->marketId], ['isActive', '1']]);
+        })->get();
         $market = Market::where('id', $this->marketId)->first();
         $articles = Articles::where([['market_id', $this->marketId], ['isActive', '1']])->with('category', 'images');
 

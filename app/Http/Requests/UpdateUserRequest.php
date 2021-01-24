@@ -16,7 +16,8 @@ class UpdateUserRequest extends FormRequest
             ],
             'isOwner'     => ['sometimes', 'nullable', 'numeric'],
             'email'   => [
-                'required',
+                'sometimes',
+                'nullable',
                 'unique:users,email,' . request()->route('korisnici'),
             ],
             'phone' => ['required', 'numeric', 'min:9', 'min:10', 'unique:users,phone,' . request()->route('korisnici')],

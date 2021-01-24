@@ -222,8 +222,8 @@
                         Poruka
                     </label>
                     <textarea rows="10" class="appearance-none block w-full text-black rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                              placeholder="Ukoliko naručujete na adresu zgrade, potrebno je da napišete 3. sprat ili nešto što će olakšati dostavu, a ako živite u kući upišite boju kuće, ograde ili nešto specifićno. Sve ove informacije su nam jako korisne. Unaprijed vam hvala " name="poruka" wire:model="poruka"></textarea>
-                    <p class="text-red-500 text-sm mb-4 {{ $errorClass ? 'block' : 'hidden' }}" >Poruka polje ne smje biti prazno</p>
+                              placeholder="Ukoliko naručujete na adresu zgrade, potrebno je da napišete 3. sprat ili nešto što će olakšati dostavu, a ako živite u kući upišite boju kuće, ograde ili nešto specifično. Sve ove informacije su nam jako korisne. Unaprijed vam hvala " name="poruka" wire:model="poruka"></textarea>
+                    <p class="text-red-500 text-sm mb-4 {{ $errorClass ? 'block' : 'hidden' }}" >Poruka polje ne smije biti prazno</p>
                 </section>
             </x-slot>
 
