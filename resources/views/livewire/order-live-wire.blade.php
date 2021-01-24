@@ -84,7 +84,7 @@
         <div class="flex flex-wrap z-index-large">
             <div class="w-full lg:w-3/4 px-5 py-5" style="overflow-x: auto;">
                 <div class="flex flex-wrap sm:justify-between">
-                    <h1 class="font-semibold text-2xl f-100 mb-5 sm:mb-0 flex">Detalji narudžbe za {{ $allOrderItems->first()->order->user->name }}
+                    <h1 class="font-semibold text-2xl f-100 mb-5 sm:mb-0 flex">Detalji narudžbe za {{ $allOrderItems->first()->order->user !== null ? $allOrderItems->first()->order->user->name : "NN KORISNIK" }}
 
                         <div class="show-mobile ml-2">
                         <div class="flex justify-center">
@@ -182,11 +182,13 @@
                                 <span class="text-orange-600"><a class="text-orange-600" target="_blank" href="https://share.here.com/l/{{ $allOrderItems->first()->order->address }}">Link</a></span>
                             </div>
 
+                            @if($allOrderItems->first()->order->user !== null)
                             <div class="flex font-semibold justify-between py-6 text-sm uppercase">
                                 <span>Telefon</span>
 
                                 <span class="text-orange-600"><a class="text-orange-600" target="_blank" href="tel:{{ trim($allOrderItems->first()->order->user->phone) }}">{{ $allOrderItems->first()->order->user->phone }}</a></span>
                             </div>
+                            @endif
 
                             @if($order->message !== null)
                                 <div class="flex font-semibold justify-between py-6 text-sm uppercase">

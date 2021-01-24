@@ -159,7 +159,7 @@
                         <span class="text-gray-600 text-sm">KM</span>
                     </div>
                     <div class="mt-4">
-                        @if(auth()->user()->isAdmin)<p class="text-black text-md font-semibold mb-2">{{ $order->user->name }} </p>@endif
+                        @if(auth()->user()->isAdmin)<p class="text-black text-md font-semibold mb-2">{{ $order->user !== null ? $order->user->name : "NN KORISNIK" }} </p>@endif
                         <span class="text-orange-600 text-md font-semibold">{{ count($order->orderproduct) }} {{ count($order->orderproduct) === 1 ? 'Artikal' : 'Artikala' }} </span>
                        @if($order->isOrdered) <span class="text-sm text-gray-600">(dostavljeno za {{ (new \Carbon\Carbon($order->updated_at))->diff(new \Carbon\Carbon($order->created_at))->format('%h sati i %i min') }})</span>@endif
                     </div>
