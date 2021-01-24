@@ -178,8 +178,14 @@
                         @if(auth()->user()->isAdmin || $allOrderItems->first()->marketId == auth()->user()->isOwner)
                             <div class="flex font-semibold justify-between py-6 text-sm uppercase">
                                 <span>Link za dostavu</span>
-
-                                <span class="text-orange-600"><a class="text-orange-600" target="_blank" href="https://share.here.com/l/{{ $allOrderItems->first()->order->address }}">Link</a></span>
+                                @php
+                                    $link = "https://share.here.com/l/" . $allOrderItems->first()->order->address;
+                                    if(preg_match("/[a-z]/i", $allOrderItems->first()->order->address)){
+                                        $address = str_replace(' ', '-', $allOrderItems->first()->order->address);
+                                           $link = "https://wego.here.com/search/" . $address . ",-70230-Bugojno";
+                                    }
+                                @endphp
+                                <span class="text-orange-600"><a class="text-orange-600" target="_blank" href="{{ $link }}">Link</a></span>
                             </div>
 
                             @if($allOrderItems->first()->order->user !== null)
