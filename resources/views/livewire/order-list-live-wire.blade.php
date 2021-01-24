@@ -31,8 +31,8 @@
         }
     </style>
     <div class="mb-10">
-        <div class="relative inline-block text-left">
-            <button class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-black text-sm font-medium text-white hover:bg-white-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500" wire:click="resetFilters">
+        <div class="relative block sm:inline-block text-left">
+            <button class="sm:inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-black text-sm font-medium text-white hover:bg-white-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500" wire:click="resetFilters">
                 Resetuj filtere
             </button>
 
@@ -65,7 +65,7 @@
         </div>
         @endif
 
-        <div x-data="{ open: false }" @keydown.window.escape="open = false" @click.away="open = false" class="relative inline-block text-left mt-2" style="z-index: 11;">
+        <div x-data="{ open: false }" @keydown.window.escape="open = false" @click.away="open = false" class="relative block sm:inline-block text-left mt-2" style="z-index: 11;">
             <div>
                 <button @click="open = !open" type="button" class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500" id="options-menu" aria-haspopup="true" aria-expanded="true" x-bind:aria-expanded="open">
                     Filtriraj narudžbe
@@ -75,7 +75,7 @@
                 </button>
             </div>
 
-            <div x-show="open" x-description="Dropdown panel, show/hide based on dropdown state." x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+            <div x-show="open" x-description="Dropdown panel, show/hide based on dropdown state." x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="origin-top-left absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
                 <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                     <a wire:click="$set('filter', '')" @click="open = !open" role="button" class="block px-4 py-2 text-sm text-gray-400 {{ $filter === '' ? 'text-gray-700' : '' }} hover:bg-gray-100 hover:text-gray-900" role="menuitem">Prikaži sve narudže</a>
                     <a wire:click="$set('filter', 'active')" @click="open = !open" role="button" class="block px-4 py-2 text-sm text-gray-400 {{ $filter === 'active' ? 'text-gray-700' : '' }} hover:bg-gray-100 hover:text-gray-900" role="menuitem">Aktivne narudžbe</a>
@@ -84,7 +84,7 @@
             </div>
         </div>
 
-        <div x-data="{ open: false }" @keydown.window.escape="open = false" @click.away="open = false" class="relative inline-block text-left mt-2" style="z-index: 10;">
+        <div x-data="{ open: false }" @keydown.window.escape="open = false" @click.away="open = false" class="relative block sm:inline-block text-left mt-2" style="z-index: 10;">
             <div>
                 <button @click="open = !open" type="button" class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500" id="options-menu" aria-haspopup="true" aria-expanded="true" x-bind:aria-expanded="open">
                     Sortiraj narudžbe
