@@ -49,7 +49,7 @@ class FortifyServiceProvider extends ServiceProvider
                     if(!$user->isActive && !$user->isBlocked) {
                         $message = "Nažalost ovaj račun još nije odobren od strane admina. Molim pričekajte.";
                     } else if ($user->isBlocked) {
-                        $message = "Nažalost ovaj račun je blokiran. Obratite se administatoru.";
+                        $message = "<p>Nažalost ovaj račun je blokiran. Obratite se administatoru.</p><p><a href='/kontakt' target='_blank'>Kontaktirajte nas</a></p> ";
                     } else {
                         $message = "Nažalost ovaj email i password se ne podudaraju.";
                     }

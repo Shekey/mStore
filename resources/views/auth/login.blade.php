@@ -10,7 +10,7 @@
 
         @if (session('status'))
             <div class="mb-4 font-medium text-sm text-gray600">
-                {{ session('status') }}
+                {!! session('status')  !!}
             </div>
         @endif
         <form method="POST" action="{{ route('login') }}">
