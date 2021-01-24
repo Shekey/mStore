@@ -185,7 +185,6 @@
             </div>
         </div>
 
-
         @if(count($allCartItems))
            @include("partials.map");
         @endif
@@ -249,15 +248,16 @@
                     if (component.el.classList.contains('cart-details')) {
                         document.addEventListener('addedMarkers', function (e) {
                             if(e.detail.registred) {
-                                console.log("event");
+                                console.log("event reg" + "eeee" + e.detail.value);
                                 @if(auth()->user()->newAddress == null || auth()->user()->newAddress == "")
-                                    component.set('locationAddress', e.detail.value);
+                                    component.set('locationAddress', {{ auth()->user()->address }});
                                 @else
-                                    component.set('locationAddress', {{ auth()->user()->newAddress }});
+                                    component.set('locationAddress', e.detail.value);
+                                console.log("event reg" + "e" + e.detail.value);
+
                                 @endif
                             } else  {
                                 component.set('locationAddress', e.detail);
-                                console.log("event");
                             }
                         });
 
