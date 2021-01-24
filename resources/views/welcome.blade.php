@@ -111,6 +111,10 @@
             opacity: 1;
         }
 
+        .open {
+           background-color:  #83d2b8;
+        }
+
         @keyframes swipe-x {
             0% {
                 transform: translateX(0px);
