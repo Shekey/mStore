@@ -12,7 +12,7 @@
         $carbon=Carbon\Carbon::now();
         $dayToday = $carbon->format('l');
     @endphp
-    <div class="blog-slider__content" >
+    <div class="blog-slider__content" style="width: 100%;">
         <span class="text-black font-black rounded-full p-2 mb-2 inline-block @if(!$i->isClosed) open @else bg-orange-400 @endif">@if($i->isClosed) Zatvoreno @else Otvoreno @endif<br />
         </span>
         <span class="blog-slider__code">Radno vrijeme<br />
