@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\Articles;
 use App\Models\Order;
+use App\Models\OrderProduct;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
@@ -14,6 +15,8 @@ class OrderLiveWire extends Component
 {
 
     public $orderId = null, $allOrderItems = null, $isForAuthorOrder = null, $clickedFinish = false, $order = null;
+
+    protected $listeners = ['refreshComponent' => '$refresh'];
 
     public function mount($id) {
         $this->orderId = $id;
@@ -26,6 +29,11 @@ class OrderLiveWire extends Component
         $isAuthor = $order->customer_id === Auth::user()->id || $this->isForAuthorOrder;
         abort_unless(Auth::user()->isAdmin || $isAuthor, 403);
         $this->allOrderItems = $order->orderproduct;
+    }
+
+    public function removeFromOrder($id) {
+        $orderProduct = OrderProduct::where([['order_id', $this->order->id], ['id', $id]])->first();
+        $orderProduct->delete();
     }
 
     public function addToCart(int $productId)

@@ -126,7 +126,7 @@
                     <div
                         class="flex items-center hover:bg-gray-100 md:px-6 py-5 mt-1 w-full mr-0 {{ $item->isActive ? '' : 'border-2 border-red-500' }}" style="min-width: 500px;">
                         <div class="flex w-2/5"> <!-- product -->
-                            <div class="w-20 hidden sm:block">
+                            <div class="w-20 hidden sm:block disable-select">
                                 @if (!App::environment('production'))
                                     <img class="h-24 object-cover" src="{{ $item->image }}" alt="Cart item image">
                                 @else
@@ -141,10 +141,10 @@
                                 @endif
                             </div>
                             <div class="flex flex-col justify-between ml-4 flex-grow">
-                                <span class="font-bold text-xs md:text-sm text-black">{{ $item->name }}</span>
+                                <span class="font-bold text-xs md:text-sm text-black disable-select">{{ $item->name }}</span>
                                 <a href="/prodavnica/{{ $item->marketId }}"
-                                   class="text-red-500 text-lg text-underline capitalize my-2 inline-block">{{ $item->market }}</a>
-                                <a role="button" class="font-semibold hover:text-red-500 text-black text-xs md:text-sm capitalize"
+                                   class="text-red-500 text-lg text-underline capitalize my-2 inline-block disable-select">{{ $item->market }}</a>
+                                <a role="button" class="font-semibold hover:text-red-500 text-black text-xs md:text-sm capitalize disable-select"
                                    wire:click.stop="removeFromCart('{{ $item->__raw_id }}')">Izbriši</a>
                             </div>
                         </div>

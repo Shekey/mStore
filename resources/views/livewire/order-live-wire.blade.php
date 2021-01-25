@@ -82,6 +82,7 @@
     </style>
     <div class="container mx-auto mt-10">
         <div class="flex flex-wrap z-index-large">
+            @if(count($allOrderItems) > 0)
             <div class="w-full lg:w-3/4 px-5 py-5" style="overflow-x: auto;">
                 <div class="flex flex-wrap sm:justify-between">
                     <h1 class="font-semibold text-2xl f-100 mb-5 sm:mb-0 flex">Detalji narudžbe za {{ $allOrderItems->first()->order->user !== null ? $allOrderItems->first()->order->user->name : "NN KORISNIK" }}
@@ -150,6 +151,10 @@
                                 @if(!$showForOwner)
                                     @if($isActive && !$isMarketClosed || $isSuperUser && $isActive)<a role="button" class="font-semibold pb-5 hover:text-red-500 text-green-800 text-sm" wire:click.stop="addToCart('{{ $item->product->first()->id }}')">Dodaj u korpu</a> @else <p class="text-xs text-red-600 pb-5">Ne radi prodavnica, ili nema na stanju </p>@endif
                                 @endif
+                                @if(auth()->user()->isAdmin)
+                                    <a role="button" class="font-semibold hover:text-red-500 text-black text-xs md:text-sm capitalize disable-select"
+                                       wire:click.stop="removeFromOrder('{{ $item->id }}')">Izbriši</a>
+                                @endif
                             </div>
                         </div>
                         <div class="flex justify-center w-1/5 decrease">
@@ -205,6 +210,23 @@
                         @endif
                     </div>
                 </div>
+            @endif
+            @else
+                <h1 class="font-semibold text-2xl f-100 mb-5 sm:mb-0 flex">Detalji narudžbe
+
+                    <div class="show-mobile ml-2">
+                        <div class="flex justify-center">
+                            <svg id="Swipe-horizontal_1" width="50" height="50" data-name="Swipe horizontal 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+                                <path class="hand-x" d="M139.93,113.56l-41.12-6.93V76.08a9.25,9.25,0,0,0-9.25-9.25h0a9.25,9.25,0,0,0-9.25,9.25v57.36L71,122.65c-3.61-3.61-8.44-3.89-13.08,0,0,0-7.24,5.84-3.83,9.25l34,34h42.63a9.25,9.25,0,0,0,9.07-7.43l6.82-34.09A9.28,9.28,0,0,0,139.93,113.56Z"/>
+                                <g class="swipe-horizontal">
+                                    <path class="line-horizontal" d="M70.85,42c19.69-12.46,37,0,37,0"/>
+                                    <polyline class="arrow-left" points="76.6 46.01 68.37 43.43 68.38 43.41 70.96 35.18"/>
+                                    <polyline class="arrow-right" points="100.21 44.66 108.43 42.08 108.43 42.06 105.85 33.84"/>
+                                </g>
+                            </svg>
+                        </div>
+                    </div>
+                </h1>
             @endif
         </div>
     </div>
