@@ -95,7 +95,7 @@ class CartDetails extends Component
                 OrderProduct::insert($orderProducts);
                 $this->orderFinished = true;
                 $this->clearCart();
-                CalculatePointsUser::dispatch($calculatePoints);
+//                CalculatePointsUser::dispatch($calculatePoints);
 //                NotifyOrderCreated::dispatch();
             });
         } else {

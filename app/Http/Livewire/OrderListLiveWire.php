@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Events\CalculatePointsUser;
 use App\Exports\OrderExport;
 use App\Exports\OrdersExport;
 use App\Models\Market;
@@ -59,10 +60,25 @@ class OrderListLiveWire extends Component
     }
 
     public function toggleOrderFinished($orderId, $status) {
-        $order = Order::find($orderId);
+        $order = Order::where('id', $orderId)->with('orderproduct')->first();
         $order->isOrdered = !$status;
         $order->updated_at = now();
         $order->save();
+
+        $calculatePoints = [];
+        if($order->isOrdered) {
+            foreach($order->orderproduct as $item) {
+                $calculatePoints[] = [
+                    'order_id' => $orderId,
+                    'product_id' => $item['product_id'],
+                    'currentPrice' => $item['current_price'],
+                    'profitMake' => $item->product->profitMake,
+                    'customer_id' => $order->customer_id
+                ];
+            }
+
+            CalculatePointsUser::dispatch($calculatePoints);
+        }
     }
 
     public function manageOrdersExport() {

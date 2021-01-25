@@ -14,16 +14,17 @@ class CalculatePointsUser
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $orderProduct;
+    public $orderProduct, $addPoints;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(array $orderProduct)
+    public function __construct(array $orderProduct, $addPoints = true)
     {
         $this->orderProduct = $orderProduct;
+        $this->addPoints = $addPoints;
     }
 
     /**

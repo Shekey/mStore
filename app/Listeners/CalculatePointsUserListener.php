@@ -38,8 +38,15 @@ class CalculatePointsUserListener
         }
         $user->moneySpent += $orderTotal;
         $pointsExtra = floor($user->moneySpent / 50);
-        $user->moneySpent= fmod($user->moneySpent, 50);
-        $user->points += $pointsExtra;
+        if($event->addPoints) {
+            $user->points += $pointsExtra;
+            $user->moneySpent= fmod($user->moneySpent, 50);
+        } else {
+            $user->points -= $pointsExtra;
+            $user->points = $user->points < 0 ? 0 : $user->points;
+            $user->moneySpent = $user->moneySpent= - fmod($user->moneySpent, 50);
+            $user->moneySpent = $user->moneySpent < 0 ? 0 : $user->moneySpent;
+        }
         $user->save();
     }
 }
