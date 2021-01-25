@@ -23,7 +23,8 @@ class OrderListLiveWire extends Component
         'orderNumber:update' => '$refresh',
     ];
 
-    public function mount() {
+    public function mount()
+    {
 
     }
 
@@ -33,7 +34,8 @@ class OrderListLiveWire extends Component
         $this->resetValidation();
     }
 
-    public function resetFilters() {
+    public function resetFilters()
+    {
         $this->filter = '';
         $this->sort = '';
         $this->startTo = "";
@@ -41,7 +43,8 @@ class OrderListLiveWire extends Component
         $this->market = '';
     }
 
-    public function exportCSV() {
+    public function exportCSV()
+    {
         $orders = $this->manageOrdersExport();
 
         $array = [];
@@ -51,7 +54,7 @@ class OrderListLiveWire extends Component
                 'Datum' => $order->order->created_at->format('d-m-Y'),
                 'Kolicina' => $order->orderproduct->quantity,
                 'Cijena' => $order->orderproduct->currentPrice,
-                'Zarada' => $order->product->profitMake ? 'Da': 'Ne',
+                'Zarada' => $order->product->profitMake ? 'Da' : 'Ne',
                 'Ukupno' => $order->orderproduct->quantity * $order->orderproduct->currentPrice * $order->product->profitMake,
             ]);
         }
@@ -59,37 +62,42 @@ class OrderListLiveWire extends Component
         return Excel::download(new OrdersExport($array), 'narudzbe.xlsx');
     }
 
-    public function toggleOrderFinished($orderId, $status) {
+    public function toggleOrderFinished($orderId, $status)
+    {
         $order = Order::where('id', $orderId)->with('orderproduct')->first();
         $order->isOrdered = !$status;
         $order->updated_at = now();
         $order->save();
 
         $calculatePoints = [];
-        if($order->isOrdered) {
-            foreach($order->orderproduct as $item) {
-                $calculatePoints[] = [
-                    'order_id' => $orderId,
-                    'product_id' => $item['product_id'],
-                    'currentPrice' => $item['current_price'],
-                    'profitMake' => $item->product->profitMake,
-                    'customer_id' => $order->customer_id
-                ];
-            }
+        foreach ($order->orderproduct as $item) {
+            $calculatePoints[] = [
+                'order_id' => $orderId,
+                'product_id' => $item['product_id'],
+                'currentPrice' => $item['currentPrice'],
+                'qty' => $item['quantity'],
+                'profitMake' => $item->product->first()->profitMake,
+                'customer_id' => $order->customer_id
+            ];
+        }
 
-            CalculatePointsUser::dispatch($calculatePoints);
+        if ($order->isOrdered) {
+            CalculatePointsUser::dispatch($calculatePoints, true);
+        } else {
+            CalculatePointsUser::dispatch($calculatePoints, false);
         }
     }
 
-    public function manageOrdersExport() {
+    public function manageOrdersExport()
+    {
         $orders = $this->manageOrders()->get();
 
         $items = [];
-        if($this->market !== '') {
+        if ($this->market !== '') {
             foreach ($orders as $order) {
                 foreach ($order->orderproduct as $op) {
-                    if($op->marketId == $this->market) {
-                        array_push($items, (object) [
+                    if ($op->marketId == $this->market) {
+                        array_push($items, (object)[
                             'order' => $order,
                             'orderproduct' => $op,
                             'product' => $op->product->first(),
@@ -101,14 +109,15 @@ class OrderListLiveWire extends Component
         return $items;
     }
 
-    public function manageOrders() {
+    public function manageOrders()
+    {
         \Carbon\Carbon::setLocale('bs');
         $parent = Order::with('orderproduct');
         $getNotified = false;
 
-        if(!auth()->user()->isAdmin) {
-            if(auth()->user()->isOwner !== null) {
-               $parent = Order::whereHas('orderproduct', function ($query) {
+        if (!auth()->user()->isAdmin) {
+            if (auth()->user()->isOwner !== null) {
+                $parent = Order::whereHas('orderproduct', function ($query) {
                     $query->where('marketId', auth()->user()->isOwner);
                 })->orWhere('customer_id', auth()->user()->id)->with('orderproduct');
                 $getNotified = true;
@@ -118,19 +127,19 @@ class OrderListLiveWire extends Component
         }
 
 
-        if($this->startFrom !== "" ) {
+        if ($this->startFrom !== "") {
             $parent = $parent->where('created_at', '>=', Carbon::createFromFormat('Y-m-d', $this->startFrom)->startOfDay());
         }
 
-        if($this->startTo !== "" ) {
+        if ($this->startTo !== "") {
             $parent = $parent->where('created_at', '<=', Carbon::createFromFormat('Y-m-d', $this->startTo)->startOfDay());
         }
 
-        if($this->filter === ''){
+        if ($this->filter === '') {
             $parent = $parent;
-        } else if ($this->filter === 'active'){
+        } else if ($this->filter === 'active') {
 
-            if($getNotified) {
+            if ($getNotified) {
                 $notifyOwner = Order::whereHas('orderproduct', function ($query) {
                     $query->where('marketId', auth()->user()->isOwner);
                 })->where('isOrdered', 0);
@@ -142,7 +151,7 @@ class OrderListLiveWire extends Component
                 $parent = $parent->where('isOrdered', 0);
             }
         } else {
-            if($getNotified) {
+            if ($getNotified) {
                 $notifyOwner = Order::whereHas('orderproduct', function ($query) {
                     $query->where('marketId', auth()->user()->isOwner);
                 })->where('isOrdered', 1);
@@ -154,7 +163,7 @@ class OrderListLiveWire extends Component
             }
         }
 
-        if($this->sort === ''){
+        if ($this->sort === '') {
             $parent = $parent->latest();
         }
 

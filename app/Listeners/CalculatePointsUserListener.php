@@ -28,25 +28,30 @@ class CalculatePointsUserListener
      */
     public function handle(CalculatePointsUser $event)
     {
-        $user = User::find($event->orderProduct[0]['customer_id']);
-        $orderProduct = $event->orderProduct;
-        $orderTotal = 0;
-        foreach ($orderProduct as $op) {
-            if($op['profitMake']) {
-                $orderTotal += $op['currentPrice'];
+        if(count($event->orderProduct) > 0) {
+            $user = User::find($event->orderProduct[0]['customer_id']);
+            $orderProduct = $event->orderProduct;
+            $orderTotal = 0;
+
+            foreach ($orderProduct as $op) {
+                if ($op['profitMake']) {
+                    $orderTotal += $op['currentPrice'] * $op['qty'];
+                }
             }
+            $user->moneySpent += $orderTotal;
+            $pointsExtra = floor($user->moneySpent / 50);
+
+            if ($event->addPoints) {
+                $user->points += $pointsExtra;
+                $user->moneySpent = fmod($user->moneySpent, 50);
+            } else {
+                $user->points -= $pointsExtra;
+                $user->points = $user->points < 0 ? 0 : $user->points;
+                $user->moneySpent = $user->moneySpent = -fmod($user->moneySpent, 50);
+                $user->moneySpent = $user->moneySpent < 0 ? 0 : $user->moneySpent;
+            }
+
+            $user->save();
         }
-        $user->moneySpent += $orderTotal;
-        $pointsExtra = floor($user->moneySpent / 50);
-        if($event->addPoints) {
-            $user->points += $pointsExtra;
-            $user->moneySpent= fmod($user->moneySpent, 50);
-        } else {
-            $user->points -= $pointsExtra;
-            $user->points = $user->points < 0 ? 0 : $user->points;
-            $user->moneySpent = $user->moneySpent= - fmod($user->moneySpent, 50);
-            $user->moneySpent = $user->moneySpent < 0 ? 0 : $user->moneySpent;
-        }
-        $user->save();
     }
 }
