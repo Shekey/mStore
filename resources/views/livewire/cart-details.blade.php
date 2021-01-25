@@ -154,7 +154,7 @@
                                     d="M416 208H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h384c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"/>
                             </svg>
 
-                            <input class="mx-5 border text-center text-black w-8 disable-select" type="text" value="{{ $item->qty }}">
+                            <input class="mx-5 border text-center text-black w-12 disable-select" type="text" value="{{ $item->qty }}" wire:change="fireUpdate($event.target.value, '{{ $item->__raw_id }}')">
 
                             <svg class="fill-current text-gray-600 w-3 increase" viewBox="0 0 448 512"
                                  wire:click.stop="updateCartQty('{{ $item->__raw_id }}', {{ $item->qty + 1 }})">

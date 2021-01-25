@@ -406,7 +406,7 @@
                                                     </button>
                                                     <input type="number"
                                                            class="outline-none focus:outline-none text-center w-full bg-orange-500 font-semibold text-md hover:text-white focus:text-white  md:text-basecursor-default flex items-center text-white  outline-none"
-                                                           name="custom-input-number" wire:model="qty"/>
+                                                           name="custom-input-number" wire:model="qty" wire:change="fireUpdateTempPrice($event.target.value)"/>
                                                     <button data-action="increment" wire:click="increment"
                                                             class="bg-orange-500 text-white hover:text-white hover:bg-gray-400 h-full w-20 rounded-r cursor-pointer">
                                                         <span class="m-auto text-2xl font-thin">+</span>
@@ -783,8 +783,10 @@
                 console.log(component.el);
                 if (component.el.classList.contains('catalog') && navigateToCart) {
                     navigateToCart.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        component.set('cartOpen', true);
+                        @if (count($allCartItems) > 0)
+                            e.preventDefault();
+                            component.set('cartOpen', true);
+                        @endif
                     });
                 }
             })

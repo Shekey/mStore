@@ -171,6 +171,11 @@ class CatalogLiveWire extends Component
         }
     }
 
+    public function fireUpdateTempPrice($value) {
+        $this->calcTempPrice = $this->articlePrice * $value;
+        $this->totalPrice = ShoppingCart::totalPrice();
+    }
+
     public function updateCartQty($rowId, $qty) {
         if($qty < 0) $qty = 0;
         ShoppingCart::update($rowId, $qty);
