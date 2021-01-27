@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Intervention\Image\Image;
 use Livewire\Component;
+use Livewire\TemporaryUploadedFile;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
 use Symfony\Component\HttpFoundation\Response;
@@ -73,7 +74,7 @@ class ArtikliLiveWire extends Component
     }
 
     public function insertImages($id) {
-        if( !empty( $this->images ) ){
+        if( !empty( $this->images && $this->images[0] instanceof TemporaryUploadedFile) ){
             foreach( $this->images as $image ){
                 $imageName = time() .'-'.pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
                 $imageUpload = \Intervention\Image\Facades\Image::make($image);
@@ -138,7 +139,6 @@ class ArtikliLiveWire extends Component
             if(Storage::disk('public')->exists( $imageName . 'jpg')) {
                 Storage::disk('public')->delete($imageName . 'jpg');
             }
-
             ArtikalImage::destroy($imageName->id);
         }
 

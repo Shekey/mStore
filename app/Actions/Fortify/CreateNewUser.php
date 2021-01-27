@@ -27,10 +27,9 @@ class CreateNewUser implements CreatesNewUsers
             'name' => ['required', 'string', 'max:255'],
             'email' => ['sometimes', 'nullable', 'string', 'email', 'max:255', 'unique:users'],
             'address' => ['required', 'string', 'max:255'],
-            'phone' => ['required', 'numeric', 'min:9', 'min:10', 'unique:users'],
+            'phone' => ['required', 'numeric', 'min:9', 'min:13', 'unique:users'],
             'password' => $this->passwordRules(),
         ], $this->messages())->validate();
-
 
         $user = User::create([
             'name' => $input['name'],
@@ -58,7 +57,11 @@ class CreateNewUser implements CreatesNewUsers
             'address.required' => 'Adresa je obavezan.',
             'phone.required' => 'Telefonski broj je obavezan',
             'phone.numeric' => 'Telefonski broj mogu biti samo brojevi',
+            'phone.min' => 'Telefonski broj mora imati najmanje 9 brojeva',
+            'phone.max' => 'Telefonski broj ne smije imati vise od 13 brojeva',
             'phone.unique' => 'Ovaj telefonski broj već neko koristi.',
+            'password.min' => 'Password mora imati najmanje 8 karaktera.',
+            'password_confirmation.same' => 'Passwordi se moraju podudarati. Unesite ponovno.'
         ];
     }
 }
