@@ -33,7 +33,7 @@
                         ;
                           $lastTransaction = count(auth()->user()->order) ? auth()->user()->order->first()->created_at : auth()->user()->created_at;
                     @endphp
-                    <div style="display: none;">
+                    <div style="display: none;" style="border: none;">
                         <div id="one">
                             <div class="bg-white">
                                 <div class="px-3 py-2 font-bold text-gray-500">Bodovi: {{ auth()->user()->points }}</div>

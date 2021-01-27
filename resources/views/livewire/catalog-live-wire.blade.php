@@ -1,4 +1,9 @@
 <div style="width: 100%; flex-basis: 100%;" class="catalog">
+    @section('title', 'MSTORE | ' . $market->name)
+    @section('meta_keywords', 'mstore,' . $market->name. ',mstoreba')
+    @section('meta_description', 'mstore,' . $market->name)
+
+
     <style>
         .lSSlideOuter {
         }

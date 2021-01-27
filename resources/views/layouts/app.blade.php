@@ -4,12 +4,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="description"
-          content="m-store je stranica koja vam omogućuje da naručite artikle i dobijete ih na vašu adresu."/>
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
-    <meta name="keywords" content="online, bugojno, kupovina, mstore, mstoreba, m store, multistore, multi store, besplatan dostava">
-    <title>{{ config('app.name', 'm-store') }}</title>
+
+    <title>@yield('title','MSTORE')</title>
+    <meta name="keywords" content="@yield('meta_keywords','online, bugojno, kupovina, mstore, mstoreba, m store, multistore, multi store, besplatan dostava')">
+    <meta name="description" content="@yield('meta_description','m-store je stranica koja vam omogućuje da naručite artikle i dobijete ih na vašu adresu.')">
+
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-83WC5E1FXR"></script>
     <script>
@@ -390,14 +391,20 @@
 
     </style>
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.3/dist/alpine.js" defer></script>
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/tippy.js@6/themes/light.css"
+    />
     @livewireStyles
 
     <script>
         function initTippy() {
             if (document.querySelector('.tooltip')) {
                 tippy('.tooltip', {
-                    content: document.getElementById('one').innerHTML,
+                    theme: 'light',
+                    content: document.querySelector('#one>div').innerHTML,
                     allowHTML: true,
+                    animation: 'scale',
                 });
             }
         }

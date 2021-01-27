@@ -271,7 +271,7 @@
                     <div class="h-1 mx-auto bg-white w-1/6 opacity-25 my-0 py-0 rounded-t"></div>
                 </div>
 
-                <h3 class="my-4 text-xl md:text-3xl px-5 leading-tight">Kontaktirajte nas kako bismo dodali radnju i povećajte
+                <h3 class="my-4 text-xl md:text-3xl px-5 leading-tight text-white">Kontaktirajte nas kako bismo dodali radnju i povećajte
                     zaradu.</h3>
 
                 <a href="/kontakt" target="_blank"

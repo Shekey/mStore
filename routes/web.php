@@ -23,6 +23,8 @@ Route::get('artisan-optimize', function () {
     Artisan::call('optimize');
 });
 
+Route::get('/sitemap.xml', '\App\Http\Controllers\SitemapController@sitemap');
+
 Route::get('/kontakt', function () {
     return view('contact');
 })->name('contact');
