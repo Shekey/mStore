@@ -1021,7 +1021,10 @@ width: 100%;">
 
 
         window.addEventListener('addedArticleCart', event => {
-            $.notify("Uspješno ste dodali artikal u korpu.", "success");
+            $.notify("Uspješno ste dodali artikal u korpu.", {
+                className: 'success',
+                autoHideDelay: 1000,
+            });
         });
 
         window.addEventListener('removeIgnore', event => {
@@ -1030,23 +1033,38 @@ width: 100%;">
 
 
         window.addEventListener('repeatedOrder', event => {
-            $.notify("Uspješno ste dodali artikle.", "success");
+            $.notify("Uspješno ste dodali artikle.", {
+                className: 'success',
+                autoHideDelay: 1000,
+            });
         });
 
         window.addEventListener('articlesInActive', event => {
-            $.notify("Nažalost ne možemo vam isporučiti artikle označeni sa crvenom linijom", "error");
+            $.notify("Nažalost ne možemo vam isporučiti artikle označeni sa crvenom linijom", {
+                className: 'error',
+                autoHideDelay: 1000,
+            });
         });
 
         window.addEventListener('updatedArticleCart', event => {
-            $.notify("Uspješno ste ažurirali količinu artikla.", "success");
+            $.notify("Uspješno ste ažurirali količinu artikla.", {
+                className: 'success',
+                    autoHideDelay: 1000,
+            });
         })
 
         window.addEventListener('removedArticleCart', event => {
-            $.notify("Uspješno ste obrisali artikal iz korpe.", "warn");
+            $.notify("Uspješno ste obrisali artikal iz korpe.",  {
+                className: 'warn',
+                autoHideDelay: 1000,
+            });
         });
 
         window.addEventListener('clearedArticleCart', event => {
-            $.notify("Uspješno ste obrisali sve artikale iz korpe.", "error");
+            $.notify("Uspješno ste obrisali sve artikale iz korpe.", {
+                className: 'success',
+                autoHideDelay: 1000,
+            });
         });
 
         document.addEventListener('processed', event => {
