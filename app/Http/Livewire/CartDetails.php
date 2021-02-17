@@ -15,7 +15,7 @@ use Overtrue\LaravelShoppingCart\Facade as ShoppingCart;
 
 class CartDetails extends Component
 {
-    public $showArtikal = false, $clickedFinish = false, $poruka = '', $fireChange = null, $errorClass = false, $marketId = null, $orderFinished = false, $locationAddress = '', $marketName = '', $totalShipping = 0, $shippingPrice = 0, $cartTotalItems = 0, $showCart = false, $cartClass = '', $totalPrice = 0, $allCartItems = [], $search = '', $filterCat = '', $articalId = "", $maxWidth = "w-screen", $articleBrand = "", $articleName, $articleSize, $articleColor, $articleDesc, $articlePrice, $qty = 0, $articleTotal, $image = "https://dummyimage.com/400x400", $calcTempPrice = 0, $cartOpen = false;
+    public $showArtikal = false, $clickedFinish = false, $poruka = '', $fireChange = null, $errorClass = false, $marketId = null, $orderFinished = false, $locationAddress = '', $marketName = '', $totalShipping = 0, $shippingPrice = 0, $cartTotalItems = 0, $showCart = false, $cartClass = '', $totalPrice = 0, $allCartItems = [], $search = '', $filterCat = '', $articalId = "", $maxWidth = "w-screen", $articleBrand = "", $articleName, $articleSize, $articleColor, $articleDesc, $articlePrice, $qty = 0, $articleTotal, $image = "https://dummyimage.com/400x400", $calcTempPrice = 0, $cartOpen = false, $usePoints = false;
 
     public function mount() {
         $this->locationAddress = '';

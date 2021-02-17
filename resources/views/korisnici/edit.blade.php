@@ -53,6 +53,12 @@
                             <p class="text-sm text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
+
+                        <div class="px-4 py-5 bg-white sm:p-6">
+                            <label for="points" class="block font-medium text-sm text-gray-700">Bodovi</label>
+                            <input type="text" name="points" id="points" value="{{ $user->points }}" class="form-input rounded-md shadow-sm mt-1 block w-full" readonly />
+                        </div>
+
                         <div class="px-4 py-5 bg-white sm:p-6">
                             <label for="roles" class="block font-medium text-sm text-gray-700">Uloge</label>
                             <select name="roles[]" id="roles" class="form-multiselect block rounded-md shadow-sm mt-1 block w-full" multiple="multiple">

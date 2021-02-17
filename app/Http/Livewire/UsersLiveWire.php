@@ -61,7 +61,9 @@ class UsersLiveWire extends Component
             $parent = $parent->where('isActive', 1);
         } else if ($this->filter === 'blocked'){
             $parent = $parent->where('isBlocked', 1);
-        }  else {
+        }else if ($this->filter === '50points'){
+            $parent = $parent->where('points', '=', 50)->orWhere('points', '>', 50);
+        } else {
             $parent = $parent->where('isActive', 0);
         }
 
