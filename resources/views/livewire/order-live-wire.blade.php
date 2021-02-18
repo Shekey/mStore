@@ -175,6 +175,12 @@
                     </div>
 
                     <div class="border-t mt-8">
+                        @if($allOrderItems->first()->order->orderPaidPoints)
+                            <div class="flex font-semibold justify-between py-6 text-sm uppercase text-orange-300">
+                                <span>Za ovu narudžbu su iskorišteni bodovi.</span>
+                            </div>
+                        @endif
+
                         <div class="flex font-semibold justify-between py-6 text-sm uppercase">
                             <span>Ukupan iznos</span>
                             <span>{{ $allOrderItems->first()->order->total }} KM</span>

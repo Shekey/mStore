@@ -183,28 +183,32 @@
                         <span>Ukupan iznos</span>
                         <span>{{ $totalPrice }} KM</span>
                     </div>
-                    @if($usePoints)
+                    @if($usePoints && auth()->user()->points >= 50)
                     <div class="mb-2">
                         <div class="flex font-semibold justify-between pb-4 text-sm uppercase">
                             <span>Popust </span>
-                            <span>{{ $totalPrice - auth()->user()->points < 0 ? floatval($totalPrice) : auth()->user()->points   }} KM</span>
+                            <span>{{ $totalPrice >= 50 ? 50 : $totalPrice   }} KM</span>
                         </div>
                         <div class="border-t">
                             <div class="flex font-semibold justify-between py-2 text-sm uppercase">
                                 <span>Ukupno za platiti </span>
-                                <span>{{ $totalPrice - auth()->user()->points < 0 ? 0 : round($totalPrice - auth()->user()->points, true) }} KM</span>
+                                <span>{{ $totalSumWithDiscount }} KM</span>
                             </div>
                         </div>
                     </div>
                     @endif
 
                     <label class="items-center flex mb-2">
-                        <input type="checkbox" {{ $usePoints == 0 ? '': 'checked' }}  wire:click="$toggle('usePoints')" wire.model="usePoints"  class="form-checkbox h-6 w-6 text-green-500" {{ auth()->user()->points <= 20 ? 'disabled' : '' }}>
+                        <input type="checkbox" {{ $usePoints == 0 ? '': 'checked' }}  wire:click="$toggle('usePoints')" wire.model="usePoints"  class="form-checkbox h-6 w-6 text-green-500" {{ auth()->user()->points <= 50 ? 'disabled' : '' }}>
                         <span class="ml-3 text-sm">Da li želite iskorititi bodove da platite?</span>
                     </label>
 
                     @if(auth()->user()->points <= 50)
                         <div  class="text-sm text-orange-600 mb-3">Ova opcija će Vam biti dostupna nakon što skupite 50 bodova.</div>
+                    @endif
+
+                    @if(auth()->user()->points > 50 && $usePoints)
+                        <div  class="text-sm text-black mb-3">Maksimalno možete dobiti popust u iznosu od 50KM.</div>
                     @endif
 
                     <button wire:click="$set('clickedFinish', true)"

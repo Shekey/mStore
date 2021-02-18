@@ -16,6 +16,7 @@ use Overtrue\LaravelShoppingCart\Facade as ShoppingCart;
 class CartDetails extends Component
 {
     public $showArtikal = false, $clickedFinish = false, $poruka = '', $fireChange = null, $errorClass = false, $marketId = null, $orderFinished = false, $locationAddress = '', $marketName = '', $totalShipping = 0, $shippingPrice = 0, $cartTotalItems = 0, $showCart = false, $cartClass = '', $totalPrice = 0, $allCartItems = [], $search = '', $filterCat = '', $articalId = "", $maxWidth = "w-screen", $articleBrand = "", $articleName, $articleSize, $articleColor, $articleDesc, $articlePrice, $qty = 0, $articleTotal, $image = "https://dummyimage.com/400x400", $calcTempPrice = 0, $cartOpen = false, $usePoints = false;
+    public $totalSumWithDiscount = 0;
 
     public function mount() {
         $this->locationAddress = '';
@@ -26,6 +27,12 @@ class CartDetails extends Component
 
     public function fireUpdate($qty, $rowId) {
         $this->updateCartQty($rowId, $qty);
+    }
+
+    public function updatedusePoints() {
+        if(auth()->user()->points >= 50 && $this->usePoints) {
+            $this->totalSumWithDiscount = $this->totalPrice >= 50 ? $this->totalPrice - 50 : 0 ;
+        }
     }
 
     public function clearCart() {
@@ -55,14 +62,25 @@ class CartDetails extends Component
 
         if(!$countInactive) {
             DB::transaction(function () {
+                $totalCounted = $this->totalPrice;
                 $order = new Order;
+
+                if(auth()->user()->points >= 50 && $this->usePoints) {
+                    $this->totalSumWithDiscount = $this->totalPrice >= 50 ? $this->totalPrice - 50 : 0;
+                    $totalCounted = $this->totalSumWithDiscount;
+                    $totalPointsUsed = $this->totalPrice - $this->totalSumWithDiscount;
+                    auth()->user()->points -= round($totalPointsUsed, true);
+                    auth()->user()->save();
+                    $order->orderPaidPoints = true;
+                }
+
                 $date = date('Y-m-d H:i');
                 $order->name = auth()->user()->name;
                 $order->address = gettype($this->locationAddress) == "string" ? $this->locationAddress : implode(",", $this->locationAddress);
                 $order->phone = auth()->user()->phone;
                 $order->order_date = $date;
                 $order->customer_id = auth()->user()->id;
-                $order->total = $this->totalPrice;
+                $order->total = $totalCounted;
                 $order->message = $this->poruka;
                 $order->save();
 
@@ -134,6 +152,7 @@ class CartDetails extends Component
             ShoppingCart::update($rowId, $qty);
             $this->dispatchBrowserEvent('updatedArticleCart');
             $this->updateCartDetails();
+            $this->updatedusePoints();
         }
     }
 
