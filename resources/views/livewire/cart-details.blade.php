@@ -199,7 +199,7 @@
                     @endif
 
                     <label class="items-center flex mb-2">
-                        <input type="checkbox" {{ $usePoints == 0 ? '': 'checked' }}  wire:click="$toggle('usePoints')" wire.model="usePoints"  class="form-checkbox h-6 w-6 text-green-500" {{ auth()->user()->points <= 50 ? 'disabled' : '' }}>
+                        <input type="checkbox" {{ $usePoints == 0 ? '': 'checked' }}  wire:click="$toggle('usePoints')" wire.model="usePoints"  class="form-checkbox h-6 w-6 text-green-500" {{ auth()->user()->points < 50 ? 'disabled' : '' }}>
                         <span class="ml-3 text-sm">Da li želite iskorititi bodove da platite?</span>
                     </label>
 
