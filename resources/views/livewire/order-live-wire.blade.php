@@ -176,14 +176,18 @@
 
                     <div class="border-t mt-8">
                         @if($allOrderItems->first()->order->orderPaidPoints)
-                            <div class="flex font-semibold justify-between py-6 text-sm uppercase text-orange-300">
+                            <div class="flex font-semibold justify-between pt-6 pb-2 text-sm uppercase text-orange-600">
+                                <span>Ukupan iznos ({{ $orderTotalCalculated }}) KM</span>
+                            </div>
+
+                            <div class="flex font-semibold justify-between pt-1 pb-6 text-sm uppercase text-orange-300">
                                 <span>Za ovu narudžbu su iskorišteni bodovi.</span>
                             </div>
                         @endif
 
                         <div class="flex font-semibold justify-between py-6 text-sm uppercase">
-                            <span>Ukupan iznos</span>
-                            <span>{{ $allOrderItems->first()->order->total }} KM</span>
+                            <span>Iznos za naplatiti</span>
+                            <span class="text-orange-600">{{ $allOrderItems->first()->order->total }} KM</span>
                         </div>
 
                         @if(auth()->user()->isAdmin || $allOrderItems->first()->marketId == auth()->user()->isOwner)

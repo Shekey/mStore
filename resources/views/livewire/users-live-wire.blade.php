@@ -55,7 +55,7 @@
                     <a wire:click="$set('filter', 'blocked')" @click="open = !open" role="button"
                        class="block px-4 py-2 text-sm text-gray-400 {{ $filter === 'blocked' ? 'text-gray-700' : '' }} hover:bg-gray-100 hover:text-gray-900"
                        role="menuitem">Blokirani korisnici</a>
-                    <a wire:click="$set('filter', 'blocked')" @click="open = !open" role="button"
+                    <a wire:click="$set('filter', '50points')" @click="open = !open" role="button"
                        class="block px-4 py-2 text-sm text-gray-400 {{ $filter === '50points' ? 'text-gray-700' : '' }} hover:bg-gray-100 hover:text-gray-900"
                        role="menuitem">Korisnici sa 50 bodova</a>
                 </div>

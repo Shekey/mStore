@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 class OrderLiveWire extends Component
 {
 
-    public $orderId = null, $allOrderItems = null, $isForAuthorOrder = null, $clickedFinish = false, $order = null;
+    public $orderId = null, $allOrderItems = null, $isForAuthorOrder = null, $clickedFinish = false, $order = null, $orderTotalCalculated = 0;
 
     protected $listeners = ['refreshComponent' => '$refresh'];
 
@@ -29,6 +29,11 @@ class OrderLiveWire extends Component
         $isAuthor = $order->customer_id === Auth::user()->id || $this->isForAuthorOrder;
         abort_unless(Auth::user()->isAdmin || $isAuthor, 403);
         $this->allOrderItems = $order->orderproduct;
+        if($order->orderPaidPoints) {
+            foreach ($this->allOrderItems as $item) {
+                $this->orderTotalCalculated += $item->quantity * $item->currentPrice;
+            }
+        }
     }
 
     public function removeFromOrder($id) {
