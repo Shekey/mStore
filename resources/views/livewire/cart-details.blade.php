@@ -203,11 +203,11 @@
                         <span class="ml-3 text-sm">Da li želite iskorititi bodove da platite?</span>
                     </label>
 
-                    @if(auth()->user()->points <= 50)
+                    @if(auth()->user()->points < 50)
                         <div  class="text-sm text-orange-600 mb-3">Ova opcija će Vam biti dostupna nakon što skupite 50 bodova.</div>
                     @endif
 
-                    @if(auth()->user()->points > 50 && $usePoints)
+                    @if(auth()->user()->points >= 50 && $usePoints)
                         <div  class="text-sm text-black mb-3">Maksimalno možete dobiti popust u iznosu od 50KM.</div>
                     @endif
 
